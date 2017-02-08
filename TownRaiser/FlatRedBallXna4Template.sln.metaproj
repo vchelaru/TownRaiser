@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="ValidateSolutionConfiguration;ValidateToolsVersions;ValidateProjects" DefaultTargets="Build">
+  <PropertyGroup>
+    <MSBuildToolsPath32>C:\Program Files (x86)\MSBuild\14.0\bin\</MSBuildToolsPath32>
+    <MSBuildToolsRoot>C:\Program Files (x86)\MSBuild\</MSBuildToolsRoot>
+    <MSBuildFrameworkToolsPath>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\</MSBuildFrameworkToolsPath>
+    <MSBuildFrameworkToolsPath32>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\</MSBuildFrameworkToolsPath32>
+    <MSBuildFrameworkToolsRoot>C:\WINDOWS\Microsoft.NET\Framework\</MSBuildFrameworkToolsRoot>
+    <MSBuildRuntimeVersion>4.0.30319</MSBuildRuntimeVersion>
+    <FrameworkSDKRoot />
+    <SDK35ToolsPath />
+    <SDK40ToolsPath />
+    <VCTargetsPath>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\</VCTargetsPath>
+    <VCTargetsPath10>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\</VCTargetsPath10>
+    <VCTargetsPath11>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\</VCTargetsPath11>
+    <VCTargetsPath12>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\</VCTargetsPath12>
+    <VCTargetsPath14>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\</VCTargetsPath14>
+    <VisualStudioVersion>10.0</VisualStudioVersion>
+    <AspNetConfiguration>Debug</AspNetConfiguration>
+    <SolutionDir>C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\</SolutionDir>
+    <SolutionExt>.sln</SolutionExt>
+    <SolutionFileName>FlatRedBallXna4Template.sln</SolutionFileName>
+    <SolutionName>FlatRedBallXna4Template</SolutionName>
+    <SolutionPath>C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template.sln</SolutionPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <CurrentSolutionConfigurationContents>
+      <SolutionConfiguration xmlns="">
+  <ProjectConfiguration Project="{649DE040-99C6-4838-ADA3-533D0DBD4325}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj" BuildProjectInSolution="True">Debug|x86</ProjectConfiguration>
+  <ProjectConfiguration Project="{64B23BEF-DD26-4B81-AAA6-D9F46B0140B4}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4TemplateContent\FlatRedBallXna4TemplateContent.contentproj" BuildProjectInSolution="False">Debug|x86</ProjectConfiguration>
+</SolutionConfiguration>
+    </CurrentSolutionConfigurationContents>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <SolutionConfiguration Include="DebugProfile|x86">
+      <Configuration>DebugProfile</Configuration>
+      <Platform>x86</Platform>
+      <Content>
+        <SolutionConfiguration xmlns="">
+  <ProjectConfiguration Project="{649DE040-99C6-4838-ADA3-533D0DBD4325}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj" BuildProjectInSolution="True">Debug|x86</ProjectConfiguration>
+  <ProjectConfiguration Project="{64B23BEF-DD26-4B81-AAA6-D9F46B0140B4}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4TemplateContent\FlatRedBallXna4TemplateContent.contentproj" BuildProjectInSolution="False">Debug|x86</ProjectConfiguration>
+</SolutionConfiguration>
+      </Content>
+    </SolutionConfiguration>
+    <SolutionConfiguration Include="Debug|x86">
+      <Configuration>Debug</Configuration>
+      <Platform>x86</Platform>
+      <Content>
+        <SolutionConfiguration xmlns="">
+  <ProjectConfiguration Project="{649DE040-99C6-4838-ADA3-533D0DBD4325}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj" BuildProjectInSolution="True">Debug|x86</ProjectConfiguration>
+  <ProjectConfiguration Project="{64B23BEF-DD26-4B81-AAA6-D9F46B0140B4}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4TemplateContent\FlatRedBallXna4TemplateContent.contentproj" BuildProjectInSolution="False">Debug|x86</ProjectConfiguration>
+</SolutionConfiguration>
+      </Content>
+    </SolutionConfiguration>
+    <SolutionConfiguration Include="Profile|x86">
+      <Configuration>Profile</Configuration>
+      <Platform>x86</Platform>
+      <Content>
+        <SolutionConfiguration xmlns="">
+  <ProjectConfiguration Project="{649DE040-99C6-4838-ADA3-533D0DBD4325}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj" BuildProjectInSolution="True">Release|x86</ProjectConfiguration>
+  <ProjectConfiguration Project="{64B23BEF-DD26-4B81-AAA6-D9F46B0140B4}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4TemplateContent\FlatRedBallXna4TemplateContent.contentproj" BuildProjectInSolution="False">Release|x86</ProjectConfiguration>
+</SolutionConfiguration>
+      </Content>
+    </SolutionConfiguration>
+    <SolutionConfiguration Include="Release|x86">
+      <Configuration>Release</Configuration>
+      <Platform>x86</Platform>
+      <Content>
+        <SolutionConfiguration xmlns="">
+  <ProjectConfiguration Project="{649DE040-99C6-4838-ADA3-533D0DBD4325}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj" BuildProjectInSolution="True">Release|x86</ProjectConfiguration>
+  <ProjectConfiguration Project="{64B23BEF-DD26-4B81-AAA6-D9F46B0140B4}" AbsolutePath="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4TemplateContent\FlatRedBallXna4TemplateContent.contentproj" BuildProjectInSolution="False">Release|x86</ProjectConfiguration>
+</SolutionConfiguration>
+      </Content>
+    </SolutionConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj">
+      <ToolsVersion>
+      </ToolsVersion>
+      <SkipNonexistentProjects>False</SkipNonexistentProjects>
+      <AdditionalProperties>Configuration=Debug; Platform=x86</AdditionalProperties>
+      <Configuration>Debug</Configuration>
+      <Platform>x86</Platform>
+    </ProjectReference>
+  </ItemGroup>
+  <Target Name="ValidateSolutionConfiguration">
+    <Error Condition="('$(CurrentSolutionConfigurationContents)' == '') and ('$(SkipInvalidConfigurations)' != 'true')" Text="The specified solution configuration &quot;$(Configuration)|$(Platform)&quot; is invalid. Please specify a valid solution configuration using the Configuration and Platform properties (e.g. MSBuild.exe Solution.sln /p:Configuration=Debug /p:Platform=&quot;Any CPU&quot;) or leave those properties blank to use the default solution configuration." Code="MSB4126" HelpKeyword="MSBuild.SolutionInvalidSolutionConfiguration" />
+    <Warning Condition="('$(CurrentSolutionConfigurationContents)' == '') and ('$(SkipInvalidConfigurations)' == 'true')" Text="The specified solution configuration &quot;$(Configuration)|$(Platform)&quot; is invalid. Please specify a valid solution configuration using the Configuration and Platform properties (e.g. MSBuild.exe Solution.sln /p:Configuration=Debug /p:Platform=&quot;Any CPU&quot;) or leave those properties blank to use the default solution configuration." Code="MSB4126" HelpKeyword="MSBuild.SolutionInvalidSolutionConfiguration" />
+    <Message Condition="'$(CurrentSolutionConfigurationContents)' != ''" Text="Building solution configuration &quot;$(Configuration)|$(Platform)&quot;." />
+  </Target>
+  <Target Name="ValidateToolsVersions">
+    <Error Condition="'$(MSBuildToolsVersion)' == '2.0' and ('$(ProjectToolsVersion)' != '2.0' and '$(ProjectToolsVersion)' != '')" Text="The tools version &quot;$(MSBuildToolsVersion)&quot; of the solution does not support building projects with a different tools version." Code="MSB4149" HelpKeyword="MSBuild.SolutionToolsVersionDoesNotSupportProjectToolsVersion" />
+  </Target>
+  <Target Name="ValidateProjects">
+    <Message Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'x86') " Text="The project &quot;FlatRedBallXna4TemplateContent&quot; is not selected for building in solution configuration &quot;Debug|x86&quot;." />
+    <Message Condition=" ('$(Configuration)' == 'DebugProfile') and ('$(Platform)' == 'x86') " Text="The project &quot;FlatRedBallXna4TemplateContent&quot; is not selected for building in solution configuration &quot;DebugProfile|x86&quot;." />
+    <Message Condition=" ('$(Configuration)' == 'Profile') and ('$(Platform)' == 'x86') " Text="The project &quot;FlatRedBallXna4TemplateContent&quot; is not selected for building in solution configuration &quot;Profile|x86&quot;." />
+    <Message Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'x86') " Text="The project &quot;FlatRedBallXna4TemplateContent&quot; is not selected for building in solution configuration &quot;Release|x86&quot;." />
+  </Target>
+  <Target Name="GetSolutionConfigurationContents" Outputs="$(SolutionConfigurationContents)" />
+  <Target Name="Build" Outputs="@(CollectedBuildOutput)">
+    <MSBuild Projects="@(ProjectReference)" BuildInParallel="True" Properties="BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" SkipNonexistentProjects="%(ProjectReference.SkipNonexistentProjects)">
+      <Output TaskParameter="TargetOutputs" ItemName="CollectedBuildOutput" />
+    </MSBuild>
+  </Target>
+  <Target Name="Clean">
+    <MSBuild Projects="@(ProjectReference-&gt;Reverse())" Targets="Clean" BuildInParallel="True" Properties="BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" SkipNonexistentProjects="%(ProjectReference.SkipNonexistentProjects)" />
+  </Target>
+  <Target Name="Rebuild" Outputs="@(CollectedBuildOutput)">
+    <MSBuild Projects="@(ProjectReference)" Targets="Rebuild" BuildInParallel="True" Properties="BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" SkipNonexistentProjects="%(ProjectReference.SkipNonexistentProjects)">
+      <Output TaskParameter="TargetOutputs" ItemName="CollectedBuildOutput" />
+    </MSBuild>
+  </Target>
+  <Target Name="Publish">
+    <MSBuild Projects="@(ProjectReference)" Targets="Publish" BuildInParallel="True" Properties="BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" SkipNonexistentProjects="%(ProjectReference.SkipNonexistentProjects)" />
+  </Target>
+  <Target Name="FlatRedBallXna4Template" Outputs="@(FlatRedBallXna4TemplateBuildOutput)">
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj'" Projects="@(ProjectReference)" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
+      <Output TaskParameter="TargetOutputs" ItemName="FlatRedBallXna4TemplateBuildOutput" />
+    </MSBuild>
+  </Target>
+  <Target Name="FlatRedBallXna4Template:Clean">
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj'" Projects="@(ProjectReference)" Targets="Clean" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
+  </Target>
+  <Target Name="FlatRedBallXna4Template:Rebuild" Outputs="@(FlatRedBallXna4TemplateBuildOutput)">
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj'" Projects="@(ProjectReference)" Targets="Rebuild" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)">
+      <Output TaskParameter="TargetOutputs" ItemName="FlatRedBallXna4TemplateBuildOutput" />
+    </MSBuild>
+  </Target>
+  <Target Name="FlatRedBallXna4Template:Publish">
+    <MSBuild Condition="'%(ProjectReference.Identity)' == 'C:\TeamCity\buildAgent\work\77de35e20442f635\FlatRedBall\Templates\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template\FlatRedBallXna4Template.csproj'" Projects="@(ProjectReference)" Targets="Publish" BuildInParallel="True" ToolsVersion="$(ProjectToolsVersion)" Properties="Configuration=Debug; Platform=x86;BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" />
+  </Target>
+</Project>
