@@ -44,6 +44,136 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CharactersSheet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>CharactersSheet</Name>
+    </None>
+    <None Include="Entities\Building\AnimationChainListFile.achx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>AnimationChainListFile</Name>
+    </None>
+    <None Include="Entities\Unit\AnimationChainListFile.achx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>AnimationChainListFile</Name>
+    </None>
+    <None Include="GlobalContent\BuildingData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>BuildingData</Name>
+    </None>
+    <None Include="GlobalContent\UnitData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>UnitData</Name>
+    </None>
+    <None Include="GumProject\Components\ActionToolbar.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ActionToolbar</Name>
+    </None>
+    <None Include="GumProject\Components\ResourceDisplay.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ResourceDisplay</Name>
+    </None>
+    <None Include="GumProject\Components\ToggleButton.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ToggleButton</Name>
+    </None>
+    <None Include="GumProject\FontCache\Font18Arial.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Font18Arial</Name>
+    </None>
+    <None Include="GumProject\FontCache\Font18Arial_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Font18Arial_0</Name>
+    </None>
+    <None Include="GumProject\GumProject.gumx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>GumProject</Name>
+    </None>
+    <None Include="GumProject\Screens\GameScreenGum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>GameScreenGum</Name>
+    </None>
+    <None Include="GumProject\Screens\MainMenuGum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>MainMenuGum</Name>
+    </None>
+    <None Include="GumProject\Standards\Circle.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Circle</Name>
+    </None>
+    <None Include="GumProject\Standards\ColoredRectangle.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ColoredRectangle</Name>
+    </None>
+    <None Include="GumProject\Standards\Component.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Component</Name>
+    </None>
+    <None Include="GumProject\Standards\Container.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Container</Name>
+    </None>
+    <None Include="GumProject\Standards\NineSlice.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>NineSlice</Name>
+    </None>
+    <None Include="GumProject\Standards\Rectangle.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Rectangle</Name>
+    </None>
+    <None Include="GumProject\Standards\Sprite.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Sprite</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_bottomCenter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_bottomCenter</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_bottomLeft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_bottomLeft</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_bottomRight.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_bottomRight</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_center.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_center</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_left</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_right</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_topCenter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_topCenter</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_topLeft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_topLeft</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_topRight.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_topRight</Name>
+    </None>
+    <None Include="GumProject\Standards\Text.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Text</Name>
+    </None>
+    <None Include="MainTileset.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>MainTileset</Name>
+    </None>
+    <None Include="Screens\GameScreen\WorldMap.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>WorldMap</Name>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

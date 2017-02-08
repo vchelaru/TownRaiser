@@ -13,19 +13,52 @@ using FlatRedBall.AI.Pathfinding;
 using FlatRedBall.Utilities;
 using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using FlatRedBall.Localization;
+using TownRaiser.DataTypes;
+using FlatRedBall.IO.Csv;
 
 namespace TownRaiser
 {
 	public static partial class GlobalContent
 	{
 		
+		public static FlatRedBall.Gum.GumIdb GumProject { get; set; }
+		public static Microsoft.Xna.Framework.Graphics.Texture2D MainTileset { get; set; }
+		public static System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.BuildingData> BuildingData { get; set; }
+		public static System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.UnitData> UnitData { get; set; }
+		public static Microsoft.Xna.Framework.Graphics.Texture2D CharactersSheet { get; set; }
 		[System.Obsolete("Use GetFile instead")]
 		public static object GetStaticMember (string memberName)
 		{
+			switch(memberName)
+			{
+				case  "GumProject":
+					return GumProject;
+				case  "MainTileset":
+					return MainTileset;
+				case  "BuildingData":
+					return BuildingData;
+				case  "UnitData":
+					return UnitData;
+				case  "CharactersSheet":
+					return CharactersSheet;
+			}
 			return null;
 		}
 		public static object GetFile (string memberName)
 		{
+			switch(memberName)
+			{
+				case  "GumProject":
+					return GumProject;
+				case  "MainTileset":
+					return MainTileset;
+				case  "BuildingData":
+					return BuildingData;
+				case  "UnitData":
+					return UnitData;
+				case  "CharactersSheet":
+					return CharactersSheet;
+			}
 			return null;
 		}
 		public static bool IsInitialized { get; private set; }
@@ -34,6 +67,33 @@ namespace TownRaiser
 		public static void Initialize ()
 		{
 			
+			FlatRedBall.Gum.GumIdb.StaticInitialize("content/gumproject/gumproject.gumx"); FlatRedBall.Gum.GumIdb.RegisterTypes();  FlatRedBall.Gui.GuiManager.BringsClickedWindowsToFront = false;Gum.Wireframe.GraphicalUiElement.ShowLineRectangles = false;
+			MainTileset = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/maintileset.png", ContentManagerName);
+			if (BuildingData == null)
+			{
+				{
+					// We put the { and } to limit the scope of oldDelimiter
+					char oldDelimiter = FlatRedBall.IO.Csv.CsvFileManager.Delimiter;
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = ',';
+					System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.BuildingData> temporaryCsvObject = new System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.BuildingData>();
+					FlatRedBall.IO.Csv.CsvFileManager.CsvDeserializeDictionary<string, TownRaiser.DataTypes.BuildingData>("content/globalcontent/buildingdata.csv", temporaryCsvObject);
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = oldDelimiter;
+					BuildingData = temporaryCsvObject;
+				}
+			}
+			if (UnitData == null)
+			{
+				{
+					// We put the { and } to limit the scope of oldDelimiter
+					char oldDelimiter = FlatRedBall.IO.Csv.CsvFileManager.Delimiter;
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = ',';
+					System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.UnitData> temporaryCsvObject = new System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.UnitData>();
+					FlatRedBall.IO.Csv.CsvFileManager.CsvDeserializeDictionary<string, TownRaiser.DataTypes.UnitData>("content/globalcontent/unitdata.csv", temporaryCsvObject);
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = oldDelimiter;
+					UnitData = temporaryCsvObject;
+				}
+			}
+			CharactersSheet = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/characterssheet.png", ContentManagerName);
 						IsInitialized = true;
 			#if DEBUG && WINDOWS
 			InitializeFileWatch();
@@ -41,6 +101,14 @@ namespace TownRaiser
 		}
 		public static void Reload (object whatToReload)
 		{
+			if (whatToReload == BuildingData)
+			{
+				FlatRedBall.IO.Csv.CsvFileManager.UpdateDictionaryValuesFromCsv(BuildingData, "content/globalcontent/buildingdata.csv");
+			}
+			if (whatToReload == UnitData)
+			{
+				FlatRedBall.IO.Csv.CsvFileManager.UpdateDictionaryValuesFromCsv(UnitData, "content/globalcontent/unitdata.csv");
+			}
 		}
 		#if DEBUG && WINDOWS
 		static System.IO.FileSystemWatcher watcher;
@@ -64,6 +132,26 @@ namespace TownRaiser
 				System.Threading.Thread.Sleep(500);
 				var fullFileName = e.FullPath;
 				var relativeFileName = FlatRedBall.IO.FileManager.MakeRelative(FlatRedBall.IO.FileManager.Standardize(fullFileName));
+				if (relativeFileName == "content/gumproject/gumproject.gumx")
+				{
+					Reload(GumProject);
+				}
+				if (relativeFileName == "content/maintileset.png")
+				{
+					Reload(MainTileset);
+				}
+				if (relativeFileName == "content/globalcontent/buildingdata.csv")
+				{
+					Reload(BuildingData);
+				}
+				if (relativeFileName == "content/globalcontent/unitdata.csv")
+				{
+					Reload(UnitData);
+				}
+				if (relativeFileName == "content/characterssheet.png")
+				{
+					Reload(CharactersSheet);
+				}
 			}
 			catch{}
 		}

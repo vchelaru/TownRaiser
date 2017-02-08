@@ -18,7 +18,7 @@ namespace TownRaiser
 			}
 			internal static void SetupCamera (Camera cameraToSetUp, GraphicsDeviceManager graphicsDeviceManager, int width, int height)
 			{
-				cameraToSetUp.UsePixelCoordinates();
+				cameraToSetUp.UsePixelCoordinates(false, 400, 300);
 			}
 			internal static void ResetCamera (Camera cameraToReset)
 			{

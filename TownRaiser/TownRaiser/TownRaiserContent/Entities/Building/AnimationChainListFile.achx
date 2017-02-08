@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AnimationChainArraySave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileRelativeTextures>true</FileRelativeTextures>
+  <TimeMeasurementUnit>Undefined</TimeMeasurementUnit>
+  <CoordinateType>Pixel</CoordinateType>
+  <AnimationChain>
+    <Name>Tent</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>129</LeftCoordinate>
+      <RightCoordinate>143</RightCoordinate>
+      <TopCoordinate>113</TopCoordinate>
+      <BottomCoordinate>128</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>House</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>98</LeftCoordinate>
+      <RightCoordinate>110</RightCoordinate>
+      <TopCoordinate>115</TopCoordinate>
+      <BottomCoordinate>128</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+</AnimationChainArraySave>

@@ -43,20 +43,23 @@ namespace TownRaiser
 
         protected override void Initialize()
         {
-			#if IOS
+#if IOS
 			var bounds = UIKit.UIScreen.MainScreen.Bounds;
 			var nativeScale = UIKit.UIScreen.MainScreen.Scale;
 			var screenWidth = (int)(bounds.Width * nativeScale);
 			var screenHeight = (int)(bounds.Height * nativeScale);
 			graphics.PreferredBackBufferWidth = screenWidth;
 			graphics.PreferredBackBufferHeight = screenHeight;
-			#endif
+#endif
+
+            IsMouseVisible = true;
 		
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
+            FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
 
 			CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
 			GlobalContent.Initialize();
-            //ScreenManager.Start(typeof(SomeScreen).FullName);
+			FlatRedBall.Screens.ScreenManager.Start(typeof(TownRaiser.Screens.GameScreen));
 
             base.Initialize();
         }
