@@ -25,6 +25,8 @@ using FlatRedBall.Math;
 
 namespace TownRaiser.Screens
 {
+    #region Enums
+
     public enum ActionMode
     {
         Select,
@@ -32,22 +34,86 @@ namespace TownRaiser.Screens
         Build
     }
 
-	public partial class GameScreen
+    #endregion
+
+    public partial class GameScreen
 	{
+        #region Fields/Properties
+
         public ActionMode ActionMode { get; set; }
 
         public int Lumber { get; set; } = 10000;
         public int Stone { get; set; } = 10000;
         public int Gold { get; set; } = 10000;
 
+        TileNodeNetwork tileNodeNetwork;
 
-		void CustomInitialize()
+        const float gridWidth = 16;
+
+        I2DInput cameraControls;
+
+        #endregion
+
+        #region Initialize Methods
+
+        void CustomInitialize()
 		{
             Camera.Main.X = Camera.Main.RelativeXEdgeAt(0);
             Camera.Main.Y = -Camera.Main.RelativeYEdgeAt(0);
 
+            cameraControls = InputManager.Keyboard.Get2DInput(Keys.A, Keys.D, Keys.W, Keys.S);
+
             InitializeEvents();
 
+            InitializeNodeNetwork();
+        }
+
+        private void InitializeNodeNetwork()
+        {
+            TileNodeNetwork.VisibleCoefficient = 3;
+
+            tileNodeNetwork = new TileNodeNetwork(gridWidth / 2f,
+                -WorldMap.Height + gridWidth / 2f,
+                gridWidth,
+                MathFunctions.RoundToInt(WorldMap.Width / WorldMap.WidthPerTile.Value),
+                MathFunctions.RoundToInt(WorldMap.Height / WorldMap.HeightPerTile.Value),
+                DirectionalType.Eight);
+
+            tileNodeNetwork.FillCompletely();
+
+            var namesToExclude = WorldMap.Properties
+                .Where(item => item.Value
+                    .Any(customProperty => customProperty.Name == "BlocksPathfinding" && (string)customProperty.Value == "true"));
+
+            foreach(var layer in WorldMap.MapLayers)
+            {
+                foreach(var name in namesToExclude)
+                {
+                    var indexes =  layer.NamedTileOrderedIndexes.ContainsKey(name.Key) ? layer.NamedTileOrderedIndexes[name.Key] : null;
+
+                    if(indexes != null)
+                    {
+                        foreach(var index in indexes)
+                        {
+                            float x, y;
+                            layer.GetBottomLeftWorldCoordinateForOrderedTile(index, out x, out y);
+
+                            var toRemove = tileNodeNetwork.TiledNodeAtWorld(x + gridWidth/2, y + gridWidth/2);
+
+                            if(toRemove != null)
+                            {
+                                tileNodeNetwork.Remove(toRemove);
+                            }
+                        }
+                    }
+                }
+            }
+
+#if DEBUG
+            tileNodeNetwork.Visible = Entities.DebuggingVariables.ShowNodeNetwork;
+#else
+            tileNodeNetwork.Visible = false;
+#endif
         }
 
         private void InitializeEvents()
@@ -57,10 +123,22 @@ namespace TownRaiser.Screens
             ActionToolbarInstance.TrainClicked += (not, used) => this.ActionMode = ActionMode.Train;
         }
 
+        #endregion
+
+        #region Activity Methods
+
         void CustomActivity(bool firstTimeCalled)
         {
             ClickActivity();
 
+            CameraMovementActivity();
+        }
+
+        private void CameraMovementActivity()
+        {
+            const float cameraMovementSpeed = 200;
+            Camera.Main.XVelocity = cameraMovementSpeed * cameraControls.X;
+            Camera.Main.YVelocity = cameraMovementSpeed * cameraControls.Y;
         }
 
         private void ClickActivity()
@@ -104,7 +182,6 @@ namespace TownRaiser.Screens
 
         private void HandleBuildClick()
         {
-            const float gridWidth = 16;
 
             DataTypes.BuildingData buildingType = GetSelectedBuildingType();
 
@@ -172,6 +249,8 @@ namespace TownRaiser.Screens
             this.ResourceDisplayInstance.LumberText = this.Lumber.ToString();
             this.ResourceDisplayInstance.StoneText = this.Stone.ToString();
         }
+
+#endregion
 
         void CustomDestroy()
 		{

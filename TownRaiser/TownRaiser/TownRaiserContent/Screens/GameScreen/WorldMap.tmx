@@ -2,6 +2,61 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="MainTileset" tilewidth="16" tileheight="16" tilecount="512" columns="32">
   <image source="../../MainTileset.png" width="512" height="256"/>
+  <tile id="16">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="80">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="81">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="172">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="GroundLayer" width="32" height="32">
   <data encoding="base64" compression="gzip">
