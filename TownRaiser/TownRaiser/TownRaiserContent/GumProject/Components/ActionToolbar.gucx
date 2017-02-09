@@ -210,14 +210,14 @@
     <Variable>
       <Type>HorizontalAlignment</Type>
       <Name>X Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">2</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
       <Name>X Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">4</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -231,14 +231,14 @@
     <Variable>
       <Type>VerticalAlignment</Type>
       <Name>Y Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">2</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
       <Name>Y Units</Name>
-      <Value xsi:type="xsd:int">1</Value>
+      <Value xsi:type="xsd:int">5</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>

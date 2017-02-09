@@ -81,6 +81,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>medium-box</Name>
     </None>
+    <None Include="GumProject\Components\Graphics\stone.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>stone</Name>
+    </None>
+    <None Include="GumProject\Components\Graphics\wood.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>wood</Name>
+    </None>
+    <None Include="GumProject\Components\Resource.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Resource</Name>
+    </None>
     <None Include="GumProject\Components\ResourceDisplay.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ResourceDisplay</Name>

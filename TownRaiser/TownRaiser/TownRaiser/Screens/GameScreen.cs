@@ -46,6 +46,8 @@ namespace TownRaiser.Screens
             Camera.Main.X = Camera.Main.RelativeXEdgeAt(0);
             Camera.Main.Y = -Camera.Main.RelativeYEdgeAt(0);
 
+            FlatRedBall.Debugging.Debugger.TextCorner = FlatRedBall.Debugging.Debugger.Corner.TopRight;
+
             InitializeEvents();
 
         }

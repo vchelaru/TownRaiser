@@ -250,6 +250,7 @@
     <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\RectangleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceDisplayRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.Generated.cs" />
