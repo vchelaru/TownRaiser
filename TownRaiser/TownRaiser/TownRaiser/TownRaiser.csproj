@@ -134,6 +134,10 @@
     <Compile Include="Entities\EncounterSpawnPoint.Generated.cs">
       <DependentUpon>EncounterSpawnPoint.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\SelectionMarker.cs" />
+    <Compile Include="Entities\SelectionMarker.Generated.cs">
+      <DependentUpon>SelectionMarker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Unit.cs" />
     <Compile Include="Entities\Unit.Event.cs">
       <DependentUpon>Unit.cs</DependentUpon>

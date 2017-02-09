@@ -52,6 +52,8 @@ namespace TownRaiser.Screens
 
         I2DInput cameraControls;
 
+        Entities.Unit selectedUnit;
+
         #endregion
 
         #region Initialize Methods
@@ -159,8 +161,44 @@ namespace TownRaiser.Screens
                         case ActionMode.Train:
                             HandleTrainClick();
                             break;
+                        case ActionMode.Select:
+                            HandleSelectClick();
+                            break;
                     }
                 }
+            }
+        }
+
+        private void HandleSelectClick()
+        {
+            var cursor = GuiManager.Cursor;
+            var unitOver = UnitList.FirstOrDefault(item => item.HasCursorOver(cursor));
+
+            selectedUnit = unitOver;
+
+            UpdateSelectionMarker();
+        }
+
+        private void UpdateSelectionMarker()
+        {
+            if(selectedUnit == null)
+            {
+                while(SelectionMarkerList.Count != 0)
+                {
+                    SelectionMarkerList.Last().Destroy();
+                }
+            }
+            else
+            {
+                var neededCount = 1;
+                while(SelectionMarkerList.Count() < neededCount)
+                {
+                    var selectionMarker = new Entities.SelectionMarker();
+                    SelectionMarkerList.Add(selectionMarker);
+                    // eventually make this consider multiple selected units
+                }
+
+                SelectionMarkerList.First().AttachTo(selectedUnit, false);
             }
         }
 
@@ -187,7 +225,14 @@ namespace TownRaiser.Screens
 
             bool hasEnoughResources = this.Lumber >= buildingType.LumberCost && this.Stone >= buildingType.StoneCost;
 
+            bool isOverOtherBuilding = false;
             if(hasEnoughResources)
+            {
+                var cursor = GuiManager.Cursor;
+                isOverOtherBuilding = BuildingList.Any(item => item.HasCursorOver(cursor));
+            }
+
+            if(hasEnoughResources && !isOverOtherBuilding)
             {
                 // do it!
                 var cursor = GuiManager.Cursor;
@@ -196,8 +241,10 @@ namespace TownRaiser.Screens
                 var x = cursor.WorldXAt(0);
                 var y = cursor.WorldYAt(0);
 
-                x = MathFunctions.RoundFloat(x, gridWidth, gridWidth / 2.0f);
-                y = MathFunctions.RoundFloat(y, gridWidth, gridWidth / 2.0f);
+                const float tilesWide = 3;
+
+                x = MathFunctions.RoundFloat(x, gridWidth * tilesWide, gridWidth * tilesWide/2);
+                y = MathFunctions.RoundFloat(y, gridWidth * tilesWide, gridWidth * tilesWide/2);
 
 
 
