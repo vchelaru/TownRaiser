@@ -1,62 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ComponentSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Name>ResourceDisplay</Name>
+  <Name>FontTest</Name>
   <BaseType>Container</BaseType>
   <State>
     <Name>Default</Name>
     <Variable>
-      <Type>IconStateState</Type>
-      <Name>CapacityResourceInstance.IconStateState</Name>
-      <Value xsi:type="xsd:string">Capacity</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>string</Type>
-      <Name>CapacityResourceInstance.ResourceText</Name>
-      <Value xsi:type="xsd:string">0</Value>
-      <ExposedAsName>CapacityText</ExposedAsName>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>CapacityResourceInstance.X</Name>
-      <Value xsi:type="xsd:float">10</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>HorizontalAlignment</Type>
-      <Name>CapacityResourceInstance.X Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>CapacityResourceInstance.X Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>CapacityResourceInstance.Y</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>VerticalAlignment</Type>
-      <Name>CapacityResourceInstance.Y Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>CapacityResourceInstance.Y Units</Name>
-      <Value xsi:type="xsd:int">7</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
       <Type>ChildrenLayout</Type>
       <Name>Children Layout</Name>
-      <Value xsi:type="xsd:int">2</Value>
+      <Value xsi:type="xsd:int">0</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -74,71 +25,22 @@
     <Variable>
       <Type>bool</Type>
       <Name>HasEvents</Name>
-      <Value xsi:type="xsd:boolean">false</Value>
+      <Value xsi:type="xsd:boolean">true</Value>
       <Category>Behavior</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>Height</Name>
-      <Value xsi:type="xsd:float">24</Value>
+      <Value xsi:type="xsd:float">100</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>DimensionUnitType</Type>
       <Name>Height Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <Category>Dimensions</Category>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>IconStateState</Type>
-      <Name>LumberResourceInstance.IconStateState</Name>
-      <Value xsi:type="xsd:string">Lumber</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>string</Type>
-      <Name>LumberResourceInstance.ResourceText</Name>
-      <Value xsi:type="xsd:string">9,999</Value>
-      <ExposedAsName>LumberText</ExposedAsName>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>LumberResourceInstance.X</Name>
-      <Value xsi:type="xsd:float">10</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>HorizontalAlignment</Type>
-      <Name>LumberResourceInstance.X Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>LumberResourceInstance.X Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>LumberResourceInstance.Y</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>VerticalAlignment</Type>
-      <Name>LumberResourceInstance.Y Origin</Name>
       <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>LumberResourceInstance.Y Units</Name>
-      <Value xsi:type="xsd:int">7</Value>
+      <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -152,51 +54,81 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <Type>IconStateState</Type>
-      <Name>StoneResourceInstance.IconStateState</Name>
-      <Value xsi:type="xsd:string">Stone</Value>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>TextInstance.CustomFontFile</Name>
+      <Value xsi:type="xsd:string">FontCache\font-2.fnt</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextInstance.Font Scale</Name>
+      <Value xsi:type="xsd:float">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextInstance.Height</Name>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>TextInstance.Height Units</Name>
+      <Value xsi:type="xsd:int">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>string</Type>
-      <Name>StoneResourceInstance.ResourceText</Name>
-      <Value xsi:type="xsd:string">99,999</Value>
-      <ExposedAsName>StoneText</ExposedAsName>
+      <Name>TextInstance.Text</Name>
+      <Value xsi:type="xsd:string">The quick brown fox jumped over the lazy dog.,! ()*&amp;^%$#@-=+_`'" 1234567890</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>TextInstance.UseCustomFont</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>TextInstance.Width Units</Name>
+      <Value xsi:type="xsd:int">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
-      <Name>StoneResourceInstance.X</Name>
-      <Value xsi:type="xsd:float">10</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>HorizontalAlignment</Type>
-      <Name>StoneResourceInstance.X Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>StoneResourceInstance.X Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>StoneResourceInstance.Y</Name>
+      <Name>TextInstance.X</Name>
       <Value xsi:type="xsd:float">0</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <Type>VerticalAlignment</Type>
-      <Name>StoneResourceInstance.Y Origin</Name>
+      <Type>HorizontalAlignment</Type>
+      <Name>TextInstance.X Origin</Name>
       <Value xsi:type="xsd:int">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
-      <Name>StoneResourceInstance.Y Units</Name>
+      <Name>TextInstance.X Units</Name>
+      <Value xsi:type="xsd:int">6</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextInstance.Y</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>VerticalAlignment</Type>
+      <Name>TextInstance.Y Origin</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>TextInstance.Y Units</Name>
       <Value xsi:type="xsd:int">7</Value>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -209,14 +141,14 @@
     <Variable>
       <Type>float</Type>
       <Name>Width</Name>
-      <Value xsi:type="xsd:float">323</Value>
+      <Value xsi:type="xsd:float">100</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>DimensionUnitType</Type>
       <Name>Width Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">1</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -229,9 +161,8 @@
     <Variable>
       <Type>float</Type>
       <Name>X</Name>
-      <Value xsi:type="xsd:float">1</Value>
       <Category>Position</Category>
-      <SetsValue>true</SetsValue>
+      <SetsValue>false</SetsValue>
     </Variable>
     <Variable>
       <Type>HorizontalAlignment</Type>
@@ -250,9 +181,8 @@
     <Variable>
       <Type>float</Type>
       <Name>Y</Name>
-      <Value xsi:type="xsd:float">0</Value>
       <Category>Position</Category>
-      <SetsValue>true</SetsValue>
+      <SetsValue>false</SetsValue>
     </Variable>
     <Variable>
       <Type>VerticalAlignment</Type>
@@ -270,16 +200,8 @@
     </Variable>
   </State>
   <Instance>
-    <Name>CapacityResourceInstance</Name>
-    <BaseType>Resource</BaseType>
-  </Instance>
-  <Instance>
-    <Name>LumberResourceInstance</Name>
-    <BaseType>Resource</BaseType>
-  </Instance>
-  <Instance>
-    <Name>StoneResourceInstance</Name>
-    <BaseType>Resource</BaseType>
+    <Name>TextInstance</Name>
+    <BaseType>Text</BaseType>
   </Instance>
   <Behaviors />
 </ComponentSave>

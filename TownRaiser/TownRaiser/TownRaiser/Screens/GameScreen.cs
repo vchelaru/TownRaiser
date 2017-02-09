@@ -65,6 +65,8 @@ namespace TownRaiser.Screens
 
             cameraControls = InputManager.Keyboard.Get2DInput(Keys.A, Keys.D, Keys.W, Keys.S);
 
+            FlatRedBall.Debugging.Debugger.TextCorner = FlatRedBall.Debugging.Debugger.Corner.TopRight;
+
             InitializeEvents();
 
             InitializeNodeNetwork();
@@ -120,7 +122,6 @@ namespace TownRaiser.Screens
 
         private void InitializeEvents()
         {
-            ActionToolbarInstance.SelectClicked += (not, used) => this.ActionMode = ActionMode.Select;
             ActionToolbarInstance.BuildClicked += (not, used) => this.ActionMode = ActionMode.Build;
             ActionToolbarInstance.TrainClicked += (not, used) => this.ActionMode = ActionMode.Train;
         }
@@ -131,9 +132,20 @@ namespace TownRaiser.Screens
 
         void CustomActivity(bool firstTimeCalled)
         {
+            EscapePressActivity();
+
             ClickActivity();
 
             CameraMovementActivity();
+        }
+        
+        private void EscapePressActivity()
+        {
+            if (InputManager.Keyboard.KeyPushed(Keys.Escape))
+            {
+                ActionMode = ActionMode.Select;
+            }
+
         }
 
         private void CameraMovementActivity()

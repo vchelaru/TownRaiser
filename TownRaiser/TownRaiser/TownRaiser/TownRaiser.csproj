@@ -247,12 +247,14 @@
     <Compile Include="GumRuntimes\CircleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ColoredRectangleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ContainerRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\FontTestRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\GameScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\GumIdb.Generated.cs" />
     <Compile Include="GumRuntimes\MainMenuGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\RectangleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceDisplayRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.Generated.cs" />

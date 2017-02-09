@@ -5,6 +5,43 @@
   <State>
     <Name>Default</Name>
     <Variable>
+      <Type>float</Type>
+      <Name>Background.Height</Name>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>Background.Height Units</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>Background.SourceFile</Name>
+      <Value xsi:type="xsd:string">Components\Graphics\medium-box.png</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>Background.Width</Name>
+      <Value xsi:type="xsd:float">100</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>Background.Width Units</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>IconDisplayState</Type>
+      <Name>BuildButtonInstance.IconDisplayState</Name>
+      <Value xsi:type="xsd:string">BuildIcon</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>string</Type>
       <Name>BuildButtonInstance.Text</Name>
       <Value xsi:type="xsd:string">Build</Value>
@@ -31,19 +68,19 @@
     <Variable>
       <Type>float</Type>
       <Name>BuildButtonInstance.Y</Name>
-      <Value xsi:type="xsd:float">91</Value>
+      <Value xsi:type="xsd:float">-10</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>VerticalAlignment</Type>
       <Name>BuildButtonInstance.Y Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">2</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
       <Name>BuildButtonInstance.Y Units</Name>
-      <Value xsi:type="xsd:int">1</Value>
+      <Value xsi:type="xsd:int">5</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -74,7 +111,7 @@
     <Variable>
       <Type>float</Type>
       <Name>Height</Name>
-      <Value xsi:type="xsd:float">130</Value>
+      <Value xsi:type="xsd:float">89</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -91,62 +128,20 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <Type>string</Type>
-      <Name>SelectButtonInstance.Text</Name>
-      <Value xsi:type="xsd:string">Select</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>SelectButtonInstance.X</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>HorizontalAlignment</Type>
-      <Name>SelectButtonInstance.X Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>SelectButtonInstance.X Units</Name>
-      <Value xsi:type="xsd:int">6</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>SelectButtonInstance.Y</Name>
-      <Value xsi:type="xsd:float">14</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>VerticalAlignment</Type>
-      <Name>SelectButtonInstance.Y Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>SelectButtonInstance.Y Units</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
       <Type>State</Type>
       <Name>State</Name>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>IconDisplayState</Type>
+      <Name>TrainButtonInstance.IconDisplayState</Name>
+      <Value xsi:type="xsd:string">TrainIcon</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>string</Type>
       <Name>TrainButtonInstance.Text</Name>
       <Value xsi:type="xsd:string">Train</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>TrainButtonInstance.X</Name>
-      <Value xsi:type="xsd:float">0</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -164,7 +159,7 @@
     <Variable>
       <Type>float</Type>
       <Name>TrainButtonInstance.Y</Name>
-      <Value xsi:type="xsd:float">53</Value>
+      <Value xsi:type="xsd:float">10</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -188,7 +183,7 @@
     <Variable>
       <Type>float</Type>
       <Name>Width</Name>
-      <Value xsi:type="xsd:float">140</Value>
+      <Value xsi:type="xsd:float">48</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -202,55 +197,62 @@
     <Variable>
       <Type>bool</Type>
       <Name>Wraps Children</Name>
-      <Value xsi:type="xsd:boolean">false</Value>
+      <Value xsi:type="xsd:boolean">true</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>X</Name>
-      <Value xsi:type="xsd:float">42</Value>
+      <Value xsi:type="xsd:float">0</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>HorizontalAlignment</Type>
       <Name>X Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">2</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
       <Name>X Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">4</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>Y</Name>
-      <Value xsi:type="xsd:float">29</Value>
+      <Value xsi:type="xsd:float">0</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>VerticalAlignment</Type>
       <Name>Y Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">2</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
       <Name>Y Units</Name>
-      <Value xsi:type="xsd:int">1</Value>
+      <Value xsi:type="xsd:int">5</Value>
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
+    <VariableList xsi:type="VariableListSaveOfString">
+      <Type>string</Type>
+      <Name>AnimationFrames</Name>
+      <IsFile>false</IsFile>
+      <IsHiddenInPropertyGrid>false</IsHiddenInPropertyGrid>
+      <Value />
+    </VariableList>
   </State>
   <Instance>
-    <Name>SelectButtonInstance</Name>
-    <BaseType>ToggleButton</BaseType>
+    <Name>Background</Name>
+    <BaseType>NineSlice</BaseType>
   </Instance>
   <Instance>
     <Name>TrainButtonInstance</Name>

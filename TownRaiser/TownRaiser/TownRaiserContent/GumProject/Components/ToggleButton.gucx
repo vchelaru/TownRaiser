@@ -5,6 +5,73 @@
   <State>
     <Name>Default</Name>
     <Variable>
+      <Type>float</Type>
+      <Name>ButtonBackground.Height</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>ButtonBackground.Height Units</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>ButtonBackground.SourceFile</Name>
+      <Value xsi:type="xsd:string">Components\Graphics\little-box.png</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ButtonBackground.Width</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>ButtonBackground.Width Units</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ButtonBackground.X</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>HorizontalAlignment</Type>
+      <Name>ButtonBackground.X Origin</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>ButtonBackground.X Units</Name>
+      <Value xsi:type="xsd:int">6</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>ButtonBackground.Y</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>VerticalAlignment</Type>
+      <Name>ButtonBackground.Y Origin</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>ButtonBackground.Y Units</Name>
+      <Value xsi:type="xsd:int">7</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>ChildrenLayout</Type>
       <Name>Children Layout</Name>
       <Value xsi:type="xsd:int">0</Value>
@@ -18,80 +85,8 @@
     </Variable>
     <Variable>
       <Type>int</Type>
-      <Name>ColoredRectangleInstance.Blue</Name>
-      <Value xsi:type="xsd:int">128</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>int</Type>
-      <Name>ColoredRectangleInstance.Green</Name>
+      <Name>ColoredRectangleInstance1.Alpha</Name>
       <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>ColoredRectangleInstance.Height</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>DimensionUnitType</Type>
-      <Name>ColoredRectangleInstance.Height Units</Name>
-      <Value xsi:type="xsd:int">2</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>int</Type>
-      <Name>ColoredRectangleInstance.Red</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>ColoredRectangleInstance.Width</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>DimensionUnitType</Type>
-      <Name>ColoredRectangleInstance.Width Units</Name>
-      <Value xsi:type="xsd:int">2</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>ColoredRectangleInstance.X</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>HorizontalAlignment</Type>
-      <Name>ColoredRectangleInstance.X Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>ColoredRectangleInstance.X Units</Name>
-      <Value xsi:type="xsd:int">6</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>ColoredRectangleInstance.Y</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>VerticalAlignment</Type>
-      <Name>ColoredRectangleInstance.Y Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>ColoredRectangleInstance.Y Units</Name>
-      <Value xsi:type="xsd:int">7</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -176,7 +171,7 @@
     <Variable>
       <Type>float</Type>
       <Name>Height</Name>
-      <Value xsi:type="xsd:float">30</Value>
+      <Value xsi:type="xsd:float">32</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -188,8 +183,116 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>IconDisplayState</Type>
+      <Name>IconDisplayState</Name>
+      <SetsValue>false</SetsValue>
+    </Variable>
+    <Variable>
       <Type>string</Type>
       <Name>Parent</Name>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>SpriteInstance.Custom Texture Coordinates</Name>
+      <Value xsi:type="xsd:boolean">false</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SpriteInstance.Height</Name>
+      <Value xsi:type="xsd:float">150</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>SpriteInstance.Height Units</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>SpriteInstance.SourceFile</Name>
+      <Value xsi:type="xsd:string">..\weapon.png</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>TextureAddress</Type>
+      <Name>SpriteInstance.Texture Address</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>SpriteInstance.Texture Height</Name>
+      <Value xsi:type="xsd:int">12</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>SpriteInstance.Texture Left</Name>
+      <Value xsi:type="xsd:int">67</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>SpriteInstance.Texture Top</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>SpriteInstance.Texture Width</Name>
+      <Value xsi:type="xsd:int">10</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SpriteInstance.Width</Name>
+      <Value xsi:type="xsd:float">150</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>DimensionUnitType</Type>
+      <Name>SpriteInstance.Width Units</Name>
+      <Value xsi:type="xsd:int">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SpriteInstance.X</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>HorizontalAlignment</Type>
+      <Name>SpriteInstance.X Origin</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SpriteInstance.X Units</Name>
+      <Value xsi:type="xsd:int">6</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SpriteInstance.Y</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>VerticalAlignment</Type>
+      <Name>SpriteInstance.Y Origin</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>SpriteInstance.Y Units</Name>
+      <Value xsi:type="xsd:int">7</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -213,6 +316,12 @@
       <Type>VerticalAlignment</Type>
       <Name>TextInstance.VerticalAlignment</Name>
       <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>TextInstance.Visible</Name>
+      <Value xsi:type="xsd:boolean">false</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -265,7 +374,7 @@
     <Variable>
       <Type>float</Type>
       <Name>Width</Name>
-      <Value xsi:type="xsd:float">127</Value>
+      <Value xsi:type="xsd:float">32</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -322,6 +431,13 @@
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
+    <VariableList xsi:type="VariableListSaveOfString">
+      <Type>string</Type>
+      <Name>AnimationFrames</Name>
+      <IsFile>false</IsFile>
+      <IsHiddenInPropertyGrid>false</IsHiddenInPropertyGrid>
+      <Value />
+    </VariableList>
   </State>
   <Category>
     <Name>ToggleCategory</Name>
@@ -329,19 +445,19 @@
       <Name>EnabledOn</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Blue</Name>
+        <Name>ButtonBackground.Blue</Name>
         <Value xsi:type="xsd:int">226</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Green</Name>
+        <Name>ButtonBackground.Green</Name>
         <Value xsi:type="xsd:int">43</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Red</Name>
+        <Name>ButtonBackground.Red</Name>
         <Value xsi:type="xsd:int">138</Value>
         <SetsValue>true</SetsValue>
       </Variable>
@@ -350,19 +466,19 @@
       <Name>EnabledOff</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Blue</Name>
+        <Name>ButtonBackground.Blue</Name>
         <Value xsi:type="xsd:int">128</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Green</Name>
+        <Name>ButtonBackground.Green</Name>
         <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Red</Name>
+        <Name>ButtonBackground.Red</Name>
         <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
@@ -377,19 +493,19 @@
       <Name>HighlightedOn</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Blue</Name>
+        <Name>ButtonBackground.Blue</Name>
         <Value xsi:type="xsd:int">226</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Green</Name>
+        <Name>ButtonBackground.Green</Name>
         <Value xsi:type="xsd:int">43</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Red</Name>
+        <Name>ButtonBackground.Red</Name>
         <Value xsi:type="xsd:int">138</Value>
         <SetsValue>true</SetsValue>
       </Variable>
@@ -416,19 +532,19 @@
       <Name>HighlightedOff</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Blue</Name>
+        <Name>ButtonBackground.Blue</Name>
         <Value xsi:type="xsd:int">128</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Green</Name>
+        <Name>ButtonBackground.Green</Name>
         <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ColoredRectangleInstance.Red</Name>
+        <Name>ButtonBackground.Red</Name>
         <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
@@ -458,17 +574,116 @@
       <Name>PushedOff</Name>
     </State>
   </Category>
+  <Category>
+    <Name>IconDisplay</Name>
+    <State>
+      <Name>BuildIcon</Name>
+      <Variable>
+        <Type>bool</Type>
+        <Name>SpriteInstance.Custom Texture Coordinates</Name>
+        <Value xsi:type="xsd:boolean">false</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>float</Type>
+        <Name>SpriteInstance.Height</Name>
+        <Value xsi:type="xsd:float">75</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <IsFile>true</IsFile>
+        <Type>string</Type>
+        <Name>SpriteInstance.SourceFile</Name>
+        <Value xsi:type="xsd:string">..\MainTileset.png</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Height</Name>
+        <Value xsi:type="xsd:int">29</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Left</Name>
+        <Value xsi:type="xsd:int">49</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Top</Name>
+        <Value xsi:type="xsd:int">99</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Width</Name>
+        <Value xsi:type="xsd:int">30</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>float</Type>
+        <Name>SpriteInstance.Width</Name>
+        <Value xsi:type="xsd:float">75</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <VariableList xsi:type="VariableListSaveOfString">
+        <Type>string</Type>
+        <Name>AnimationFrames</Name>
+        <IsFile>false</IsFile>
+        <IsHiddenInPropertyGrid>false</IsHiddenInPropertyGrid>
+        <Value />
+      </VariableList>
+    </State>
+    <State>
+      <Name>TrainIcon</Name>
+      <Variable>
+        <Type>float</Type>
+        <Name>SpriteInstance.Height</Name>
+        <Value xsi:type="xsd:float">200</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Height</Name>
+        <Value xsi:type="xsd:int">11</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Left</Name>
+        <Value xsi:type="xsd:int">20</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Width</Name>
+        <Value xsi:type="xsd:int">7</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>float</Type>
+        <Name>SpriteInstance.Width</Name>
+        <Value xsi:type="xsd:float">200</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
+  </Category>
   <Instance>
     <Name>ColoredRectangleInstance1</Name>
     <BaseType>ColoredRectangle</BaseType>
   </Instance>
   <Instance>
-    <Name>ColoredRectangleInstance</Name>
-    <BaseType>ColoredRectangle</BaseType>
+    <Name>ButtonBackground</Name>
+    <BaseType>NineSlice</BaseType>
   </Instance>
   <Instance>
     <Name>TextInstance</Name>
     <BaseType>Text</BaseType>
+  </Instance>
+  <Instance>
+    <Name>SpriteInstance</Name>
+    <BaseType>Sprite</BaseType>
   </Instance>
   <Behaviors>
     <ElementBehaviorReference>
