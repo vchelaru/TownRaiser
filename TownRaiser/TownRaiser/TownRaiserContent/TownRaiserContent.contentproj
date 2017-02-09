@@ -69,6 +69,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ActionToolbar</Name>
     </None>
+    <None Include="GumProject\Components\FontTest.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>FontTest</Name>
+    </None>
+    <None Include="GumProject\Components\Graphics\little-box.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>little-box</Name>
+    </None>
+    <None Include="GumProject\Components\Graphics\medium-box.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>medium-box</Name>
+    </None>
     <None Include="GumProject\Components\ResourceDisplay.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ResourceDisplay</Name>
@@ -76,6 +88,22 @@
     <None Include="GumProject\Components\ToggleButton.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ToggleButton</Name>
+    </None>
+    <None Include="GumProject\FontCache\font-1.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font-1</Name>
+    </None>
+    <None Include="GumProject\FontCache\font-1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font-1</Name>
+    </None>
+    <None Include="GumProject\FontCache\font-2.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font-2</Name>
+    </None>
+    <None Include="GumProject\FontCache\font-2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font-2</Name>
     </None>
     <None Include="GumProject\FontCache\Font18Arial.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -172,6 +200,10 @@
     <None Include="Screens\GameScreen\WorldMap.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>WorldMap</Name>
+    </None>
+    <None Include="weapon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>weapon</Name>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

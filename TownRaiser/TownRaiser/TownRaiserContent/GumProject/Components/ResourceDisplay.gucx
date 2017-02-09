@@ -5,6 +5,13 @@
   <State>
     <Name>Default</Name>
     <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>CapacityTextInstance.CustomFontFile</Name>
+      <Value xsi:type="xsd:string">FontCache\font-1.fnt</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>HorizontalAlignment</Type>
       <Name>CapacityTextInstance.HorizontalAlignment</Name>
       <Value xsi:type="xsd:int">0</Value>
@@ -15,6 +22,12 @@
       <Name>CapacityTextInstance.Text</Name>
       <Value xsi:type="xsd:string">999,999</Value>
       <ExposedAsName>CapacityText</ExposedAsName>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>CapacityTextInstance.UseCustomFont</Name>
+      <Value xsi:type="xsd:boolean">false</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>

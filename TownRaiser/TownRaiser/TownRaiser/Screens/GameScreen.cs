@@ -52,7 +52,6 @@ namespace TownRaiser.Screens
 
         private void InitializeEvents()
         {
-            ActionToolbarInstance.SelectClicked += (not, used) => this.ActionMode = ActionMode.Select;
             ActionToolbarInstance.BuildClicked += (not, used) => this.ActionMode = ActionMode.Build;
             ActionToolbarInstance.TrainClicked += (not, used) => this.ActionMode = ActionMode.Train;
         }
