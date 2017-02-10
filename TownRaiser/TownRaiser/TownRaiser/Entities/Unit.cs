@@ -33,6 +33,8 @@ namespace TownRaiser.Entities
 
         public ImmediateGoal ImmediateGoal { get; set; }
 
+        public TileNodeNetwork NodeNetwork { get; set; }
+
         #endregion
 
         #region Initialize
@@ -64,29 +66,49 @@ namespace TownRaiser.Entities
             {
                 if(ImmediateGoal.TargetPosition != null)
                 {
-                    MoveTowardTargetPosition();
+                    GetPath();
+                }
+                else if(ImmediateGoal.Path != null)
+                {
+                    MoveAlongPath();
                 }
             }
         }
 
-        private void MoveTowardTargetPosition()
+        private void MoveAlongPath()
         {
-            // need to obtain a path, but for now we'll just move directly
-            var direction = ImmediateGoal.TargetPosition.Value - this.Position;
-            direction.Z = 0;
+            PositionedNode node = ImmediateGoal.Path[0];
 
-            const float epsilonSquared = 1 * 1;
-            bool hasArrived = direction.LengthSquared() < epsilonSquared;
+            var amountMovedIn2Frames = UnitData.MovementSpeed * 2 / 60.0f;
 
-            if (hasArrived)
+            if ((Position - node.Position).Length() < amountMovedIn2Frames)
             {
-                Velocity = Vector3.Zero;
+                ImmediateGoal.Path.RemoveAt(0);
+
+                if(ImmediateGoal.Path.Count == 0)
+                {
+                    ImmediateGoal.Path = null;
+                    Velocity = Vector3.Zero;
+                }
+
             }
-            else
+
+            if(ImmediateGoal.Path != null)
             {
+                var direction = node.Position - Position;
                 direction.Normalize();
-                this.Velocity = direction * this.UnitData.MovementSpeed;
+
+                direction.Z = 0;
+                Velocity = direction * UnitData.MovementSpeed;
             }
+        }
+
+        private void GetPath()
+        {
+            var vector3 = ImmediateGoal.TargetPosition.Value;
+            ImmediateGoal.Path = NodeNetwork.GetPath(ref this.Position, ref vector3);
+            ImmediateGoal.TargetPosition = null;
+            
         }
 
         #endregion

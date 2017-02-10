@@ -243,6 +243,7 @@ namespace TownRaiser.Screens
             var x = cursor.WorldXAt(0);
             var y = cursor.WorldYAt(0);
             var newUnit = Factories.UnitFactory.CreateNew();
+            newUnit.NodeNetwork = this.tileNodeNetwork;
             newUnit.X = x;
             newUnit.Y = y;
             newUnit.Z = 1;
