@@ -446,20 +446,8 @@
       <Name>EnabledOn</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ButtonBackground.Blue</Name>
-        <Value xsi:type="xsd:int">226</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>ButtonBackground.Green</Name>
-        <Value xsi:type="xsd:int">43</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>ButtonBackground.Red</Name>
-        <Value xsi:type="xsd:int">138</Value>
+        <Name>SpriteInstance.Alpha</Name>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
@@ -467,19 +455,7 @@
       <Name>EnabledOff</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ButtonBackground.Blue</Name>
-        <Value xsi:type="xsd:int">128</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>ButtonBackground.Green</Name>
-        <Value xsi:type="xsd:int">0</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>ButtonBackground.Red</Name>
+        <Name>SpriteInstance.Alpha</Name>
         <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
@@ -494,38 +470,20 @@
       <Name>HighlightedOn</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ButtonBackground.Blue</Name>
-        <Value xsi:type="xsd:int">226</Value>
+        <Name>ButtonBackground.Red</Name>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
         <Name>ButtonBackground.Green</Name>
-        <Value xsi:type="xsd:int">43</Value>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ButtonBackground.Red</Name>
-        <Value xsi:type="xsd:int">138</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>TextInstance.Blue</Name>
+        <Name>ButtonBackground.Blue</Name>
         <Value xsi:type="xsd:int">0</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>TextInstance.Green</Name>
-        <Value xsi:type="xsd:int">255</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>TextInstance.Red</Name>
-        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
@@ -533,38 +491,20 @@
       <Name>HighlightedOff</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ButtonBackground.Blue</Name>
-        <Value xsi:type="xsd:int">128</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>ButtonBackground.Green</Name>
-        <Value xsi:type="xsd:int">0</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
         <Name>ButtonBackground.Red</Name>
         <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>TextInstance.Blue</Name>
+        <Name>ButtonBackground.Green</Name>
+        <Value xsi:type="xsd:int">128</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>ButtonBackground.Blue</Name>
         <Value xsi:type="xsd:int">0</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>TextInstance.Green</Name>
-        <Value xsi:type="xsd:int">255</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>TextInstance.Red</Name>
-        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
