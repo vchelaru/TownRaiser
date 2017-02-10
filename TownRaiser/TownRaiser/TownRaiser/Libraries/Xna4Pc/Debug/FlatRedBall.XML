@@ -4298,6 +4298,11 @@
             </summary>
             <returns>The string representation of this.</returns>
         </member>
+        <member name="T:FlatRedBall.AI.Pathfinding.TileNodeNetwork">
+            <summary>
+            A node network which is designed specifically for tile-based pathfinding.
+            </summary>
+        </member>
         <member name="T:FlatRedBall.Attributes.ExternalInstance">
             <summary>
             Defines a member as an external instance.  Members which are external instances
@@ -4396,6 +4401,22 @@
             <remarks>
             This is usually used in applications with split screen or when on a widescreen display.
             </remarks>
+        </member>
+        <member name="M:FlatRedBall.Camera.IsEntityInView(FlatRedBall.PositionedObject,System.Single)">
+            <summary>
+            Checks if an Entity is within the Camera's boundaries.
+            </summary>
+            <param name="entity">The entity to check</param>
+            <param name="buffer">A buffer zone to account for entity size on boundary check. Defaults to 0</param>
+            <returns>Returns true in case it is inside the camera's boundaries, false otherwise</returns>
+        </member>
+        <member name="M:FlatRedBall.Camera.IsEntityInView(Microsoft.Xna.Framework.Vector3,System.Single)">
+            <summary>
+            Checks if an object with Vector3 position is inside the Camera's boundaries.
+            </summary>
+            <param name="position">The position of the entity to check</param>
+            <param name="buffer">A buffer zone to account for entity size on boundary check. Defaults to 0</param>
+            <returns>Returns true in case it is inside the camera's boundaries, false otherwise</returns>
         </member>
         <member name="M:FlatRedBall.Camera.IsXInView(System.Double,System.Double)">
             <summary>
@@ -5427,6 +5448,17 @@
             <param name="key">The key to check for.</param>
             <returns>Whether the key was typed.</returns>
         </member>
+        <member name="M:FlatRedBall.Input.Keyboard.Get2DInput(Microsoft.Xna.Framework.Input.Keys,Microsoft.Xna.Framework.Input.Keys,Microsoft.Xna.Framework.Input.Keys,Microsoft.Xna.Framework.Input.Keys)">
+            <summary>
+            Returns an instance of I2DInput which can be used to read 2D input using the four
+            argument keys.
+            </summary>
+            <param name="left">The key to use for the left direction.</param>
+            <param name="right">The key to use for the right direction.</param>
+            <param name="up">The key to use for the up direction.</param>
+            <param name="down">The key to use for the down direction.</param>
+            <returns>The I2DInput instance which can be used to read input.</returns>
+        </member>
         <member name="F:FlatRedBall.Input.Mouse.mXAt100Units">
             <summary>
             The camera-relative X coordinate position of the Mouse at 100 units away.
@@ -5594,6 +5626,16 @@
             was unable to process the request.
             </returns>
         </member>
+        <member name="P:FlatRedBall.Input.IPressableInput.IsDown">
+            <summary>
+            Returns whether the input is down (such as if a key is held or a mouse button is down)
+            </summary>
+        </member>
+        <member name="P:FlatRedBall.Input.IPressableInput.WasJustPressed">
+            <summary>
+            Returns whether the input was pressed this frame (not down last frame, is down this frame)
+            </summary>
+        </member>
         <member name="T:FlatRedBall.Input.MultiplePressableInputs">
             <summary>
             An IPressableInput interface which can contain multiple IPressableInputs. This is useful if a particular action can be
@@ -5610,6 +5652,13 @@
             jumpInput.Inputs.Add(InputManager.Keyboard.GetKey(Keys.Space));
             jumpInput.Inputs.Add(InputManager.Keyboard.GetKey(Keys.Enter));
             </example>
+        </member>
+        <member name="T:FlatRedBall.Input.DirectionalKeyGroup">
+            <summary>
+            An object implementing I2DInput which can be used to read 2D input from the keyboard.
+            Instances of DirectionalKeyGroup are typically created through the Keyboard's 
+            Get2DInput method.
+            </summary>
         </member>
         <member name="T:FlatRedBall.Instructions.DelegateInstruction">
             <summary>
@@ -7911,7 +7960,7 @@
         </member>
         <member name="M:FlatRedBall.Math.MathFunctions.AngleToAngle(System.Single,System.Single)">
             <summary>
-            Determines the shortest absolute difference between two angles.
+            Determines the shortest absolute difference between two angles. For example, AngleToAngle(PI/4, -PI/4) will return -PI/2
             </summary>
             <remarks>
             This method will never return a value with absolute value greater than PI.  It will return 
@@ -8979,6 +9028,18 @@
             Returns how much time the Screen has spent paused
             </summary>
         </member>
+        <member name="P:FlatRedBall.Screens.Screen.PauseAdjustedCurrentTime">
+            <summary>
+            Returns the number of seconds since the Screen was initialized, excluding paused time.
+            This value begins at 0 when the Screen is first created.
+            </summary>
+            <remarks>
+            If a screen is never paused, then its PauseAdjustedCurrentTime value increases regularly.
+            If a screen is never paused and it is the first screen in the game, then PauseAdjustedCurrentTime
+            will equal TimeManager.CurrentTime.
+            </remarks>
+            <seealso cref="P:FlatRedBall.Screens.Screen.AccumulatedPauseTime"/>
+        </member>
         <member name="P:FlatRedBall.Screens.Screen.IsActivityFinished">
             <summary>
             Gets and sets whether the activity is finished for a particular screen.
@@ -9008,6 +9069,10 @@
             This timer always begins at 0. Therefore, the following code will always tell you how long the screen has been alive:
             var timeScreenHasBeenAlive = ScreenInstance.PauseAdjustedSecondsSince(0);
             </remarks>
+            <example>
+            PauseAdjustedSecondsSince can be used to determine if some timed event has expired. For example:
+            bool isCooldownFinished = PauseAdjustedSecondsSince(lastAbilityUse) >= CooldownTime;
+            </example>
             <param name="time">The time from which to check how much time has passed.</param>
             <returns>How much time has passed since the parameter value.</returns>
         </member>
