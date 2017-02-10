@@ -122,8 +122,17 @@ namespace TownRaiser.Screens
 
         private void InitializeEvents()
         {
-            ActionToolbarInstance.BuildClicked += (not, used) => this.ActionMode = ActionMode.Build;
-            ActionToolbarInstance.TrainClicked += (not, used) => this.ActionMode = ActionMode.Train;
+            ActionToolbarInstance.BuildClicked += (not, used) => 
+            {
+                this.ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
+                ActionToolbarInstance.UntoggleAllExcept(ActionMode);
+            };
+            ActionToolbarInstance.TrainClicked += (not, used) => 
+            {
+                this.ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
+                ActionToolbarInstance.UntoggleAllExcept(ActionMode);
+
+            };
         }
 
         #endregion
@@ -168,20 +177,40 @@ namespace TownRaiser.Screens
                     switch(ActionMode)
                     {
                         case ActionMode.Build:
-                            HandleBuildClick();
+                            HandlePerformBuilding();
                             break;
                         case ActionMode.Train:
-                            HandleTrainClick();
+                            HandlePerformTrain();
                             break;
                         case ActionMode.Select:
-                            HandleSelectClick();
+                            HandlePerformSelection();
                             break;
                     }
                 }
             }
+
+            if(cursor.SecondaryClick)
+            {
+                HandleSecondaryClick();
+            }
         }
 
-        private void HandleSelectClick()
+        private void HandleSecondaryClick()
+        {
+            Cursor cursor = GuiManager.Cursor;
+            if(this.selectedUnit != null)
+            {
+                var worldX = cursor.WorldXAt(0);
+                var worldY = cursor.WorldYAt(0);
+
+                selectedUnit.ImmediateGoal = new AI.ImmediateGoal
+                {
+                    TargetPosition = new Vector3(worldX, worldY, 0)
+                };
+            }
+        }
+
+        private void HandlePerformSelection()
         {
             var cursor = GuiManager.Cursor;
             var unitOver = UnitList.FirstOrDefault(item => item.HasCursorOver(cursor));
@@ -214,7 +243,7 @@ namespace TownRaiser.Screens
             }
         }
 
-        private void HandleTrainClick()
+        private void HandlePerformTrain()
         {
             var cursor = GuiManager.Cursor;
             var x = cursor.WorldXAt(0);
@@ -230,7 +259,7 @@ namespace TownRaiser.Screens
             UpdateResourceDisplay();
         }
 
-        private void HandleBuildClick()
+        private void HandlePerformBuilding()
         {
 
             DataTypes.BuildingData buildingType = GetSelectedBuildingType();
