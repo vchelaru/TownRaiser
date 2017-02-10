@@ -122,16 +122,9 @@ namespace TownRaiser.Screens
 
         private void InitializeEvents()
         {
-            ActionToolbarInstance.BuildClicked += (not, used) => 
+            ActionToolbarInstance.ModeChanged += (not, used) => 
             {
                 this.ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
-                ActionToolbarInstance.UntoggleAllExcept(ActionMode);
-            };
-            ActionToolbarInstance.TrainClicked += (not, used) => 
-            {
-                this.ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
-                ActionToolbarInstance.UntoggleAllExcept(ActionMode);
-
             };
         }
 
@@ -153,6 +146,7 @@ namespace TownRaiser.Screens
             if (InputManager.Keyboard.KeyPushed(Keys.Escape))
             {
                 ActionMode = ActionMode.Select;
+                ActionToolbarInstance.SetMode(ActionMode);
             }
 
         }

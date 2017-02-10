@@ -9,8 +9,7 @@ namespace TownRaiser.GumRuntimes
 {
     public partial class ActionToolbarRuntime
     {
-        public event EventHandler TrainClicked;
-        public event EventHandler BuildClicked;
+        public event EventHandler ModeChanged;
 
         public ActionMode GetActionModeBasedOnToggleState()
         {
@@ -21,11 +20,19 @@ namespace TownRaiser.GumRuntimes
 
         partial void CustomInitialize()
         {
-            this.TrainButtonInstance.Click += (notused) => this.TrainClicked(this, null);
-            this.BuildButtonInstance.Click += (notused) => this.BuildClicked(this, null);
+            this.TrainButtonInstance.Click += (notused) =>
+            {
+                UntoggleAllExcept(ActionMode.Train);
+                this.ModeChanged(this, null);
+            };
+            this.BuildButtonInstance.Click += (notused) =>
+            {
+                UntoggleAllExcept(ActionMode.Build);
+                this.ModeChanged(this, null);
+            };
         }
 
-        internal void UntoggleAllExcept(ActionMode actionMode)
+        private void UntoggleAllExcept(ActionMode actionMode)
         {
             if(actionMode != ActionMode.Build)
             {
@@ -35,6 +42,11 @@ namespace TownRaiser.GumRuntimes
             {
                 TrainButtonInstance.IsOn = false;
             }
+        }
+
+        internal void SetMode(ActionMode actionMode)
+        {
+            UntoggleAllExcept(actionMode);
         }
     }
 }
