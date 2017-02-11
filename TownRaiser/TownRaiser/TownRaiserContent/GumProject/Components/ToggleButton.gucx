@@ -302,27 +302,53 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>TextInstance.CustomFontFile</Name>
+      <Value xsi:type="xsd:string">FontCache\font-1.fnt</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextInstance.Height</Name>
+      <Value xsi:type="xsd:float">11</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>HorizontalAlignment</Type>
       <Name>TextInstance.HorizontalAlignment</Name>
-      <Value xsi:type="xsd:int">1</Value>
+      <Value xsi:type="xsd:int">2</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>string</Type>
       <Name>TextInstance.Text</Name>
+      <Value xsi:type="xsd:string">9</Value>
       <ExposedAsName>Text</ExposedAsName>
-      <SetsValue>false</SetsValue>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>TextInstance.UseCustomFont</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>VerticalAlignment</Type>
       <Name>TextInstance.VerticalAlignment</Name>
-      <Value xsi:type="xsd:int">1</Value>
+      <Value xsi:type="xsd:int">0</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>bool</Type>
       <Name>TextInstance.Visible</Name>
-      <Value xsi:type="xsd:boolean">false</Value>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextInstance.Width</Name>
+      <Value xsi:type="xsd:float">11</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -334,31 +360,31 @@
     <Variable>
       <Type>HorizontalAlignment</Type>
       <Name>TextInstance.X Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
+      <Value xsi:type="xsd:int">2</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
       <Name>TextInstance.X Units</Name>
-      <Value xsi:type="xsd:int">6</Value>
+      <Value xsi:type="xsd:int">4</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>TextInstance.Y</Name>
-      <Value xsi:type="xsd:float">0</Value>
+      <Value xsi:type="xsd:float">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>VerticalAlignment</Type>
       <Name>TextInstance.Y Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
+      <Value xsi:type="xsd:int">0</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
       <Name>TextInstance.Y Units</Name>
-      <Value xsi:type="xsd:int">7</Value>
+      <Value xsi:type="xsd:int">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -446,6 +472,24 @@
       <Name>EnabledOn</Name>
       <Variable>
         <Type>int</Type>
+        <Name>ButtonBackground.Blue</Name>
+        <Value xsi:type="xsd:int">255</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>ButtonBackground.Green</Name>
+        <Value xsi:type="xsd:int">255</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>ButtonBackground.Red</Name>
+        <Value xsi:type="xsd:int">255</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
         <Name>SpriteInstance.Alpha</Name>
         <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
@@ -455,8 +499,26 @@
       <Name>EnabledOff</Name>
       <Variable>
         <Type>int</Type>
+        <Name>ButtonBackground.Blue</Name>
+        <Value xsi:type="xsd:int">155</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>ButtonBackground.Green</Name>
+        <Value xsi:type="xsd:int">155</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>ButtonBackground.Red</Name>
+        <Value xsi:type="xsd:int">155</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
         <Name>SpriteInstance.Alpha</Name>
-        <Value xsi:type="xsd:int">0</Value>
+        <Value xsi:type="xsd:int">125</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
@@ -470,20 +532,8 @@
       <Name>HighlightedOn</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ButtonBackground.Red</Name>
+        <Name>SpriteInstance.Alpha</Name>
         <Value xsi:type="xsd:int">255</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>ButtonBackground.Green</Name>
-        <Value xsi:type="xsd:int">255</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>ButtonBackground.Blue</Name>
-        <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
@@ -491,20 +541,26 @@
       <Name>HighlightedOff</Name>
       <Variable>
         <Type>int</Type>
-        <Name>ButtonBackground.Red</Name>
-        <Value xsi:type="xsd:int">0</Value>
+        <Name>ButtonBackground.Blue</Name>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
         <Name>ButtonBackground.Green</Name>
-        <Value xsi:type="xsd:int">128</Value>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>ButtonBackground.Blue</Name>
-        <Value xsi:type="xsd:int">0</Value>
+        <Name>ButtonBackground.Red</Name>
+        <Value xsi:type="xsd:int">255</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Alpha</Name>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
@@ -619,12 +675,12 @@
     <BaseType>NineSlice</BaseType>
   </Instance>
   <Instance>
-    <Name>TextInstance</Name>
-    <BaseType>Text</BaseType>
-  </Instance>
-  <Instance>
     <Name>SpriteInstance</Name>
     <BaseType>Sprite</BaseType>
+  </Instance>
+  <Instance>
+    <Name>TextInstance</Name>
+    <BaseType>Text</BaseType>
   </Instance>
   <Behaviors>
     <ElementBehaviorReference>

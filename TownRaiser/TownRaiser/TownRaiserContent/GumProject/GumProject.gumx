@@ -16,6 +16,14 @@
     <ElementType>Screen</ElementType>
   </ScreenReference>
   <ComponentReference>
+    <Name>ActionPanelTest</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>ActionStackContainer</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
     <Name>ActionToolbar</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>

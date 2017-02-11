@@ -22,11 +22,13 @@ namespace TownRaiser.GumRuntimes
         {
             this.TrainButtonInstance.Click += (notused) =>
             {
+                AddUnitOptionsToActionPanel();
                 UntoggleAllExcept(ActionMode.Train);
                 this.ModeChanged(this, null);
             };
             this.BuildButtonInstance.Click += (notused) =>
             {
+                AddBuildingOptionsToActionPanel();
                 UntoggleAllExcept(ActionMode.Build);
                 this.ModeChanged(this, null);
             };
@@ -42,11 +44,43 @@ namespace TownRaiser.GumRuntimes
             {
                 TrainButtonInstance.IsOn = false;
             }
+            if(actionMode == ActionMode.Select)
+            {
+                RemoveStackContainerOptions();
+            }
         }
 
         internal void SetMode(ActionMode actionMode)
         {
             UntoggleAllExcept(actionMode);
+        }
+        private void RemoveStackContainerOptions()
+        {
+            ActionStackContainerInstance.RemoveToggleButtons();
+        }
+
+        private void AddBuildingOptionsToActionPanel()
+        {
+            bool addButtons = true;
+#if DEBUG
+            addButtons = Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
+#endif
+            if (addButtons)
+            {
+                ActionStackContainerInstance.AddBuildingToggleButtons();
+            }
+        }
+
+        private void AddUnitOptionsToActionPanel()
+        {
+            bool addButtons = true;
+#if DEBUG
+            addButtons = Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
+#endif
+            if (addButtons)
+            {
+                ActionStackContainerInstance.AddUnitToggleButtons();
+            }
         }
     }
 }

@@ -239,6 +239,11 @@
     <Compile Include="GumCore\VariableListSave.cs" />
     <Compile Include="GumCore\VariableSave.cs" />
     <Compile Include="GumCore\VariableSaveExtensionMethods.cs" />
+    <Compile Include="GumRuntimes\ActionPanelTestRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ActionStackContainerRuntime.cs" />
+    <Compile Include="GumRuntimes\ActionStackContainerRuntime.Generated.cs">
+      <DependentUpon>ActionStackContainerRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\ActionToolbarRuntime.cs" />
     <Compile Include="GumRuntimes\ActionToolbarRuntime.Generated.cs">
       <DependentUpon>ActionToolbarRuntime.cs</DependentUpon>
