@@ -135,6 +135,10 @@
     <Compile Include="Entities\EncounterSpawnPoint.Generated.cs">
       <DependentUpon>EncounterSpawnPoint.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\GroupSelector.cs" />
+    <Compile Include="Entities\GroupSelector.Generated.cs">
+      <DependentUpon>GroupSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\SelectionMarker.cs" />
     <Compile Include="Entities\SelectionMarker.Generated.cs">
       <DependentUpon>SelectionMarker.cs</DependentUpon>
@@ -250,6 +254,7 @@
     <Compile Include="GumRuntimes\ContainerRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\FontTestRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\GameScreenGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\GroupSelectorRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\GumIdb.Generated.cs" />
     <Compile Include="GumRuntimes\MainMenuGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs" />

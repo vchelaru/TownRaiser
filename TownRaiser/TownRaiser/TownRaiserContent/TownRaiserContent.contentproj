@@ -89,6 +89,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>wood</Name>
     </None>
+    <None Include="GumProject\Components\GroupSelector.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>GroupSelector</Name>
+    </None>
     <None Include="GumProject\Components\Resource.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Resource</Name>

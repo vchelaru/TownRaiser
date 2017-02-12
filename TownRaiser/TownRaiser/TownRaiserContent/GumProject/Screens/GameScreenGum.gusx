@@ -3,6 +3,24 @@
   <Name>GameScreenGum</Name>
   <State>
     <Name>Default</Name>
+    <Variable>
+      <Type>float</Type>
+      <Name>GroupSelectorInstance.Width</Name>
+      <Value xsi:type="xsd:float">61</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>GroupSelectorInstance.X</Name>
+      <Value xsi:type="xsd:float">29</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>GroupSelectorInstance.Y</Name>
+      <Value xsi:type="xsd:float">70</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
   </State>
   <Instance>
     <Name>ResourceDisplayInstance</Name>
@@ -11,5 +29,9 @@
   <Instance>
     <Name>ActionToolbarInstance</Name>
     <BaseType>ActionToolbar</BaseType>
+  </Instance>
+  <Instance>
+    <Name>GroupSelectorInstance</Name>
+    <BaseType>GroupSelector</BaseType>
   </Instance>
 </ScreenSave>

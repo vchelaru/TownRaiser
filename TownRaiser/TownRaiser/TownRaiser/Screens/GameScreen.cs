@@ -52,7 +52,7 @@ namespace TownRaiser.Screens
 
         I2DInput cameraControls;
 
-        Entities.Unit selectedUnit;
+        List<Entities.Unit> selectedUnits = new List<Entities.Unit>();
 
         #endregion
 
@@ -70,6 +70,29 @@ namespace TownRaiser.Screens
             InitializeEvents();
 
             InitializeNodeNetwork();
+
+            InitializeUi();
+        }
+
+        private void InitializeUi()
+        {
+            this.GroupSelectorInstance.VisualRepresentation = GroupSelectorGumInstance;
+            this.GroupSelectorInstance.IsInSelectionMode = true;
+
+            this.GroupSelectorInstance.SelectionFinished += HandleGroupSelection;
+        }
+
+        private void HandleGroupSelection(object sender, EventArgs e)
+        {
+            selectedUnits.Clear();
+            foreach(var unit in this.UnitList)
+            {
+                if(unit.CollideAgainst(GroupSelectorInstance))
+                {
+                    selectedUnits.Add(unit);
+                }
+            }
+            UpdateSelectionMarker();
         }
 
         private void InitializeNodeNetwork()
@@ -164,7 +187,7 @@ namespace TownRaiser.Screens
 
             FlatRedBall.Debugging.Debugger.Write(GuiManager.Cursor.WindowOver);
 
-            if(cursor.PrimaryClick)
+            if(cursor.PrimaryClick && !GroupSelectorInstance.WasReleasedThisFrame)
             {
                 if (cursor.WindowOver == null || cursor.WindowOver == this.ResourceDisplayInstance)
                 {
@@ -192,10 +215,12 @@ namespace TownRaiser.Screens
         private void HandleSecondaryClick()
         {
             Cursor cursor = GuiManager.Cursor;
-            if(this.selectedUnit != null)
+
+            var worldX = cursor.WorldXAt(0);
+            var worldY = cursor.WorldYAt(0);
+
+            foreach (var selectedUnit in selectedUnits)
             {
-                var worldX = cursor.WorldXAt(0);
-                var worldY = cursor.WorldYAt(0);
 
                 selectedUnit.ImmediateGoal = new AI.ImmediateGoal
                 {
@@ -209,31 +234,31 @@ namespace TownRaiser.Screens
             var cursor = GuiManager.Cursor;
             var unitOver = UnitList.FirstOrDefault(item => item.HasCursorOver(cursor));
 
-            selectedUnit = unitOver;
+            selectedUnits.Clear();
+            if(unitOver != null)
+            {
+                selectedUnits.Add(unitOver);
+
+            }
 
             UpdateSelectionMarker();
         }
 
         private void UpdateSelectionMarker()
         {
-            if(selectedUnit == null)
+            while(SelectionMarkerList.Count > selectedUnits.Count)
             {
-                while(SelectionMarkerList.Count != 0)
-                {
-                    SelectionMarkerList.Last().Destroy();
-                }
+                SelectionMarkerList.Last().Destroy();
             }
-            else
+            while(SelectionMarkerList.Count < selectedUnits.Count)
             {
-                var neededCount = 1;
-                while(SelectionMarkerList.Count() < neededCount)
-                {
-                    var selectionMarker = new Entities.SelectionMarker();
-                    SelectionMarkerList.Add(selectionMarker);
-                    // eventually make this consider multiple selected units
-                }
+                var selectionMarker = new Entities.SelectionMarker();
+                SelectionMarkerList.Add(selectionMarker);
+            }
 
-                SelectionMarkerList.First().AttachTo(selectedUnit, false);
+            for(int i = 0; i < SelectionMarkerList.Count; i++)
+            {
+                SelectionMarkerList[i].AttachTo(selectedUnits[i], false);
             }
         }
 
