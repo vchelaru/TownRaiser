@@ -114,8 +114,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\ImmediateGoal.cs" />
+    <Compile Include="DataTypes\BuildingData.cs" />
     <Compile Include="DataTypes\BuildingData.Generated.cs" />
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
+    <Compile Include="DataTypes\UnitData.cs" />
     <Compile Include="DataTypes\UnitData.Generated.cs" />
     <Compile Include="Entities\Building.cs" />
     <Compile Include="Entities\Building.Event.cs">
@@ -263,7 +265,9 @@
     <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ToggleButtonRuntime.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.Generated.cs" />
+    <Compile Include="Interfaces\IHotkeyData.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

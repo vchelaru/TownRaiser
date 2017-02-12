@@ -3,14 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TownRaiser.Interfaces;
 
 namespace TownRaiser.GumRuntimes
 {
     public partial class ActionStackContainerRuntime
     {
+        public event EventHandler ModeChanged;
+
         private const int PixelsBetweenButtons = 2;
 
-        private List<ToggleButtonRuntime> ToggleButtonList;
+        public List<ToggleButtonRuntime> ToggleButtonList;
+        
+        public bool AnyToggleButtonsActivated
+        {
+            get
+            {
+                bool toReturn = false;
+
+                foreach(var button in ToggleButtonList)
+                {
+                    if(button.IsOn)
+                    {
+                        toReturn = true;
+                        break;
+                    }
+                }
+
+                return toReturn;
+            }
+        }
 
         partial void CustomInitialize()
         {
@@ -31,6 +53,13 @@ namespace TownRaiser.GumRuntimes
                 building.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
                 building.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
 
+                building.HotkeyData = buildingData.Value;
+                building.Click += (notused) =>
+                {
+                    UntoggleAllExcept(building);
+                    this.ModeChanged(this, null);
+                };
+
                 i++;
             }
 
@@ -50,6 +79,13 @@ namespace TownRaiser.GumRuntimes
 
                 unit.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
                 unit.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
+
+                unit.HotkeyData = unitData.Value;
+                unit.Click += (notused) =>
+                {
+                    UntoggleAllExcept(unit);
+                    this.ModeChanged(this, null);
+                };
 
                 i++;
             }
@@ -77,5 +113,21 @@ namespace TownRaiser.GumRuntimes
         {
             CurrentVariableState = ToggleButtonList.Count > 0 ? VariableState.NotEmpty : VariableState.Empty;
         } 
+        
+        public void UntoggleAllExcept(ToggleButtonRuntime buttonToActivate)
+        {
+            if (buttonToActivate != null)
+            {
+                buttonToActivate.IsOn = true;
+            }
+
+            foreach(var button in ToggleButtonList)
+            {
+                if(button != buttonToActivate)
+                {
+                    button.IsOn = false;
+                }
+            }
+        }
     }
 }

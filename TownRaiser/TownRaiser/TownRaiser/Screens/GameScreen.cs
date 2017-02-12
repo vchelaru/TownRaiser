@@ -134,19 +134,27 @@ namespace TownRaiser.Screens
 
         void CustomActivity(bool firstTimeCalled)
         {
-            EscapePressActivity();
+            HotkeyActivity();
 
             ClickActivity();
 
             CameraMovementActivity();
         }
         
-        private void EscapePressActivity()
+        private void HotkeyActivity()
         {
-            if (InputManager.Keyboard.KeyPushed(Keys.Escape))
+            //Rick Blaylock
+            //Old implementation keeping around while I test hoteys.
+            //if (InputManager.Keyboard.KeyPushed(Keys.Escape))
+            //{
+            //    ActionMode = ActionMode.Select;
+            //    ActionToolbarInstance.SetMode(ActionMode);
+            //}
+
+            if(InputManager.Keyboard.AnyKeyPushed())
             {
-                ActionMode = ActionMode.Select;
-                ActionToolbarInstance.SetMode(ActionMode);
+                ActionToolbarInstance.ReactToKeyPress();
+                ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
             }
 
         }
@@ -172,9 +180,11 @@ namespace TownRaiser.Screens
                     {
                         case ActionMode.Build:
                             HandlePerformBuilding();
+                            HandlePostClick();
                             break;
                         case ActionMode.Train:
                             HandlePerformTrain();
+                            HandlePostClick();
                             break;
                         case ActionMode.Select:
                             HandlePerformSelection();
@@ -186,6 +196,14 @@ namespace TownRaiser.Screens
             if(cursor.SecondaryClick)
             {
                 HandleSecondaryClick();
+            }
+        }
+
+        private void HandlePostClick()
+        {
+            if(InputManager.Keyboard.KeyDown(Keys.LeftShift) == false && InputManager.Keyboard.KeyDown(Keys.RightShift) == false)
+            {
+                ActionToolbarInstance.SetMode(ActionMode.Select);
             }
         }
 
@@ -249,7 +267,14 @@ namespace TownRaiser.Screens
             newUnit.Z = 1;
 
             // set the data?
-            newUnit.UnitData = GlobalContent.UnitData[DataTypes.UnitData.Fighter];
+            var unitData = ActionToolbarInstance.SelectedUnitData;
+
+            if(unitData == null)
+            {
+                throw new Exception("Unit data is null.");
+            }
+
+            newUnit.UnitData = ActionToolbarInstance.SelectedUnitData;
 
             UpdateResourceDisplay();
         }
@@ -257,7 +282,12 @@ namespace TownRaiser.Screens
         private void HandlePerformBuilding()
         {
 
-            DataTypes.BuildingData buildingType = GetSelectedBuildingType();
+            DataTypes.BuildingData buildingType = ActionToolbarInstance.SelectedBuildingData;
+
+            if(buildingType == null)
+            {
+                throw new Exception("Building Data is null.");
+            }
 
             bool hasEnoughResources = this.Lumber >= buildingType.LumberCost && this.Stone >= buildingType.StoneCost;
 
@@ -307,23 +337,6 @@ namespace TownRaiser.Screens
             {
                 // tell them?
             }
-        }
-
-        private static DataTypes.BuildingData GetSelectedBuildingType()
-        {
-            DataTypes.BuildingData buildingType = GlobalContent.BuildingData[DataTypes.BuildingData.Tent];
-
-            if (FlatRedBallServices.Random.Next(2) == 0)
-            {
-                buildingType = GlobalContent.BuildingData[DataTypes.BuildingData.House];
-            }
-            else
-            {
-                buildingType = GlobalContent.BuildingData[DataTypes.BuildingData.Tent];
-
-            }
-
-            return buildingType;
         }
 
         private void UpdateResourceDisplay()

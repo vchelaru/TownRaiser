@@ -267,7 +267,7 @@
           </Properties>
           <Name>DoNotAddActionPanelButtons</Name>
           <Type>bool</Type>
-          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
+          <DefaultValue xsi:type="xsd:boolean">false</DefaultValue>
           <IsShared>true</IsShared>
         </CustomVariable>
       </CustomVariables>
@@ -553,6 +553,7 @@
       </RequiredProperties>
       <Name>TileMapInfo</Name>
       <GenerateCode>true</GenerateCode>
+      <CustomNamespace />
     </CustomClassSave>
   </CustomClasses>
   <TranslatedFiles />
