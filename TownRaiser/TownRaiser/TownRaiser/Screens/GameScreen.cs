@@ -40,7 +40,7 @@ namespace TownRaiser.Screens
 	{
         #region Fields/Properties
 
-        public ActionMode ActionMode { get; set; }
+        //public ActionMode ActionMode { get; set; } //see comment in ClickActivity to see why this is commented out.
 
         public int Lumber { get; set; } = 10000;
         public int Stone { get; set; } = 10000;
@@ -124,7 +124,7 @@ namespace TownRaiser.Screens
         {
             ActionToolbarInstance.ModeChanged += (not, used) => 
             {
-                this.ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
+                //this.ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
             };
         }
 
@@ -154,7 +154,7 @@ namespace TownRaiser.Screens
             if(InputManager.Keyboard.AnyKeyPushed())
             {
                 ActionToolbarInstance.ReactToKeyPress();
-                ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
+                //ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
             }
 
         }
@@ -176,7 +176,11 @@ namespace TownRaiser.Screens
             {
                 if (cursor.WindowOver == null || cursor.WindowOver == this.ResourceDisplayInstance)
                 {
-                    switch(ActionMode)
+                    //Update: February 11, 2017
+                    //Rick Blaylock
+                    //After implementing hotkeys and proper unit/building data I ran into issues where the action mode would not update on a double click.
+                    //For now, we will check the toggle state on clicks.
+                    switch(ActionToolbarInstance.GetActionModeBasedOnToggleState())
                     {
                         case ActionMode.Build:
                             HandlePerformBuilding();
