@@ -114,9 +114,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\ImmediateGoal.cs" />
-    <Compile Include="DataTypes\BuildingData.Generated.cs" />
+    <Compile Include="DataTypes\BuildingData.cs" />
+    <Compile Include="DataTypes\BuildingData.Generated.cs">
+      <DependentUpon>BuildingData.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
-    <Compile Include="DataTypes\UnitData.Generated.cs" />
+    <Compile Include="DataTypes\UnitData.cs" />
+    <Compile Include="DataTypes\UnitData.Generated.cs">
+      <DependentUpon>UnitData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Building.cs" />
     <Compile Include="Entities\Building.Event.cs">
       <DependentUpon>Building.cs</DependentUpon>
@@ -243,6 +249,11 @@
     <Compile Include="GumCore\VariableListSave.cs" />
     <Compile Include="GumCore\VariableSave.cs" />
     <Compile Include="GumCore\VariableSaveExtensionMethods.cs" />
+    <Compile Include="GumRuntimes\ActionPanelTestRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ActionStackContainerRuntime.cs" />
+    <Compile Include="GumRuntimes\ActionStackContainerRuntime.Generated.cs">
+      <DependentUpon>ActionStackContainerRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\ActionToolbarRuntime.cs" />
     <Compile Include="GumRuntimes\ActionToolbarRuntime.Generated.cs">
       <DependentUpon>ActionToolbarRuntime.cs</DependentUpon>
@@ -263,7 +274,11 @@
     <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
-    <Compile Include="GumRuntimes\ToggleButtonRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ToggleButtonRuntime.cs" />
+    <Compile Include="GumRuntimes\ToggleButtonRuntime.Generated.cs">
+      <DependentUpon>ToggleButtonRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IHotkeyData.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

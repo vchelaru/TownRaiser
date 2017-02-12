@@ -1,3 +1,3 @@
-"Name (string, required)",Health (float),MovementSpeed (float),GoldCost (int)
-Worker,100,50,50
-Fighter,150,40,100
+"Name (string, required)",Health (float),MovementSpeed (float),GoldCost (int),HotkeyFieldButUseProperty (Microsoft.Xna.Framework.Input.Keys)
+Worker,100,50,50,W
+Fighter,150,40,100,F

@@ -65,6 +65,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>UnitData</Name>
     </None>
+    <None Include="GumProject\Components\ActionPanelTest.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ActionPanelTest</Name>
+    </None>
+    <None Include="GumProject\Components\ActionStackContainer.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ActionStackContainer</Name>
+    </None>
     <None Include="GumProject\Components\ActionToolbar.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ActionToolbar</Name>
@@ -104,6 +112,14 @@
     <None Include="GumProject\Components\ToggleButton.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ToggleButton</Name>
+    </None>
+    <None Include="GumProject\FontCache\font-1.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font-1</Name>
+    </None>
+    <None Include="GumProject\FontCache\font-1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>font-1</Name>
     </None>
     <None Include="GumProject\FontCache\font-2.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
