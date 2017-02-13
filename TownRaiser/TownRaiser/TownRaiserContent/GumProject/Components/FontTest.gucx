@@ -57,7 +57,7 @@
       <IsFile>true</IsFile>
       <Type>string</Type>
       <Name>TextInstance.CustomFontFile</Name>
-      <Value xsi:type="xsd:string">FontCache\font-2.fnt</Value>
+      <Value xsi:type="xsd:string">FontCache\font-1.fnt</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -81,7 +81,7 @@
     <Variable>
       <Type>string</Type>
       <Name>TextInstance.Text</Name>
-      <Value xsi:type="xsd:string">The quick brown fox jumped over the lazy dog.,! ()*&amp;^%$#@-=+_`'" 1234567890</Value>
+      <Value xsi:type="xsd:string">The quick brown fox jumped over the lazy dog.</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -155,7 +155,7 @@
     <Variable>
       <Type>bool</Type>
       <Name>Wraps Children</Name>
-      <Value xsi:type="xsd:boolean">false</Value>
+      <Value xsi:type="xsd:boolean">true</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>

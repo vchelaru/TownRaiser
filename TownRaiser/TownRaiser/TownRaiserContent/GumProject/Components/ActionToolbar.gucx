@@ -7,8 +7,9 @@
     <Variable>
       <Type>State</Type>
       <Name>ActionStackContainerInstance.State</Name>
+      <Value xsi:type="xsd:string">Empty</Value>
       <ExposedAsName>StackContainerState</ExposedAsName>
-      <SetsValue>false</SetsValue>
+      <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>bool</Type>
@@ -294,6 +295,10 @@
   </Instance>
   <Instance>
     <Name>ActionStackContainerInstance</Name>
+    <BaseType>ActionStackContainer</BaseType>
+  </Instance>
+  <Instance>
+    <Name>ActionStackContainerInstance1</Name>
     <BaseType>ActionStackContainer</BaseType>
   </Instance>
   <Behaviors />
