@@ -50,7 +50,7 @@ namespace TownRaiser.GumRuntimes
                 Children.Add(building);
                 ToggleButtonList.Add(building);
 
-                building.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
+                building.X = i > 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
                 building.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
 
                 building.HotkeyData = buildingData.Value;

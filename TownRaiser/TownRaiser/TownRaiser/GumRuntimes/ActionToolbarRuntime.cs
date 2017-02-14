@@ -78,16 +78,16 @@ namespace TownRaiser.GumRuntimes
         private void ShowAvailableBuildings()
         {
             BuildButtonInstance.IsOn = true;
-            AddBuildingOptionsToActionPanel();
             UntoggleAllExcept(ActionMode.Build);
+            AddBuildingOptionsToActionPanel();
             this.ModeChanged(this, null);
         }
 
         private void ShowAvailableUnits()
         {
             TrainButtonInstance.IsOn = true;
-            AddUnitOptionsToActionPanel();
             UntoggleAllExcept(ActionMode.Train);
+            AddUnitOptionsToActionPanel();
             this.ModeChanged(this, null);
         }
 
@@ -128,9 +128,9 @@ namespace TownRaiser.GumRuntimes
 
         private void AddBuildingOptionsToActionPanel()
         {
-            bool addButtons = true;
+            bool addButtons = ActionStackContainerInstance.ToggleButtonList.Count == 0;
 #if DEBUG
-            addButtons = Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
+            addButtons &= Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
 #endif
             if (addButtons)
             {
@@ -140,9 +140,9 @@ namespace TownRaiser.GumRuntimes
 
         private void AddUnitOptionsToActionPanel()
         {
-            bool addButtons = true;
+            bool addButtons = ActionStackContainerInstance.ToggleButtonList.Count == 0;
 #if DEBUG
-            addButtons = Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
+            addButtons &= Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
 #endif
             if (addButtons)
             {
