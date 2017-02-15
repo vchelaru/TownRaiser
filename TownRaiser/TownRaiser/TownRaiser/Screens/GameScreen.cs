@@ -59,11 +59,9 @@ namespace TownRaiser.Screens
         #region Initialize Methods
 
         void CustomInitialize()
-		{
-            Camera.Main.X = Camera.Main.RelativeXEdgeAt(0);
-            Camera.Main.Y = -Camera.Main.RelativeYEdgeAt(0);
+        {
+            InitializeCamera();
 
-            cameraControls = InputManager.Keyboard.Get2DInput(Keys.A, Keys.D, Keys.W, Keys.S);
 
             FlatRedBall.Debugging.Debugger.TextCorner = FlatRedBall.Debugging.Debugger.Corner.TopRight;
 
@@ -72,6 +70,13 @@ namespace TownRaiser.Screens
             InitializeNodeNetwork();
 
             InitializeUi();
+        }
+
+        private void InitializeCamera()
+        {
+            Camera.Main.X = Camera.Main.RelativeXEdgeAt(0) + .2f;
+            Camera.Main.Y = -Camera.Main.RelativeYEdgeAt(0) + .2f;
+            cameraControls = InputManager.Keyboard.Get2DInput(Keys.A, Keys.D, Keys.W, Keys.S);
         }
 
         private void InitializeUi()
@@ -87,7 +92,7 @@ namespace TownRaiser.Screens
             selectedUnits.Clear();
             foreach(var unit in this.UnitList)
             {
-                if(unit.CollideAgainst(GroupSelectorInstance))
+                if(unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance))
                 {
                     selectedUnits.Add(unit);
                 }
@@ -296,7 +301,8 @@ namespace TownRaiser.Screens
         private void HandlePerformSelection()
         {
             var cursor = GuiManager.Cursor;
-            var unitOver = UnitList.FirstOrDefault(item => item.HasCursorOver(cursor));
+            var unitOver = UnitList.FirstOrDefault(item => 
+                item.UnitData.IsEnemy == false && item.HasCursorOver(cursor));
 
             selectedUnits.Clear();
             if(unitOver != null)

@@ -27,4 +27,28 @@
       <BottomCoordinate>17</BottomCoordinate>
     </Frame>
   </AnimationChain>
+  <AnimationChain>
+    <Name>Goblin</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>goblin.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>13</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>10</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Bat</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>bat.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>14</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>8</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
 </AnimationChainArraySave>
