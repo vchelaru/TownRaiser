@@ -162,8 +162,50 @@ namespace TownRaiser.Screens
             ClickActivity();
 
             CameraMovementActivity();
+
+            CollisionActivity();
         }
-        
+
+        private void CollisionActivity()
+        {
+            PerformUnitsVsTerrainCollision();
+
+            PerformUnitsVsUnitsCollision();
+        }
+
+        private void PerformUnitsVsTerrainCollision()
+        {
+            // for adam to do this
+        }
+
+        private void PerformUnitsVsUnitsCollision()
+        {
+            for(int i = 0; i < UnitList.Count -1; i++)
+            {
+                var first = UnitList[i];
+                for(int j = i+1; j < UnitList.Count; j++)
+                {
+                    var second = UnitList[j];
+                    if(first.CircleInstance.CollideAgainstMove(second.CircleInstance, 1, 1))
+                    {
+                        var firstRepositionVector = new Vector3(
+                            first.CircleInstance.LastMoveCollisionReposition.X,
+                            first.CircleInstance.LastMoveCollisionReposition.Y, 0);
+
+                        var secondRepositionVector = new Vector3(
+                            second.CircleInstance.LastMoveCollisionReposition.X,
+                            second.CircleInstance.LastMoveCollisionReposition.Y, 0);
+
+                        first.Position -= firstRepositionVector;
+                        second.Position -= secondRepositionVector;
+
+                        first.Position += firstRepositionVector * TimeManager.SecondDifference;
+                        second.Position += secondRepositionVector * TimeManager.SecondDifference;
+                    }
+                }
+            }
+        }
+
         private void HotkeyActivity()
         {
             //Rick Blaylock

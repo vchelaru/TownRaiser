@@ -35,9 +35,11 @@ namespace TownRaiser.Entities
         /// </summary>
 		private void CustomInitialize()
 		{
+            this.CircleInstance.Color =
+                new Microsoft.Xna.Framework.Color(255, 255, 255, 125);
 
 
-		}
+        }
 
 		private void CustomActivity()
 		{
