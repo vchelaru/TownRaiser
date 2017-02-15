@@ -15,8 +15,9 @@ namespace TownRaiser.Entities
         void OnAfterUnitDataSet (object sender, EventArgs e)
         {
             var animationName = this.UnitData.Name;
-
+            
             this.SpriteInstance.CurrentChainName = animationName;
+            this.CurrentHealth = this.UnitData.Health;
         }
 		
 	}

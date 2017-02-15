@@ -283,18 +283,31 @@ namespace TownRaiser.Screens
 
         private void HandleSecondaryClick()
         {
+
+
+
             Cursor cursor = GuiManager.Cursor;
 
             var worldX = cursor.WorldXAt(0);
             var worldY = cursor.WorldYAt(0);
 
+            var enemyOver = UnitList.FirstOrDefault(item =>
+                item.UnitData.IsEnemy && item.HasCursorOver(cursor));
+
             foreach (var selectedUnit in selectedUnits)
             {
-
-                selectedUnit.ImmediateGoal = new AI.ImmediateGoal
+                if(enemyOver != null)
                 {
-                    TargetPosition = new Vector3(worldX, worldY, 0)
-                };
+                    selectedUnit.CreateAttackGoal(enemyOver);
+                }
+                else
+                {
+                    selectedUnit.HighLevelGoal = null;
+                    selectedUnit.ImmediateGoal = new AI.ImmediateGoal
+                    {
+                        TargetPosition = new Vector3(worldX, worldY, 0)
+                    };
+                }
             }
         }
 

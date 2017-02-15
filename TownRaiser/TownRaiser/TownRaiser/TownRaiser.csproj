@@ -113,6 +113,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\AttackUnitHighLevelGoal.cs" />
+    <Compile Include="AI\HighLevelGoal.cs" />
     <Compile Include="AI\ImmediateGoal.cs" />
     <Compile Include="DataTypes\BuildingData.cs" />
     <Compile Include="DataTypes\BuildingData.Generated.cs">

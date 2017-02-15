@@ -33,7 +33,11 @@ namespace TownRaiser.Entities
 
         public ImmediateGoal ImmediateGoal { get; set; }
 
+        public HighLevelGoal HighLevelGoal { get; set; }
+
         public TileNodeNetwork NodeNetwork { get; set; }
+
+        public int CurrentHealth { get; set; }
 
         #endregion
 
@@ -55,10 +59,20 @@ namespace TownRaiser.Entities
         #region Activity
 
         private void CustomActivity()
-		{
-            ImmediateAiActivity();
+        {
+            HighLevelActivity();
 
-		}
+            ImmediateAiActivity();
+        }
+
+        private void HighLevelActivity()
+        {
+            if(HighLevelGoal?.GetIfDone() == true)
+            {
+                HighLevelGoal = null;
+            }
+            HighLevelGoal?.DecideWhatToDo();
+        }
 
         private void ImmediateAiActivity()
         {
@@ -68,7 +82,7 @@ namespace TownRaiser.Entities
                 {
                     GetPath();
                 }
-                else if(ImmediateGoal.Path != null)
+                else if(ImmediateGoal.Path?.Count > 0)
                 {
                     MoveAlongPath();
                 }
@@ -109,6 +123,25 @@ namespace TownRaiser.Entities
             ImmediateGoal.Path = NodeNetwork.GetPath(ref this.Position, ref vector3);
             ImmediateGoal.TargetPosition = null;
             
+        }
+
+        public void CreateAttackGoal(Unit enemy)
+        {
+            var attackGoal = new AttackUnitHighLevelGoal();
+            attackGoal.TargetUnit = enemy;
+            attackGoal.Owner = this;
+            attackGoal.NodeNetwork = this.NodeNetwork;
+
+            HighLevelGoal = attackGoal;
+        }
+
+        public void TakeDamage(int attackDamage)
+        {
+            CurrentHealth -= attackDamage;
+            if(CurrentHealth <= 0)
+            {
+                Destroy();
+            }
         }
 
         #endregion
