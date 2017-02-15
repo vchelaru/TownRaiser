@@ -1,5 +1,5 @@
-"Name (string, required)",Health (float),AttackDamage (float),MovementSpeed (float),GoldCost (int),IsEnemy (bool),HotkeyFieldButUseProperty (Microsoft.Xna.Framework.Input.Keys)
-Worker,100,10,50,50,false,W
-Fighter,150,20,40,100,false,F
-Bat,30,5,80,0,true,
-Goblin,110,12,50,0,true,G
+"Name (string, required)",Health (float),AttackDamage (float),MovementSpeed (float),GoldCost (int),Capacity (int),IsEnemy (bool),HotkeyFieldButUseProperty (Microsoft.Xna.Framework.Input.Keys),ButtonIconDisplayStateButUseProperty (TownRaiser.GumRuntimes.ToggleButtonRuntime.IconDisplay)
+Worker,100,10,50,50,1,false,W,WorkerIcon
+Fighter,150,20,40,100,1,false,F,FighterIcon
+Bat,30,5,80,0,,true,,
+Goblin,110,12,50,0,,true,G,

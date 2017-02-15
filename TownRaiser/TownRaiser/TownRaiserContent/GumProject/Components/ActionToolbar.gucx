@@ -297,9 +297,5 @@
     <Name>ActionStackContainerInstance</Name>
     <BaseType>ActionStackContainer</BaseType>
   </Instance>
-  <Instance>
-    <Name>ActionStackContainerInstance1</Name>
-    <BaseType>ActionStackContainer</BaseType>
-  </Instance>
   <Behaviors />
 </ComponentSave>

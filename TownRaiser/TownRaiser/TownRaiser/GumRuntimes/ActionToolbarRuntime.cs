@@ -13,8 +13,6 @@ namespace TownRaiser.GumRuntimes
 {
     public partial class ActionToolbarRuntime
     {
-        public event EventHandler ModeChanged;
-
         public UnitData SelectedUnitData
         {
             get
@@ -69,10 +67,7 @@ namespace TownRaiser.GumRuntimes
             {
                 ShowAvailableBuildings();
             };
-            this.ActionStackContainerInstance.ModeChanged += (not, used) =>
-            {
-                this.ModeChanged(this, null);
-            };
+
         }
 
         private void ShowAvailableBuildings()
@@ -80,7 +75,6 @@ namespace TownRaiser.GumRuntimes
             BuildButtonInstance.IsOn = true;
             UntoggleAllExcept(ActionMode.Build);
             AddBuildingOptionsToActionPanel();
-            this.ModeChanged(this, null);
         }
 
         private void ShowAvailableUnits()
@@ -88,7 +82,6 @@ namespace TownRaiser.GumRuntimes
             TrainButtonInstance.IsOn = true;
             UntoggleAllExcept(ActionMode.Train);
             AddUnitOptionsToActionPanel();
-            this.ModeChanged(this, null);
         }
 
         private void UntoggleAllExcept(ActionMode actionMode)
@@ -188,6 +181,14 @@ namespace TownRaiser.GumRuntimes
                         ActionStackContainerInstance.UntoggleAllExcept(button);
                     }
                 }
+            }
+        }
+
+        public void UpdateButtonsOnMoney(int lumber, int stone, int gold, int currentCapacity, int maxCapacity)
+        {
+            foreach (var button in ActionStackContainerInstance.ToggleButtonList)
+            {
+                button.UpdateButtonBasedOnMoney(lumber, stone, gold, currentCapacity, maxCapacity);
             }
         }
     }
