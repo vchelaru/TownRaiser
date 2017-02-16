@@ -84,17 +84,21 @@ namespace TownRaiser.Screens
 
         private void InitializeCamera()
         {
+            //Eventually place the map at the main base spawn point.
             Camera.Main.X = Camera.Main.RelativeXEdgeAt(0) + .2f;
             Camera.Main.Y = -Camera.Main.RelativeYEdgeAt(0) + .2f;
 #if DEBUG
             cameraControls = InputManager.Keyboard.Get2DInput(Keys.Left, Keys.Right, Keys.Up, Keys.Down);
 #endif
             //Initialize Map bounds
+            //World map stars drawing at the upper left corner of the map.
             mapXMin = WorldMap.X;
             mapXMax = mapXMin + WorldMap.Width;
             
             mapYMax = WorldMap.Y;
             mapYMin = mapYMax - WorldMap.Height;
+
+            ClampCameraToMapEdge();
         }
 
         private void InitializeUi()
@@ -250,33 +254,39 @@ namespace TownRaiser.Screens
             var cursor = GuiManager.Cursor;
             if(cursor.MiddleDown)
             {
-                var camera = Camera.Main;
                 //Minusequals - we want to pull the map in the direction of the cursor.
-                camera.X -= cursor.WorldXChangeAt(0);
-                camera.Y -= cursor.WorldYChangeAt(0);
+                Camera.Main.X -= cursor.WorldXChangeAt(0);
+                Camera.Main.Y -= cursor.WorldYChangeAt(0);
 
                 //Clamp to map bounds.
-                if (camera.AbsoluteLeftXEdgeAt(0) < mapXMin)
-                {
-                    camera.X = mapXMin + camera.OrthogonalWidth / 2;
-                }
-                else if (camera.AbsoluteRightXEdgeAt(0) > mapXMax)
-                {
-                    camera.X = mapXMax - camera.OrthogonalWidth / 2;
-                }
-
-                if (camera.AbsoluteBottomYEdgeAt(0) < mapYMin)
-                {
-                    camera.Y = mapYMin + camera.OrthogonalHeight / 2;
-                }
-                else if (camera.AbsoluteTopYEdgeAt(0) > mapYMax)
-                {
-                    camera.Y = mapYMax - camera.OrthogonalHeight / 2;
-                }
+                ClampCameraToMapEdge();
             }
 
-            
 
+
+        }
+
+        private void ClampCameraToMapEdge()
+        {
+            var camera = Camera.Main;
+
+            if (camera.AbsoluteLeftXEdgeAt(0) < mapXMin)
+            {
+                camera.X = mapXMin + camera.OrthogonalWidth / 2;
+            }
+            else if (camera.AbsoluteRightXEdgeAt(0) > mapXMax)
+            {
+                camera.X = mapXMax - camera.OrthogonalWidth / 2;
+            }
+
+            if (camera.AbsoluteBottomYEdgeAt(0) < mapYMin)
+            {
+                camera.Y = mapYMin + camera.OrthogonalHeight / 2;
+            }
+            else if (camera.AbsoluteTopYEdgeAt(0) > mapYMax)
+            {
+                camera.Y = mapYMax - camera.OrthogonalHeight / 2;
+            }
         }
 
         private void ClickActivity()
