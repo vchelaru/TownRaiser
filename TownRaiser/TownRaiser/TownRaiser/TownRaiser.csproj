@@ -117,6 +117,7 @@
     <Compile Include="AI\FindTargetToAttackHighLevelGoal.cs" />
     <Compile Include="AI\HighLevelGoal.cs" />
     <Compile Include="AI\ImmediateGoal.cs" />
+    <Compile Include="AI\WalkToHighLevelGoal.cs" />
     <Compile Include="DataTypes\BuildingData.cs" />
     <Compile Include="DataTypes\BuildingData.Generated.cs">
       <DependentUpon>BuildingData.cs</DependentUpon>

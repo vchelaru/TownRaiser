@@ -33,7 +33,18 @@ namespace TownRaiser.GumRuntimes
         
         public void UpdateButtonBasedOnMoney(int lumber, int stone, int gold, int currentCapacity, int maxCapacity)
         {
-            Enabled = m_HotKeyData.ShouldEnableButton(lumber, stone, gold, currentCapacity, maxCapacity);
+            var isEnabled = m_HotKeyData.ShouldEnableButton(lumber, stone, gold, currentCapacity, maxCapacity);
+
+#if DEBUG
+            if(Entities.DebuggingVariables.HasInfiniteResources)
+            {
+                isEnabled = true;
+            }
+#endif
+
+            Enabled = isEnabled;
+
+
             //Switch off if the button is disabled.
             if(Enabled == false)
             {

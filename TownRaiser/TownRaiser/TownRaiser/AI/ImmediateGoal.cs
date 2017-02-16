@@ -12,12 +12,9 @@ namespace TownRaiser.AI
 {
     public class ImmediateGoal
     {
-        public Vector3? TargetPosition;
 
-        public Unit TargetUnit { get; set; }
-        public Building TargetBuilding { get; set; }
 
-        public AxisAlignedRectangle TargetResource { get; set; }
+
         public List<PositionedNode> Path { get; set; }
     }
 }

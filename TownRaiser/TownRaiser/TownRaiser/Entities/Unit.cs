@@ -16,6 +16,7 @@ using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using TownRaiser.AI;
+using FlatRedBall.Math;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -36,6 +37,8 @@ namespace TownRaiser.Entities
         public HighLevelGoal HighLevelGoal { get; set; }
 
         public TileNodeNetwork NodeNetwork { get; set; }
+
+        public PositionedObjectList<Unit> AllUnits { get; set; }
 
         public int CurrentHealth { get; set; }
 
@@ -72,21 +75,31 @@ namespace TownRaiser.Entities
                 HighLevelGoal = null;
             }
             HighLevelGoal?.DecideWhatToDo();
+
+            if(HighLevelGoal == null)
+            {
+                TryStartFindingTarget();
+            }
         }
 
         private void ImmediateAiActivity()
         {
-            if(ImmediateGoal != null)
+            if(ImmediateGoal?.Path?.Count > 0)
             {
-                if(ImmediateGoal.TargetPosition != null)
-                {
-                    GetPath();
-                }
-                else if(ImmediateGoal.Path?.Count > 0)
-                {
-                    MoveAlongPath();
-                }
+                MoveAlongPath();
             }
+        }
+
+        internal void CreatMoveGoal(float worldX, float worldY)
+        {
+            var goal = new WalkToHighLevelGoal();
+
+            goal.Owner = this;
+            goal.TargetPosition =
+                new Microsoft.Xna.Framework.Vector3(worldX, worldY, 0);
+
+            this.HighLevelGoal = goal;
+            this.ImmediateGoal = null;
         }
 
         private void MoveAlongPath()
@@ -117,12 +130,17 @@ namespace TownRaiser.Entities
             }
         }
 
-        private void GetPath()
+
+        internal void TryStartFindingTarget()
         {
-            var vector3 = ImmediateGoal.TargetPosition.Value;
-            ImmediateGoal.Path = NodeNetwork.GetPath(ref this.Position, ref vector3);
-            ImmediateGoal.TargetPosition = null;
-            
+            if(this.UnitData.InitiatesBattle)
+            {
+                var goal = new FindTargetToAttackHighLevelGoal();
+                goal.Owner = this;
+                goal.AllUnits = AllUnits;
+
+                HighLevelGoal = goal;
+            }
         }
 
         public void CreateAttackGoal(Unit enemy)

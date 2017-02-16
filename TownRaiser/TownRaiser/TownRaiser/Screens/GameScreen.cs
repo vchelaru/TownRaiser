@@ -295,11 +295,7 @@ namespace TownRaiser.Screens
                 }
                 else
                 {
-                    selectedUnit.HighLevelGoal = null;
-                    selectedUnit.ImmediateGoal = new AI.ImmediateGoal
-                    {
-                        TargetPosition = new Vector3(worldX, worldY, 0)
-                    };
+                    selectedUnit.CreatMoveGoal(worldX, worldY);
                 }
             }
         }
@@ -344,6 +340,13 @@ namespace TownRaiser.Screens
             var unitData = ActionToolbarInstance.SelectedUnitData;
             bool hasEnoughGold = unitData.GoldCost <= this.Gold && (unitData.Capacity + CurrentCapacityUsed)<= MaxCapacity;
 
+#if DEBUG
+            if(Entities.DebuggingVariables.HasInfiniteResources)
+            {
+                hasEnoughGold = true;
+            }
+#endif
+
             if (hasEnoughGold)
             {
                 var cursor = GuiManager.Cursor;
@@ -351,18 +354,25 @@ namespace TownRaiser.Screens
                 var y = cursor.WorldYAt(0);
                 var newUnit = Factories.UnitFactory.CreateNew();
                 newUnit.NodeNetwork = this.tileNodeNetwork;
+                newUnit.AllUnits = UnitList;
                 newUnit.X = x;
                 newUnit.Y = y;
                 newUnit.Z = 1;
-
 
 
                 if (unitData == null)
                 {
                     throw new Exception("Unit data is null.");
                 }
-
-                newUnit.UnitData = ActionToolbarInstance.SelectedUnitData;
+                
+#if DEBUG
+                if(InputManager.Keyboard.KeyDown(Keys.LeftShift))
+                {
+                    unitData = GlobalContent.UnitData[DataTypes.UnitData.Goblin];
+                }
+#endif
+                newUnit.UnitData = unitData;
+                newUnit.TryStartFindingTarget();
 
                 bool shouldUpdateResources = true;
 #if DEBUG
