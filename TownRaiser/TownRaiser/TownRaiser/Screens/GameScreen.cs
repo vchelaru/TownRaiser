@@ -22,6 +22,7 @@ using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using FlatRedBall.Math;
+using FlatRedBall.TileCollisions;
 
 namespace TownRaiser.Screens
 {
@@ -50,6 +51,9 @@ namespace TownRaiser.Screens
 
         TileNodeNetwork tileNodeNetwork;
 
+        TileShapeCollection woodResourceShapeCollection;
+        TileShapeCollection stoneResourceShapeCollection;
+
         const float gridWidth = 16;
 
         I2DInput cameraControls;
@@ -71,7 +75,19 @@ namespace TownRaiser.Screens
 
             InitializeNodeNetwork();
 
+            InitializeResourceTileShapeCollections();
+
             InitializeUi();
+        }
+
+        private void InitializeResourceTileShapeCollections()
+        {
+            woodResourceShapeCollection = new TileShapeCollection();
+            woodResourceShapeCollection.AddMergedCollisionFrom(WorldMap,
+              (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Wood"));
+            stoneResourceShapeCollection = new TileShapeCollection();
+            stoneResourceShapeCollection.AddMergedCollisionFrom(WorldMap,
+              (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Stone"));
         }
 
         private void InitializeCamera()
@@ -276,13 +292,15 @@ namespace TownRaiser.Screens
 
         private void HandleSecondaryClick()
         {
-
-
-
             Cursor cursor = GuiManager.Cursor;
 
             var worldX = cursor.WorldXAt(0);
             var worldY = cursor.WorldYAt(0);
+
+            // Are we right-clicking a resource?
+            var woodResourceOver = woodResourceShapeCollection.GetTileAt(worldX, worldY);
+            var stoneResourceOver = stoneResourceShapeCollection.GetTileAt(worldX, worldY);
+            // TODO: Tell unit to harvest/mine/whatever.
 
             var enemyOver = UnitList.FirstOrDefault(item =>
                 item.UnitData.IsEnemy && item.HasCursorOver(cursor));
