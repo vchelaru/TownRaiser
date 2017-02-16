@@ -32,6 +32,11 @@
     <property name="BlocksPathfinding" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="75">
+   <properties>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
   <tile id="80">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
@@ -47,14 +52,21 @@
     <property name="BlocksPathfinding" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="138">
+   <properties>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
   <tile id="171">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Wood"/>
    </properties>
   </tile>
   <tile id="172">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Wood"/>
    </properties>
   </tile>
  </tileset>

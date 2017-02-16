@@ -22,6 +22,7 @@ using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using FlatRedBall.Math;
+using FlatRedBall.TileCollisions;
 
 namespace TownRaiser.Screens
 {
@@ -50,11 +51,22 @@ namespace TownRaiser.Screens
 
         TileNodeNetwork tileNodeNetwork;
 
+        TileShapeCollection woodResourceShapeCollection;
+        TileShapeCollection stoneResourceShapeCollection;
+
         const float gridWidth = 16;
 
-        I2DInput cameraControls;
-
         List<Entities.Unit> selectedUnits = new List<Entities.Unit>();
+
+        private float mapXMin;
+        private float mapXMax;
+        private float mapYMin;
+        private float mapYMax;
+
+#if DEBUG
+        //Debug fields and properties.
+        I2DInput cameraControls;
+#endif
 
         #endregion
 
@@ -71,14 +83,38 @@ namespace TownRaiser.Screens
 
             InitializeNodeNetwork();
 
+            InitializeResourceTileShapeCollections();
+
             InitializeUi();
+        }
+
+        private void InitializeResourceTileShapeCollections()
+        {
+            woodResourceShapeCollection = new TileShapeCollection();
+            woodResourceShapeCollection.AddMergedCollisionFrom(WorldMap,
+              (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Wood"));
+            stoneResourceShapeCollection = new TileShapeCollection();
+            stoneResourceShapeCollection.AddMergedCollisionFrom(WorldMap,
+              (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Stone"));
         }
 
         private void InitializeCamera()
         {
+            //Eventually place the map at the main base spawn point.
             Camera.Main.X = Camera.Main.RelativeXEdgeAt(0) + .2f;
             Camera.Main.Y = -Camera.Main.RelativeYEdgeAt(0) + .2f;
-            cameraControls = InputManager.Keyboard.Get2DInput(Keys.A, Keys.D, Keys.W, Keys.S);
+#if DEBUG
+            cameraControls = InputManager.Keyboard.Get2DInput(Keys.Left, Keys.Right, Keys.Up, Keys.Down);
+#endif
+            //Initialize Map bounds
+            //World map stars drawing at the upper left corner of the map.
+            mapXMin = WorldMap.X;
+            mapXMax = mapXMin + WorldMap.Width;
+            
+            mapYMax = WorldMap.Y;
+            mapYMin = mapYMax - WorldMap.Height;
+
+            ClampCameraToMapEdge();
         }
 
         private void InitializeUi()
@@ -224,15 +260,54 @@ namespace TownRaiser.Screens
 
         private void CameraMovementActivity()
         {
+#if DEBUG
+
             const float cameraMovementSpeed = 200;
             Camera.Main.XVelocity = cameraMovementSpeed * cameraControls.X;
             Camera.Main.YVelocity = cameraMovementSpeed * cameraControls.Y;
+#endif
+
+            var cursor = GuiManager.Cursor;
+            if(cursor.MiddleDown)
+            {
+                //Minusequals - we want to pull the map in the direction of the cursor.
+                Camera.Main.X -= cursor.WorldXChangeAt(0);
+                Camera.Main.Y -= cursor.WorldYChangeAt(0);
+
+                //Clamp to map bounds.
+                ClampCameraToMapEdge();
+            }
+
+
+
+        }
+
+        private void ClampCameraToMapEdge()
+        {
+            var camera = Camera.Main;
+
+            if (camera.AbsoluteLeftXEdgeAt(0) < mapXMin)
+            {
+                camera.X = mapXMin + camera.OrthogonalWidth / 2;
+            }
+            else if (camera.AbsoluteRightXEdgeAt(0) > mapXMax)
+            {
+                camera.X = mapXMax - camera.OrthogonalWidth / 2;
+            }
+
+            if (camera.AbsoluteBottomYEdgeAt(0) < mapYMin)
+            {
+                camera.Y = mapYMin + camera.OrthogonalHeight / 2;
+            }
+            else if (camera.AbsoluteTopYEdgeAt(0) > mapYMax)
+            {
+                camera.Y = mapYMax - camera.OrthogonalHeight / 2;
+            }
         }
 
         private void ClickActivity()
         {
             var cursor = GuiManager.Cursor;
-
             FlatRedBall.Debugging.Debugger.Write(GuiManager.Cursor.WindowOver);
 
             if(cursor.PrimaryClick && !GroupSelectorInstance.WasReleasedThisFrame)
@@ -276,13 +351,15 @@ namespace TownRaiser.Screens
 
         private void HandleSecondaryClick()
         {
-
-
-
             Cursor cursor = GuiManager.Cursor;
 
             var worldX = cursor.WorldXAt(0);
             var worldY = cursor.WorldYAt(0);
+
+            // Are we right-clicking a resource?
+            var woodResourceOver = woodResourceShapeCollection.GetTileAt(worldX, worldY);
+            var stoneResourceOver = stoneResourceShapeCollection.GetTileAt(worldX, worldY);
+            // TODO: Tell unit to harvest/mine/whatever.
 
             var enemyOver = UnitList.FirstOrDefault(item =>
                 item.UnitData.IsEnemy && item.HasCursorOver(cursor));
