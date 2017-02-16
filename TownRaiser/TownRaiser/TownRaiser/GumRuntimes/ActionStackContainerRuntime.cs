@@ -9,8 +9,6 @@ namespace TownRaiser.GumRuntimes
 {
     public partial class ActionStackContainerRuntime
     {
-        public event EventHandler ModeChanged;
-
         private const int PixelsBetweenButtons = 2;
 
         public List<ToggleButtonRuntime> ToggleButtonList;
@@ -57,7 +55,6 @@ namespace TownRaiser.GumRuntimes
                 building.Click += (notused) =>
                 {
                     UntoggleAllExcept(building);
-                    this.ModeChanged(this, null);
                 };
 
                 i++;
@@ -71,23 +68,29 @@ namespace TownRaiser.GumRuntimes
             int i = 0;
             foreach (var unitData in GlobalContent.UnitData)
             {
-                ToggleButtonRuntime unit = new ToggleButtonRuntime();
-                unit.AddToManagers(this.Managers, null);
-                unit.Parent = this;
-                Children.Add(unit);
-                ToggleButtonList.Add(unit);
-
-                unit.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
-                unit.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
-
-                unit.HotkeyData = unitData.Value;
-                unit.Click += (notused) =>
+                bool shouldAddButton = unitData.Value.IsEnemy == false;
+#if DEBUG
+                shouldAddButton |= Entities.DebuggingVariables.ShouldAddEnemiesToActionToolbar;
+#endif
+                if (shouldAddButton)
                 {
-                    UntoggleAllExcept(unit);
-                    this.ModeChanged(this, null);
-                };
+                    ToggleButtonRuntime unit = new ToggleButtonRuntime();
+                    unit.AddToManagers(this.Managers, null);
+                    unit.Parent = this;
+                    Children.Add(unit);
+                    ToggleButtonList.Add(unit);
 
-                i++;
+                    unit.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
+                    unit.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
+
+                    unit.HotkeyData = unitData.Value;
+                    unit.Click += (notused) =>
+                    {
+                        UntoggleAllExcept(unit);
+                    };
+
+                    i++;
+                }
             }
 
             SetVariableState();

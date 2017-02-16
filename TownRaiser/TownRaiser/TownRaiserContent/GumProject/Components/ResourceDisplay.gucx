@@ -66,6 +66,54 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>IconStateState</Type>
+      <Name>GoldResourceInstance.IconStateState</Name>
+      <Value xsi:type="xsd:string">Gold</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>GoldResourceInstance.ResourceText</Name>
+      <ExposedAsName>GoldText</ExposedAsName>
+      <SetsValue>false</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>GoldResourceInstance.X</Name>
+      <Value xsi:type="xsd:float">10</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>HorizontalAlignment</Type>
+      <Name>GoldResourceInstance.X Origin</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>GoldResourceInstance.X Units</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>GoldResourceInstance.Y</Name>
+      <Value xsi:type="xsd:float">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>VerticalAlignment</Type>
+      <Name>GoldResourceInstance.Y Origin</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>PositionUnitType</Type>
+      <Name>GoldResourceInstance.Y Units</Name>
+      <Value xsi:type="xsd:int">7</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>string</Type>
       <Name>Guide</Name>
       <Category>Position</Category>
@@ -271,6 +319,10 @@
   </State>
   <Instance>
     <Name>CapacityResourceInstance</Name>
+    <BaseType>Resource</BaseType>
+  </Instance>
+  <Instance>
+    <Name>GoldResourceInstance</Name>
     <BaseType>Resource</BaseType>
   </Instance>
   <Instance>

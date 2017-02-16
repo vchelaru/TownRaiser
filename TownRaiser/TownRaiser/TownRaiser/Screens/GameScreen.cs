@@ -45,6 +45,8 @@ namespace TownRaiser.Screens
         public int Lumber { get; set; } = 10000;
         public int Stone { get; set; } = 10000;
         public int Gold { get; set; } = 10000;
+        public int CurrentCapacityUsed { get; set; }
+        public int MaxCapacity { get; set; }
 
         TileNodeNetwork tileNodeNetwork;
 
@@ -85,6 +87,8 @@ namespace TownRaiser.Screens
             this.GroupSelectorInstance.IsInSelectionMode = true;
 
             this.GroupSelectorInstance.SelectionFinished += HandleGroupSelection;
+
+            UpdateResourceDisplay();
         }
 
         private void HandleGroupSelection(object sender, EventArgs e)
@@ -150,10 +154,7 @@ namespace TownRaiser.Screens
 
         private void InitializeEvents()
         {
-            ActionToolbarInstance.ModeChanged += (not, used) => 
-            {
-                //this.ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
-            };
+            
         }
 
         #endregion
@@ -213,18 +214,10 @@ namespace TownRaiser.Screens
 
         private void HotkeyActivity()
         {
-            //Rick Blaylock
-            //Old implementation keeping around while I test hoteys.
-            //if (InputManager.Keyboard.KeyPushed(Keys.Escape))
-            //{
-            //    ActionMode = ActionMode.Select;
-            //    ActionToolbarInstance.SetMode(ActionMode);
-            //}
-
+            ActionToolbarInstance.UpdateButtonsOnMoney(Lumber, Stone, Gold, CurrentCapacityUsed, MaxCapacity);
             if(InputManager.Keyboard.AnyKeyPushed())
             {
                 ActionToolbarInstance.ReactToKeyPress();
-                //ActionMode = ActionToolbarInstance.GetActionModeBasedOnToggleState();
             }
 
         }
@@ -347,26 +340,47 @@ namespace TownRaiser.Screens
 
         private void HandlePerformTrain()
         {
-            var cursor = GuiManager.Cursor;
-            var x = cursor.WorldXAt(0);
-            var y = cursor.WorldYAt(0);
-            var newUnit = Factories.UnitFactory.CreateNew();
-            newUnit.NodeNetwork = this.tileNodeNetwork;
-            newUnit.X = x;
-            newUnit.Y = y;
-            newUnit.Z = 1;
-
             // set the data?
             var unitData = ActionToolbarInstance.SelectedUnitData;
+            bool hasEnoughGold = unitData.GoldCost <= this.Gold && (unitData.Capacity + CurrentCapacityUsed)<= MaxCapacity;
 
-            if(unitData == null)
+            if (hasEnoughGold)
             {
-                throw new Exception("Unit data is null.");
+                var cursor = GuiManager.Cursor;
+                var x = cursor.WorldXAt(0);
+                var y = cursor.WorldYAt(0);
+                var newUnit = Factories.UnitFactory.CreateNew();
+                newUnit.NodeNetwork = this.tileNodeNetwork;
+                newUnit.X = x;
+                newUnit.Y = y;
+                newUnit.Z = 1;
+
+
+
+                if (unitData == null)
+                {
+                    throw new Exception("Unit data is null.");
+                }
+
+                newUnit.UnitData = ActionToolbarInstance.SelectedUnitData;
+
+                bool shouldUpdateResources = true;
+#if DEBUG
+
+                shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
+#endif
+                if (shouldUpdateResources)
+                {
+                    this.Gold -= unitData.GoldCost;
+                    this.CurrentCapacityUsed = UnitList.Where(item => item.UnitData.IsEnemy == false).Sum(item => item.UnitData.Capacity);
+                }
+
+                UpdateResourceDisplay();
             }
-
-            newUnit.UnitData = ActionToolbarInstance.SelectedUnitData;
-
-            UpdateResourceDisplay();
+            else
+            {
+                //tell them?
+            }
         }
 
         private void HandlePerformBuilding()
@@ -410,15 +424,16 @@ namespace TownRaiser.Screens
 
                 building.BuildingData = buildingType;
 
-                bool shouldSubtract = true;
+                bool shouldUpdateResources = true;
 #if DEBUG
 
-                shouldSubtract = Entities.DebuggingVariables.HasInfiniteResources == false;
+                shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
 #endif
-                if(shouldSubtract)
+                if(shouldUpdateResources)
                 {
                     this.Lumber -= buildingType.LumberCost;
                     this.Stone -= buildingType.StoneCost;
+                    this.MaxCapacity = BuildingList.Sum(item => item.BuildingData.Capacity);
                 }
 
                 UpdateResourceDisplay();
@@ -431,9 +446,10 @@ namespace TownRaiser.Screens
 
         private void UpdateResourceDisplay()
         {
-            this.ResourceDisplayInstance.CapacityText = BuildingList.Sum(item => item.BuildingData.Capacity).ToString();
+            this.ResourceDisplayInstance.CapacityText = $"{CurrentCapacityUsed}/{this.MaxCapacity.ToString()}";
             this.ResourceDisplayInstance.LumberText = this.Lumber.ToString();
             this.ResourceDisplayInstance.StoneText = this.Stone.ToString();
+            this.ResourceDisplayInstance.GoldText = this.Gold.ToString();
         }
 
 #endregion

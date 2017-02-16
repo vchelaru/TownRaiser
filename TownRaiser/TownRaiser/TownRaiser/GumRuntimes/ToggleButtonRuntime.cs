@@ -23,12 +23,22 @@ namespace TownRaiser.GumRuntimes
                 {
                     m_HotKeyData = value;
                     TextInstance.Text = m_HotKeyData.Hotkey.ToString().ToLower();
-                    //ToDo: Set either texture coordinates and/or sprite reference for the button.
+                    CurrentIconDisplayState = m_HotKeyData.ButtonIconDisplayState;
                 }
             }
         }
 
         public BuildingData HotKeyDataAsBuildingData => m_HotKeyData as BuildingData;
         public UnitData HotKeyDataAsUnitData => m_HotKeyData as UnitData; 
+        
+        public void UpdateButtonBasedOnMoney(int lumber, int stone, int gold, int currentCapacity, int maxCapacity)
+        {
+            Enabled = m_HotKeyData.ShouldEnableButton(lumber, stone, gold, currentCapacity, maxCapacity);
+            //Switch off if the button is disabled.
+            if(Enabled == false)
+            {
+                IsOn = false;
+            }
+        }
     }
 }
