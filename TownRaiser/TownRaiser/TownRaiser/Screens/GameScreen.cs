@@ -56,9 +56,17 @@ namespace TownRaiser.Screens
 
         const float gridWidth = 16;
 
-        I2DInput cameraControls;
-
         List<Entities.Unit> selectedUnits = new List<Entities.Unit>();
+
+        private float mapXMin;
+        private float mapXMax;
+        private float mapYMin;
+        private float mapYMax;
+
+#if DEBUG
+        //Debug fields and properties.
+        I2DInput cameraControls;
+#endif
 
         #endregion
 
@@ -92,9 +100,21 @@ namespace TownRaiser.Screens
 
         private void InitializeCamera()
         {
+            //Eventually place the map at the main base spawn point.
             Camera.Main.X = Camera.Main.RelativeXEdgeAt(0) + .2f;
             Camera.Main.Y = -Camera.Main.RelativeYEdgeAt(0) + .2f;
-            cameraControls = InputManager.Keyboard.Get2DInput(Keys.A, Keys.D, Keys.W, Keys.S);
+#if DEBUG
+            cameraControls = InputManager.Keyboard.Get2DInput(Keys.Left, Keys.Right, Keys.Up, Keys.Down);
+#endif
+            //Initialize Map bounds
+            //World map stars drawing at the upper left corner of the map.
+            mapXMin = WorldMap.X;
+            mapXMax = mapXMin + WorldMap.Width;
+            
+            mapYMax = WorldMap.Y;
+            mapYMin = mapYMax - WorldMap.Height;
+
+            ClampCameraToMapEdge();
         }
 
         private void InitializeUi()
@@ -240,15 +260,54 @@ namespace TownRaiser.Screens
 
         private void CameraMovementActivity()
         {
+#if DEBUG
+
             const float cameraMovementSpeed = 200;
             Camera.Main.XVelocity = cameraMovementSpeed * cameraControls.X;
             Camera.Main.YVelocity = cameraMovementSpeed * cameraControls.Y;
+#endif
+
+            var cursor = GuiManager.Cursor;
+            if(cursor.MiddleDown)
+            {
+                //Minusequals - we want to pull the map in the direction of the cursor.
+                Camera.Main.X -= cursor.WorldXChangeAt(0);
+                Camera.Main.Y -= cursor.WorldYChangeAt(0);
+
+                //Clamp to map bounds.
+                ClampCameraToMapEdge();
+            }
+
+
+
+        }
+
+        private void ClampCameraToMapEdge()
+        {
+            var camera = Camera.Main;
+
+            if (camera.AbsoluteLeftXEdgeAt(0) < mapXMin)
+            {
+                camera.X = mapXMin + camera.OrthogonalWidth / 2;
+            }
+            else if (camera.AbsoluteRightXEdgeAt(0) > mapXMax)
+            {
+                camera.X = mapXMax - camera.OrthogonalWidth / 2;
+            }
+
+            if (camera.AbsoluteBottomYEdgeAt(0) < mapYMin)
+            {
+                camera.Y = mapYMin + camera.OrthogonalHeight / 2;
+            }
+            else if (camera.AbsoluteTopYEdgeAt(0) > mapYMax)
+            {
+                camera.Y = mapYMax - camera.OrthogonalHeight / 2;
+            }
         }
 
         private void ClickActivity()
         {
             var cursor = GuiManager.Cursor;
-
             FlatRedBall.Debugging.Debugger.Write(GuiManager.Cursor.WindowOver);
 
             if(cursor.PrimaryClick && !GroupSelectorInstance.WasReleasedThisFrame)
