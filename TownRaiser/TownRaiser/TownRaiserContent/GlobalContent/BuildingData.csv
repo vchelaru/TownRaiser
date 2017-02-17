@@ -1,3 +1,4 @@
-"Name (string, required)",Health (int),FoodPerSecond (float),LumberCost (int),StoneCost (int),Capacity (int),HotkeyFieldButUseProperty (Microsoft.Xna.Framework.Input.Keys),ButtonIconDisplayStateButUseProperty (TownRaiser.GumRuntimes.ToggleButtonRuntime.IconDisplay)
-Tent,100,0,500,0,3,E,TentIcon
-House,140,0,700,100,5,H,HouseIcon
+"Name (string, required)",Health (int),FoodPerSecond (float),BuildTime (float),LumberCost (int),StoneCost (int),Capacity (int),HotkeyFieldButUseProperty (Microsoft.Xna.Framework.Input.Keys),ButtonIconDisplayStateButUseProperty (TownRaiser.GumRuntimes.ToggleButtonRuntime.IconDisplay),TrainableUnits (List<string>)
+TownHall,200,0,10,600,200,0,O,TownHallIcon,Worker
+Tent,100,0,3,500,0,3,E,TentIcon,
+House,140,0,5,700,100,5,H,HouseIcon,

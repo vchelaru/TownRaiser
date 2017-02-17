@@ -13,6 +13,7 @@ namespace TownRaiser.GumRuntimes
 {
     public partial class ActionToolbarRuntime
     {
+        public event EventHandler TrainUnit;
         public UnitData SelectedUnitData
         {
             get
@@ -84,6 +85,21 @@ namespace TownRaiser.GumRuntimes
             AddUnitOptionsToActionPanel();
         }
 
+        public void ShowAvailableUnits(IEnumerable<string> units)
+        {
+            TrainButtonInstance.IsOn = true;
+            UntoggleAllExcept(ActionMode.Train);
+            AddUnitOptionsToActionPanel(units);
+
+            foreach(var button in ActionStackContainerInstance.ToggleButtonList)
+            {
+                button.Click += (notused) =>
+                {
+                    this.TrainUnit(button.HotKeyDataAsUnitData, null);
+                };
+            }
+        }
+
         private void UntoggleAllExcept(ActionMode actionMode)
         {
             if(actionMode != ActionMode.Build)
@@ -131,16 +147,21 @@ namespace TownRaiser.GumRuntimes
             }
         }
 
-        private void AddUnitOptionsToActionPanel()
+        private void AddUnitOptionsToActionPanel(IEnumerable<string> units = null)
         {
             bool addButtons = ActionStackContainerInstance.ToggleButtonList.Count == 0;
 #if DEBUG
             addButtons &= Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
 #endif
-            if (addButtons)
+            if (addButtons && units == null)
             {
                 ActionStackContainerInstance.AddUnitToggleButtons();
             }
+            else if (addButtons)
+            {
+                ActionStackContainerInstance.AddUnitToggleButtons(units);
+            }
+
         }
 
         public void ReactToKeyPress()

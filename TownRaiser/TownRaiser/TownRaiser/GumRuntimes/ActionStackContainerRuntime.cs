@@ -96,6 +96,30 @@ namespace TownRaiser.GumRuntimes
             SetVariableState();
         }
 
+        public void AddUnitToggleButtons(IEnumerable<string> units)
+        {
+            int i = 0;
+            foreach (var unit in units)
+            {
+                ToggleButtonRuntime unitButton = new ToggleButtonRuntime();
+                unitButton.AddToManagers(this.Managers, null);
+                unitButton.Parent = this;
+                Children.Add(unitButton);
+                ToggleButtonList.Add(unitButton);
+
+                unitButton.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
+                unitButton.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
+
+                unitButton.HotkeyData = GlobalContent.UnitData[unit];
+                unitButton.Click += (notused) =>
+                {
+                    UntoggleAllExcept(unitButton);
+                };
+
+                i++;
+            }
+        }
+
         public void RemoveToggleButtons()
         {
             for(int i = ToggleButtonList.Count -1; i > -1; i--)

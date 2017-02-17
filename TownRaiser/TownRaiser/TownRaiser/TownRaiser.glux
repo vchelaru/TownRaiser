@@ -131,6 +131,34 @@
         <string>GLUE</string>
       </Tags>
       <Source>GLUE</Source>
+      <StateCategoryList>
+        <StateSaveCategory>
+          <States>
+            <StateSave>
+              <InstructionSaves>
+                <InstructionSave>
+                  <Type>Single</Type>
+                  <Member>SpriteInstanceAlpha</Member>
+                  <ValueAsFloat>0</ValueAsFloat>
+                </InstructionSave>
+              </InstructionSaves>
+              <Name>BuildInProgress</Name>
+            </StateSave>
+            <StateSave>
+              <InstructionSaves>
+                <InstructionSave>
+                  <Type>Single</Type>
+                  <Member>SpriteInstanceAlpha</Member>
+                  <ValueAsFloat>1</ValueAsFloat>
+                </InstructionSave>
+              </InstructionSaves>
+              <Name>BuildComplete</Name>
+            </StateSave>
+          </States>
+          <Name>BuildStatus</Name>
+          <SharesVariablesWithOtherCategories>false</SharesVariablesWithOtherCategories>
+        </StateSaveCategory>
+      </StateCategoryList>
       <CustomVariables>
         <CustomVariable>
           <Properties>
@@ -173,6 +201,19 @@
           <Type>TownRaiser.DataTypes.BuildingData</Type>
           <DefaultValue xsi:type="xsd:string">Tent in BuildingData.csv</DefaultValue>
           <CreatesEvent>true</CreatesEvent>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>SpriteInstanceAlpha</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">1</DefaultValue>
+          <SourceObject>SpriteInstance</SourceObject>
+          <SourceObjectProperty>Alpha</SourceObjectProperty>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIClickable>true</ImplementsIClickable>
@@ -491,6 +532,34 @@
         <string>GLUE</string>
       </Tags>
       <Source>GLUE</Source>
+      <StateCategoryList>
+        <StateSaveCategory>
+          <States>
+            <StateSave>
+              <InstructionSaves>
+                <InstructionSave>
+                  <Type>Single</Type>
+                  <Member>SpriteInstanceAlpha</Member>
+                  <ValueAsFloat>0</ValueAsFloat>
+                </InstructionSave>
+              </InstructionSaves>
+              <Name>TrainingInProgress</Name>
+            </StateSave>
+            <StateSave>
+              <InstructionSaves>
+                <InstructionSave>
+                  <Type>Single</Type>
+                  <Member>SpriteInstanceAlpha</Member>
+                  <ValueAsFloat>1</ValueAsFloat>
+                </InstructionSave>
+              </InstructionSaves>
+              <Name>TrainingComplete</Name>
+            </StateSave>
+          </States>
+          <Name>TrainingStatus</Name>
+          <SharesVariablesWithOtherCategories>false</SharesVariablesWithOtherCategories>
+        </StateSaveCategory>
+      </StateCategoryList>
       <CustomVariables>
         <CustomVariable>
           <Properties>
@@ -543,6 +612,19 @@
           <Type>TownRaiser.DataTypes.UnitData</Type>
           <CreatesEvent>true</CreatesEvent>
         </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>SpriteInstanceAlpha</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">1</DefaultValue>
+          <SourceObject>SpriteInstance</SourceObject>
+          <SourceObjectProperty>Alpha</SourceObjectProperty>
+        </CustomVariable>
       </CustomVariables>
       <ImplementsIClickable>true</ImplementsIClickable>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -553,16 +635,6 @@
             <Type>Texture2D</Type>
             <Member>Texture</Member>
             <ValueAsString>CharactersSheet</ValueAsString>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>TextureScale</Member>
-            <ValueAsFloat>1</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>AnimationChainList</Type>
-            <Member>AnimationChains</Member>
-            <ValueAsString>AnimationChainListFile</ValueAsString>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -583,6 +655,16 @@
             <Type>float</Type>
             <Member>BottomTexturePixel</Member>
             <ValueAsFloat>17</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>TextureScale</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>AnimationChainList</Type>
+            <Member>AnimationChains</Member>
+            <ValueAsString>AnimationChainListFile</ValueAsString>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />

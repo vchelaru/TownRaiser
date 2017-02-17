@@ -17,6 +17,10 @@ namespace TownRaiser.Entities
             var animationName = BuildingData.Name;
 
             SpriteInstance.CurrentChainName = animationName;
+
+            CurrentBuildStatusState = BuildStatus.BuildInProgress;
+
+            this.InterpolateToState(BuildStatus.BuildComplete, BuildingData.BuildTime);
         }
 		
 	}

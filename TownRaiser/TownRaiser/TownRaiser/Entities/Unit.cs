@@ -42,6 +42,8 @@ namespace TownRaiser.Entities
 
         public int CurrentHealth { get; set; }
 
+        public Vector3? RallyPoint { get; set; }
+
         #endregion
 
         #region Initialize
@@ -87,6 +89,16 @@ namespace TownRaiser.Entities
             if(ImmediateGoal?.Path?.Count > 0)
             {
                 MoveAlongPath();
+            }
+        }
+
+        private void CreateMoveGoalFromCurrentRallyPoint()
+        {
+            if(RallyPoint.HasValue)
+            {
+                var x = RallyPoint.Value.X;
+                var y = RallyPoint.Value.Y;
+                CreatMoveGoal(x, y);
             }
         }
 

@@ -40,9 +40,6 @@ namespace TownRaiser.Screens
     public partial class GameScreen
 	{
         #region Fields/Properties
-
-        //public ActionMode ActionMode { get; set; } //see comment in ClickActivity to see why this is commented out.
-
         public int Lumber { get; set; } = 10000;
         public int Stone { get; set; } = 10000;
         public int Gold { get; set; } = 10000;
@@ -57,6 +54,7 @@ namespace TownRaiser.Screens
         const float gridWidth = 16;
 
         List<Entities.Unit> selectedUnits = new List<Entities.Unit>();
+        Entities.Building selectedBuilding;
 
         private float mapXMin;
         private float mapXMax;
@@ -190,7 +188,10 @@ namespace TownRaiser.Screens
 
         private void InitializeEvents()
         {
-            
+            ActionToolbarInstance.TrainUnit += (unitData, notUsed) =>
+            {
+                HandlePerfromTrain(unitData as DataTypes.UnitData);
+            };
         }
 
         #endregion
@@ -277,9 +278,6 @@ namespace TownRaiser.Screens
                 //Clamp to map bounds.
                 ClampCameraToMapEdge();
             }
-
-
-
         }
 
         private void ClampCameraToMapEdge()
@@ -324,10 +322,6 @@ namespace TownRaiser.Screens
                             HandlePerformBuilding();
                             HandlePostClick();
                             break;
-                        case ActionMode.Train:
-                            HandlePerformTrain();
-                            HandlePostClick();
-                            break;
                         case ActionMode.Select:
                             HandlePerformSelection();
                             break;
@@ -351,44 +345,84 @@ namespace TownRaiser.Screens
 
         private void HandleSecondaryClick()
         {
-            Cursor cursor = GuiManager.Cursor;
+            HandleSelectedBuilding();
+            HandleSelectedUnits();
+        }
 
-            var worldX = cursor.WorldXAt(0);
-            var worldY = cursor.WorldYAt(0);
-
-            // Are we right-clicking a resource?
-            var woodResourceOver = woodResourceShapeCollection.GetTileAt(worldX, worldY);
-            var stoneResourceOver = stoneResourceShapeCollection.GetTileAt(worldX, worldY);
-            // TODO: Tell unit to harvest/mine/whatever.
-
-            var enemyOver = UnitList.FirstOrDefault(item =>
-                item.UnitData.IsEnemy && item.HasCursorOver(cursor));
-
-            foreach (var selectedUnit in selectedUnits)
+        private void HandleSelectedBuilding()
+        {
+            //Create a rally point for units that are created.
+            //If the selected building can train units.
+            if(selectedBuilding != null && selectedBuilding.HasTrainableUnits)
             {
-                if(enemyOver != null)
+                Cursor cursor = GuiManager.Cursor;
+
+                var worldX = cursor.WorldXAt(0);
+                var worldY = cursor.WorldYAt(0);
+
+                selectedBuilding.RallyPoint = new Vector3() { X = worldX, Y = worldY};
+            }
+        }
+
+        private void HandleSelectedUnits()
+        {
+            //Only do this work if we have selected units
+            if (selectedUnits.Count > 0)
+            {
+                Cursor cursor = GuiManager.Cursor;
+
+                var worldX = cursor.WorldXAt(0);
+                var worldY = cursor.WorldYAt(0);
+
+                // Are we right-clicking a resource?
+                var woodResourceOver = woodResourceShapeCollection.GetTileAt(worldX, worldY);
+                var stoneResourceOver = stoneResourceShapeCollection.GetTileAt(worldX, worldY);
+                // TODO: Tell unit to harvest/mine/whatever.
+
+                var enemyOver = UnitList.FirstOrDefault(item =>
+                    item.UnitData.IsEnemy && item.HasCursorOver(cursor));
+
+                foreach (var selectedUnit in selectedUnits)
                 {
-                    selectedUnit.CreateAttackGoal(enemyOver);
-                }
-                else
-                {
-                    selectedUnit.CreatMoveGoal(worldX, worldY);
+                    if (enemyOver != null)
+                    {
+                        selectedUnit.CreateAttackGoal(enemyOver);
+                    }
+                    else
+                    {
+                        selectedUnit.CreatMoveGoal(worldX, worldY);
+                    }
                 }
             }
         }
 
         private void HandlePerformSelection()
         {
+            //Clear selected building and units
+            selectedUnits.Clear();
+            selectedBuilding = null;
+
             var cursor = GuiManager.Cursor;
             var unitOver = UnitList.FirstOrDefault(item => 
                 item.UnitData.IsEnemy == false && item.HasCursorOver(cursor));
 
-            selectedUnits.Clear();
+            
             if(unitOver != null)
             {
                 selectedUnits.Add(unitOver);
 
             }
+
+            var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
+            if(buildingOver != null)
+            {
+                selectedBuilding = buildingOver;
+                if (selectedBuilding.IsConstructionComplete)
+                {
+                    ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
+                }
+            }
+
 
             UpdateSelectionMarker();
         }
@@ -410,10 +444,59 @@ namespace TownRaiser.Screens
                 SelectionMarkerList[i].AttachTo(selectedUnits[i], false);
             }
         }
+        
+        private void HandlePerfromTrain(DataTypes.UnitData unitData)
+        {
+            if (unitData == null)
+            {
+                throw new Exception("Tried to train a null unit.");
+            }
 
+            bool hasEnoughGold = unitData.GoldCost <= this.Gold && (unitData.Capacity + CurrentCapacityUsed) <= MaxCapacity;
+
+#if DEBUG
+            if (Entities.DebuggingVariables.HasInfiniteResources)
+            {
+                hasEnoughGold = true;
+            }
+#endif
+
+            if (hasEnoughGold)
+            {
+
+                var x = selectedBuilding.UnitSpawnX;
+                var y = selectedBuilding.UnitSpawnY;
+                var newUnit = Factories.UnitFactory.CreateNew();
+                newUnit.NodeNetwork = this.tileNodeNetwork;
+                newUnit.AllUnits = UnitList;
+                newUnit.X = x;
+                newUnit.Y = y;
+                newUnit.Z = 1;
+
+                newUnit.RallyPoint = selectedBuilding.RallyPoint;
+                newUnit.UnitData = unitData;
+
+                bool shouldUpdateResources = true;
+#if DEBUG
+
+                shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
+#endif
+                if (shouldUpdateResources)
+                {
+                    this.Gold -= unitData.GoldCost;
+                    this.CurrentCapacityUsed = UnitList.Where(item => item.UnitData.IsEnemy == false).Sum(item => item.UnitData.Capacity);
+                }
+
+                UpdateResourceDisplay();
+            }
+            else
+            {
+                //tell them?
+            }
+
+        }
         private void HandlePerformTrain()
         {
-            // set the data?
             var unitData = ActionToolbarInstance.SelectedUnitData;
             bool hasEnoughGold = unitData.GoldCost <= this.Gold && (unitData.Capacity + CurrentCapacityUsed)<= MaxCapacity;
 

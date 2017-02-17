@@ -18,6 +18,11 @@ namespace TownRaiser.Entities
             
             this.SpriteInstance.CurrentChainName = animationName;
             this.CurrentHealth = this.UnitData.Health;
+            this.CurrentTrainingStatusState = TrainingStatus.TrainingInProgress;
+
+            //Simple training flow.
+            this.Set("CurrentTrainingStatusState").To(TrainingStatus.TrainingComplete).After(UnitData.TrainTime);
+            this.Call(CreateMoveGoalFromCurrentRallyPoint).After(UnitData.TrainTime);
         }
 		
 	}

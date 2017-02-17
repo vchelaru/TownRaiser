@@ -28,6 +28,15 @@ namespace TownRaiser.Entities
 {
 	public partial class Building
 	{
+        public IEnumerable<string> TrainableUnits => BuildingData.TrainableUnits.AsReadOnly();
+
+        public Vector3? RallyPoint;
+        public bool IsConstructionComplete => CurrentBuildStatusState == BuildStatus.BuildComplete;
+        public bool HasTrainableUnits => BuildingData.TrainableUnits.Count > 0;
+
+        //For now, we will spawn to the bottom right corner of the building's AAR.
+        public float UnitSpawnX => X + AxisAlignedRectangleInstance.Width / 2;
+        public float UnitSpawnY => Y -AxisAlignedRectangleInstance.Height / 2;
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
