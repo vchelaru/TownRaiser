@@ -207,6 +207,29 @@ namespace TownRaiser.Screens
             CameraMovementActivity();
 
             CollisionActivity();
+
+            BuildMarkerActivity();
+        }
+
+        private void BuildMarkerActivity()
+        {
+            if(ActionToolbarInstance.GetActionModeBasedOnToggleState() == ActionMode.Build)
+            {
+                BuildingMarkerInstance.Visible = true;
+                BuildingMarkerInstance.BuildingData = ActionToolbarInstance.SelectedBuildingData;
+                float x, y;
+
+                GetBuildLocationFromCursor(out x, out y);
+
+                BuildingMarkerInstance.X = x;
+                BuildingMarkerInstance.Y = y;
+                // put it above other stuff
+                BuildingMarkerInstance.Z = 3;
+            }
+            else
+            {
+                BuildingMarkerInstance.Visible = false;
+            }
         }
 
         private void CollisionActivity()
@@ -499,6 +522,7 @@ namespace TownRaiser.Screens
             }
 
         }
+
         private void HandlePerformTrain()
         {
             var unitData = ActionToolbarInstance.SelectedUnitData;
@@ -579,18 +603,9 @@ namespace TownRaiser.Screens
             if(hasEnoughResources && !isOverOtherBuilding)
             {
                 // do it!
-                var cursor = GuiManager.Cursor;
-
                 var building = Factories.BuildingFactory.CreateNew();
-                var x = cursor.WorldXAt(0);
-                var y = cursor.WorldYAt(0);
-
-                const float tilesWide = 3;
-
-                x = MathFunctions.RoundFloat(x, gridWidth * tilesWide, gridWidth * tilesWide/2);
-                y = MathFunctions.RoundFloat(y, gridWidth * tilesWide, gridWidth * tilesWide/2);
-
-
+                float x, y;
+                GetBuildLocationFromCursor(out x, out y);
 
                 building.X = x;
                 building.Y = y;
@@ -603,7 +618,7 @@ namespace TownRaiser.Screens
 
                 shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
 #endif
-                if(shouldUpdateResources)
+                if (shouldUpdateResources)
                 {
                     this.Lumber -= buildingType.LumberCost;
                     this.Stone -= buildingType.StoneCost;
@@ -616,6 +631,18 @@ namespace TownRaiser.Screens
             {
                 // tell them?
             }
+        }
+
+        private static void GetBuildLocationFromCursor(out float x, out float y)
+        {
+            var cursor = GuiManager.Cursor;
+
+            x = cursor.WorldXAt(0);
+            y = cursor.WorldYAt(0);
+            const float tilesWide = 3;
+
+            x = MathFunctions.RoundFloat(x, gridWidth * tilesWide, gridWidth * tilesWide / 2);
+            y = MathFunctions.RoundFloat(y, gridWidth * tilesWide, gridWidth * tilesWide / 2);
         }
 
         private void UpdateResourceDisplay()
