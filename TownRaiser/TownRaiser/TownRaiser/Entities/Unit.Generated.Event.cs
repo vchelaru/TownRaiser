@@ -8,12 +8,9 @@ using FlatRedBall.Audio;
 using FlatRedBall.Screens;
 using TownRaiser.Entities;
 using TownRaiser.Screens;
-using TownRaiser.AI;
-
 namespace TownRaiser.Entities
 {
-    public partial class Unit
-    {
-
-    }
+	public partial class Unit
+	{
+	}
 }

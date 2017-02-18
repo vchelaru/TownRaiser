@@ -277,6 +277,7 @@
     <Compile Include="GumRuntimes\ResourceDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\TestScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.Generated.cs">
@@ -295,6 +296,10 @@
     <Compile Include="Screens\MainMenu.cs" />
     <Compile Include="Screens\MainMenu.Generated.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\TestScreen.cs" />
+    <Compile Include="Screens\TestScreen.Generated.cs">
+      <DependentUpon>TestScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Setup\CameraSetup.cs" />
     <Compile Include="StateInterpolation\Back.cs" />
