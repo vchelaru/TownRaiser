@@ -50,6 +50,7 @@ namespace TownRaiser.Screens
 
         TileShapeCollection woodResourceShapeCollection;
         TileShapeCollection stoneResourceShapeCollection;
+        TileShapeCollection waterResourceShapeCollection;
 
         const float gridWidth = 16;
 
@@ -100,6 +101,13 @@ namespace TownRaiser.Screens
               (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Stone"));
 #if DEBUG
             stoneResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+#endif
+
+            waterResourceShapeCollection = new TileShapeCollection();
+            waterResourceShapeCollection.AddMergedCollisionFrom(WorldMap,
+              (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Water"));
+#if DEBUG
+            waterResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
 #endif
         }
 
@@ -228,11 +236,13 @@ namespace TownRaiser.Screens
 
                 GetBuildLocationFromCursor(out x, out y);
 
-                bool isInvalid = BuildingList.Any(item => item.Collision.IsPointInside(x, y))
-                    || woodResourceShapeCollection.Rectangles.Any(rect => rect.IsPointOnOrInside(x, y))
-                    || stoneResourceShapeCollection.Rectangles.Any(rect => rect.IsPointOnOrInside(x, y));
 
-                if(isInvalid )
+                bool isInvalid = BuildingList.Any(item => item.Collision.CollideAgainst(BuildingMarkerInstance.AxisAlignedRectangleInstance))
+                    || woodResourceShapeCollection.Rectangles.Any(rect => rect.CollideAgainst(BuildingMarkerInstance.AxisAlignedRectangleInstance))
+                    || stoneResourceShapeCollection.Rectangles.Any(rect => rect.CollideAgainst(BuildingMarkerInstance.AxisAlignedRectangleInstance))
+                    || waterResourceShapeCollection.Rectangles.Any(rect => rect.CollideAgainst(BuildingMarkerInstance.AxisAlignedRectangleInstance));
+
+                if (isInvalid )
                 {
                     BuildingMarkerInstance.CurrentState = Entities.BuildingMarker.VariableState.Invalid;
                 }
