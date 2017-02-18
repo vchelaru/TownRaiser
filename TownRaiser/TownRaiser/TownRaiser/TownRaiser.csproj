@@ -113,6 +113,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\AttackBuildingHighLevelGoal.cs" />
     <Compile Include="AI\AttackUnitHighLevelGoal.cs" />
     <Compile Include="AI\FindTargetToAttackHighLevelGoal.cs" />
     <Compile Include="AI\HighLevelGoal.cs" />
@@ -280,7 +281,10 @@
     <Compile Include="GumRuntimes\GameScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\GroupSelectorRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\GumIdb.Generated.cs" />
-    <Compile Include="GumRuntimes\HealthBarRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\HealthBarRuntime.cs" />
+    <Compile Include="GumRuntimes\HealthBarRuntime.Generated.cs">
+      <DependentUpon>HealthBarRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\MainMenuGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\RectangleRuntime.Generated.cs" />

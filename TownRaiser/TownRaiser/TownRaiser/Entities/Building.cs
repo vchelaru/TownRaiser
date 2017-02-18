@@ -29,6 +29,8 @@ namespace TownRaiser.Entities
 {
 	public partial class Building: IUpdatesStatus
 	{
+        #region Fields/Properties
+
         private const int MaxTrainableUnits = 5;
 
         public event EventHandler OnDestroy;
@@ -49,22 +51,37 @@ namespace TownRaiser.Entities
         //Queues will not let us return it as readonly.
         public List<Unit> TrainingQueue;
 
+        #endregion
+
+
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
         /// added to managers will not have this method called.
         /// </summary>
-		private void CustomInitialize()
+        private void CustomInitialize()
 		{
             TrainingQueue = new List<Unit>();
+
+            this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
+            this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
 
 		}
 
 		private void CustomActivity()
 		{
-
+            HealthBarActivity();
             TrainingActivity();
 		}
+
+        private void HealthBarActivity()
+        {
+
+            var healthPercentage = 100 * this.CurrentHealth / (float)BuildingData.Health;
+
+            this.HealthBarRuntimeInstance.HealthPercentage = healthPercentage;
+            this.HealthBarRuntimeInstance.PositionTo(this, -14);
+        }
 
         private void TrainingActivity()
         {
@@ -124,5 +141,14 @@ namespace TownRaiser.Entities
 
 
         }
-	}
+
+        internal void TakeDamage(int attackDamage)
+        {
+            CurrentHealth -= attackDamage;
+            if (CurrentHealth <= 0)
+            {
+                Destroy();
+            }
+        }
+    }
 }

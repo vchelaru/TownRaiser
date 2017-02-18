@@ -16,11 +16,7 @@ namespace TownRaiser.AI
         public Unit Owner { get; set; }
         public TileNodeNetwork NodeNetwork { get; set; }
 
-        const float DamageFrequency = 1;
 
-        // The last time damage was dealt. Damage is dealt one time every X seconds
-        // as defined by the DamageFrequency value;
-        double lastDamageDealt;
 
         public bool IsInRangeToAttack()
         {
@@ -43,16 +39,7 @@ namespace TownRaiser.AI
             }
             else
             {
-                // we're close, attack!
-                var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen;
-                bool canAttack = screen.PauseAdjustedSecondsSince(lastDamageDealt) >= DamageFrequency;
-
-                if(canAttack)
-                {
-                    lastDamageDealt = screen.PauseAdjustedCurrentTime;
-
-                    TargetUnit.TakeDamage(Owner.UnitData.AttackDamage);
-                }
+                Owner.TryAttack(TargetUnit);
             }
         }
 

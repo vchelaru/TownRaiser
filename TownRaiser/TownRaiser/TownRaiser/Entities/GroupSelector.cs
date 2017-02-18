@@ -96,7 +96,11 @@ namespace TownRaiser.Entities
                 {
                     VisualRepresentation.Visible = false;
                     isDragging = false;
-                    if (StartWorldX != EndWorldX || StartWorldY != EndWorldY)
+
+                    float minimumMovementForGroupSelection = 2;
+
+                    if (Math.Abs(StartWorldX - EndWorldX) > minimumMovementForGroupSelection || 
+                        Math.Abs(StartWorldY - EndWorldY) > minimumMovementForGroupSelection)
                     {
                         this.X = (StartWorldX + EndWorldX) / 2.0f;
                         this.Y = (StartWorldY + EndWorldY) / 2.0f;

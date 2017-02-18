@@ -58,6 +58,12 @@ namespace TownRaiser.Entities
             }
         }
         public double TrainingProgressPercent => ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) / UnitData.TrainTime;
+
+        // The last time damage was dealt. Damage is dealt one time every X seconds
+        // as defined by the DamageFrequency value;
+        private double lastDamageDealt;
+        const float DamageFrequency = 1;
+
         #endregion
 
         #region Initialize
@@ -88,6 +94,7 @@ namespace TownRaiser.Entities
             {
                 HighLevelActivity();
                 ImmediateAiActivity();
+
                 HealthBarActivity();
             }
             else
@@ -98,21 +105,11 @@ namespace TownRaiser.Entities
         }
         private void HealthBarActivity()
         {
-            int screenX = 0;
-            int screenY = 0;
-
-            MathFunctions.AbsoluteToWindow(this.X, this.Y, this.Z, ref screenX, ref screenY, Camera.Main);
-
-            var zoom = HealthBarRuntimeInstance.Managers.Renderer.Camera.Zoom;
+            HealthBarRuntimeInstance.PositionTo(this, -6);
 
             var healthPercentage = 100 * this.CurrentHealth / (float)UnitData.Health;
 
             this.HealthBarRuntimeInstance.HealthPercentage = healthPercentage;
-
-            const float offset = 6;
-
-            this.HealthBarRuntimeInstance.X = screenX / zoom;
-            this.HealthBarRuntimeInstance.Y = -offset + screenY / zoom;
         }
 
         private void TrainingActivity()
@@ -219,6 +216,16 @@ namespace TownRaiser.Entities
             HighLevelGoal = attackGoal;
         }
 
+        public void CreateAttackGoal(Building building)
+        {
+            var attackGoal = new AttackBuildingHighLevelGoal();
+            attackGoal.TargetBuilding = building;
+            attackGoal.Owner = this;
+            attackGoal.NodeNetwork = this.NodeNetwork;
+
+            HighLevelGoal = attackGoal;
+        }
+
         public void TakeDamage(int attackDamage)
         {
             CurrentHealth -= attackDamage;
@@ -232,6 +239,36 @@ namespace TownRaiser.Entities
         {
             m_TraningStartTime = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
         }
+
+        public void TryAttack(Unit targetUnit)
+        {
+            var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen;
+            bool canAttack = screen.PauseAdjustedSecondsSince(lastDamageDealt) >= DamageFrequency;
+
+            if (canAttack)
+            {
+                lastDamageDealt = screen.PauseAdjustedCurrentTime;
+
+                targetUnit.TakeDamage(UnitData.AttackDamage);
+            }
+        }
+
+
+        public void TryAttack(Building targetBuilding)
+        {
+            var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen;
+            bool canAttack = screen.PauseAdjustedSecondsSince(lastDamageDealt) >= DamageFrequency;
+
+            if (canAttack)
+            {
+                lastDamageDealt = screen.PauseAdjustedCurrentTime;
+
+                targetBuilding.TakeDamage(UnitData.AttackDamage);
+            }
+        }
+
+
+
         #endregion
 
         private void CustomDestroy()

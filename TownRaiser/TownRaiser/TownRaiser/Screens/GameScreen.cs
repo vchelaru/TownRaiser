@@ -23,6 +23,7 @@ using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using FlatRedBall.Math;
 using FlatRedBall.TileCollisions;
+using TownRaiser.DataTypes;
 
 namespace TownRaiser.Screens
 {
@@ -374,6 +375,10 @@ namespace TownRaiser.Screens
                             HandlePerformSelection();
                             break;
                     }
+
+#if DEBUG
+                    DebugClickActivity();
+#endif
                 }
             }
 
@@ -381,6 +386,28 @@ namespace TownRaiser.Screens
             {
                 HandleSecondaryClick();
             }
+        }
+
+        private void DebugClickActivity()
+        {
+            var keyboard = InputManager.Keyboard;
+            if(keyboard.KeyDown(Keys.D1))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
+            }
+        }
+
+        private void DebugAddUnit(UnitData unitData)
+        {
+            var newUnit = Factories.UnitFactory.CreateNew();
+            newUnit.NodeNetwork = this.tileNodeNetwork;
+            newUnit.AllUnits = UnitList;
+            newUnit.X = GuiManager.Cursor.WorldXAt(0);
+            newUnit.Y = GuiManager.Cursor.WorldYAt(0);
+            newUnit.Z = 1;
+            
+            newUnit.UnitData = unitData;
+
         }
 
         private void HandlePostClick()
@@ -512,7 +539,12 @@ namespace TownRaiser.Screens
 
             if (hasEnoughGold)
             {
-
+                // todo for Rick: The building should probably keep track of the unit types it's training, rather than instantiate a unit here.
+                // instantiating a unit here causes a number of problems:
+                // * The unit is added to the unit list (collision, can be attacked, can be selected)
+                // * Conceptually the unit isn't actually there until training is done, so instantiating one is confusing
+                // * This requires units to default to an invisible state, making debugging and testing more difficult 
+                //   (although I changed this by removing the code from OnAfterunitDataSet) and moved it here instead
                 var x = selectedBuilding.UnitSpawnX;
                 var y = selectedBuilding.UnitSpawnY;
                 var newUnit = Factories.UnitFactory.CreateNew();
@@ -525,6 +557,7 @@ namespace TownRaiser.Screens
                 newUnit.UnitData = unitData;
 
                 selectedBuilding.AddUnitToTrain(newUnit);
+                newUnit.CurrentTrainingStatusState = Entities.Unit.TrainingStatus.TrainingInProgress;
 
                 bool shouldUpdateResources = true;
 #if DEBUG
