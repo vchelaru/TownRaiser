@@ -12,7 +12,8 @@ namespace TownRaiser.GumRuntimes
         private const int PixelsBetweenButtons = 2;
 
         public List<ToggleButtonRuntime> ToggleButtonList;
-        
+        public event EventHandler TrainUnit;
+
         public bool AnyToggleButtonsActivated
         {
             get
@@ -111,9 +112,19 @@ namespace TownRaiser.GumRuntimes
                 unitButton.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
 
                 unitButton.HotkeyData = GlobalContent.UnitData[unit];
+                
                 unitButton.Click += (notused) =>
                 {
-                    UntoggleAllExcept(unitButton);
+                    unitButton.IsOn = false;
+                    this.TrainUnit(unitButton.HotKeyDataAsUnitData, null);
+                };
+                unitButton.Push += (notused) =>
+                {
+                    unitButton.IsOn = true;
+                };
+                unitButton.RollOff += (notused) =>
+                {
+                    unitButton.IsOn = false;
                 };
 
                 i++;

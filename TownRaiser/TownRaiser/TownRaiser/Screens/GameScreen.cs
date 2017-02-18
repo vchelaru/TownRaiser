@@ -414,12 +414,13 @@ namespace TownRaiser.Screens
             }
 
             var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
-            if(buildingOver != null)
+            if(buildingOver != null && selectedUnits.Count == 0)
             {
                 selectedBuilding = buildingOver;
                 if (selectedBuilding.IsConstructionComplete)
                 {
                     ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
+                    StatusToolbarInstance.SetViewFromBuildingEntity(selectedBuilding);
                 }
             }
 
@@ -473,8 +474,9 @@ namespace TownRaiser.Screens
                 newUnit.Y = y;
                 newUnit.Z = 1;
 
-                newUnit.RallyPoint = selectedBuilding.RallyPoint;
                 newUnit.UnitData = unitData;
+
+                selectedBuilding.AddUnitToTrain(newUnit);
 
                 bool shouldUpdateResources = true;
 #if DEBUG

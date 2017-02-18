@@ -583,7 +583,7 @@
       <Variable>
         <Type>int</Type>
         <Name>SpriteInstance.Alpha</Name>
-        <Value xsi:type="xsd:int">255</Value>
+        <Value xsi:type="xsd:int">155</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>

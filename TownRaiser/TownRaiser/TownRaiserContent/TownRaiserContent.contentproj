@@ -73,10 +73,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>UnitData</Name>
     </None>
-    <None Include="GumProject\Components\ActionPanelTest.gucx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>ActionPanelTest</Name>
-    </None>
     <None Include="GumProject\Components\ActionStackContainer.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ActionStackContainer</Name>
@@ -117,9 +113,17 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ResourceDisplay</Name>
     </None>
+    <None Include="GumProject\Components\StatusToolbar.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>StatusToolbar</Name>
+    </None>
     <None Include="GumProject\Components\ToggleButton.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ToggleButton</Name>
+    </None>
+    <None Include="GumProject\Components\TrainingUnitSprite.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>TrainingUnitSprite</Name>
     </None>
     <None Include="GumProject\FontCache\font-1.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -253,7 +253,6 @@
     <Compile Include="GumCore\VariableListSave.cs" />
     <Compile Include="GumCore\VariableSave.cs" />
     <Compile Include="GumCore\VariableSaveExtensionMethods.cs" />
-    <Compile Include="GumRuntimes\ActionPanelTestRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ActionStackContainerRuntime.cs" />
     <Compile Include="GumRuntimes\ActionStackContainerRuntime.Generated.cs">
       <DependentUpon>ActionStackContainerRuntime.cs</DependentUpon>
@@ -277,12 +276,18 @@
     <Compile Include="GumRuntimes\ResourceDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\StatusToolbarRuntime.cs" />
+    <Compile Include="GumRuntimes\StatusToolbarRuntime.Generated.cs">
+      <DependentUpon>StatusToolbarRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.Generated.cs">
       <DependentUpon>ToggleButtonRuntime.cs</DependentUpon>
     </Compile>
+    <Compile Include="GumRuntimes\TrainingUnitSpriteRuntime.Generated.cs" />
     <Compile Include="Interfaces\IHotkeyData.cs" />
+    <Compile Include="Interfaces\IUpdatesStatus.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
