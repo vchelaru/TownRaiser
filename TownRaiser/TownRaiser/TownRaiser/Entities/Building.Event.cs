@@ -18,6 +18,8 @@ namespace TownRaiser.Entities
 
             SpriteInstance.CurrentChainName = animationName;
 
+            CurrentHealth = BuildingData.Health;
+
             CurrentBuildStatusState = BuildStatus.BuildInProgress;
 
             this.InterpolateToState(BuildStatus.BuildComplete, BuildingData.BuildTime);

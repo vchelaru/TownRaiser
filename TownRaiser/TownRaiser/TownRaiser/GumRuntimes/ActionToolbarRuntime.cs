@@ -68,6 +68,10 @@ namespace TownRaiser.GumRuntimes
             {
                 ShowAvailableBuildings();
             };
+            this.ActionStackContainerInstance.TrainUnit += (unitData, notused) =>
+            {
+                this.TrainUnit(unitData, notused);
+            };
 
         }
 
@@ -90,14 +94,6 @@ namespace TownRaiser.GumRuntimes
             TrainButtonInstance.IsOn = true;
             UntoggleAllExcept(ActionMode.Train);
             AddUnitOptionsToActionPanel(units);
-
-            foreach(var button in ActionStackContainerInstance.ToggleButtonList)
-            {
-                button.Click += (notused) =>
-                {
-                    this.TrainUnit(button.HotKeyDataAsUnitData, null);
-                };
-            }
         }
 
         private void UntoggleAllExcept(ActionMode actionMode)
@@ -178,13 +174,6 @@ namespace TownRaiser.GumRuntimes
                 }
 
             }
-            else if(InputManager.Keyboard.KeyPushed(Keys.T))
-            {
-                if(TrainButtonInstance.IsOn == false)
-                {
-                    ShowAvailableUnits();
-                }
-            }
             else if(InputManager.Keyboard.KeyPushed(Keys.B))
             {
                 if(BuildButtonInstance.IsOn == false)
@@ -199,7 +188,8 @@ namespace TownRaiser.GumRuntimes
                     var hotKey = button.HotkeyData.Hotkey;
                     if(InputManager.Keyboard.KeyPushed(hotKey))
                     {
-                        ActionStackContainerInstance.UntoggleAllExcept(button);
+                        //ActionStackContainerInstance.UntoggleAllExcept(button);
+                        this.TrainUnit(button.HotKeyDataAsUnitData, null);
                     }
                 }
             }

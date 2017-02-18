@@ -17,6 +17,7 @@ using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using TownRaiser.AI;
 using FlatRedBall.Math;
+using FlatRedBall.Screens;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -42,8 +43,21 @@ namespace TownRaiser.Entities
 
         public int CurrentHealth { get; set; }
 
-        public Vector3? RallyPoint { get; set; }
+        #endregion
 
+        #region Private Fields/Properties
+        private double m_TraningStartTime;
+
+        private bool IsTrainingComplete
+        {
+            get
+            {
+                var currentScreen = ScreenManager.CurrentScreen;
+
+                return m_TraningStartTime > 0 && currentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) >= UnitData.TrainTime;
+            }
+        }
+        public double TrainingProgressPercent => ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) / UnitData.TrainTime;
         #endregion
 
         #region Initialize
@@ -55,10 +69,10 @@ namespace TownRaiser.Entities
         /// </summary>
         private void CustomInitialize()
 		{
-
             //// This should prob be done in Glue instead, but I don't think Glue currently supports this:
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
+            m_TraningStartTime = -1;
 
         }
 
@@ -68,13 +82,20 @@ namespace TownRaiser.Entities
 
         private void CustomActivity()
         {
-            HighLevelActivity();
+            //We will only perform high and immediateAi activities if the unit has completed training.
 
-            ImmediateAiActivity();
+            if (CurrentTrainingStatusState == TrainingStatus.TrainingComplete)
+            {
+                HighLevelActivity();
+                ImmediateAiActivity();
+                HealthBarActivity();
+            }
+            else
+            {
+                TrainingActivity();
+            }
 
-            HealthBarActivity();
         }
-
         private void HealthBarActivity()
         {
             int screenX = 0;
@@ -92,6 +113,14 @@ namespace TownRaiser.Entities
 
             this.HealthBarRuntimeInstance.X = screenX / zoom;
             this.HealthBarRuntimeInstance.Y = -offset + screenY / zoom;
+        }
+
+        private void TrainingActivity()
+        {
+            if(IsTrainingComplete)
+            {
+                CurrentTrainingStatusState = TrainingStatus.TrainingComplete;
+            }
         }
 
         private void HighLevelActivity()
@@ -113,16 +142,6 @@ namespace TownRaiser.Entities
             if(ImmediateGoal?.Path?.Count > 0)
             {
                 MoveAlongPath();
-            }
-        }
-
-        private void CreateMoveGoalFromCurrentRallyPoint()
-        {
-            if(RallyPoint.HasValue)
-            {
-                var x = RallyPoint.Value.X;
-                var y = RallyPoint.Value.Y;
-                CreatMoveGoal(x, y);
             }
         }
 
@@ -209,6 +228,10 @@ namespace TownRaiser.Entities
             }
         }
 
+        public void StartTraining()
+        {
+            m_TraningStartTime = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+        }
         #endregion
 
         private void CustomDestroy()

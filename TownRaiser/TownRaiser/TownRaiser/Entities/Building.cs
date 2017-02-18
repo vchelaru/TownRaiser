@@ -15,6 +15,7 @@ using FlatRedBall.Math.Splines;
 using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
+using TownRaiser.Interfaces;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -26,9 +27,15 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 
 namespace TownRaiser.Entities
 {
-	public partial class Building
+	public partial class Building: IUpdatesStatus
 	{
+        private const int MaxTrainableUnits = 5;
+
+        public event EventHandler OnDestroy;
+        public event EventHandler<UpdateStatusEventArgs> UpdateStatus;
+        public int CurrentHealth { get; set; }
         public IEnumerable<string> TrainableUnits => BuildingData.TrainableUnits.AsReadOnly();
+        public Unit CurrentTrainingUnit => TrainingQueue.Count > 0 ? TrainingQueue[0] : null;
 
         public Vector3? RallyPoint;
         public bool IsConstructionComplete => CurrentBuildStatusState == BuildStatus.BuildComplete;
@@ -37,6 +44,11 @@ namespace TownRaiser.Entities
         //For now, we will spawn to the bottom right corner of the building's AAR.
         public float UnitSpawnX => X + AxisAlignedRectangleInstance.Width / 2;
         public float UnitSpawnY => Y -AxisAlignedRectangleInstance.Height / 2;
+
+        //While it's a list, we will treat is as a queue.
+        //Queues will not let us return it as readonly.
+        public List<Unit> TrainingQueue;
+
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
@@ -44,20 +56,67 @@ namespace TownRaiser.Entities
         /// </summary>
 		private void CustomInitialize()
 		{
-
+            TrainingQueue = new List<Unit>();
 
 		}
 
 		private void CustomActivity()
 		{
 
-
+            TrainingActivity();
 		}
 
-		private void CustomDestroy()
+        private void TrainingActivity()
+        {
+            if (TrainingQueue.Count > 0)
+            {
+                var trainingUnit = TrainingQueue[0];
+                if(trainingUnit.CurrentTrainingStatusState == Unit.TrainingStatus.TrainingComplete)
+                {
+                    if(RallyPoint.HasValue)
+                    {
+                        trainingUnit.CreatMoveGoal(RallyPoint.Value.X, RallyPoint.Value.Y);
+                    }
+                    TrainingQueue.Remove(trainingUnit);
+                    if(TrainingQueue.Count > 0)
+                    {
+                        TrainingQueue[0].StartTraining();
+                    }
+                }
+                this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
+            }
+        }
+        public void AddUnitToTrain(Unit unit)
+        {
+            if(TrainingQueue.Count == 0)
+            {
+                unit.StartTraining();
+            }
+
+            TrainingQueue.Add(unit);
+            
+            this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
+        }
+
+        public float GetHealthRatio()
+        {
+            
+            return CurrentHealth / BuildingData.Health;
+        }
+
+        private void CustomDestroy()
 		{
+            this.OnDestroy?.Invoke(this, null);
+            this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs() { WasEntityDestroyed = true });
+            foreach (var unit in TrainingQueue)
+            {
+                unit.Destroy();
+            }
+            TrainingQueue.Clear();
+            TrainingQueue = null;
 
-
+            this.OnDestroy = null;
+            this.UpdateStatus = null;
 		}
 
         private static void CustomLoadStaticContent(string contentManagerName)

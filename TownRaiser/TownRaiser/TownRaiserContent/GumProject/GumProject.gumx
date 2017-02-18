@@ -20,10 +20,6 @@
     <ElementType>Screen</ElementType>
   </ScreenReference>
   <ComponentReference>
-    <Name>ActionPanelTest</Name>
-    <ElementType>Component</ElementType>
-  </ComponentReference>
-  <ComponentReference>
     <Name>ActionStackContainer</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
@@ -52,7 +48,15 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
+    <Name>StatusToolbar</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
     <Name>ToggleButton</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>TrainingUnitSprite</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <StandardElementReference>

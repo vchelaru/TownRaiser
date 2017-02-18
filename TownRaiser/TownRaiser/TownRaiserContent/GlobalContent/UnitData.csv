@@ -1,4 +1,4 @@
-"Name (string, required)",Health (int),TrainTime (float),AttackDamage (int),AttackRange (float),MovementSpeed (float),GoldCost (int),Capacity (int),IsEnemy (bool),InitiatesBattle (bool),HotkeyFieldButUseProperty (Microsoft.Xna.Framework.Input.Keys),ButtonIconDisplayStateButUseProperty (TownRaiser.GumRuntimes.ToggleButtonRuntime.IconDisplay)
+"Name (string, required)",Health (int),TrainTime (double),AttackDamage (int),AttackRange (float),MovementSpeed (float),GoldCost (int),Capacity (int),IsEnemy (bool),InitiatesBattle (bool),HotkeyFieldButUseProperty (Microsoft.Xna.Framework.Input.Keys),ButtonIconDisplayStateButUseProperty (TownRaiser.GumRuntimes.ToggleButtonRuntime.IconDisplay)
 Worker,100,5,10,10,50,50,1,false,false,W,WorkerIcon
 Fighter,150,10,20,12,40,100,1,false,true,F,FighterIcon
 Bat,30,,5,9,80,0,,true,true,B,
