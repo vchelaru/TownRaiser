@@ -218,7 +218,7 @@ namespace TownRaiser.Screens
 
         private void PerformUnitsVsTerrainCollision()
         {
-            for (int i = 0; i < UnitList.Count - 1; i++)
+            for (int i = 0; i < UnitList.Count; i++)
             {
                 stoneResourceShapeCollection.CollideAgainstSolid(UnitList[i].CircleInstance);
                 woodResourceShapeCollection.CollideAgainstSolid(UnitList[i].CircleInstance);
