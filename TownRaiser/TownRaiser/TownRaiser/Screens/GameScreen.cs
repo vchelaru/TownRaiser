@@ -90,10 +90,17 @@ namespace TownRaiser.Screens
         {
             woodResourceShapeCollection = new TileShapeCollection();
             woodResourceShapeCollection.AddMergedCollisionFrom(WorldMap,
-              (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Wood"));
+            (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Wood"));
+#if DEBUG
+            woodResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+#endif
+
             stoneResourceShapeCollection = new TileShapeCollection();
             stoneResourceShapeCollection.AddMergedCollisionFrom(WorldMap,
               (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Stone"));
+#if DEBUG
+            stoneResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+#endif
         }
 
         private void InitializeCamera()

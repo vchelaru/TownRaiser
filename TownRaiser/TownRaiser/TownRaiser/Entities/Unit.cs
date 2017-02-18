@@ -56,8 +56,11 @@ namespace TownRaiser.Entities
         private void CustomInitialize()
 		{
 
+            //// This should prob be done in Glue instead, but I don't think Glue currently supports this:
+            this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
+            this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
 
-		}
+        }
 
         #endregion
 
@@ -68,6 +71,27 @@ namespace TownRaiser.Entities
             HighLevelActivity();
 
             ImmediateAiActivity();
+
+            HealthBarActivity();
+        }
+
+        private void HealthBarActivity()
+        {
+            int screenX = 0;
+            int screenY = 0;
+
+            MathFunctions.AbsoluteToWindow(this.X, this.Y, this.Z, ref screenX, ref screenY, Camera.Main);
+
+            var zoom = HealthBarRuntimeInstance.Managers.Renderer.Camera.Zoom;
+
+            var healthPercentage = 100 * this.CurrentHealth / (float)UnitData.Health;
+
+            this.HealthBarRuntimeInstance.HealthPercentage = healthPercentage;
+
+            const float offset = 6;
+
+            this.HealthBarRuntimeInstance.X = screenX / zoom;
+            this.HealthBarRuntimeInstance.Y = -offset + screenY / zoom;
         }
 
         private void HighLevelActivity()

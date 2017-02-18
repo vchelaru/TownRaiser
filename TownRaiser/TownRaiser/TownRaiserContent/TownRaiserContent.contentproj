@@ -45,6 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="2d misc\medieval-fantasy\hud\life-box-empty-2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>life-box-empty-2</Name>
+    </None>
     <None Include="CharactersSheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>CharactersSheet</Name>
@@ -108,6 +112,10 @@
     <None Include="GumProject\Components\GroupSelector.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>GroupSelector</Name>
+    </None>
+    <None Include="GumProject\Components\HealthBar.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>HealthBar</Name>
     </None>
     <None Include="GumProject\Components\Resource.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

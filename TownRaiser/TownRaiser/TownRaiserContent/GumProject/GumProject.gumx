@@ -40,6 +40,10 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
+    <Name>HealthBar</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
     <Name>Resource</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>

@@ -60,7 +60,7 @@ namespace Gum.Wireframe
         protected virtual void CallCustomInitialize()
         {
             this.Click += (window) => CallLosePush();
-            this.RollOff += (window) =>  CallLosePush();
+            this.RollOff += (window) => CallLosePush();
         }
 
         partial void CustomAddToManagers()
