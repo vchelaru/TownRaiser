@@ -229,7 +229,7 @@ namespace TownRaiser.Screens
 
         private void BuildMarkerActivity()
         {
-            if(ActionToolbarInstance.GetActionModeBasedOnToggleState() == ActionMode.Build)
+            if(ActionToolbarInstance.GetActionModeBasedOnToggleState() == ActionMode.Build && GetIfCanClickInWorld())
             {
                 BuildingMarkerInstance.Visible = true;
                 BuildingMarkerInstance.BuildingData = ActionToolbarInstance.SelectedBuildingData;
@@ -369,7 +369,7 @@ namespace TownRaiser.Screens
 
             if(cursor.PrimaryClick && !GroupSelectorInstance.WasReleasedThisFrame)
             {
-                if (cursor.WindowOver == null || cursor.WindowOver == this.ResourceDisplayInstance)
+                if (GetIfCanClickInWorld())
                 {
                     //Update: February 11, 2017
                     //Rick Blaylock
@@ -398,6 +398,13 @@ namespace TownRaiser.Screens
             }
         }
 
+        private bool GetIfCanClickInWorld()
+        {
+            var cursor = GuiManager.Cursor;
+
+            return cursor.WindowOver == null || cursor.WindowOver == this.ResourceDisplayInstance;
+        }
+
         private void DebugClickActivity()
         {
             var keyboard = InputManager.Keyboard;
@@ -412,10 +419,11 @@ namespace TownRaiser.Screens
             var newUnit = Factories.UnitFactory.CreateNew();
             newUnit.NodeNetwork = this.tileNodeNetwork;
             newUnit.AllUnits = UnitList;
+            newUnit.AllBuildings = BuildingList;
             newUnit.X = GuiManager.Cursor.WorldXAt(0);
             newUnit.Y = GuiManager.Cursor.WorldYAt(0);
             newUnit.Z = 1;
-            
+            newUnit.CurrentTrainingStatusState = Entities.Unit.TrainingStatus.TrainingComplete;
             newUnit.UnitData = unitData;
 
         }

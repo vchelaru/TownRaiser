@@ -149,15 +149,14 @@ namespace TownRaiser.GumRuntimes
 #if DEBUG
             addButtons &= Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
 #endif
-            if (addButtons && units == null)
-            {
-                ActionStackContainerInstance.AddUnitToggleButtons();
-            }
-            else if (addButtons)
+            if (addButtons && units?.Count() > 0)
             {
                 ActionStackContainerInstance.AddUnitToggleButtons(units);
             }
-
+            else
+            {
+                ActionStackContainerInstance.RemoveToggleButtons();
+            }
         }
 
         public void ReactToKeyPress()

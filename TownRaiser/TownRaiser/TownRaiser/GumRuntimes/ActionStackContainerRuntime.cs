@@ -144,6 +144,9 @@ namespace TownRaiser.GumRuntimes
                 toggleButton = null;
             }
 
+            // Gum seems to not want to update layout when an object is removed, so we'll manually do it:
+            this.UpdateLayout();
+
             SetVariableState();
         }
 

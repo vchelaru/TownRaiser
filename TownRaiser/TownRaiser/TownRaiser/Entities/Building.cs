@@ -66,7 +66,10 @@ namespace TownRaiser.Entities
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
 
-		}
+#if DEBUG
+            this.AxisAlignedRectangleInstance.Visible = DebuggingVariables.ShowBuildingOutline;
+#endif
+        }
 
 		private void CustomActivity()
 		{

@@ -41,6 +41,8 @@ namespace TownRaiser.Entities
 
         public PositionedObjectList<Unit> AllUnits { get; set; }
 
+        public PositionedObjectList<Building> AllBuildings { get; set; }
+
         public int CurrentHealth { get; set; }
 
         #endregion
@@ -89,7 +91,8 @@ namespace TownRaiser.Entities
         private void CustomActivity()
         {
             //We will only perform high and immediateAi activities if the unit has completed training.
-
+            // Rick - we probably want to remove this once units are no longer instantiated by the building
+            // when training starts
             if (CurrentTrainingStatusState == TrainingStatus.TrainingComplete)
             {
                 HighLevelActivity();
@@ -201,6 +204,7 @@ namespace TownRaiser.Entities
                 var goal = new FindTargetToAttackHighLevelGoal();
                 goal.Owner = this;
                 goal.AllUnits = AllUnits;
+                goal.AllBuildings = AllBuildings;
 
                 HighLevelGoal = goal;
             }

@@ -23,9 +23,9 @@ namespace TownRaiser.AI
             var segment = new Segment(Owner.Position, Owner.Position);
             // There's nothing built in to do distance to shape collections, so we'll use the rect. 
             // not as robust:
-            var distance = segment.DistanceTo(TargetBuilding.AxisAlignedRectangleInstance);
 
-            return maxAttackDistance >= distance;
+            return TargetBuilding.Collision.IsPointInside(Owner.X, Owner.Y) || 
+                maxAttackDistance >= segment.DistanceTo(TargetBuilding.AxisAlignedRectangleInstance);
         }
 
 

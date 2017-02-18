@@ -37,9 +37,18 @@ namespace TownRaiser.AI
             // this if we decide to add units that are built by the bad guys:
             if(Owner.UnitData.IsEnemy)
             {
+#if DEBUG
+                if(AllBuildings == null)
+                {
+                    throw new NullReferenceException($"Need to assing {nameof(AllBuildings)} when instantiating this unit.");
+                }
+#endif
+
                 const float buildingAggroSquared = (80 + 24) * (80 + 24);
-                var foundBuilding = AllBuildings.FirstOrDefault(item =>
-                    (item.Position -Owner.Position).LengthSquared() < buildingAggroSquared);
+                var foundBuilding = AllBuildings
+                    .Where(item => (item.Position - Owner.Position).LengthSquared() < buildingAggroSquared)
+                    .OrderBy(item => (item.Position - Owner.Position).LengthSquared())
+                    .FirstOrDefault();
 
                 if(foundBuilding != null)
                 {
