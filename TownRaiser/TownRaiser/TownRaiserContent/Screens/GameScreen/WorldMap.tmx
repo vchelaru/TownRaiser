@@ -5,31 +5,37 @@
   <tile id="16">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
   <tile id="17">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
   <tile id="18">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
   <tile id="48">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
   <tile id="49">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
   <tile id="50">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
   <tile id="75">
@@ -40,16 +46,19 @@
   <tile id="80">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
   <tile id="81">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
   <tile id="82">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
   <tile id="138">
@@ -77,7 +86,7 @@
  </layer>
  <layer name="AboveGroundLayer" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3PMQoAIAxD0d4fvYne0S5CEcUtpfAfdOmSxAxAdc2vJ+YPv3n8MjrFzFsnVaZye9y5czO2xy6q/a881f5fDzX1bgAAUM8CrZBi/gAQAAA=
+   H4sIAAAAAAAAC+2QSwrAIBBD54BztHqTescqWBiKv1XS0jwIqJuXaCaE+DpHSSL6z5L8eGN0is5eJ5QTuT3uvL2M7bELav/Ih9q/6oEGvVuIv+Mt7A6zOwr2P1R8cEZ6GbD9lTd0EPtcqc+ccgAQAAA=
   </data>
  </layer>
 </map>
