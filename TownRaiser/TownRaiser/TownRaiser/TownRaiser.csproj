@@ -137,6 +137,16 @@
     <Compile Include="Entities\Building.Generated.Event.cs">
       <DependentUpon>Building.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\BuildingMarker.cs" />
+    <Compile Include="Entities\BuildingMarker.Event.cs">
+      <DependentUpon>BuildingMarker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\BuildingMarker.Generated.cs">
+      <DependentUpon>BuildingMarker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\BuildingMarker.Generated.Event.cs">
+      <DependentUpon>BuildingMarker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\DebuggingVariables.cs" />
     <Compile Include="Entities\DebuggingVariables.Generated.cs">
       <DependentUpon>DebuggingVariables.cs</DependentUpon>
@@ -280,6 +290,7 @@
     <Compile Include="GumRuntimes\StatusToolbarRuntime.Generated.cs">
       <DependentUpon>StatusToolbarRuntime.cs</DependentUpon>
     </Compile>
+    <Compile Include="GumRuntimes\TestScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.Generated.cs">
@@ -300,6 +311,10 @@
     <Compile Include="Screens\MainMenu.cs" />
     <Compile Include="Screens\MainMenu.Generated.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\TestScreen.cs" />
+    <Compile Include="Screens\TestScreen.Generated.cs">
+      <DependentUpon>TestScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Setup\CameraSetup.cs" />
     <Compile Include="StateInterpolation\Back.cs" />

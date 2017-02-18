@@ -115,6 +115,14 @@
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>Entity</SourceType>
+          <SourceClassType>Entities\BuildingMarker</SourceClassType>
+          <InstanceName>BuildingMarkerInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
       </NamedObjects>
     </ScreenSave>
     <ScreenSave>
@@ -131,6 +139,32 @@
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
       </ReferencedFiles>
+    </ScreenSave>
+    <ScreenSave>
+      <Tags>
+        <string>GLUE</string>
+      </Tags>
+      <Source>GLUE</Source>
+      <Name>Screens\TestScreen</Name>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>GumProject/Screens/TestScreenGum.gusx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>FlatRedBall.Gum.GumIdb</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
+      <NamedObjects>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>GumProject/Screens/TestScreenGum.gusx</SourceFile>
+          <SourceName>ToggleButtonInstance (TownRaiser.GumRuntimes.ToggleButtonRuntime)</SourceName>
+          <InstanceName>ToggleButtonInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+      </NamedObjects>
     </ScreenSave>
   </Screens>
   <Entities>
@@ -291,6 +325,217 @@
         </ReferencedFileSave>
       </ReferencedFiles>
       <CreatedByOtherEntities>true</CreatedByOtherEntities>
+      <Events>
+        <EventResponseSave>
+          <EventName>AfterBuildingDataSet</EventName>
+          <SourceVariable>BuildingData</SourceVariable>
+          <BeforeOrAfter>After</BeforeOrAfter>
+        </EventResponseSave>
+      </Events>
+      <Is2D>true</Is2D>
+    </EntitySave>
+    <EntitySave>
+      <Tags>
+        <string>GLUE</string>
+      </Tags>
+      <Source>GLUE</Source>
+      <States>
+        <StateSave>
+          <InstructionSaves>
+            <InstructionSave>
+              <Type>Single</Type>
+              <Member>SpriteRed</Member>
+              <ValueAsFloat>1</ValueAsFloat>
+            </InstructionSave>
+            <InstructionSave>
+              <Type>Single</Type>
+              <Member>SpriteGreen</Member>
+              <ValueAsFloat>1</ValueAsFloat>
+            </InstructionSave>
+            <InstructionSave>
+              <Type>Single</Type>
+              <Member>SpriteBlue</Member>
+              <ValueAsFloat>1</ValueAsFloat>
+            </InstructionSave>
+          </InstructionSaves>
+          <Name>Normal</Name>
+        </StateSave>
+        <StateSave>
+          <InstructionSaves>
+            <InstructionSave>
+              <Type>Single</Type>
+              <Member>SpriteRed</Member>
+              <ValueAsFloat>1</ValueAsFloat>
+            </InstructionSave>
+            <InstructionSave>
+              <Type>Single</Type>
+              <Member>SpriteGreen</Member>
+              <ValueAsFloat>0</ValueAsFloat>
+            </InstructionSave>
+            <InstructionSave>
+              <Type>Single</Type>
+              <Member>SpriteBlue</Member>
+              <ValueAsFloat>0</ValueAsFloat>
+            </InstructionSave>
+          </InstructionSaves>
+          <Name>Invalid</Name>
+        </StateSave>
+      </States>
+      <CustomVariables>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>X</Name>
+          <Type>float</Type>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>Y</Name>
+          <Type>float</Type>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>Z</Name>
+          <Type>float</Type>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>SpriteRed</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">1</DefaultValue>
+          <SourceObject>SpriteInstance</SourceObject>
+          <SourceObjectProperty>Red</SourceObjectProperty>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>SpriteGreen</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">1</DefaultValue>
+          <SourceObject>SpriteInstance</SourceObject>
+          <SourceObjectProperty>Green</SourceObjectProperty>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>SpriteBlue</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">1</DefaultValue>
+          <SourceObject>SpriteInstance</SourceObject>
+          <SourceObjectProperty>Blue</SourceObjectProperty>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>VariableState</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>CurrentState</Name>
+          <Type>VariableState</Type>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>TownRaiser.DataTypes.BuildingData</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>BuildingData</Name>
+          <Type>TownRaiser.DataTypes.BuildingData</Type>
+          <CreatesEvent>true</CreatesEvent>
+        </CustomVariable>
+      </CustomVariables>
+      <ImplementsIVisible>true</ImplementsIVisible>
+      <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
+      <Name>Entities\BuildingMarker</Name>
+      <NamedObjects>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>TextureScale</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>AnimationChainList</Type>
+            <Member>AnimationChains</Member>
+            <ValueAsString>AnimationChainListFile</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>string</Type>
+            <Member>CurrentChainName</Member>
+            <ValueAsString>Tent</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>ColorOperation</Type>
+            <Member>ColorOperation</Member>
+            <ValueAsInt>3</ValueAsInt>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Red</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Green</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Blue</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Alpha</Member>
+            <ValueAsFloat>0.5</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>Sprite</SourceClassType>
+          <InstanceName>SpriteInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+      </NamedObjects>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Entities/Building/AnimationChainListFile.achx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>FlatRedBall.Graphics.Animation.AnimationChainList</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
       <Events>
         <EventResponseSave>
           <EventName>AfterBuildingDataSet</EventName>

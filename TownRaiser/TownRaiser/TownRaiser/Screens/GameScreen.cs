@@ -207,6 +207,43 @@ namespace TownRaiser.Screens
             CameraMovementActivity();
 
             CollisionActivity();
+
+            BuildMarkerActivity();
+        }
+
+        private void BuildMarkerActivity()
+        {
+            if(ActionToolbarInstance.GetActionModeBasedOnToggleState() == ActionMode.Build)
+            {
+                BuildingMarkerInstance.Visible = true;
+                BuildingMarkerInstance.BuildingData = ActionToolbarInstance.SelectedBuildingData;
+                float x, y;
+
+                GetBuildLocationFromCursor(out x, out y);
+
+                bool isInvalid = BuildingList.Any(item => item.Collision.IsPointInside(x, y))
+                    || woodResourceShapeCollection.Rectangles.Any(rect => rect.IsPointOnOrInside(x, y))
+                    || stoneResourceShapeCollection.Rectangles.Any(rect => rect.IsPointOnOrInside(x, y));
+
+                if(isInvalid )
+                {
+                    BuildingMarkerInstance.CurrentState = Entities.BuildingMarker.VariableState.Invalid;
+                }
+                else
+                {
+                    BuildingMarkerInstance.CurrentState = Entities.BuildingMarker.VariableState.Normal;
+
+                }
+
+                BuildingMarkerInstance.X = x;
+                BuildingMarkerInstance.Y = y;
+                // put it above other stuff
+                BuildingMarkerInstance.Z = 3;
+            }
+            else
+            {
+                BuildingMarkerInstance.Visible = false;
+            }
         }
 
         private void CollisionActivity()
@@ -218,7 +255,11 @@ namespace TownRaiser.Screens
 
         private void PerformUnitsVsTerrainCollision()
         {
-            // for adam to do this
+            for (int i = 0; i < UnitList.Count; i++)
+            {
+                stoneResourceShapeCollection.CollideAgainstSolid(UnitList[i].CircleInstance);
+                woodResourceShapeCollection.CollideAgainstSolid(UnitList[i].CircleInstance);
+            }
         }
 
         private void PerformUnitsVsUnitsCollision()
@@ -497,6 +538,7 @@ namespace TownRaiser.Screens
             }
 
         }
+
         private void HandlePerformTrain()
         {
             var unitData = ActionToolbarInstance.SelectedUnitData;
@@ -577,18 +619,9 @@ namespace TownRaiser.Screens
             if(hasEnoughResources && !isOverOtherBuilding)
             {
                 // do it!
-                var cursor = GuiManager.Cursor;
-
                 var building = Factories.BuildingFactory.CreateNew();
-                var x = cursor.WorldXAt(0);
-                var y = cursor.WorldYAt(0);
-
-                const float tilesWide = 3;
-
-                x = MathFunctions.RoundFloat(x, gridWidth * tilesWide, gridWidth * tilesWide/2);
-                y = MathFunctions.RoundFloat(y, gridWidth * tilesWide, gridWidth * tilesWide/2);
-
-
+                float x, y;
+                GetBuildLocationFromCursor(out x, out y);
 
                 building.X = x;
                 building.Y = y;
@@ -601,7 +634,7 @@ namespace TownRaiser.Screens
 
                 shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
 #endif
-                if(shouldUpdateResources)
+                if (shouldUpdateResources)
                 {
                     this.Lumber -= buildingType.LumberCost;
                     this.Stone -= buildingType.StoneCost;
@@ -614,6 +647,18 @@ namespace TownRaiser.Screens
             {
                 // tell them?
             }
+        }
+
+        private static void GetBuildLocationFromCursor(out float x, out float y)
+        {
+            var cursor = GuiManager.Cursor;
+
+            x = cursor.WorldXAt(0);
+            y = cursor.WorldYAt(0);
+            const float tilesWide = 3;
+
+            x = MathFunctions.RoundFloat(x, gridWidth * tilesWide, gridWidth * tilesWide / 2);
+            y = MathFunctions.RoundFloat(y, gridWidth * tilesWide, gridWidth * tilesWide / 2);
         }
 
         private void UpdateResourceDisplay()

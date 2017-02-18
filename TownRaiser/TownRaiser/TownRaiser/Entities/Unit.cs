@@ -162,6 +162,17 @@ namespace TownRaiser.Entities
             }
         }
 
+        public List<PositionedNode> GetPathTo(Vector3 position)
+        {
+            var toReturn = NodeNetwork.GetPath(ref Position, ref position);
+
+            // remove node 0 if there's more than 1 node, because otherwise the user backtracks:
+            if(toReturn.Count > 1)
+            {
+                toReturn.RemoveAt(0);
+            }
+            return toReturn;
+        }
 
         internal void TryStartFindingTarget()
         {

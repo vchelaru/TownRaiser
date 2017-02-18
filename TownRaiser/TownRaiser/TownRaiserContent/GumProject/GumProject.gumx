@@ -15,6 +15,10 @@
     <Name>MainMenuGum</Name>
     <ElementType>Screen</ElementType>
   </ScreenReference>
+  <ScreenReference>
+    <Name>TestScreenGum</Name>
+    <ElementType>Screen</ElementType>
+  </ScreenReference>
   <ComponentReference>
     <Name>ActionStackContainer</Name>
     <ElementType>Component</ElementType>
