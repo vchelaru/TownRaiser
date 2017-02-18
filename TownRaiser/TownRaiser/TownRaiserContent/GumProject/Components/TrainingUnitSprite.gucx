@@ -46,6 +46,13 @@
     </Variable>
     <Variable>
       <Type>bool</Type>
+      <Name>Custom Texture Coordinates</Name>
+      <Value xsi:type="xsd:boolean">false</Value>
+      <Category>Source</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
       <Name>FlipHorizontal</Name>
       <Value xsi:type="xsd:boolean">false</Value>
       <Category>Flip</Category>
@@ -307,8 +314,8 @@
       <Name>Half</Name>
       <Variable>
         <Type>int</Type>
-        <Name>Red</Name>
-        <Value xsi:type="xsd:int">255</Value>
+        <Name>Blue</Name>
+        <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
@@ -319,8 +326,8 @@
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>Blue</Name>
-        <Value xsi:type="xsd:int">0</Value>
+        <Name>Red</Name>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
@@ -328,8 +335,8 @@
       <Name>ThreeQuarter</Name>
       <Variable>
         <Type>int</Type>
-        <Name>Red</Name>
-        <Value xsi:type="xsd:int">255</Value>
+        <Name>Blue</Name>
+        <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
@@ -340,8 +347,8 @@
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>Blue</Name>
-        <Value xsi:type="xsd:int">0</Value>
+        <Name>Red</Name>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>

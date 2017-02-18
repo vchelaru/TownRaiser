@@ -97,37 +97,43 @@ namespace TownRaiser.GumRuntimes
             SetVariableState();
         }
 
-        public void AddUnitToggleButtons(IEnumerable<string> units)
+        public void RefreshToggleButtonsTo(IEnumerable<string> units)
         {
-            int i = 0;
-            foreach (var unit in units)
+            RemoveToggleButtons();
+
+            if(units != null)
             {
-                ToggleButtonRuntime unitButton = new ToggleButtonRuntime();
-                unitButton.AddToManagers(this.Managers, null);
-                unitButton.Parent = this;
-                Children.Add(unitButton);
-                ToggleButtonList.Add(unitButton);
 
-                unitButton.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
-                unitButton.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
+                int i = 0;
+                foreach (var unit in units)
+                {
+                    ToggleButtonRuntime unitButton = new ToggleButtonRuntime();
+                    unitButton.AddToManagers(this.Managers, null);
+                    unitButton.Parent = this;
+                    Children.Add(unitButton);
+                    ToggleButtonList.Add(unitButton);
 
-                unitButton.HotkeyData = GlobalContent.UnitData[unit];
+                    unitButton.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
+                    unitButton.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
+
+                    unitButton.HotkeyData = GlobalContent.UnitData[unit];
                 
-                unitButton.Click += (notused) =>
-                {
-                    unitButton.IsOn = false;
-                    this.TrainUnit(unitButton.HotKeyDataAsUnitData, null);
-                };
-                unitButton.Push += (notused) =>
-                {
-                    unitButton.IsOn = true;
-                };
-                unitButton.RollOff += (notused) =>
-                {
-                    unitButton.IsOn = false;
-                };
+                    unitButton.Click += (notused) =>
+                    {
+                        unitButton.IsOn = false;
+                        this.TrainUnit(unitButton.HotKeyDataAsUnitData, null);
+                    };
+                    unitButton.Push += (notused) =>
+                    {
+                        unitButton.IsOn = true;
+                    };
+                    unitButton.RollOff += (notused) =>
+                    {
+                        unitButton.IsOn = false;
+                    };
 
-                i++;
+                    i++;
+                }
             }
         }
 

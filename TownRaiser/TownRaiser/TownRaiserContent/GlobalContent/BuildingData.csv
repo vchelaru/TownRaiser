@@ -2,3 +2,4 @@
 TownHall,200,0,10,600,200,0,O,TownHallIcon,Worker
 Tent,100,0,3,500,0,3,E,TentIcon,
 House,140,0,5,700,100,5,H,HouseIcon,
+Barracks,250,,10,400,400,0,B,BarracksIcon,Fighter

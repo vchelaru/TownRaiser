@@ -872,6 +872,33 @@
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
+    <State>
+      <Name>BarracksIcon</Name>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Height</Name>
+        <Value xsi:type="xsd:int">16</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Left</Name>
+        <Value xsi:type="xsd:int">112</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Top</Name>
+        <Value xsi:type="xsd:int">96</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Width</Name>
+        <Value xsi:type="xsd:int">16</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
   </Category>
   <Instance>
     <Name>ColoredRectangleInstance1</Name>

@@ -41,9 +41,9 @@ namespace TownRaiser.Screens
     public partial class GameScreen
 	{
         #region Fields/Properties
-        public int Lumber { get; set; } = 10000;
-        public int Stone { get; set; } = 10000;
-        public int Gold { get; set; } = 10000;
+        public int Lumber { get; set; } = 1000;
+        public int Stone { get; set; } = 0;
+        public int Gold { get; set; } = 0;
         public int CurrentCapacityUsed { get; set; }
         public int MaxCapacity { get; set; }
 

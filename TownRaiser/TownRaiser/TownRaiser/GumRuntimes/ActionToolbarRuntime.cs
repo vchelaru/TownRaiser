@@ -145,18 +145,7 @@ namespace TownRaiser.GumRuntimes
 
         private void AddUnitOptionsToActionPanel(IEnumerable<string> units = null)
         {
-            bool addButtons = ActionStackContainerInstance.ToggleButtonList.Count == 0;
-#if DEBUG
-            addButtons &= Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
-#endif
-            if (addButtons && units?.Count() > 0)
-            {
-                ActionStackContainerInstance.AddUnitToggleButtons(units);
-            }
-            else
-            {
-                ActionStackContainerInstance.RemoveToggleButtons();
-            }
+            ActionStackContainerInstance.RefreshToggleButtonsTo(units);
         }
 
         public void ReactToKeyPress()

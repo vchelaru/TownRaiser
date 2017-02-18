@@ -78,55 +78,6 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <IsFile>true</IsFile>
-      <Type>string</Type>
-      <Name>SelectedObjectName.CustomFontFile</Name>
-      <Value xsi:type="xsd:string">FontCache\font-1.fnt</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>SelectedObjectName.Height</Name>
-      <Value xsi:type="xsd:float">33</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>string</Type>
-      <Name>SelectedObjectName.Text</Name>
-      <Value xsi:type="xsd:string">Town Hall</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>bool</Type>
-      <Name>SelectedObjectName.UseCustomFont</Name>
-      <Value xsi:type="xsd:boolean">true</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>VerticalAlignment</Type>
-      <Name>SelectedObjectName.VerticalAlignment</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>SelectedObjectName.Width</Name>
-      <Value xsi:type="xsd:float">62</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>SelectedObjectName.X</Name>
-      <Value xsi:type="xsd:float">35</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>SelectedObjectName.Y</Name>
-      <Value xsi:type="xsd:float">3</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
       <Type>ChildrenLayout</Type>
       <Name>Children Layout</Name>
       <Value xsi:type="xsd:int">0</Value>
@@ -257,6 +208,55 @@
     <Variable>
       <Type>string</Type>
       <Name>Parent</Name>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>SelectedObjectName.CustomFontFile</Name>
+      <Value xsi:type="xsd:string">FontCache\font-1.fnt</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectedObjectName.Height</Name>
+      <Value xsi:type="xsd:float">33</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>SelectedObjectName.Text</Name>
+      <Value xsi:type="xsd:string">Town Hall</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>SelectedObjectName.UseCustomFont</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>VerticalAlignment</Type>
+      <Name>SelectedObjectName.VerticalAlignment</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectedObjectName.Width</Name>
+      <Value xsi:type="xsd:float">62</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectedObjectName.X</Name>
+      <Value xsi:type="xsd:float">35</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectedObjectName.Y</Name>
+      <Value xsi:type="xsd:float">3</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -462,18 +462,6 @@
   <State>
     <Name>BuildingSelected</Name>
     <Variable>
-      <Type>float</Type>
-      <Name>SelectedObjectSprite.X</Name>
-      <Value xsi:type="xsd:float">19</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>SelectedObjectSprite.Y</Name>
-      <Value xsi:type="xsd:float">19</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
       <Type>VerticalAlignment</Type>
       <Name>SelectedObjectName.VerticalAlignment</Name>
       <Value xsi:type="xsd:int">1</Value>
@@ -489,6 +477,18 @@
       <Type>float</Type>
       <Name>SelectedObjectName.Y</Name>
       <Value xsi:type="xsd:float">3</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectedObjectSprite.X</Name>
+      <Value xsi:type="xsd:float">19</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>SelectedObjectSprite.Y</Name>
+      <Value xsi:type="xsd:float">19</Value>
       <SetsValue>true</SetsValue>
     </Variable>
   </State>
@@ -513,8 +513,8 @@
       <Name>ThreeQuarter</Name>
       <Variable>
         <Type>int</Type>
-        <Name>SelectedObjectSprite.Red</Name>
-        <Value xsi:type="xsd:int">255</Value>
+        <Name>SelectedObjectSprite.Blue</Name>
+        <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
@@ -525,8 +525,8 @@
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>SelectedObjectSprite.Blue</Name>
-        <Value xsi:type="xsd:int">0</Value>
+        <Name>SelectedObjectSprite.Red</Name>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
@@ -534,8 +534,8 @@
       <Name>Half</Name>
       <Variable>
         <Type>int</Type>
-        <Name>SelectedObjectSprite.Red</Name>
-        <Value xsi:type="xsd:int">255</Value>
+        <Name>SelectedObjectSprite.Blue</Name>
+        <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
@@ -546,8 +546,8 @@
       </Variable>
       <Variable>
         <Type>int</Type>
-        <Name>SelectedObjectSprite.Blue</Name>
-        <Value xsi:type="xsd:int">0</Value>
+        <Name>SelectedObjectSprite.Red</Name>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
@@ -572,6 +572,12 @@
     <State>
       <Name>TownHallIcon</Name>
       <Variable>
+        <Type>string</Type>
+        <Name>SelectedObjectName.Text</Name>
+        <Value xsi:type="xsd:string">Town Hall</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
         <Type>int</Type>
         <Name>SelectedObjectSprite.Texture Height</Name>
         <Value xsi:type="xsd:int">19</Value>
@@ -593,12 +599,6 @@
         <Type>int</Type>
         <Name>SelectedObjectSprite.Texture Width</Name>
         <Value xsi:type="xsd:int">16</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>string</Type>
-        <Name>SelectedObjectName.Text</Name>
-        <Value xsi:type="xsd:string">Town Hall</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
