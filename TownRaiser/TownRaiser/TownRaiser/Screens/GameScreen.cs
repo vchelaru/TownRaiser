@@ -221,6 +221,18 @@ namespace TownRaiser.Screens
 
                 GetBuildLocationFromCursor(out x, out y);
 
+                bool isInvalid = BuildingList.Any(item => item.Collision.IsPointInside(x, y));
+
+                if(isInvalid )
+                {
+                    BuildingMarkerInstance.CurrentState = Entities.BuildingMarker.VariableState.Invalid;
+                }
+                else
+                {
+                    BuildingMarkerInstance.CurrentState = Entities.BuildingMarker.VariableState.Normal;
+
+                }
+
                 BuildingMarkerInstance.X = x;
                 BuildingMarkerInstance.Y = y;
                 // put it above other stuff
