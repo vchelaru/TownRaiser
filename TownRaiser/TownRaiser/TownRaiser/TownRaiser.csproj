@@ -287,7 +287,10 @@
     <Compile Include="GumRuntimes\ResourceDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
-    <Compile Include="GumRuntimes\StatusToolbarRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\StatusToolbarRuntime.cs" />
+    <Compile Include="GumRuntimes\StatusToolbarRuntime.Generated.cs">
+      <DependentUpon>StatusToolbarRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\TestScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ToggleButtonRuntime.cs" />
@@ -296,6 +299,7 @@
     </Compile>
     <Compile Include="GumRuntimes\TrainingUnitSpriteRuntime.Generated.cs" />
     <Compile Include="Interfaces\IHotkeyData.cs" />
+    <Compile Include="Interfaces\IUpdatesStatus.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
