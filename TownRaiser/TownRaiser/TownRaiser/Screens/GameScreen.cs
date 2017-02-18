@@ -221,7 +221,9 @@ namespace TownRaiser.Screens
 
                 GetBuildLocationFromCursor(out x, out y);
 
-                bool isInvalid = BuildingList.Any(item => item.Collision.IsPointInside(x, y));
+                bool isInvalid = BuildingList.Any(item => item.Collision.IsPointInside(x, y))
+                    || woodResourceShapeCollection.Rectangles.Any(rect => rect.IsPointOnOrInside(x, y))
+                    || stoneResourceShapeCollection.Rectangles.Any(rect => rect.IsPointOnOrInside(x, y));
 
                 if(isInvalid )
                 {
