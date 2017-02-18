@@ -67,8 +67,7 @@ namespace TownRaiser.AI
             {
                 Owner.ImmediateGoal = new ImmediateGoal();
             }
-            Owner.ImmediateGoal.Path = 
-                NodeNetwork.GetPath(ref Owner.Position, ref TargetUnit.Position);
+            Owner.ImmediateGoal.Path = Owner.GetPathTo(TargetUnit.Position);
 
         }
 

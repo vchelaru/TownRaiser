@@ -33,7 +33,7 @@ namespace TownRaiser.AI
                 Owner.ImmediateGoal = new ImmediateGoal();
             }
 
-            Owner.ImmediateGoal.Path = Owner.NodeNetwork.GetPath(ref Owner.Position, ref vector3);
+            Owner.ImmediateGoal.Path = Owner.GetPathTo(vector3);
         }
 
         public override bool GetIfDone()
