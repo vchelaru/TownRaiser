@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TownRaiser.DataTypes;
+using TownRaiser.Entities;
 using TownRaiser.Interfaces;
 
 namespace TownRaiser.GumRuntimes
@@ -31,9 +32,9 @@ namespace TownRaiser.GumRuntimes
         public BuildingData HotKeyDataAsBuildingData => m_HotKeyData as BuildingData;
         public UnitData HotKeyDataAsUnitData => m_HotKeyData as UnitData; 
         
-        public void UpdateButtonBasedOnMoney(int lumber, int stone, int gold, int currentCapacity, int maxCapacity)
+        public void UpdateButtonEnabledState(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
-            var isEnabled = m_HotKeyData.ShouldEnableButton(lumber, stone, gold, currentCapacity, maxCapacity);
+            var isEnabled = m_HotKeyData.ShouldEnableButton(lumber, stone, gold, currentCapacity, maxCapacity, existingBuildings);
 
 #if DEBUG
             if(Entities.DebuggingVariables.HasInfiniteResources)

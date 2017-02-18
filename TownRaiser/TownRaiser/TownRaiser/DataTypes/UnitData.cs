@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using TownRaiser.Interfaces;
 using static TownRaiser.GumRuntimes.ToggleButtonRuntime;
+using TownRaiser.Entities;
 
 namespace TownRaiser.DataTypes
 {
@@ -14,7 +15,7 @@ namespace TownRaiser.DataTypes
         public Keys Hotkey => HotkeyFieldButUseProperty;
         public IconDisplay ButtonIconDisplayState => ButtonIconDisplayStateButUseProperty;
 
-        public bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity)
+        public bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
             return GoldCost <= gold && (currentCapacity + Capacity) <= maxCapacity;
         }

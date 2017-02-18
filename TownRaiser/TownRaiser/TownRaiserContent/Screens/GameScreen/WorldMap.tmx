@@ -66,6 +66,12 @@
     <property name="ResourceType" value="Stone"/>
    </properties>
   </tile>
+  <tile id="169">
+   <properties>
+    <property name="BlocksPathfinding" type="bool" value="true"/>
+    <property name="ResourceType" value="Gold"/>
+   </properties>
+  </tile>
   <tile id="171">
    <properties>
     <property name="BlocksPathfinding" type="bool" value="true"/>
@@ -86,7 +92,7 @@
  </layer>
  <layer name="AboveGroundLayer" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2QSwrAIBBD54BztHqTescqWBiKv1XS0jwIqJuXaCaE+DpHSSL6z5L8eGN0is5eJ5QTuT3uvL2M7bELav/Ih9q/6oEGvVuIv+Mt7A6zOwr2P1R8cEZ6GbD9lTd0EPtcqc+ccgAQAAA=
+   H4sIAAAAAAAAC+2QQQrAIBADfaBPqx8p9o9VsLBI13pKlGYgoF4mMQQhxO4cJYnozyVX98boZJ1vnVBO5Ha78/EyttsuqP2eD7X/qwca9O5VONkFxG+JLewOozsK9j9UonNGehmw/ZUVOoh5bhH0m24AEAAA
   </data>
  </layer>
 </map>

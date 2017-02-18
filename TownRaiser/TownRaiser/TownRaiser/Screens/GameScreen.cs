@@ -42,8 +42,8 @@ namespace TownRaiser.Screens
 	{
         #region Fields/Properties
         public int Lumber { get; set; } = 1000;
-        public int Stone { get; set; } = 0;
-        public int Gold { get; set; } = 0;
+        public int Stone { get; set; } = 1000;
+        public int Gold { get; set; } = 1000;
         public int CurrentCapacityUsed { get; set; }
         public int MaxCapacity { get; set; }
 
@@ -52,6 +52,7 @@ namespace TownRaiser.Screens
         TileShapeCollection woodResourceShapeCollection;
         TileShapeCollection stoneResourceShapeCollection;
         TileShapeCollection waterResourceShapeCollection;
+        TileShapeCollection goldResourceShapeCollection;
 
         const float gridWidth = 16;
 
@@ -110,6 +111,16 @@ namespace TownRaiser.Screens
 #if DEBUG
             waterResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
 #endif
+
+            goldResourceShapeCollection = new TileShapeCollection();
+            goldResourceShapeCollection.AddMergedCollisionFrom(WorldMap,
+              (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Gold"));
+#if DEBUG
+            goldResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+#endif
+
+
+            
         }
 
         private void InitializeCamera()
@@ -310,7 +321,8 @@ namespace TownRaiser.Screens
 
         private void HotkeyActivity()
         {
-            ActionToolbarInstance.UpdateButtonsOnMoney(Lumber, Stone, Gold, CurrentCapacityUsed, MaxCapacity);
+            var completedBuildings = BuildingList.Where(item => item.IsConstructionComplete).ToList();
+            ActionToolbarInstance.UpdateButtonEnabledStates(Lumber, Stone, Gold, CurrentCapacityUsed, MaxCapacity, completedBuildings);
             if(InputManager.Keyboard.AnyKeyPushed())
             {
                 ActionToolbarInstance.ReactToKeyPress();

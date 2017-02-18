@@ -9,5 +9,6 @@ namespace TownRaiser.DataTypes
     public class Requirement
     {
         public string Building { get; set; }
+        public int Number { get; set; } = 1;
     }
 }

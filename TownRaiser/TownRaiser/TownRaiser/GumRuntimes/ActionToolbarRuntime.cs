@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TownRaiser.DataTypes;
 using TownRaiser.Screens;
+using TownRaiser.Entities;
 
 namespace TownRaiser.GumRuntimes
 {
@@ -183,11 +184,11 @@ namespace TownRaiser.GumRuntimes
             }
         }
 
-        public void UpdateButtonsOnMoney(int lumber, int stone, int gold, int currentCapacity, int maxCapacity)
+        public void UpdateButtonEnabledStates(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
             foreach (var button in ActionStackContainerInstance.ToggleButtonList)
             {
-                button.UpdateButtonBasedOnMoney(lumber, stone, gold, currentCapacity, maxCapacity);
+                button.UpdateButtonEnabledState(lumber, stone, gold, currentCapacity, maxCapacity, existingBuildings);
             }
         }
     }
