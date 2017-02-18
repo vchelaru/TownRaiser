@@ -186,7 +186,7 @@ namespace TownRaiser.GumRuntimes
                 foreach(var button in ActionStackContainerInstance.ToggleButtonList)
                 {
                     var hotKey = button.HotkeyData.Hotkey;
-                    if(InputManager.Keyboard.KeyPushed(hotKey))
+                    if(InputManager.Keyboard.KeyPushed(hotKey) && button.HotKeyDataAsUnitData != null)
                     {
                         //ActionStackContainerInstance.UntoggleAllExcept(button);
                         this.TrainUnit(button.HotKeyDataAsUnitData, null);
