@@ -12,6 +12,7 @@ namespace TownRaiser.AI
     public class WalkToHighLevelGoal : HighLevelGoal
     {
 
+        bool hasAlreadyGottenPath = false;
 
         public Vector3? TargetPosition;
 
@@ -24,6 +25,8 @@ namespace TownRaiser.AI
 
         private void GetPath()
         {
+            hasAlreadyGottenPath = true;
+
             var vector3 = TargetPosition.Value;
             if(Owner.ImmediateGoal == null)
             {
@@ -43,7 +46,7 @@ namespace TownRaiser.AI
             var hasPath =
                 Owner.ImmediateGoal?.Path?.Count > 0;
 
-            if(!hasPath)
+            if(!hasPath && !hasAlreadyGottenPath)
             {
                 GetPath();
             }
