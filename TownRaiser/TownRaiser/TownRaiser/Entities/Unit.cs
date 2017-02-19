@@ -179,6 +179,18 @@ namespace TownRaiser.Entities
             }
         }
 
+        public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, string resourceType)
+        {
+            var collectResourceGoal = new ResourceCollectHighLevelGoal();
+            collectResourceGoal.Owner = this;
+            collectResourceGoal.NodeNetwork = this.NodeNetwork;
+            collectResourceGoal.ClickPosition = clickPosition;
+            collectResourceGoal.TargetResourceTile = resourceGroupTile;
+            collectResourceGoal.TargetResourceType = resourceType;
+
+            HighLevelGoal = collectResourceGoal;
+        }
+
         public void AssignAttackGoal(Unit enemy)
         {
             var attackGoal = new AttackUnitHighLevelGoal();

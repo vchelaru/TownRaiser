@@ -29,7 +29,7 @@ namespace TownRaiser.AI
 
             if(foundUnit != null)
             {
-                Owner.CreateAttackGoal(foundUnit);
+                Owner.AssignAttackGoal(foundUnit);
             }
 
             // we prioritize units over buildings, since units can fight back
@@ -52,7 +52,7 @@ namespace TownRaiser.AI
 
                 if(foundBuilding != null)
                 {
-                    Owner.CreateAttackGoal(foundBuilding);
+                    Owner.AssignAttackGoal(foundBuilding);
                 }
             }
 

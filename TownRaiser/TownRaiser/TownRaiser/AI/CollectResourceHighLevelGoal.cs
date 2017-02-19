@@ -8,26 +8,65 @@ using TownRaiser.Entities;
 using FlatRedBall.Math.Geometry;
 using Microsoft.Xna.Framework;
 using TownRaiser.Screens;
+using FlatRedBall.Math;
 
 namespace TownRaiser.AI
 {
-    class CollectResourceHighLevelGoal : HighLevelGoal
+    class ResourceCollectHighLevelGoal : HighLevelGoal
     {
-        public AxisAlignedRectangle TargetResourceTile { get; set; }
         public Unit Owner { get; set; }
-        
+        public TileNodeNetwork NodeNetwork { get; set; }
+        Vector3 _ClickPosition;
+        public Vector3 ClickPosition
+        {
+            get
+            {
+                return _ClickPosition;
+            }
+            set
+            {
+                if (value != _ClickPosition)
+                {
+                    _ClickPosition = value;
+                    SingleTileCenter = GetSingleTileCenterFromClickPosition(_ClickPosition);
+                }
+            }
+        }
+        /// <summary>
+        /// The center of the desired resource tile, as if it weren't merged with any neighbors.
+        /// </summary>
+        Vector3 SingleTileCenter { get; set; }
+        public AxisAlignedRectangle TargetResourceTile { get; set; }
+        public string TargetResourceType { get; set; }
+
+        /// <summary>
+        /// Find the center of the tile clicked on, rather than finding the node nearest the click (which could be opposite side of closest node).
+        /// </summary>
+        /// <param name="clickPosition">Center of resource clicked on, as if it weren't part of a merged group.</param>
+        /// <returns></returns>
+        private Vector3 GetSingleTileCenterFromClickPosition(Vector3 clickPosition)
+        {
+            const float tilesWide = 1;
+            return new Vector3(
+                MathFunctions.RoundFloat(ClickPosition.X, GameScreen.GridWidth * tilesWide, GameScreen.GridWidth * tilesWide / 2),
+                MathFunctions.RoundFloat(ClickPosition.Y, GameScreen.GridWidth * tilesWide, GameScreen.GridWidth * tilesWide / 2),
+                0);
+        }
+
         const float CollectFrequency = 1;
-        const float MaxCollectDistanct = 20;
-        
-        // The last time damage was dealt. Damage is dealt one time every X seconds
-        // as defined by the DamageFrequency value;
+
+        /// <summary>
+        /// The last time resource was collected. Resource is collected one time every X seconds
+        /// as defined by the <paramref name="CollectFrequency"/> value;
+        /// </summary>
         double lastCollectionTime;
 
+        // TODO: Needs to go away when using a resource collision.
+        const float MaxCollectDistanct = 20;
         public bool IsInRangeToCollect()
         {
-            // TODO: Do more math based on all rectangle sides/vertices.
-            var currentDistance = (Owner.Position - TargetResourceTile.Position).Length();
-
+            // TODO: Use collide check with Owner.ResourceCollectCircle.
+            var currentDistance = (Owner.Position - SingleTileCenter).Length();
             return currentDistance < MaxCollectDistanct;
         }
 
@@ -44,40 +83,84 @@ namespace TownRaiser.AI
             else
             {
                 // we're close, harvest!
+
+                // Stop moving.
+                Owner.ImmediateGoal.Path.Clear();
+                Owner.Velocity = Vector3.Zero;
+
                 var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
                 bool canCollect = screen.PauseAdjustedSecondsSince(lastCollectionTime) >= CollectFrequency;
 
                 if(canCollect)
                 {
+                    // TODO: Take resource back to nearest Town Hall?
                     lastCollectionTime = screen.PauseAdjustedCurrentTime;
-                    // TODO: Figure out what kind of resource we are harvesting (or different Collect*ResourceHighLevelGoal per resource type).
-                    screen.Lumber += Owner.UnitData.ResourceHarvestAmount;
+                    if (TargetResourceType == "Lumber")
+                    {
+                        screen.Lumber += Owner.UnitData.ResourceHarvestAmount;
+                    }
+                    else if (TargetResourceType == "Stone")
+                    {
+                        screen.Stone += Owner.UnitData.ResourceHarvestAmount;
+                    }
+                    else if (TargetResourceType == "Gold")
+                    {
+                        screen.Gold += Owner.UnitData.ResourceHarvestAmount;
+                    }
                 }
             }
         }
 
         public override bool GetIfDone()
         {
-            // TODO: Look up default we are overriding. May not need override.
-            // Resources are unlimited, only restricted by collision of units trying to harvest simultaneously.
+            // TODO: Take resource back to nearest Town Hall?
+
+            // Resources are unlimited, only restricted by mosh pit of units trying to harvest simultaneously.
             return false;
         }
 
         private void PathfindToTarget()
         {
-            if(Owner.ImmediateGoal == null)
+            if (Owner.ImmediateGoal == null)
             {
                 Owner.ImmediateGoal = new ImmediateGoal();
             }
-            // TODO: Get to closest side of tile. Or find node in said position.
-            Owner.ImmediateGoal.Path = 
-                NodeNetwork.GetPath(ref Owner.Position, ref TargetResourceTile.Position);
-
+            // Get path to our clicked [single] tile.
+            var pathToTileCenter = Owner.GetPathTo(SingleTileCenter);
+            // Add a node for the center to make sure unit tries to get close enough to harvest.
+            pathToTileCenter.Add(new PositionedNode() { X = SingleTileCenter.X, Y = SingleTileCenter.Y, Z = SingleTileCenter.Z });
+            Owner.ImmediateGoal.Path = pathToTileCenter;
         }
 
         private void PerformPathfindingDecisions()
         {
-            bool hasReachedTarget = Owner.CollideAgainst(TargetResourceTile);
+            // TODO: Collide with resource collection circle.
+            // x and y
+            // represent
+            // the center
+            // of the tile
+            // where the user
+            // may want to add 
+            // collision.  Let's
+            // subtract half width/
+            // height so we can use the
+            // bottom/left
+            float roundedX = MathFunctions.RoundFloat(x - GridSize / 2.0f, GridSize, mLeftSeedX);
+            float roundedY = MathFunctions.RoundFloat(y - GridSize / 2.0f, GridSize, mBottomSeedY);
+
+            AxisAlignedRectangle newAar = new AxisAlignedRectangle();
+            newAar.Width = GridSize;
+            newAar.Height = GridSize;
+            newAar.Left = roundedX;
+            newAar.Bottom = roundedY;
+
+            if (this.mVisible)
+            {
+                newAar.Visible = true;
+            }
+
+
+            bool hasReachedTarget = Owner.CollideAgainst(SingleTileCenter);
 
             if(hasReachedTarget)
             {
@@ -87,7 +170,7 @@ namespace TownRaiser.AI
             else
             {
                 // TODO: Get to closest side of tile. Or find node in said position.
-                var closestNodeToTarget = NodeNetwork.GetClosestNodeTo(ref TargetResourceTile.Position);
+                var closestNodeToTarget = Owner.GetPathTo(TargetResourceTile.Position);
 
                 var lastPoint = Owner.ImmediateGoal.Path.Last();
 

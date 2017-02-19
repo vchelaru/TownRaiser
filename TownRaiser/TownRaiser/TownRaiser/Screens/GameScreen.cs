@@ -53,7 +53,7 @@ namespace TownRaiser.Screens
         TileShapeCollection waterResourceShapeCollection;
         TileShapeCollection goldResourceShapeCollection;
 
-        const float gridWidth = 16;
+        public const float GridWidth = 16;
 
         List<Entities.Unit> selectedUnits = new List<Entities.Unit>();
         Entities.Building selectedBuilding;
@@ -168,9 +168,9 @@ namespace TownRaiser.Screens
         {
             TileNodeNetwork.VisibleCoefficient = 3;
 
-            tileNodeNetwork = new TileNodeNetwork(gridWidth / 2f,
-                -WorldMap.Height + gridWidth / 2f,
-                gridWidth,
+            tileNodeNetwork = new TileNodeNetwork(GridWidth / 2f,
+                -WorldMap.Height + GridWidth / 2f,
+                GridWidth,
                 MathFunctions.RoundToInt(WorldMap.Width / WorldMap.WidthPerTile.Value),
                 MathFunctions.RoundToInt(WorldMap.Height / WorldMap.HeightPerTile.Value),
                 DirectionalType.Eight);
@@ -194,7 +194,7 @@ namespace TownRaiser.Screens
                             float x, y;
                             layer.GetBottomLeftWorldCoordinateForOrderedTile(index, out x, out y);
 
-                            var toRemove = tileNodeNetwork.TiledNodeAtWorld(x + gridWidth/2, y + gridWidth/2);
+                            var toRemove = tileNodeNetwork.TiledNodeAtWorld(x + GridWidth/2, y + GridWidth/2);
 
                             if(toRemove != null)
                             {
@@ -425,33 +425,35 @@ namespace TownRaiser.Screens
 
         private void DebugClickActivity()
         {
-            var keyboard = InputManager.Keyboard;
-            if(keyboard.KeyDown(Keys.D1))
-            {
-                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
-            }
+            // Disabled until I get actual resource collecting to work.
 
-            var cursor = GuiManager.Cursor;
-            var worldX = cursor.WorldXAt(0);
-            var worldY = cursor.WorldYAt(0);
+            //var keyboard = InputManager.Keyboard;
+            //if(keyboard.KeyDown(Keys.D1))
+            //{
+            //    DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
+            //}
 
-            const int amountToAddPerClick = 8;
+            //var cursor = GuiManager.Cursor;
+            //var worldX = cursor.WorldXAt(0);
+            //var worldY = cursor.WorldYAt(0);
 
-            if (goldResourceShapeCollection.GetTileAt(worldX, worldY) != null)
-            {
-                Gold += amountToAddPerClick;
-                UpdateResourceDisplay();
-            }
-            if (woodResourceShapeCollection.GetTileAt(worldX, worldY) != null)
-            {
-                Lumber += amountToAddPerClick;
-                UpdateResourceDisplay();
-            }
-            if (stoneResourceShapeCollection.GetTileAt(worldX, worldY) != null)
-            {
-                Stone += amountToAddPerClick;
-                UpdateResourceDisplay();
-            }
+            //const int amountToAddPerClick = 8;
+
+            //if (goldResourceShapeCollection.GetTileAt(worldX, worldY) != null)
+            //{
+            //    Gold += amountToAddPerClick;
+            //    UpdateResourceDisplay();
+            //}
+            //if (woodResourceShapeCollection.GetTileAt(worldX, worldY) != null)
+            //{
+            //    Lumber += amountToAddPerClick;
+            //    UpdateResourceDisplay();
+            //}
+            //if (stoneResourceShapeCollection.GetTileAt(worldX, worldY) != null)
+            //{
+            //    Stone += amountToAddPerClick;
+            //    UpdateResourceDisplay();
+            //}
         }
 
         private void DebugAddUnit(UnitData unitData)
@@ -518,7 +520,7 @@ namespace TownRaiser.Screens
                 {
                     if (enemyOver != null)
                     {
-                        selectedUnit.CreateAttackGoal(enemyOver);
+                        selectedUnit.AssignAttackGoal(enemyOver);
                     }
                     else
                     {
@@ -753,8 +755,8 @@ namespace TownRaiser.Screens
             y = cursor.WorldYAt(0);
             const float tilesWide = 3;
 
-            x = MathFunctions.RoundFloat(x, gridWidth * tilesWide, gridWidth * tilesWide / 2);
-            y = MathFunctions.RoundFloat(y, gridWidth * tilesWide, gridWidth * tilesWide / 2);
+            x = MathFunctions.RoundFloat(x, GridWidth * tilesWide, GridWidth * tilesWide / 2);
+            y = MathFunctions.RoundFloat(y, GridWidth * tilesWide, GridWidth * tilesWide / 2);
         }
 
         private void UpdateResourceDisplay()
