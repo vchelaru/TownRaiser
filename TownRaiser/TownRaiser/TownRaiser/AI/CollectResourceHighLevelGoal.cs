@@ -1,9 +1,5 @@
 ﻿using FlatRedBall.AI.Pathfinding;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TownRaiser.Entities;
 using FlatRedBall.Math.Geometry;
 using Microsoft.Xna.Framework;
@@ -84,23 +80,24 @@ namespace TownRaiser.AI
         /// </summary>
         double lastCollectionTime;
 
-        // TODO: Needs to go away when using a resource collision.
-        const float MaxCollectDistanct = 20;
         public bool IsInRangeToCollect()
         {
-            // TODO: Use collide check with Owner.ResourceCollectCircle.
-            var currentDistance = (Owner.Position - SingleTileCenter).Length();
-            return currentDistance < MaxCollectDistanct;
+            return Owner.ResourceCollectCircleInstance.CollideAgainst(SingleTile);
         }
 
         public override void DecideWhatToDo()
         {
-            if(Owner.ImmediateGoal?.Path?.Count > 0)
+            bool isWalking = Owner.ImmediateGoal?.Path?.Count > 0;
+            if (isWalking)
             {
-                PerformPathfindingDecisions();
             }
-            else if(IsInRangeToCollect() == false)
+            else
             {
+            }
+
+            if (IsInRangeToCollect() == false)
+            {
+                //System.Diagnostics.Debug.WriteLine($"
                 PathfindToTarget();
             }
             else
@@ -137,7 +134,7 @@ namespace TownRaiser.AI
 
         public override bool GetIfDone()
         {
-            // TODO: Take resource back to nearest Town Hall?
+            // TODO: Take resource back to nearest Town Hall? (new goal to return resource?)
 
             // Resources are unlimited, only restricted by mosh pit of units trying to harvest simultaneously.
             return false;
@@ -154,22 +151,6 @@ namespace TownRaiser.AI
             // Add a node for the center to make sure unit tries to get close enough to harvest.
             pathToTileCenter.Add(new PositionedNode() { X = SingleTileCenter.X, Y = SingleTileCenter.Y, Z = SingleTileCenter.Z });
             Owner.ImmediateGoal.Path = pathToTileCenter;
-        }
-
-        private void PerformPathfindingDecisions()
-        {
-            // Don't worry about checking for reaching target since we put it in the middle of a collidable tile.
-            // TODO: Get to closest side of tile. Or find node in said position.
-            var closestNodeToTarget = NodeNetwork.GetClosestNodeTo(ref SingleTile.Position);
-
-            var lastPoint = Owner.ImmediateGoal.Path.Last();
-
-            var hasTargetMovedFromPath = lastPoint.Position != closestNodeToTarget.Position;
-
-            if (hasTargetMovedFromPath)
-            {
-                PathfindToTarget();
-            }
         }
     }
 }
