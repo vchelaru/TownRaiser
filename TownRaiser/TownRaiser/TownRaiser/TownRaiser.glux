@@ -181,28 +181,7 @@
       <Source>GLUE</Source>
       <StateCategoryList>
         <StateSaveCategory>
-          <States>
-            <StateSave>
-              <InstructionSaves>
-                <InstructionSave>
-                  <Type>Single</Type>
-                  <Member>SpriteInstanceAlpha</Member>
-                  <ValueAsFloat>0</ValueAsFloat>
-                </InstructionSave>
-              </InstructionSaves>
-              <Name>BuildInProgress</Name>
-            </StateSave>
-            <StateSave>
-              <InstructionSaves>
-                <InstructionSave>
-                  <Type>Single</Type>
-                  <Member>SpriteInstanceAlpha</Member>
-                  <ValueAsFloat>1</ValueAsFloat>
-                </InstructionSave>
-              </InstructionSaves>
-              <Name>BuildComplete</Name>
-            </StateSave>
-          </States>
+          <States />
           <Name>BuildStatus</Name>
           <SharesVariablesWithOtherCategories>false</SharesVariablesWithOtherCategories>
         </StateSaveCategory>
@@ -649,7 +628,7 @@
           </Properties>
           <Name>ShowResourceCollision</Name>
           <Type>bool</Type>
-          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
+          <DefaultValue xsi:type="xsd:boolean">false</DefaultValue>
           <IsShared>true</IsShared>
         </CustomVariable>
         <CustomVariable>

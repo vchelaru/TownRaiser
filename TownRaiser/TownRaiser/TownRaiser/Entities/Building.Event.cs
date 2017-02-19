@@ -20,9 +20,7 @@ namespace TownRaiser.Entities
 
             CurrentHealth = BuildingData.Health;
 
-            CurrentBuildStatusState = BuildStatus.BuildInProgress;
-
-            this.InterpolateToState(BuildStatus.BuildComplete, BuildingData.BuildTime);
+            
         }
 		
 	}

@@ -51,4 +51,28 @@
       <BottomCoordinate>112</BottomCoordinate>
     </Frame>
   </AnimationChain>
+  <AnimationChain>
+    <Name>BeingBuilt1</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>256</LeftCoordinate>
+      <RightCoordinate>272</RightCoordinate>
+      <TopCoordinate>80</TopCoordinate>
+      <BottomCoordinate>96</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>BeingBuilt2</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>256</LeftCoordinate>
+      <RightCoordinate>272</RightCoordinate>
+      <TopCoordinate>64</TopCoordinate>
+      <BottomCoordinate>80</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
 </AnimationChainArraySave>

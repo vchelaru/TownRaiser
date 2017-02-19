@@ -40,7 +40,8 @@ namespace TownRaiser.Entities
         public Unit CurrentTrainingUnit => TrainingQueue.Count > 0 ? TrainingQueue[0] : null;
 
         public Vector3? RallyPoint;
-        public bool IsConstructionComplete => CurrentBuildStatusState == BuildStatus.BuildComplete;
+        double constructionTimeStarted = 0;
+        public bool IsConstructionComplete { get; private set; } = true;
         public bool HasTrainableUnits => BuildingData.TrainableUnits.Count > 0;
 
         //For now, we will spawn to the bottom right corner of the building's AAR.
@@ -73,9 +74,42 @@ namespace TownRaiser.Entities
 
 		private void CustomActivity()
 		{
+            ConstructionActivity();
             HealthBarActivity();
             TrainingActivity();
 		}
+
+        private void ConstructionActivity()
+        {
+            if(!IsConstructionComplete)
+            {
+                var ratioComplete = 
+                    FlatRedBall.Screens.ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(constructionTimeStarted) / BuildingData.BuildTime;
+
+                if(ratioComplete < .5)
+                {
+                    SpriteInstance.CurrentChainName = "BeingBuilt1";
+                }
+                else if(ratioComplete < 1)
+                {
+                    SpriteInstance.CurrentChainName = "BeingBuilt2";
+                }
+                else
+                {
+                    SpriteInstance.CurrentChainName = BuildingData.Name;
+                    IsConstructionComplete = true;
+                }
+            }
+        }
+
+
+        internal void StartBuilding()
+        {
+            IsConstructionComplete = false;
+            constructionTimeStarted = FlatRedBall.Screens.ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+            // to force an immediate update of visuals
+            ConstructionActivity();
+        }
 
         private void HealthBarActivity()
         {
@@ -153,5 +187,12 @@ namespace TownRaiser.Entities
                 Destroy();
             }
         }
+
+        internal void InterpolateToState(object buildComplete, double buildTime)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

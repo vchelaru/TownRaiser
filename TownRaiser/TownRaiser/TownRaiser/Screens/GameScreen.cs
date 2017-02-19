@@ -41,7 +41,7 @@ namespace TownRaiser.Screens
     public partial class GameScreen
 	{
         #region Fields/Properties
-        public int Lumber { get; set; } = 1000;
+        public int Lumber { get; set; } = 1200;
         public int Stone { get; set; } = 1000;
         public int Gold { get; set; } = 1000;
         public int CurrentCapacityUsed { get; set; }
@@ -424,6 +424,28 @@ namespace TownRaiser.Screens
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
             }
+
+            var cursor = GuiManager.Cursor;
+            var worldX = cursor.WorldXAt(0);
+            var worldY = cursor.WorldYAt(0);
+
+            const int amountToAddPerClick = 7;
+
+            if (goldResourceShapeCollection.GetTileAt(worldX, worldY) != null)
+            {
+                Gold += amountToAddPerClick;
+                UpdateResourceDisplay();
+            }
+            if (woodResourceShapeCollection.GetTileAt(worldX, worldY) != null)
+            {
+                Lumber += amountToAddPerClick;
+                UpdateResourceDisplay();
+            }
+            if (stoneResourceShapeCollection.GetTileAt(worldX, worldY) != null)
+            {
+                Stone += amountToAddPerClick;
+                UpdateResourceDisplay();
+            }
         }
 
         private void DebugAddUnit(UnitData unitData)
@@ -696,6 +718,8 @@ namespace TownRaiser.Screens
                 building.X = x;
                 building.Y = y;
                 building.Z = 1;
+
+                building.StartBuilding();
 
                 building.BuildingData = buildingType;
 
