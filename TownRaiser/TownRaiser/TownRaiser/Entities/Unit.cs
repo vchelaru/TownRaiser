@@ -94,14 +94,14 @@ namespace TownRaiser.Entities
 
         private void HighLevelActivity()
         {
-            var currentGoal = HighLevelGoals.Peek();
+            var currentGoal = HighLevelGoals.Count == 0 ? null : HighLevelGoals.Peek();
 
             if(currentGoal?.GetIfDone() == true)
             {
                 HighLevelGoals.Pop();
             }
 
-            currentGoal = HighLevelGoals.Peek();
+            currentGoal = HighLevelGoals.Count == 0 ? null : HighLevelGoals.Peek();
 
             currentGoal?.DecideWhatToDo();
 
@@ -119,7 +119,7 @@ namespace TownRaiser.Entities
             }
         }
 
-        internal void AssignMoveGoal(float worldX, float worldY)
+        internal void AssignMoveGoal(float worldX, float worldY, bool replace = true)
         {
             var goal = new WalkToHighLevelGoal();
 
@@ -127,7 +127,10 @@ namespace TownRaiser.Entities
             goal.TargetPosition =
                 new Microsoft.Xna.Framework.Vector3(worldX, worldY, 0);
 
-            this.HighLevelGoals.Clear();
+            if(replace)
+            {
+                this.HighLevelGoals.Clear();
+            }
             this.HighLevelGoals.Push(goal);
             this.ImmediateGoal = null;
         }
@@ -186,25 +189,31 @@ namespace TownRaiser.Entities
             }
         }
 
-        public void AssignAttackGoal(Unit enemy)
+        public void AssignAttackGoal(Unit enemy, bool replace = true)
         {
             var attackGoal = new AttackUnitHighLevelGoal();
             attackGoal.TargetUnit = enemy;
             attackGoal.Owner = this;
             attackGoal.NodeNetwork = this.NodeNetwork;
 
-            HighLevelGoals.Clear();
+            if(replace)
+            {
+                HighLevelGoals.Clear();
+            }
             HighLevelGoals.Push(attackGoal);
         }
 
-        public void AssignAttackGoal(Building building)
+        public void AssignAttackGoal(Building building, bool replace = true)
         {
             var attackGoal = new AttackBuildingHighLevelGoal();
             attackGoal.TargetBuilding = building;
             attackGoal.Owner = this;
             attackGoal.NodeNetwork = this.NodeNetwork;
 
-            HighLevelGoals.Clear();
+            if(replace)
+            {
+                HighLevelGoals.Clear();
+            }
             HighLevelGoals.Push(attackGoal);
         }
 
