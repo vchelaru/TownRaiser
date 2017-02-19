@@ -119,7 +119,7 @@ namespace TownRaiser.Entities
             }
         }
 
-        internal void CreatMoveGoal(float worldX, float worldY)
+        internal void AssignMoveGoal(float worldX, float worldY)
         {
             var goal = new WalkToHighLevelGoal();
 

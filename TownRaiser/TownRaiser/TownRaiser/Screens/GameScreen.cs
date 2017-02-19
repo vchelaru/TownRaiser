@@ -518,11 +518,11 @@ namespace TownRaiser.Screens
                 {
                     if (enemyOver != null)
                     {
-                        selectedUnit.CreateAttackGoal(enemyOver);
+                        selectedUnit.AssignAttackGoal(enemyOver);
                     }
                     else
                     {
-                        selectedUnit.CreatMoveGoal(worldX, worldY);
+                        selectedUnit.AssignMoveGoal(worldX, worldY);
                     }
                 }
             }

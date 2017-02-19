@@ -147,7 +147,7 @@ namespace TownRaiser.Entities
 
                     if(RallyPoint.HasValue)
                     {
-                        newUnit.CreatMoveGoal(RallyPoint.Value.X, RallyPoint.Value.Y);
+                        newUnit.AssignMoveGoal(RallyPoint.Value.X, RallyPoint.Value.Y);
                     }
 
                     TrainingQueue.RemoveAt(0);
