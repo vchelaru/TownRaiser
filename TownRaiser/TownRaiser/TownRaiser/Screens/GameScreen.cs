@@ -511,7 +511,12 @@ namespace TownRaiser.Screens
                 // Are we right-clicking a resource?
                 var woodResourceOver = woodResourceShapeCollection.GetTileAt(worldX, worldY);
                 var stoneResourceOver = stoneResourceShapeCollection.GetTileAt(worldX, worldY);
-                // TODO: Tell unit to harvest/mine/whatever.
+                var goldResourceOver = goldResourceShapeCollection.GetTileAt(worldX, worldY);
+                var resourceOver = woodResourceOver ?? stoneResourceOver ?? goldResourceOver;
+                string resourceType = null;
+                if (woodResourceOver != null) { resourceType = "Wood"; }
+                else if (stoneResourceOver != null) { resourceType = "Stone"; }
+                else if (goldResourceOver != null) { resourceType = "Gold"; }
 
                 var enemyOver = UnitList.FirstOrDefault(item =>
                     item.UnitData.IsEnemy && item.HasCursorOver(cursor));
@@ -521,6 +526,11 @@ namespace TownRaiser.Screens
                     if (enemyOver != null)
                     {
                         selectedUnit.AssignAttackGoal(enemyOver);
+                    }
+                    else if (resourceOver != null)
+                    {
+                        var clickLocation = new Vector3(worldX, worldY, 0);
+                        selectedUnit.AssignResourceCollectGoal(clickLocation, resourceOver, resourceType);
                     }
                     else
                     {
@@ -759,7 +769,7 @@ namespace TownRaiser.Screens
             y = MathFunctions.RoundFloat(y, GridWidth * tilesWide, GridWidth * tilesWide / 2);
         }
 
-        private void UpdateResourceDisplay()
+        public void UpdateResourceDisplay()
         {
             this.ResourceDisplayInstance.CapacityText = $"{CurrentCapacityUsed}/{this.MaxCapacity.ToString()}";
             this.ResourceDisplayInstance.LumberText = this.Lumber.ToString();

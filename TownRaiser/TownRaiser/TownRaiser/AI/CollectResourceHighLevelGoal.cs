@@ -29,6 +29,7 @@ namespace TownRaiser.AI
                 {
                     _ClickPosition = value;
                     SingleTileCenter = GetSingleTileCenterFromClickPosition(_ClickPosition);
+                    SingleTile = GetSingleTile(SingleTileCenter);
                 }
             }
         }
@@ -36,6 +37,10 @@ namespace TownRaiser.AI
         /// The center of the desired resource tile, as if it weren't merged with any neighbors.
         /// </summary>
         Vector3 SingleTileCenter { get; set; }
+        /// <summary>
+        /// The AxisAlignedRectangle that represents what would be our desired resource tile, as if it weren't merged with any neighbors.
+        /// </summary>
+        AxisAlignedRectangle SingleTile { get; set; }
         public AxisAlignedRectangle TargetResourceTile { get; set; }
         public string TargetResourceType { get; set; }
 
@@ -51,6 +56,24 @@ namespace TownRaiser.AI
                 MathFunctions.RoundFloat(ClickPosition.X, GameScreen.GridWidth * tilesWide, GameScreen.GridWidth * tilesWide / 2),
                 MathFunctions.RoundFloat(ClickPosition.Y, GameScreen.GridWidth * tilesWide, GameScreen.GridWidth * tilesWide / 2),
                 0);
+        }
+        private AxisAlignedRectangle GetSingleTile(Vector3 singleTileCenter)
+        {
+            float roundedX = MathFunctions.RoundFloat(singleTileCenter.X - GameScreen.GridWidth / 2.0f, GameScreen.GridWidth);
+            float roundedY = MathFunctions.RoundFloat(singleTileCenter.Y - GameScreen.GridWidth / 2.0f, GameScreen.GridWidth);
+
+            AxisAlignedRectangle newAar = new AxisAlignedRectangle();
+            newAar.Width = GameScreen.GridWidth;
+            newAar.Height = GameScreen.GridWidth;
+            newAar.Left = roundedX;
+            newAar.Bottom = roundedY;
+            newAar.Visible = false;
+
+#if DEBUG
+            newAar.Visible = DebuggingVariables.ShowResourceCollision;
+#endif
+
+            return newAar;
         }
 
         const float CollectFrequency = 1;
@@ -85,7 +108,7 @@ namespace TownRaiser.AI
                 // we're close, harvest!
 
                 // Stop moving.
-                Owner.ImmediateGoal.Path.Clear();
+                Owner.ImmediateGoal.Path?.Clear();
                 Owner.Velocity = Vector3.Zero;
 
                 var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
@@ -95,7 +118,7 @@ namespace TownRaiser.AI
                 {
                     // TODO: Take resource back to nearest Town Hall?
                     lastCollectionTime = screen.PauseAdjustedCurrentTime;
-                    if (TargetResourceType == "Lumber")
+                    if (TargetResourceType == "Wood")
                     {
                         screen.Lumber += Owner.UnitData.ResourceHarvestAmount;
                     }
@@ -107,6 +130,7 @@ namespace TownRaiser.AI
                     {
                         screen.Gold += Owner.UnitData.ResourceHarvestAmount;
                     }
+                    screen.UpdateResourceDisplay();
                 }
             }
         }
@@ -134,56 +158,18 @@ namespace TownRaiser.AI
 
         private void PerformPathfindingDecisions()
         {
-            // TODO: Collide with resource collection circle.
-            // x and y
-            // represent
-            // the center
-            // of the tile
-            // where the user
-            // may want to add 
-            // collision.  Let's
-            // subtract half width/
-            // height so we can use the
-            // bottom/left
-            float roundedX = MathFunctions.RoundFloat(x - GridSize / 2.0f, GridSize, mLeftSeedX);
-            float roundedY = MathFunctions.RoundFloat(y - GridSize / 2.0f, GridSize, mBottomSeedY);
+            // Don't worry about checking for reaching target since we put it in the middle of a collidable tile.
+            // TODO: Get to closest side of tile. Or find node in said position.
+            var closestNodeToTarget = NodeNetwork.GetClosestNodeTo(ref SingleTile.Position);
 
-            AxisAlignedRectangle newAar = new AxisAlignedRectangle();
-            newAar.Width = GridSize;
-            newAar.Height = GridSize;
-            newAar.Left = roundedX;
-            newAar.Bottom = roundedY;
+            var lastPoint = Owner.ImmediateGoal.Path.Last();
 
-            if (this.mVisible)
+            var hasTargetMovedFromPath = lastPoint.Position != closestNodeToTarget.Position;
+
+            if (hasTargetMovedFromPath)
             {
-                newAar.Visible = true;
+                PathfindToTarget();
             }
-
-
-            bool hasReachedTarget = Owner.CollideAgainst(SingleTileCenter);
-
-            if(hasReachedTarget)
-            {
-                Owner.ImmediateGoal.Path.Clear();
-                Owner.Velocity = Vector3.Zero;
-            }
-            else
-            {
-                // TODO: Get to closest side of tile. Or find node in said position.
-                var closestNodeToTarget = Owner.GetPathTo(TargetResourceTile.Position);
-
-                var lastPoint = Owner.ImmediateGoal.Path.Last();
-
-                var hasTargetMovedFromPath = lastPoint.Position != closestNodeToTarget.Position;
-
-                if (hasTargetMovedFromPath)
-                {
-                    PathfindToTarget();
-                }
-
-
-            }
-
         }
     }
 }
