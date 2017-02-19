@@ -122,7 +122,7 @@ namespace Gum.Wireframe
 
         void CallLosePush()
         {
-            if (this.LosePush != null)
+            if (LosePush != null)
             {
                 LosePush(this);
             }

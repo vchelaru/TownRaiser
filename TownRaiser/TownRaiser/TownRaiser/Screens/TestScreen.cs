@@ -22,6 +22,7 @@ using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using FlatRedBall.Gui;
+using TownRaiser.GumRuntimes;
 
 namespace TownRaiser.Screens
 {
@@ -30,20 +31,41 @@ namespace TownRaiser.Screens
 
 		void CustomInitialize()
 		{
-            this.ToggleButtonInstance.LosePush += HandleLosePush;
+
+            //this.ColoredRectangleInstance.Children.Add(button);
 
 		}
 
+        private void HandleClick(IWindow window)
+        {
+            //int m = 3;
+        }
+
         private void HandleLosePush(IWindow window)
         {
-            int m = 3;
+
         }
 
         void CustomActivity(bool firstTimeCalled)
 		{
+            var keyboard = InputManager.Keyboard;
 
+            if(keyboard.KeyPushed(Keys.Up))
+            {
+                var button = new ToggleButtonRuntime();
+                button.Parent = this.StackingContainer;
+                button.Click += HandleClick;
+            }
+            else if(keyboard.KeyPushed(Keys.Down))
+            {
+                var buttonToRemove = this.StackingContainer.Children.Last() as ToggleButtonRuntime;
 
-		}
+                if(buttonToRemove != null)
+                {
+                    buttonToRemove.Parent = null;
+                }
+            }
+        }
 
 		void CustomDestroy()
 		{

@@ -10,6 +10,7 @@ namespace TownRaiser.Interfaces
     {
         event EventHandler<UpdateStatusEventArgs> UpdateStatus;
         float GetHealthRatio();
+        string NameDisplay { get; }
     }
     public class UpdateStatusEventArgs: EventArgs
     {

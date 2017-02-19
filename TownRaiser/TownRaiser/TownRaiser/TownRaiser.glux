@@ -158,8 +158,8 @@
         <NamedObjectSave>
           <SourceType>File</SourceType>
           <SourceFile>GumProject/Screens/TestScreenGum.gusx</SourceFile>
-          <SourceName>ToggleButtonInstance (TownRaiser.GumRuntimes.ToggleButtonRuntime)</SourceName>
-          <InstanceName>ToggleButtonInstance</InstanceName>
+          <SourceName>StackingContainer (TownRaiser.GumRuntimes.ContainerRuntime)</SourceName>
+          <InstanceName>StackingContainer</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
@@ -279,14 +279,14 @@
             <ValueAsFloat>48</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
-            <Type>Color</Type>
-            <Member>Color</Member>
-            <ValueAsString>WhiteSmoke</ValueAsString>
-          </CustomProperty>
-          <CustomProperty>
             <Type>bool</Type>
             <Member>Visible</Member>
             <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>Color</Type>
+            <Member>Color</Member>
+            <ValueAsString>WhiteSmoke</ValueAsString>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -580,7 +580,7 @@
           </Properties>
           <Name>HasInfiniteResources</Name>
           <Type>bool</Type>
-          <DefaultValue xsi:type="xsd:boolean">false</DefaultValue>
+          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
           <IsShared>true</IsShared>
         </CustomVariable>
         <CustomVariable>
@@ -835,34 +835,6 @@
         <string>GLUE</string>
       </Tags>
       <Source>GLUE</Source>
-      <StateCategoryList>
-        <StateSaveCategory>
-          <States>
-            <StateSave>
-              <InstructionSaves>
-                <InstructionSave>
-                  <Type>Single</Type>
-                  <Member>SpriteInstanceAlpha</Member>
-                  <ValueAsFloat>0</ValueAsFloat>
-                </InstructionSave>
-              </InstructionSaves>
-              <Name>TrainingInProgress</Name>
-            </StateSave>
-            <StateSave>
-              <InstructionSaves>
-                <InstructionSave>
-                  <Type>Single</Type>
-                  <Member>SpriteInstanceAlpha</Member>
-                  <ValueAsFloat>1</ValueAsFloat>
-                </InstructionSave>
-              </InstructionSaves>
-              <Name>TrainingComplete</Name>
-            </StateSave>
-          </States>
-          <Name>TrainingStatus</Name>
-          <SharesVariablesWithOtherCategories>false</SharesVariablesWithOtherCategories>
-        </StateSaveCategory>
-      </StateCategoryList>
       <CustomVariables>
         <CustomVariable>
           <Properties>
