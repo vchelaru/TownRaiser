@@ -49,7 +49,12 @@ namespace TownRaiser.AI
                 findTargetGoal.AllBuildings = allBuildings;
             }
         }
-        
+
+        public float TargetX { get; set; }
+        public float TargetY { get; set; }
+
+        bool hasReachedTarget = false;
+
 
         public AttackMoveHighLevelGoal()
         {
@@ -65,12 +70,50 @@ namespace TownRaiser.AI
 
         public override bool GetIfDone()
         {
-            return false;
+            return hasReachedTarget;
         }
 
         public override void DecideWhatToDo()
         {
-            findTargetGoal.DecideWhatToDo();
+            
+            // don't replace, we want to keep this move attack at the base
+            bool isAttacking = findTargetGoal.TryAssignAttack(replace:false);
+
+            if(isAttacking)
+            {
+                walkGoal = null;
+            }
+            if(!isAttacking)
+            {
+                bool isWalking = Owner.ImmediateGoal?.Path?.Count > 0;
+
+                if(!isWalking)
+                {
+                    if(walkGoal == null)
+                    {
+                        walkGoal = new WalkToHighLevelGoal();
+                        walkGoal.Owner = Owner;
+                        walkGoal.TargetPosition =
+                            new Microsoft.Xna.Framework.Vector3(TargetX, TargetY, 0);
+
+                        walkGoal.DecideWhatToDo();
+                    }
+                    else
+                    {
+                        hasReachedTarget = true;
+                    }
+                }
+
+            }
+
+        }
+
+        // Actually we may not need this method since this method will never get called if the user is attacking.
+        private bool GetIfOwnerIsAttacking()
+        {
+            var currentHighLevelGoal = Owner.HighLevelGoals.Count > 0 ? Owner.HighLevelGoals.Peek() : null;
+
+            return currentHighLevelGoal is AttackUnitHighLevelGoal || currentHighLevelGoal is AttackBuildingHighLevelGoal;
         }
     }
 }

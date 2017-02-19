@@ -119,7 +119,24 @@ namespace TownRaiser.Entities
             }
         }
 
-        internal void AssignMoveGoal(float worldX, float worldY, bool replace = true)
+        public void AssignMoveAttackGoal(float worldX, float worldY, bool replace = true)
+        {
+            var goal = new AttackMoveHighLevelGoal();
+            goal.TargetX = worldX;
+            goal.TargetY = worldY;
+            goal.Owner = this;
+            goal.AllUnits = AllUnits;
+            goal.AllBuildings = AllBuildings;
+
+            if (replace)
+            {
+                this.HighLevelGoals.Clear();
+            }
+            this.HighLevelGoals.Push(goal);
+            this.ImmediateGoal = null;
+        }
+
+        public void AssignMoveGoal(float worldX, float worldY, bool replace = true)
         {
             var goal = new WalkToHighLevelGoal();
 
