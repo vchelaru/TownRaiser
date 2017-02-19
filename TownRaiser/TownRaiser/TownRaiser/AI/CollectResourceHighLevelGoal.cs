@@ -94,7 +94,6 @@ namespace TownRaiser.AI
         {
             if (IsInRangeToCollect())
             {
-                System.Diagnostics.Debug.WriteLine($"In range to collect resource");
                 // we're close, harvest!
 
                 // Stop moving.
@@ -105,7 +104,6 @@ namespace TownRaiser.AI
 
                 if (canCollect)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Collecting resource");
                     // TODO: Take resource back to nearest Town Hall?
                     lastCollectionTime = screen.PauseAdjustedCurrentTime;
                     if (TargetResourceType == "Wood")
@@ -130,7 +128,6 @@ namespace TownRaiser.AI
                 {
                     if (walkGoal == null)
                     {
-                        System.Diagnostics.Debug.WriteLine($"Not in range to collect resource");
                         walkGoal = new WalkToHighLevelGoal();
                         walkGoal.Owner = Owner;
                         walkGoal.TargetPosition = SingleTileCenter;
