@@ -16,6 +16,7 @@ using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using TownRaiser.Interfaces;
+using FlatRedBall.Screens;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -35,9 +36,10 @@ namespace TownRaiser.Entities
 
         public event EventHandler OnDestroy;
         public event EventHandler<UpdateStatusEventArgs> UpdateStatus;
+        public string NameDisplay => BuildingData.NameDisplay;
         public int CurrentHealth { get; set; }
         public IEnumerable<string> TrainableUnits => BuildingData.TrainableUnits.AsReadOnly();
-        public Unit CurrentTrainingUnit => TrainingQueue.Count > 0 ? TrainingQueue[0] : null;
+        public string CurrentTrainingUnit => TrainingQueue.Count > 0 ? TrainingQueue[0] : null;
 
         public Vector3? RallyPoint;
         double constructionTimeStarted = 0;
@@ -50,8 +52,22 @@ namespace TownRaiser.Entities
 
         //While it's a list, we will treat is as a queue.
         //Queues will not let us return it as readonly.
-        public List<Unit> TrainingQueue;
+        public List<string> TrainingQueue;
+        public double TrainingProgressPercent => ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) / GlobalContent.UnitData[CurrentTrainingUnit].TrainTime;
+        #endregion
 
+        #region Private Fields/Properties
+        private double m_TraningStartTime;
+
+        private bool IsTrainingComplete
+        {
+            get
+            {
+                var currentScreen = ScreenManager.CurrentScreen;
+
+                return m_TraningStartTime > 0 && currentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) >= GlobalContent.UnitData[CurrentTrainingUnit].TrainTime;
+            }
+        }
         #endregion
 
 
@@ -62,7 +78,7 @@ namespace TownRaiser.Entities
         /// </summary>
         private void CustomInitialize()
 		{
-            TrainingQueue = new List<Unit>();
+            TrainingQueue = new List<string>();
 
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
@@ -122,35 +138,39 @@ namespace TownRaiser.Entities
 
         private void TrainingActivity()
         {
-            if (TrainingQueue.Count > 0)
+            if (TrainingQueue.Count > 0 && ScreenManager.CurrentScreen is Screens.GameScreen)
             {
                 var trainingUnit = TrainingQueue[0];
-                if(trainingUnit.CurrentTrainingStatusState == Unit.TrainingStatus.TrainingComplete)
+                if(IsTrainingComplete)
                 {
+                    var newUnit = ((Screens.GameScreen)ScreenManager.CurrentScreen).SpawnNewUnit(trainingUnit, new Vector3() { X = UnitSpawnX, Y = UnitSpawnY, Z = 1 });
+
                     if(RallyPoint.HasValue)
                     {
-                        trainingUnit.CreatMoveGoal(RallyPoint.Value.X, RallyPoint.Value.Y);
+                        newUnit.CreatMoveGoal(RallyPoint.Value.X, RallyPoint.Value.Y);
                     }
-                    TrainingQueue.Remove(trainingUnit);
+
+                    TrainingQueue.RemoveAt(0);
                     if(TrainingQueue.Count > 0)
                     {
-                        TrainingQueue[0].StartTraining();
+                        StartTraining();
                     }
                 }
                 this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
             }
         }
-        public void AddUnitToTrain(Unit unit)
+        public void AddUnitToTrain(string unit)
         {
             if(TrainingQueue.Count == 0)
             {
-                unit.StartTraining();
+                StartTraining();
             }
 
             TrainingQueue.Add(unit);
             
             this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
         }
+        
 
         public float GetHealthRatio()
         {
@@ -162,16 +182,16 @@ namespace TownRaiser.Entities
 		{
             this.OnDestroy?.Invoke(this, null);
             this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs() { WasEntityDestroyed = true });
-            foreach (var unit in TrainingQueue)
-            {
-                unit.Destroy();
-            }
             TrainingQueue.Clear();
             TrainingQueue = null;
 
             this.OnDestroy = null;
             this.UpdateStatus = null;
 		}
+        private void StartTraining()
+        {
+            m_TraningStartTime = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+        }
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {

@@ -10,18 +10,37 @@ namespace TownRaiser.GumRuntimes
     public partial class StatusToolbarRuntime
     {
         public List<TrainingUnitSpriteRuntime> TrainingUnits;
+        private IUpdatesStatus m_LastSelectedEntity;
 
         partial void CustomInitialize()
         {
             TrainingUnits = new List<TrainingUnitSpriteRuntime>();
+            CurrentVariableState = VariableState.NothingSelected;
         }
 
-        public void SetViewFromBuildingEntity(IUpdatesStatus selectedEntity)
+        public void SetViewFromEntity(IUpdatesStatus selectedEntity)
         {
-            if(selectedEntity is Entities.Building)
+            if (m_LastSelectedEntity != null)
+            {
+                m_LastSelectedEntity.UpdateStatus -= ReactToBuilidingStatusChange;
+                ClearTrainingUnitsList();
+            }
+
+
+            if(selectedEntity == null)
+            {
+                CurrentVariableState = VariableState.NothingSelected;
+            }
+            else if(selectedEntity is Entities.Building)
             {
                 UpdateBuildingStatus(selectedEntity as Entities.Building);
+                this.CurrentVariableState = VariableState.BuildingSelected;
                 selectedEntity.UpdateStatus += ReactToBuilidingStatusChange;
+            }
+            m_LastSelectedEntity = selectedEntity;
+            if (m_LastSelectedEntity != null)
+            {
+                this.SelectedObjectText = selectedEntity.NameDisplay;
             }
         }
 
@@ -86,28 +105,28 @@ namespace TownRaiser.GumRuntimes
             if(building.CurrentTrainingUnit != null)
             {
                 CurrentTrainingUnitVisible = true;
-                SetCurrentUnitTrainingState(building.CurrentTrainingUnit.TrainingProgressPercent);
+                SetCurrentUnitTrainingState(building.TrainingProgressPercent);
             }
             else
             {
-                CurrentUnitTrainingProgressState = TrainingUnitSpriteRuntime.TrainingProgress.Waiting;
                 CurrentTrainingUnitVisible = false;
+                CurrentUnitTrainingProgressState = TrainingUnitSpriteRuntime.TrainingProgress.Waiting;
             }
 
 
 
-            for(int i = 1; i < building.TrainingQueue.Count; i ++)
+            for (int i = 1; i < building.TrainingQueue.Count; i ++)
             {
                 //Only add enough units to fill the TrainingUnits list.
                 //If i is greater than the count, then we have to add 1 to the list.
                 if (i > TrainingUnits.Count)
                 {
                     var unitVisual = new TrainingUnitSpriteRuntime();
+                    unitVisual.AddToManagers(TrainingQueueContainer.Managers, null);
                     unitVisual.CurrentTrainingProgressState = TrainingUnitSpriteRuntime.TrainingProgress.Waiting;
                     unitVisual.Parent = TrainingQueueContainer;
-                    TrainingQueueContainer.Children.Add(unitVisual);
+                    unitVisual.X = i > 1 ? 1 : 0;
                     TrainingUnits.Add(unitVisual);
-
                 }
             }
             //1 minus the training queue should match number of visuals waiting to be trained.
@@ -116,9 +135,10 @@ namespace TownRaiser.GumRuntimes
             {
                 while (building.TrainingQueue.Count - 1 != TrainingUnits.Count)
                 {
-                    var unitVisual = TrainingUnits[0];
-                    TrainingQueueContainer.Children.RemoveAt(0);
-                    TrainingUnits.RemoveAt(0);
+                    var unitVisual = TrainingUnits[TrainingUnits.Count - 1];
+                    TrainingQueueContainer.Children.Remove(unitVisual);
+                    unitVisual.Parent = null;
+                    TrainingUnits.Remove(unitVisual);
                     unitVisual.Destroy();
                 }
             }

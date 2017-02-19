@@ -46,7 +46,6 @@ namespace TownRaiser.GumRuntimes
                 ToggleButtonRuntime building = new ToggleButtonRuntime();
                 building.AddToManagers(this.Managers, null);
                 building.Parent = this;
-                Children.Add(building);
                 ToggleButtonList.Add(building);
 
                 building.X = i > 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
@@ -78,7 +77,6 @@ namespace TownRaiser.GumRuntimes
                     ToggleButtonRuntime unit = new ToggleButtonRuntime();
                     unit.AddToManagers(this.Managers, null);
                     unit.Parent = this;
-                    Children.Add(unit);
                     ToggleButtonList.Add(unit);
 
                     unit.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
@@ -110,7 +108,6 @@ namespace TownRaiser.GumRuntimes
                     ToggleButtonRuntime unitButton = new ToggleButtonRuntime();
                     unitButton.AddToManagers(this.Managers, null);
                     unitButton.Parent = this;
-                    Children.Add(unitButton);
                     ToggleButtonList.Add(unitButton);
 
                     unitButton.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
