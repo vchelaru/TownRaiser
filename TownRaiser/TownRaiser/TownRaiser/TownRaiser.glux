@@ -158,8 +158,8 @@
         <NamedObjectSave>
           <SourceType>File</SourceType>
           <SourceFile>GumProject/Screens/TestScreenGum.gusx</SourceFile>
-          <SourceName>ToggleButtonInstance (TownRaiser.GumRuntimes.ToggleButtonRuntime)</SourceName>
-          <InstanceName>ToggleButtonInstance</InstanceName>
+          <SourceName>StackingContainer (TownRaiser.GumRuntimes.ContainerRuntime)</SourceName>
+          <InstanceName>StackingContainer</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
