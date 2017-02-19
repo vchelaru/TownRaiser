@@ -179,7 +179,7 @@ namespace TownRaiser.Entities
             }
         }
 
-        public void CreateAttackGoal(Unit enemy)
+        public void AssignAttackGoal(Unit enemy)
         {
             var attackGoal = new AttackUnitHighLevelGoal();
             attackGoal.TargetUnit = enemy;
@@ -189,7 +189,7 @@ namespace TownRaiser.Entities
             HighLevelGoal = attackGoal;
         }
 
-        public void CreateAttackGoal(Building building)
+        public void AssignAttackGoal(Building building)
         {
             var attackGoal = new AttackBuildingHighLevelGoal();
             attackGoal.TargetBuilding = building;
