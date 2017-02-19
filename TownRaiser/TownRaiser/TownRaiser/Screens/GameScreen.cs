@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -271,7 +270,11 @@ namespace TownRaiser.Screens
             }
             else
             {
+                // Reset BuildingMarkerInstance state.
                 BuildingMarkerInstance.Visible = false;
+                if (BuildingMarkerInstance.CurrentState != Entities.BuildingMarker.VariableState.Invalid) {
+                    BuildingMarkerInstance.CurrentState = Entities.BuildingMarker.VariableState.Invalid;
+                }
             }
         }
 
@@ -390,8 +393,11 @@ namespace TownRaiser.Screens
                     switch(ActionToolbarInstance.GetActionModeBasedOnToggleState())
                     {
                         case ActionMode.Build:
-                            HandlePerformBuilding();
-                            HandlePostClick();
+                            if (BuildingMarkerInstance.CurrentState == Entities.BuildingMarker.VariableState.Normal)
+                            {
+                                HandlePerformBuilding();
+                                HandlePostClick();
+                            }
                             break;
                         case ActionMode.Select:
                             HandlePerformSelection();
