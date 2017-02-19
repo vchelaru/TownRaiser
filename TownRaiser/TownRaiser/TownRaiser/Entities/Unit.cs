@@ -35,7 +35,7 @@ namespace TownRaiser.Entities
 
         public ImmediateGoal ImmediateGoal { get; set; }
 
-        public HighLevelGoal HighLevelGoal { get; set; }
+        public Stack<HighLevelGoal> HighLevelGoals { get; set; } = new Stack<HighLevelGoal>();
 
         public TileNodeNetwork NodeNetwork { get; set; }
 
@@ -94,13 +94,18 @@ namespace TownRaiser.Entities
 
         private void HighLevelActivity()
         {
-            if(HighLevelGoal?.GetIfDone() == true)
-            {
-                HighLevelGoal = null;
-            }
-            HighLevelGoal?.DecideWhatToDo();
+            var currentGoal = HighLevelGoals.Count == 0 ? null : HighLevelGoals.Peek();
 
-            if(HighLevelGoal == null)
+            if(currentGoal?.GetIfDone() == true)
+            {
+                HighLevelGoals.Pop();
+            }
+
+            currentGoal = HighLevelGoals.Count == 0 ? null : HighLevelGoals.Peek();
+
+            currentGoal?.DecideWhatToDo();
+
+            if(currentGoal == null)
             {
                 TryStartFindingTarget();
             }
@@ -114,7 +119,24 @@ namespace TownRaiser.Entities
             }
         }
 
-        internal void CreatMoveGoal(float worldX, float worldY)
+        public void AssignMoveAttackGoal(float worldX, float worldY, bool replace = true)
+        {
+            var goal = new AttackMoveHighLevelGoal();
+            goal.TargetX = worldX;
+            goal.TargetY = worldY;
+            goal.Owner = this;
+            goal.AllUnits = AllUnits;
+            goal.AllBuildings = AllBuildings;
+
+            if (replace)
+            {
+                this.HighLevelGoals.Clear();
+            }
+            this.HighLevelGoals.Push(goal);
+            this.ImmediateGoal = null;
+        }
+
+        public void AssignMoveGoal(float worldX, float worldY, bool replace = true)
         {
             var goal = new WalkToHighLevelGoal();
 
@@ -122,7 +144,11 @@ namespace TownRaiser.Entities
             goal.TargetPosition =
                 new Microsoft.Xna.Framework.Vector3(worldX, worldY, 0);
 
-            this.HighLevelGoal = goal;
+            if(replace)
+            {
+                this.HighLevelGoals.Clear();
+            }
+            this.HighLevelGoals.Push(goal);
             this.ImmediateGoal = null;
         }
 
@@ -175,28 +201,37 @@ namespace TownRaiser.Entities
                 goal.AllUnits = AllUnits;
                 goal.AllBuildings = AllBuildings;
 
-                HighLevelGoal = goal;
+                HighLevelGoals.Clear();
+                HighLevelGoals.Push(goal);
             }
         }
 
-        public void CreateAttackGoal(Unit enemy)
+        public void AssignAttackGoal(Unit enemy, bool replace = true)
         {
             var attackGoal = new AttackUnitHighLevelGoal();
             attackGoal.TargetUnit = enemy;
             attackGoal.Owner = this;
             attackGoal.NodeNetwork = this.NodeNetwork;
 
-            HighLevelGoal = attackGoal;
+            if(replace)
+            {
+                HighLevelGoals.Clear();
+            }
+            HighLevelGoals.Push(attackGoal);
         }
 
-        public void CreateAttackGoal(Building building)
+        public void AssignAttackGoal(Building building, bool replace = true)
         {
             var attackGoal = new AttackBuildingHighLevelGoal();
             attackGoal.TargetBuilding = building;
             attackGoal.Owner = this;
             attackGoal.NodeNetwork = this.NodeNetwork;
 
-            HighLevelGoal = attackGoal;
+            if(replace)
+            {
+                HighLevelGoals.Clear();
+            }
+            HighLevelGoals.Push(attackGoal);
         }
 
         public void TakeDamage(int attackDamage)

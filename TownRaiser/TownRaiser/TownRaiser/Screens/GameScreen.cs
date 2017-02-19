@@ -23,6 +23,7 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using FlatRedBall.Math;
 using FlatRedBall.TileCollisions;
 using TownRaiser.DataTypes;
+using TownRaiser.Entities;
 
 namespace TownRaiser.Screens
 {
@@ -156,7 +157,18 @@ namespace TownRaiser.Screens
             selectedUnits.Clear();
             foreach(var unit in this.UnitList)
             {
-                if(unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance))
+                bool canSelect =
+                    unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
+
+#if DEBUG
+                if(DebuggingVariables.CanSelectEnemies)
+                {
+                    // a little inefficient but whatever, it's debug
+                    canSelect = unit.CollideAgainst(GroupSelectorInstance);
+                }
+#endif
+
+                if (canSelect)
                 {
                     selectedUnits.Add(unit);
                 }
@@ -435,7 +447,7 @@ namespace TownRaiser.Screens
             var worldX = cursor.WorldXAt(0);
             var worldY = cursor.WorldYAt(0);
 
-            const int amountToAddPerClick = 7;
+            const int amountToAddPerClick = 8;
 
             if (goldResourceShapeCollection.GetTileAt(worldX, worldY) != null)
             {
@@ -478,7 +490,7 @@ namespace TownRaiser.Screens
         private void HandleSecondaryClick()
         {
             HandleSelectedBuilding();
-            HandleSelectedUnits();
+            HandleSelectedUnitsRightClick();
         }
 
         private void HandleSelectedBuilding()
@@ -496,7 +508,7 @@ namespace TownRaiser.Screens
             }
         }
 
-        private void HandleSelectedUnits()
+        private void HandleSelectedUnitsRightClick()
         {
             //Only do this work if we have selected units
             if (selectedUnits.Count > 0)
@@ -518,11 +530,21 @@ namespace TownRaiser.Screens
                 {
                     if (enemyOver != null)
                     {
-                        selectedUnit.CreateAttackGoal(enemyOver);
+                        selectedUnit.AssignAttackGoal(enemyOver);
                     }
                     else
                     {
-                        selectedUnit.CreatMoveGoal(worldX, worldY);
+                        // todo: do we want to differentiate between move and move+attack?
+                        const bool forceWalk = false;
+
+                        if(selectedUnit.UnitData.InitiatesBattle == false || forceWalk)
+                        {
+                            selectedUnit.AssignMoveGoal(worldX, worldY);
+                        }
+                        else
+                        {
+                            selectedUnit.AssignMoveAttackGoal(worldX, worldY);
+                        }
                     }
                 }
             }
@@ -535,10 +557,20 @@ namespace TownRaiser.Screens
             selectedBuilding = null;
 
             var cursor = GuiManager.Cursor;
+
             var unitOver = UnitList.FirstOrDefault(item => 
                 item.UnitData.IsEnemy == false && item.HasCursorOver(cursor));
 
-            
+#if DEBUG
+            if(DebuggingVariables.CanSelectEnemies)
+            {
+                // doubles the check but it's debug so who cares
+                unitOver = UnitList.FirstOrDefault(item =>
+                    item.HasCursorOver(cursor));
+            }
+#endif
+
+
             if(unitOver != null)
             {
                 selectedUnits.Add(unitOver);
@@ -605,11 +637,6 @@ namespace TownRaiser.Screens
 
             if (hasEnoughGold)
             {
-                var newUnit = Factories.UnitFactory.CreateNew();
-                newUnit.NodeNetwork = this.tileNodeNetwork;
-                newUnit.AllUnits = UnitList;
-
-                newUnit.UnitData = unitData;
 
                 selectedBuilding.AddUnitToTrain(unitData.Name);
 

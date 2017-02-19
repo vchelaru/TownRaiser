@@ -17,28 +17,37 @@ namespace TownRaiser.AI
 
         public override void DecideWhatToDo()
         {
+            TryAssignAttack();
+
+        }
+
+        public bool TryAssignAttack(bool replace = true)
+        {
+            bool didAssignAttack = false;
+
             const float aggroRadius = 80;
             const float aggroSquared = aggroRadius * aggroRadius;
             bool isTargetAnEnemyUnit = !Owner.UnitData.IsEnemy;
 
-            var foundUnit = AllUnits.FirstOrDefault(item => 
+            var foundUnit = AllUnits.FirstOrDefault(item =>
                 (item.Position - Owner.Position).LengthSquared() < aggroSquared &&
                 item.UnitData.IsEnemy == isTargetAnEnemyUnit
-                
+
                 );
 
-            if(foundUnit != null)
+            if (foundUnit != null)
             {
-                Owner.CreateAttackGoal(foundUnit);
+                Owner.AssignAttackGoal(foundUnit, replace);
+                didAssignAttack = true;
             }
 
             // we prioritize units over buildings, since units can fight back
             // At this time, only bad guys can attack buildings. May need to change
             // this if we decide to add units that are built by the bad guys:
-            if(Owner.UnitData.IsEnemy)
+            if (Owner.UnitData.IsEnemy)
             {
 #if DEBUG
-                if(AllBuildings == null)
+                if (AllBuildings == null)
                 {
                     throw new NullReferenceException($"Need to assing {nameof(AllBuildings)} when instantiating this unit.");
                 }
@@ -50,13 +59,13 @@ namespace TownRaiser.AI
                     .OrderBy(item => (item.Position - Owner.Position).LengthSquared())
                     .FirstOrDefault();
 
-                if(foundBuilding != null)
+                if (foundBuilding != null)
                 {
-                    Owner.CreateAttackGoal(foundBuilding);
+                    Owner.AssignAttackGoal(foundBuilding, replace);
+                    didAssignAttack = true;
                 }
             }
-
-
+            return didAssignAttack;
         }
 
         public override bool GetIfDone()

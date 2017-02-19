@@ -44,7 +44,6 @@ namespace TownRaiser.GumRuntimes
             foreach (var buildingData in GlobalContent.BuildingData)
             {
                 ToggleButtonRuntime building = new ToggleButtonRuntime();
-                building.AddToManagers(this.Managers, null);
                 building.Parent = this;
                 ToggleButtonList.Add(building);
 
@@ -75,7 +74,6 @@ namespace TownRaiser.GumRuntimes
                 if (shouldAddButton)
                 {
                     ToggleButtonRuntime unit = new ToggleButtonRuntime();
-                    unit.AddToManagers(this.Managers, null);
                     unit.Parent = this;
                     ToggleButtonList.Add(unit);
 
@@ -106,7 +104,6 @@ namespace TownRaiser.GumRuntimes
                 foreach (var unit in units)
                 {
                     ToggleButtonRuntime unitButton = new ToggleButtonRuntime();
-                    unitButton.AddToManagers(this.Managers, null);
                     unitButton.Parent = this;
                     ToggleButtonList.Add(unitButton);
 
