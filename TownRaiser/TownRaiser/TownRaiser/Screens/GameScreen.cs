@@ -637,11 +637,6 @@ namespace TownRaiser.Screens
 
             if (hasEnoughGold)
             {
-                var newUnit = Factories.UnitFactory.CreateNew();
-                newUnit.NodeNetwork = this.tileNodeNetwork;
-                newUnit.AllUnits = UnitList;
-
-                newUnit.UnitData = unitData;
 
                 selectedBuilding.AddUnitToTrain(unitData.Name);
 
