@@ -9,10 +9,10 @@
     <Frame>
       <TextureName>..\..\maintileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>129</LeftCoordinate>
-      <RightCoordinate>143</RightCoordinate>
-      <TopCoordinate>113</TopCoordinate>
-      <BottomCoordinate>128</BottomCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
+      <TopCoordinate>176</TopCoordinate>
+      <BottomCoordinate>192</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
@@ -21,10 +21,10 @@
     <Frame>
       <TextureName>..\..\maintileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>98</LeftCoordinate>
-      <RightCoordinate>110</RightCoordinate>
-      <TopCoordinate>115</TopCoordinate>
-      <BottomCoordinate>128</BottomCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
+      <TopCoordinate>176</TopCoordinate>
+      <BottomCoordinate>192</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
@@ -33,10 +33,10 @@
     <Frame>
       <TextureName>..\..\maintileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>128</LeftCoordinate>
-      <RightCoordinate>144</RightCoordinate>
-      <TopCoordinate>93</TopCoordinate>
-      <BottomCoordinate>112</BottomCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
+      <TopCoordinate>112</TopCoordinate>
+      <BottomCoordinate>128</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
@@ -45,10 +45,10 @@
     <Frame>
       <TextureName>..\..\maintileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>112</LeftCoordinate>
-      <RightCoordinate>128</RightCoordinate>
-      <TopCoordinate>96</TopCoordinate>
-      <BottomCoordinate>112</BottomCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
+      <TopCoordinate>144</TopCoordinate>
+      <BottomCoordinate>160</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
@@ -57,8 +57,8 @@
     <Frame>
       <TextureName>..\..\maintileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>256</LeftCoordinate>
-      <RightCoordinate>272</RightCoordinate>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>16</RightCoordinate>
       <TopCoordinate>80</TopCoordinate>
       <BottomCoordinate>96</BottomCoordinate>
     </Frame>
@@ -69,10 +69,10 @@
     <Frame>
       <TextureName>..\..\maintileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>256</LeftCoordinate>
-      <RightCoordinate>272</RightCoordinate>
-      <TopCoordinate>64</TopCoordinate>
-      <BottomCoordinate>80</BottomCoordinate>
+      <LeftCoordinate>16</LeftCoordinate>
+      <RightCoordinate>32</RightCoordinate>
+      <TopCoordinate>80</TopCoordinate>
+      <BottomCoordinate>96</BottomCoordinate>
     </Frame>
   </AnimationChain>
 </AnimationChainArraySave>
