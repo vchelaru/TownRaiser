@@ -10,35 +10,29 @@ namespace TownRaiser.AI
 {
     class ResourceCollectHighLevelGoal : HighLevelGoal
     {
-        public Unit Owner { get; set; }
-        public TileNodeNetwork NodeNetwork { get; set; }
-        Vector3 _ClickPosition;
-        public Vector3 ClickPosition
-        {
-            get
-            {
-                return _ClickPosition;
-            }
-            set
-            {
-                if (value != _ClickPosition)
-                {
-                    _ClickPosition = value;
-                    SingleTileCenter = GetSingleTileCenterFromClickPosition(_ClickPosition);
-                    SingleTile = GetSingleTile(SingleTileCenter);
-                }
-            }
-        }
+        WalkToHighLevelGoal walkGoal;
+        // TODO: Toggle between going to resource and returning to building with resource.
+
+        const float CollectFrequencyInSeconds = 1;
+        /// <summary>
+        /// The last time resource was collected. Resource is collected one time every X seconds
+        /// as defined by the <paramref name="CollectFrequency"/> value;
+        /// </summary>
+        double lastCollectionTime;
+
+        public Unit Owner { get; private set; }
+        public TileNodeNetwork NodeNetwork { get; private set; }
+        public Vector3 ClickPosition { get; private set; }
         /// <summary>
         /// The center of the desired resource tile, as if it weren't merged with any neighbors.
         /// </summary>
-        Vector3 SingleTileCenter { get; set; }
+        public Vector3 SingleTileCenter { get; private set; }
         /// <summary>
         /// The AxisAlignedRectangle that represents what would be our desired resource tile, as if it weren't merged with any neighbors.
         /// </summary>
-        AxisAlignedRectangle SingleTile { get; set; }
-        public AxisAlignedRectangle TargetResourceTile { get; set; }
-        public string TargetResourceType { get; set; }
+        public AxisAlignedRectangle SingleTile { get; private set; }
+        public AxisAlignedRectangle TargetResourceTile { get; private set; }
+        public string TargetResourceType { get; private set; }
 
         /// <summary>
         /// Find the center of the tile clicked on, rather than finding the node nearest the click (which could be opposite side of closest node).
@@ -72,13 +66,24 @@ namespace TownRaiser.AI
             return newAar;
         }
 
-        const float CollectFrequency = 1;
+        public ResourceCollectHighLevelGoal(Unit owner, TileNodeNetwork nodeNetwork, Vector3 clickPosition, AxisAlignedRectangle targetResourceTile, string targetResourceType)
+        {
+            Owner = owner;
+            NodeNetwork = nodeNetwork;
+            ClickPosition = clickPosition;
+            TargetResourceTile = targetResourceTile;
+            TargetResourceType = targetResourceType;
 
-        /// <summary>
-        /// The last time resource was collected. Resource is collected one time every X seconds
-        /// as defined by the <paramref name="CollectFrequency"/> value;
-        /// </summary>
-        double lastCollectionTime;
+            // TODO: Handle when we can't get to desired tile (e.g., tree in the middle of forest).
+            SingleTileCenter = GetSingleTileCenterFromClickPosition(ClickPosition);
+            SingleTile = GetSingleTile(SingleTileCenter);
+        }
+
+        public override bool GetIfDone()
+        {
+            // Resources are unlimited, only restricted by mosh pit of units trying to harvest simultaneously.
+            return false;
+        }
 
         public bool IsInRangeToCollect()
         {
@@ -87,32 +92,20 @@ namespace TownRaiser.AI
 
         public override void DecideWhatToDo()
         {
-            bool isWalking = Owner.ImmediateGoal?.Path?.Count > 0;
-            if (isWalking)
+            if (IsInRangeToCollect())
             {
-            }
-            else
-            {
-            }
-
-            if (IsInRangeToCollect() == false)
-            {
-                //System.Diagnostics.Debug.WriteLine($"
-                PathfindToTarget();
-            }
-            else
-            {
+                System.Diagnostics.Debug.WriteLine($"In range to collect resource");
                 // we're close, harvest!
 
                 // Stop moving.
-                Owner.ImmediateGoal.Path?.Clear();
-                Owner.Velocity = Vector3.Zero;
+                walkGoal = null;
 
                 var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
-                bool canCollect = screen.PauseAdjustedSecondsSince(lastCollectionTime) >= CollectFrequency;
+                bool canCollect = screen.PauseAdjustedSecondsSince(lastCollectionTime) >= CollectFrequencyInSeconds;
 
-                if(canCollect)
+                if (canCollect)
                 {
+                    System.Diagnostics.Debug.WriteLine($"Collecting resource");
                     // TODO: Take resource back to nearest Town Hall?
                     lastCollectionTime = screen.PauseAdjustedCurrentTime;
                     if (TargetResourceType == "Wood")
@@ -130,27 +123,27 @@ namespace TownRaiser.AI
                     screen.UpdateResourceDisplay();
                 }
             }
-        }
-
-        public override bool GetIfDone()
-        {
-            // TODO: Take resource back to nearest Town Hall? (new goal to return resource?)
-
-            // Resources are unlimited, only restricted by mosh pit of units trying to harvest simultaneously.
-            return false;
-        }
-
-        private void PathfindToTarget()
-        {
-            if (Owner.ImmediateGoal == null)
+            else
             {
-                Owner.ImmediateGoal = new ImmediateGoal();
+                bool isWalking = Owner?.ImmediateGoal?.Path?.Count > 0;
+                if (!isWalking)
+                {
+                    if (walkGoal == null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Not in range to collect resource");
+                        walkGoal = new WalkToHighLevelGoal();
+                        walkGoal.Owner = Owner;
+                        walkGoal.TargetPosition = SingleTileCenter;
+                        walkGoal.ForceAttemptToGetToExactTarget = true;
+                        walkGoal.DecideWhatToDo();
+                    }
+                    else
+                    {
+                        // Wasn't in range to collect, isn't walking, and goal was already set.
+                        // TODO: May not be able to reach target right now (collisions?).
+                    }
+                }
             }
-            // Get path to our clicked [single] tile.
-            var pathToTileCenter = Owner.GetPathTo(SingleTileCenter);
-            // Add a node for the center to make sure unit tries to get close enough to harvest.
-            pathToTileCenter.Add(new PositionedNode() { X = SingleTileCenter.X, Y = SingleTileCenter.Y, Z = SingleTileCenter.Z });
-            Owner.ImmediateGoal.Path = pathToTileCenter;
         }
     }
 }

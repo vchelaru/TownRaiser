@@ -1,4 +1,5 @@
-﻿using FlatRedBall.Math.Geometry;
+﻿using FlatRedBall.AI.Pathfinding;
+using FlatRedBall.Math.Geometry;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,10 @@ namespace TownRaiser.AI
         public Unit Owner { get; set; }
         public Unit TargetUnit { get; set; }
         public Building TargetBuilding { get; set; }
+        /// <summary>
+        /// Forces an additional node at the target to force <paramref name="Owner"/> to push to <paramref name="TargetPosition"/> even if it is not near a node.
+        /// </summary>
+        public bool ForceAttemptToGetToExactTarget { get; set; }
 
 
         private void GetPath()
@@ -33,7 +38,13 @@ namespace TownRaiser.AI
                 Owner.ImmediateGoal = new ImmediateGoal();
             }
 
-            Owner.ImmediateGoal.Path = Owner.GetPathTo(vector3);
+            var path = Owner.GetPathTo(vector3);
+            if (ForceAttemptToGetToExactTarget && TargetPosition.HasValue)
+            {
+                // Add a node for the center to make sure unit tries to get as close as possible, regardless of where the last node leaves them.
+                path.Add(new PositionedNode() { X = TargetPosition.Value.X, Y = TargetPosition.Value.Y, Z = TargetPosition.Value.Z });
+            }
+            Owner.ImmediateGoal.Path = path;
         }
 
         public override bool GetIfDone()

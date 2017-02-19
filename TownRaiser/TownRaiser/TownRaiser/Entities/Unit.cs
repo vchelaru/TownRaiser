@@ -211,13 +211,13 @@ namespace TownRaiser.Entities
 
         public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, string resourceType)
         {
-            var collectResourceGoal = new ResourceCollectHighLevelGoal();
-            collectResourceGoal.Owner = this;
-            collectResourceGoal.NodeNetwork = this.NodeNetwork;
-            collectResourceGoal.ClickPosition = clickPosition;
-            collectResourceGoal.TargetResourceTile = resourceGroupTile;
-            collectResourceGoal.TargetResourceType = resourceType;
-
+            var collectResourceGoal = new ResourceCollectHighLevelGoal(
+                owner: this,
+                nodeNetwork: NodeNetwork,
+                clickPosition: clickPosition,
+                targetResourceTile: resourceGroupTile,
+                targetResourceType: resourceType
+            );
             HighLevelGoals.Push(collectResourceGoal);
         }
         public void AssignAttackGoal(Unit enemy, bool replace = true)
