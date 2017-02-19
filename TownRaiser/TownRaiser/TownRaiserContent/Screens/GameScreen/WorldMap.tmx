@@ -2,51 +2,166 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="MainTileset" tilewidth="16" tileheight="16" tilecount="1024">
   <image source="../../MainTileset.png" width="512" height="512"/>
-  <tile id="16">
+  <tile id="3">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
     <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
-  <tile id="17">
+  <tile id="4">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
     <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
-  <tile id="18">
+  <tile id="5">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
     <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
-  <tile id="48">
+  <tile id="8">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Gold"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Gold"/>
+   </properties>
+  </tile>
+  <tile id="35">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
     <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
-  <tile id="49">
+  <tile id="36">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
     <property name="ResourceType" value="Water"/>
    </properties>
   </tile>
-  <tile id="50">
+  <tile id="37">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
     <property name="ResourceType" value="Water"/>
+   </properties>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Gold"/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Gold"/>
+   </properties>
+  </tile>
+  <tile id="67">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Water"/>
+   </properties>
+  </tile>
+  <tile id="68">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Water"/>
+   </properties>
+  </tile>
+  <tile id="72">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
    </properties>
   </tile>
   <tile id="75">
    <properties>
-    <property name="ResourceType" value="Stone"/>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
    </properties>
   </tile>
-  <tile id="80">
+  <tile id="76">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
-    <property name="ResourceType" value="Water"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="106">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="107">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="108">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Wood"/>
    </properties>
   </tile>
   <tile id="138">
@@ -54,19 +169,7 @@
     <property name="ResourceType" value="Stone"/>
    </properties>
   </tile>
-  <tile id="169">
-   <properties>
-    <property name="BlocksPathfinding" value="true"/>
-    <property name="ResourceType" value="Gold"/>
-   </properties>
-  </tile>
-  <tile id="171">
-   <properties>
-    <property name="BlocksPathfinding" value="true"/>
-    <property name="ResourceType" value="Wood"/>
-   </properties>
-  </tile>
-  <tile id="172">
+  <tile id="139">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
     <property name="ResourceType" value="Wood"/>
@@ -75,12 +178,12 @@
  </tileset>
  <layer name="GroundLayer" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+VWMRKAMAij/IT/f1IH3dSCEgoyZOpBQqC0g4hGUsgODubkg1cS1F8N0b36EwTgLRfsibdeBuVF6+4MSaAhm3btfHnOoTWXR+1fc6D2hzXm/EcgvZidd9hJVx48+XLniYdXsshzLS9C24p6NZxC9tmI6Osb/llch3teER5vABobv0KBJgAQAAA=
+   H4sIAAAAAAAAC+VWSRKAMAhr+Qn//6Qe9OJQ1pbS8cAJISSpDL211osG3gHJmPDgYgKOt0Zby3Gw8NPiZXt1yixRr7x8QFmHCvxTfbP+M1Xm/nNggRmqzb5jB1t7RbjjhB6z+Xv7vXs3ykWql/Kn7iTL3JQGnC6j3jO0wk2aa3FXzLaDb+Sm4d6GV1+L7x58ro7CRiIv3YJeHyWNv/kRD+2tqtFg5ZsEIrhvvX5nxQWgizyJABAAAA==
   </data>
  </layer>
  <layer name="AboveGroundLayer" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2STQrCMBCFZ9EGBA/hoir+3UIX/t2he+1J1Dt4lBytb+h0UyahGGw288FHCk3z3pQQGYZhGMY45opTsYN7xUNgvyOqC6wl7FeXkH+FN8V7ON+viBYnPC9h1fX4TpXPrLsOvpL8MiH/AZ+KjbzfwK3yHTJrzub/kDI/8xb7Lk1k70zWQvKP9Pv8w9le0uMzyNLge4Bcjx7eJc6fk3PuAgEuGc7+Z2aM2D0zDMMYSwsG6qa0ABAAAA==
+   H4sIAAAAAAAAC+2WTQ6CMBSEu8AmJkav4AIl/l+BhS78uwN79Q7s0TtwFI7iUZyGNiFaTKmPKoZJvhRI6EzL4wFjrVq9amd5X5c0BY1cZLLdrzL1NLjSDMw1LBz578FBw7Hh/sU6fFcvJ3DWcDH06YOBTcCCrhKVxdRbaAlWH/orJTLHTZ5XfZc5Y5GHsQPUyImyGfpnY8aGGxyPgJ/nSB1GYEGeIfOlf0fjPwFTAq+yeeAZCW+xDybrp+qnql486b9m+vWb6HltiRxNalPUAXwz5Mi44+dPqe23A5SI+vtrMndVT6q9+8V/LCqpfg1iBa7dbeer+oyK/RrEOE5xLbT1t5Hq1yAMavA2qR/esD71z+9EnXoAcppu3gAQAAA=
   </data>
  </layer>
 </map>
