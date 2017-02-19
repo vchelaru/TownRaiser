@@ -534,7 +534,7 @@ namespace TownRaiser.Screens
                     }
                     else
                     {
-                        selectedUnit.CreatMoveGoal(worldX, worldY);
+                        selectedUnit.AssignMoveGoal(worldX, worldY);
                     }
                 }
             }
