@@ -435,7 +435,7 @@ namespace TownRaiser.Screens
             var worldX = cursor.WorldXAt(0);
             var worldY = cursor.WorldYAt(0);
 
-            const int amountToAddPerClick = 7;
+            const int amountToAddPerClick = 8;
 
             if (goldResourceShapeCollection.GetTileAt(worldX, worldY) != null)
             {
