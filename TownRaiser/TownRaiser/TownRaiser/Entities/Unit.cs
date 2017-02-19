@@ -201,7 +201,7 @@ namespace TownRaiser.Entities
             collectResourceGoal.TargetResourceTile = resourceGroupTile;
             collectResourceGoal.TargetResourceType = resourceType;
 
-            HighLevelGoal = collectResourceGoal;
+            HighLevelGoals.Push(collectResourceGoal);
         }
         public void AssignAttackGoal(Unit enemy, bool replace = true)
         {
