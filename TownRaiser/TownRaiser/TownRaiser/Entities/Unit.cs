@@ -70,6 +70,9 @@ namespace TownRaiser.Entities
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
 
+#if DEBUG
+            this.ResourceCollectCircleInstance.Visible = DebuggingVariables.ShowResourceCollision;
+#endif
         }
 
         #endregion
