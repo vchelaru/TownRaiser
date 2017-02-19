@@ -75,17 +75,12 @@
  </tileset>
  <layer name="GroundLayer" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3DAQkAAAwEocvy/UOux1Bw1VRVVdXXDzHBL+0AEAAA
-  </data>
- </layer>
- <layer name="WaterLayer" width="32" height="32">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjYBSMglEwCkYBNiDMwJAgCKEHyv4DQkAMpBcMkBNGDADFNTCsGUDxjUzTK+6B9iUYAWlkbAjExkBsQgf7hbDYD8NANzygdTiA/G+Iw/5AiPwCWtoPymuC0PyGjR7Ng6NgFIyC4QIATLGn6gAQAAA=
+   H4sIAAAAAAAAC+VWMRKAMAij/IT/f1IH3dSCEgoyZOpBQqC0g4hGUsgODubkg1cS1F8N0b36EwTgLRfsibdeBuVF6+4MSaAhm3btfHnOoTWXR+1fc6D2hzXm/EcgvZidd9hJVx48+XLniYdXsshzLS9C24p6NZxC9tmI6Osb/llch3teER5vABobv0KBJgAQAAA=
   </data>
  </layer>
  <layer name="AboveGroundLayer" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2QQQrAIBADfaBPqx8p9o9VsLBI13pKlGYgoF4mMQQhxO4cJYnozyVX98boZJ1vnVBO5Ha78/EyttsuqP2eD7X/qwca9O5VONkFxG+JLewOozsK9j9UonNGehmw/ZUVOoh5bhH0m24AEAAA
+   H4sIAAAAAAAAC+2STQrCMBCFZ9EGBA/hoir+3UIX/t2he+1J1Dt4lBytb+h0UyahGGw288FHCk3z3pQQGYZhGMY45opTsYN7xUNgvyOqC6wl7FeXkH+FN8V7ON+viBYnPC9h1fX4TpXPrLsOvpL8MiH/AZ+KjbzfwK3yHTJrzub/kDI/8xb7Lk1k70zWQvKP9Pv8w9le0uMzyNLge4Bcjx7eJc6fk3PuAgEuGc7+Z2aM2D0zDMMYSwsG6qa0ABAAAA==
   </data>
  </layer>
 </map>
