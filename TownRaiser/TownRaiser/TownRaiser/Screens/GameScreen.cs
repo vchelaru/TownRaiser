@@ -463,7 +463,6 @@ namespace TownRaiser.Screens
             newUnit.X = GuiManager.Cursor.WorldXAt(0);
             newUnit.Y = GuiManager.Cursor.WorldYAt(0);
             newUnit.Z = 1;
-            newUnit.CurrentTrainingStatusState = Entities.Unit.TrainingStatus.TrainingComplete;
             newUnit.UnitData = unitData;
 
         }
@@ -553,12 +552,21 @@ namespace TownRaiser.Screens
                 if (selectedBuilding.IsConstructionComplete)
                 {
                     ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
-                    StatusToolbarInstance.SetViewFromBuildingEntity(selectedBuilding);
+                    StatusToolbarInstance.SetViewFromEntity(selectedBuilding);
                 }
             }
 
 
             UpdateSelectionMarker();
+            CheckSelectionState();
+        }
+
+        public void CheckSelectionState()
+        {
+            if(selectedBuilding == null && selectedUnits.Count == 0)
+            {
+                this.StatusToolbarInstance.SetViewFromEntity(null);
+            }
         }
 
         private void UpdateSelectionMarker()
@@ -597,25 +605,13 @@ namespace TownRaiser.Screens
 
             if (hasEnoughGold)
             {
-                // todo for Rick: The building should probably keep track of the unit types it's training, rather than instantiate a unit here.
-                // instantiating a unit here causes a number of problems:
-                // * The unit is added to the unit list (collision, can be attacked, can be selected)
-                // * Conceptually the unit isn't actually there until training is done, so instantiating one is confusing
-                // * This requires units to default to an invisible state, making debugging and testing more difficult 
-                //   (although I changed this by removing the code from OnAfterunitDataSet) and moved it here instead
-                var x = selectedBuilding.UnitSpawnX;
-                var y = selectedBuilding.UnitSpawnY;
                 var newUnit = Factories.UnitFactory.CreateNew();
                 newUnit.NodeNetwork = this.tileNodeNetwork;
                 newUnit.AllUnits = UnitList;
-                newUnit.X = x;
-                newUnit.Y = y;
-                newUnit.Z = 1;
 
                 newUnit.UnitData = unitData;
 
-                selectedBuilding.AddUnitToTrain(newUnit);
-                newUnit.CurrentTrainingStatusState = Entities.Unit.TrainingStatus.TrainingInProgress;
+                selectedBuilding.AddUnitToTrain(unitData.Name);
 
                 bool shouldUpdateResources = true;
 #if DEBUG
@@ -769,8 +765,19 @@ namespace TownRaiser.Screens
             this.ResourceDisplayInstance.GoldText = this.Gold.ToString();
         }
 
-#endregion
+        #endregion
 
+        public Entities.Unit SpawnNewUnit(string unitDataKey, Vector3 spawnPoint)
+        {
+            var newUnit = Factories.UnitFactory.CreateNew();
+
+            newUnit.Position = spawnPoint;
+            newUnit.UnitData = GlobalContent.UnitData[unitDataKey];
+            newUnit.AllUnits = this.UnitList;
+            newUnit.NodeNetwork = this.tileNodeNetwork;
+
+            return newUnit;
+        }
         void CustomDestroy()
 		{
 

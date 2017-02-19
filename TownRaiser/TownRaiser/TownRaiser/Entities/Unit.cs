@@ -48,18 +48,7 @@ namespace TownRaiser.Entities
         #endregion
 
         #region Private Fields/Properties
-        private double m_TraningStartTime;
-
-        private bool IsTrainingComplete
-        {
-            get
-            {
-                var currentScreen = ScreenManager.CurrentScreen;
-
-                return m_TraningStartTime > 0 && currentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) >= UnitData.TrainTime;
-            }
-        }
-        public double TrainingProgressPercent => ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) / UnitData.TrainTime;
+        
 
         // The last time damage was dealt. Damage is dealt one time every X seconds
         // as defined by the DamageFrequency value;
@@ -80,7 +69,6 @@ namespace TownRaiser.Entities
             //// This should prob be done in Glue instead, but I don't think Glue currently supports this:
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
-            m_TraningStartTime = -1;
 
         }
 
@@ -90,21 +78,10 @@ namespace TownRaiser.Entities
 
         private void CustomActivity()
         {
-            //We will only perform high and immediateAi activities if the unit has completed training.
-            // Rick - we probably want to remove this once units are no longer instantiated by the building
-            // when training starts
-            if (CurrentTrainingStatusState == TrainingStatus.TrainingComplete)
-            {
-                HighLevelActivity();
-                ImmediateAiActivity();
+            HighLevelActivity();
+            ImmediateAiActivity();
 
-                HealthBarActivity();
-            }
-            else
-            {
-                TrainingActivity();
-            }
-
+            HealthBarActivity();
         }
         private void HealthBarActivity()
         {
@@ -113,14 +90,6 @@ namespace TownRaiser.Entities
             var healthPercentage = 100 * this.CurrentHealth / (float)UnitData.Health;
 
             this.HealthBarRuntimeInstance.HealthPercentage = healthPercentage;
-        }
-
-        private void TrainingActivity()
-        {
-            if(IsTrainingComplete)
-            {
-                CurrentTrainingStatusState = TrainingStatus.TrainingComplete;
-            }
         }
 
         private void HighLevelActivity()
@@ -237,11 +206,6 @@ namespace TownRaiser.Entities
             {
                 Destroy();
             }
-        }
-
-        public void StartTraining()
-        {
-            m_TraningStartTime = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
         }
 
         public void TryAttack(Unit targetUnit)

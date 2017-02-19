@@ -226,7 +226,8 @@
     <Variable>
       <Type>string</Type>
       <Name>SelectedObjectName.Text</Name>
-      <Value xsi:type="xsd:string">Town Hall</Value>
+      <Value xsi:type="xsd:string">No Object</Value>
+      <ExposedAsName>SelectedObjectText</ExposedAsName>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -480,6 +481,12 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>bool</Type>
+      <Name>SelectedObjectSprite.Visible</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>SelectedObjectSprite.X</Name>
       <Value xsi:type="xsd:float">19</Value>
@@ -489,6 +496,29 @@
       <Type>float</Type>
       <Name>SelectedObjectSprite.Y</Name>
       <Value xsi:type="xsd:float">19</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+  </State>
+  <State>
+    <Name>NothingSelected</Name>
+    <Variable>
+      <Type>bool</Type>
+      <Name>CurrentTrainingUnitSprite.Visible</Name>
+      <Value xsi:type="xsd:boolean">false</Value>
+      <ExposedAsName>CurrentTrainingUnitVisible</ExposedAsName>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>string</Type>
+      <Name>SelectedObjectName.Text</Name>
+      <Value xsi:type="xsd:string">No Object</Value>
+      <ExposedAsName>SelectedObjectText</ExposedAsName>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>SelectedObjectSprite.Visible</Name>
+      <Value xsi:type="xsd:boolean">false</Value>
       <SetsValue>true</SetsValue>
     </Variable>
   </State>
@@ -571,12 +601,6 @@
     <Name>IconState</Name>
     <State>
       <Name>TownHallIcon</Name>
-      <Variable>
-        <Type>string</Type>
-        <Name>SelectedObjectName.Text</Name>
-        <Value xsi:type="xsd:string">Town Hall</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
       <Variable>
         <Type>int</Type>
         <Name>SelectedObjectSprite.Texture Height</Name>
