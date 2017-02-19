@@ -122,7 +122,6 @@ namespace TownRaiser.GumRuntimes
                 if (i > TrainingUnits.Count)
                 {
                     var unitVisual = new TrainingUnitSpriteRuntime();
-                    unitVisual.AddToManagers(TrainingQueueContainer.Managers, null);
                     unitVisual.CurrentTrainingProgressState = TrainingUnitSpriteRuntime.TrainingProgress.Waiting;
                     unitVisual.Parent = TrainingQueueContainer;
                     unitVisual.X = i > 1 ? 1 : 0;
