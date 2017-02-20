@@ -216,7 +216,8 @@ namespace TownRaiser.Entities
                 nodeNetwork: NodeNetwork,
                 clickPosition: clickPosition,
                 targetResourceTile: resourceGroupTile,
-                targetResourceType: resourceType
+                targetResourceType: resourceType,
+                allBuildings: AllBuildings
             );
             HighLevelGoals.Push(collectResourceGoal);
         }

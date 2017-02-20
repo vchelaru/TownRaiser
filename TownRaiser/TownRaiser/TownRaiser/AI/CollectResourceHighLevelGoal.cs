@@ -5,20 +5,15 @@ using FlatRedBall.Math.Geometry;
 using Microsoft.Xna.Framework;
 using TownRaiser.Screens;
 using FlatRedBall.Math;
+using TownRaiser.DataTypes;
 
 namespace TownRaiser.AI
 {
     class ResourceCollectHighLevelGoal : HighLevelGoal
     {
         WalkToHighLevelGoal walkGoal;
-        // TODO: Toggle between going to resource and returning to building with resource.
-
-        const float CollectFrequencyInSeconds = 1;
-        /// <summary>
-        /// The last time resource was collected. Resource is collected one time every X seconds
-        /// as defined by the <paramref name="CollectFrequency"/> value;
-        /// </summary>
-        double lastCollectionTime;
+        
+        bool hasResourceToReturn;
 
         public Unit Owner { get; private set; }
         public TileNodeNetwork NodeNetwork { get; private set; }
@@ -33,6 +28,8 @@ namespace TownRaiser.AI
         public AxisAlignedRectangle SingleTile { get; private set; }
         public AxisAlignedRectangle TargetResourceTile { get; private set; }
         public string TargetResourceType { get; private set; }
+        public PositionedObjectList<Building> AllBuildings { get; set; }
+        public Building ResourceReturnBuilding { get; set; }
 
         /// <summary>
         /// Find the center of the tile clicked on, rather than finding the node nearest the click (which could be opposite side of closest node).
@@ -66,13 +63,14 @@ namespace TownRaiser.AI
             return newAar;
         }
 
-        public ResourceCollectHighLevelGoal(Unit owner, TileNodeNetwork nodeNetwork, Vector3 clickPosition, AxisAlignedRectangle targetResourceTile, string targetResourceType)
+        public ResourceCollectHighLevelGoal(Unit owner, TileNodeNetwork nodeNetwork, Vector3 clickPosition, AxisAlignedRectangle targetResourceTile, string targetResourceType, PositionedObjectList<Building> allBuildings)
         {
             Owner = owner;
             NodeNetwork = nodeNetwork;
             ClickPosition = clickPosition;
             TargetResourceTile = targetResourceTile;
             TargetResourceType = targetResourceType;
+            AllBuildings = allBuildings;
 
             // TODO: Handle when we can't get to desired tile (e.g., tree in the middle of forest).
             SingleTileCenter = GetSingleTileCenterFromClickPosition(ClickPosition);
@@ -89,37 +87,65 @@ namespace TownRaiser.AI
         {
             return Owner.ResourceCollectCircleInstance.CollideAgainst(SingleTile);
         }
+        public bool IsInRangeToReturnResource()
+        {
+            return hasResourceToReturn
+                && ResourceReturnBuilding != null
+                && Owner.ResourceCollectCircleInstance.CollideAgainst(ResourceReturnBuilding.AxisAlignedRectangleInstance);
+        }
 
         public override void DecideWhatToDo()
         {
-            if (IsInRangeToCollect())
+            if (IsInRangeToReturnResource())
             {
-                // we're close, harvest!
+                // We're close enough to our target resource: harvest!
 
-                // Stop moving.
+                // Stop moving
                 walkGoal = null;
 
                 var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
-                bool canCollect = screen.PauseAdjustedSecondsSince(lastCollectionTime) >= CollectFrequencyInSeconds;
 
-                if (canCollect)
+                // Increment appropriate resource.
+                if (TargetResourceType == "Wood")
                 {
-                    // TODO: Take resource back to nearest Town Hall?
-                    lastCollectionTime = screen.PauseAdjustedCurrentTime;
-                    if (TargetResourceType == "Wood")
-                    {
-                        screen.Lumber += Owner.UnitData.ResourceHarvestAmount;
-                    }
-                    else if (TargetResourceType == "Stone")
-                    {
-                        screen.Stone += Owner.UnitData.ResourceHarvestAmount;
-                    }
-                    else if (TargetResourceType == "Gold")
-                    {
-                        screen.Gold += Owner.UnitData.ResourceHarvestAmount;
-                    }
-                    screen.UpdateResourceDisplay();
+                    screen.Lumber += Owner.UnitData.ResourceHarvestAmount;
                 }
+                else if (TargetResourceType == "Stone")
+                {
+                    screen.Stone += Owner.UnitData.ResourceHarvestAmount;
+                }
+                else if (TargetResourceType == "Gold")
+                {
+                    screen.Gold += Owner.UnitData.ResourceHarvestAmount;
+                }
+
+                // Update UI
+                screen.UpdateResourceDisplay();
+
+                hasResourceToReturn = false;
+                // Default to !isWalking later to set up return trip.
+            }
+            else if (IsInRangeToCollect())
+            {
+                // We're close enough to our target resource: harvest!
+
+                // Stop moving.
+                walkGoal = null;
+                hasResourceToReturn = true;
+
+                // Set up to return resource
+                // Find "closest" building by position comparison.
+                // FUTURE: Get building with shorted node path (in case closest is a long winding path).
+                var returnBuilding = AllBuildings
+                    .Where(building => building.BuildingData.Name == BuildingData.TownHall)
+                    .OrderBy(building => (building.Position - Owner.Position).Length())
+                    .FirstOrDefault();
+
+                walkGoal = new WalkToHighLevelGoal();
+                walkGoal.Owner = Owner;
+                walkGoal.TargetPosition = SingleTileCenter;
+                walkGoal.ForceAttemptToGetToExactTarget = true;
+                walkGoal.DecideWhatToDo();
             }
             else
             {
@@ -133,11 +159,6 @@ namespace TownRaiser.AI
                         walkGoal.TargetPosition = SingleTileCenter;
                         walkGoal.ForceAttemptToGetToExactTarget = true;
                         walkGoal.DecideWhatToDo();
-                    }
-                    else
-                    {
-                        // Wasn't in range to collect, isn't walking, and goal was already set.
-                        // TODO: May not be able to reach target right now (collisions?).
                     }
                 }
             }
