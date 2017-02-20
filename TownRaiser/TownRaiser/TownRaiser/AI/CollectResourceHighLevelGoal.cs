@@ -30,6 +30,7 @@ namespace TownRaiser.AI
         public string TargetResourceType { get; private set; }
         public PositionedObjectList<Building> AllBuildings { get; set; }
         public Building ResourceReturnBuilding { get; set; }
+        public AxisAlignedRectangle ResourceReturnBuildingTile { get; set; }
 
         /// <summary>
         /// Find the center of the tile clicked on, rather than finding the node nearest the click (which could be opposite side of closest node).
@@ -85,14 +86,21 @@ namespace TownRaiser.AI
 
         public bool IsInRangeToCollect()
         {
-            return Owner.ResourceCollectCircleInstance.CollideAgainst(SingleTile);
+            return !hasResourceToReturn && Owner.ResourceCollectCircleInstance.CollideAgainst(SingleTile);
         }
         public bool IsInRangeToReturnResource()
         {
             return hasResourceToReturn
                 && ResourceReturnBuilding != null
-                && Owner.ResourceCollectCircleInstance.CollideAgainst(ResourceReturnBuilding.AxisAlignedRectangleInstance);
+                && Owner.ResourceCollectCircleInstance.CollideAgainst(ResourceReturnBuildingTile);
         }
+
+        const float CollectFrequencyInSeconds = 1;
+        /// <summary>
+        /// The last time resource was collected. Resource is collected one time every X seconds
+        /// as defined by the <paramref name="CollectFrequency"/> value;
+        /// </summary>
+        double arrivedAtResourceTime;
 
         public override void DecideWhatToDo()
         {
@@ -123,7 +131,8 @@ namespace TownRaiser.AI
                 screen.UpdateResourceDisplay();
 
                 hasResourceToReturn = false;
-                // Default to !isWalking later to set up return trip.
+                ResourceReturnBuilding = null;
+                // Default to !isWalking later to set up return-to-resource trip.
             }
             else if (IsInRangeToCollect())
             {
@@ -131,21 +140,38 @@ namespace TownRaiser.AI
 
                 // Stop moving.
                 walkGoal = null;
-                hasResourceToReturn = true;
 
-                // Set up to return resource
-                // Find "closest" building by position comparison.
-                // FUTURE: Get building with shorted node path (in case closest is a long winding path).
-                var returnBuilding = AllBuildings
-                    .Where(building => building.BuildingData.Name == BuildingData.TownHall)
-                    .OrderBy(building => (building.Position - Owner.Position).Length())
-                    .FirstOrDefault();
+                var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
 
-                walkGoal = new WalkToHighLevelGoal();
-                walkGoal.Owner = Owner;
-                walkGoal.TargetPosition = SingleTileCenter;
-                walkGoal.ForceAttemptToGetToExactTarget = true;
-                walkGoal.DecideWhatToDo();
+                // Delay resource pick-up once arrived.
+                if (arrivedAtResourceTime == 0)
+                {
+                    arrivedAtResourceTime = screen.PauseAdjustedCurrentTime;
+                }
+                bool canCollect = screen.PauseAdjustedSecondsSince(arrivedAtResourceTime) >= CollectFrequencyInSeconds;
+
+                if (canCollect)
+                {
+                    hasResourceToReturn = true;
+                    arrivedAtResourceTime = 0;
+                    // Set up to return resource
+                    // Find "closest" building by position comparison.
+                    // FUTURE: Get building with shorted node path (in case closest is a long winding path).
+                    ResourceReturnBuilding = AllBuildings
+                        .Where(building => building.BuildingData.Name == BuildingData.TownHall)
+                        .OrderBy(building => (building.Position - Owner.Position).Length())
+                        .FirstOrDefault();
+                    ResourceReturnBuildingTile = GetSingleTile(ResourceReturnBuilding.Position);
+
+                    if (ResourceReturnBuilding != null)
+                    {
+                        walkGoal = new WalkToHighLevelGoal();
+                        walkGoal.Owner = Owner;
+                        walkGoal.TargetPosition = ResourceReturnBuilding.Position;
+                        walkGoal.ForceAttemptToGetToExactTarget = true;
+                        walkGoal.DecideWhatToDo();
+                    }
+                }
             }
             else
             {

@@ -251,6 +251,7 @@ namespace TownRaiser.Entities
                 targetResourceType: resourceType,
                 allBuildings: AllBuildings
             );
+            HighLevelGoals.Clear();
             HighLevelGoals.Push(collectResourceGoal);
         }
         public void AssignAttackGoal(Unit enemy, bool replace = true)

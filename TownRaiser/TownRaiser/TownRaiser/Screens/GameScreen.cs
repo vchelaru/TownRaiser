@@ -819,6 +819,7 @@ namespace TownRaiser.Screens
             newUnit.Position = spawnPoint;
             newUnit.UnitData = GlobalContent.UnitData[unitDataKey];
             newUnit.AllUnits = this.UnitList;
+            newUnit.AllBuildings = this.BuildingList;
             newUnit.NodeNetwork = this.tileNodeNetwork;
 
             return newUnit;
