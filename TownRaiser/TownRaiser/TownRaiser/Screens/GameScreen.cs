@@ -437,35 +437,33 @@ namespace TownRaiser.Screens
 
         private void DebugClickActivity()
         {
-            // Disabled until I get actual resource collecting to work.
+            var keyboard = InputManager.Keyboard;
+            if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
+            }
 
-            //var keyboard = InputManager.Keyboard;
-            //if(keyboard.KeyDown(Keys.D1))
-            //{
-            //    DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
-            //}
+            var cursor = GuiManager.Cursor;
+            var worldX = cursor.WorldXAt(0);
+            var worldY = cursor.WorldYAt(0);
 
-            //var cursor = GuiManager.Cursor;
-            //var worldX = cursor.WorldXAt(0);
-            //var worldY = cursor.WorldYAt(0);
+            const int amountToAddPerClick = 8;
 
-            //const int amountToAddPerClick = 8;
-
-            //if (goldResourceShapeCollection.GetTileAt(worldX, worldY) != null)
-            //{
-            //    Gold += amountToAddPerClick;
-            //    UpdateResourceDisplay();
-            //}
-            //if (woodResourceShapeCollection.GetTileAt(worldX, worldY) != null)
-            //{
-            //    Lumber += amountToAddPerClick;
-            //    UpdateResourceDisplay();
-            //}
-            //if (stoneResourceShapeCollection.GetTileAt(worldX, worldY) != null)
-            //{
-            //    Stone += amountToAddPerClick;
-            //    UpdateResourceDisplay();
-            //}
+            if (goldResourceShapeCollection.GetTileAt(worldX, worldY) != null)
+            {
+                Gold += amountToAddPerClick;
+                UpdateResourceDisplay();
+            }
+            if (woodResourceShapeCollection.GetTileAt(worldX, worldY) != null)
+            {
+                Lumber += amountToAddPerClick;
+                UpdateResourceDisplay();
+            }
+            if (stoneResourceShapeCollection.GetTileAt(worldX, worldY) != null)
+            {
+                Stone += amountToAddPerClick;
+                UpdateResourceDisplay();
+            }
         }
 
         private void DebugAddUnit(UnitData unitData)
@@ -555,7 +553,15 @@ namespace TownRaiser.Screens
                         }
                         else
                         {
-                            selectedUnit.AssignMoveAttackGoal(worldX, worldY);
+                            // todo: this eventually will get removed, but it's here for testing:
+                            if(selectedUnit.UnitData.IsEnemy)
+                            {
+                                selectedUnit.AssignAttackThenRetreat(worldX, worldY);
+                            }
+                            else
+                            {
+                                selectedUnit.AssignMoveAttackGoal(worldX, worldY);
+                            }
                         }
                     }
                 }
