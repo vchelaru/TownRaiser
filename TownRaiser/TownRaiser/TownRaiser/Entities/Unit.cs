@@ -125,15 +125,16 @@ namespace TownRaiser.Entities
 
         internal void AssignAttackThenRetreat(float worldX, float worldY, bool replace = true)
         {
-            // get all buildings in a radius
-            var radius = 64;
             // we'll just make a circle:
             var circle = new Circle();
-            circle.Radius = radius;
+            circle.Radius = AttackThenRetreat.BuildingAttackingRadius; ;
             circle.X = worldX;
             circle.Y = worldY;
 
-            var buildingsToTarget = AllBuildings.Where(item => item.CollideAgainst(circle)).ToList();
+            var buildingsToTarget = AllBuildings
+                .Where(item => item.CollideAgainst(circle))
+                .Take(3)
+                .ToList();
 
             var goal = new AttackThenRetreat();
             goal.StartX = this.X;
