@@ -71,6 +71,9 @@ namespace TownRaiser.Entities
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
 
+#if DEBUG
+            this.ResourceCollectCircleInstance.Visible = DebuggingVariables.ShowResourceCollision;
+#endif
         }
 
         #endregion
@@ -238,6 +241,17 @@ namespace TownRaiser.Entities
             }
         }
 
+        public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, string resourceType)
+        {
+            var collectResourceGoal = new ResourceCollectHighLevelGoal(
+                owner: this,
+                nodeNetwork: NodeNetwork,
+                clickPosition: clickPosition,
+                targetResourceTile: resourceGroupTile,
+                targetResourceType: resourceType
+            );
+            HighLevelGoals.Push(collectResourceGoal);
+        }
         public void AssignAttackGoal(Unit enemy, bool replace = true)
         {
             var attackGoal = new AttackUnitHighLevelGoal();
