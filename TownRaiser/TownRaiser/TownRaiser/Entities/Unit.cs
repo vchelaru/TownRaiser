@@ -18,6 +18,7 @@ using GuiManager = FlatRedBall.Gui.GuiManager;
 using TownRaiser.AI;
 using FlatRedBall.Math;
 using FlatRedBall.Screens;
+using System.Linq;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -117,6 +118,37 @@ namespace TownRaiser.Entities
             {
                 MoveAlongPath();
             }
+        }
+
+        internal void AssignAttackThenRetreat(float worldX, float worldY, bool replace = true)
+        {
+            // get all buildings in a radius
+            var radius = 64;
+            // we'll just make a circle:
+            var circle = new Circle();
+            circle.Radius = radius;
+            circle.X = worldX;
+            circle.Y = worldY;
+
+            var buildingsToTarget = AllBuildings.Where(item => item.CollideAgainst(circle)).ToList();
+
+            var goal = new AttackThenRetreat();
+            goal.StartX = this.X;
+            goal.StartY = this.Y;
+
+            goal.TargetX = worldX;
+            goal.TargetY = worldY;
+
+            goal.AllUnits = AllUnits;
+            goal.BuildingsToFocusOn.AddRange( buildingsToTarget);
+            goal.Owner = this;
+
+            if (replace)
+            {
+                this.HighLevelGoals.Clear();
+            }
+            this.HighLevelGoals.Push(goal);
+            this.ImmediateGoal = null;
         }
 
         public void AssignMoveAttackGoal(float worldX, float worldY, bool replace = true)

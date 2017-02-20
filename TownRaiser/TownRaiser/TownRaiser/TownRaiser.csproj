@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="AI\AttackBuildingHighLevelGoal.cs" />
     <Compile Include="AI\AttackMoveHighLevelGoal.cs" />
+    <Compile Include="AI\AttackThenRetreat.cs" />
     <Compile Include="AI\AttackUnitHighLevelGoal.cs" />
     <Compile Include="AI\FindTargetToAttackHighLevelGoal.cs" />
     <Compile Include="AI\HighLevelGoal.cs" />

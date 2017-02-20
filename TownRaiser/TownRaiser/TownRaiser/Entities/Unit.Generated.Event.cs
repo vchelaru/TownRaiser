@@ -10,7 +10,8 @@ using TownRaiser.Entities;
 using TownRaiser.Screens;
 namespace TownRaiser.Entities
 {
-	public partial class Unit
-	{
-	}
+    public partial class Unit
+    {
+
+    }
 }

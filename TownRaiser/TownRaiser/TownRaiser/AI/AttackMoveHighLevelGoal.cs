@@ -64,7 +64,7 @@ namespace TownRaiser.AI
         private void CreateFindTargetGoal()
         {
             findTargetGoal = new AI.FindTargetToAttackHighLevelGoal();
-
+            findTargetGoal.Owner = this.Owner;
             
         }
 

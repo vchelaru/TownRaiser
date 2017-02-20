@@ -438,7 +438,7 @@ namespace TownRaiser.Screens
         private void DebugClickActivity()
         {
             var keyboard = InputManager.Keyboard;
-            if(keyboard.KeyDown(Keys.D1))
+            if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
             }
@@ -543,7 +543,15 @@ namespace TownRaiser.Screens
                         }
                         else
                         {
-                            selectedUnit.AssignMoveAttackGoal(worldX, worldY);
+                            // todo: this eventually will get removed, but it's here for testing:
+                            if(selectedUnit.UnitData.IsEnemy)
+                            {
+                                selectedUnit.AssignAttackThenRetreat(worldX, worldY);
+                            }
+                            else
+                            {
+                                selectedUnit.AssignMoveAttackGoal(worldX, worldY);
+                            }
                         }
                     }
                 }
