@@ -440,7 +440,7 @@ namespace TownRaiser.Screens
             var keyboard = InputManager.Keyboard;
             if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
             {
-                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Fighter]);
             }
 
             var cursor = GuiManager.Cursor;

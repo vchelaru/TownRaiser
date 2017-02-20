@@ -46,10 +46,14 @@ namespace TownRaiser.Entities
 
         public int CurrentHealth { get; set; }
 
+
         #endregion
 
         #region Private Fields/Properties
-        
+
+#if DEBUG
+        PositionedObjectList<Line> pathLines = new PositionedObjectList<Line>();
+#endif
 
         // The last time damage was dealt. Damage is dealt one time every X seconds
         // as defined by the DamageFrequency value;
@@ -83,10 +87,52 @@ namespace TownRaiser.Entities
         private void CustomActivity()
         {
             HighLevelActivity();
+
             ImmediateAiActivity();
 
             HealthBarActivity();
+
+#if DEBUG
+            DebugActivity();
+#endif
         }
+
+        private void DebugActivity()
+        {
+            if(DebuggingVariables.ShowUnitPaths)
+            {
+                int numberOfLinesNeeded = this.ImmediateGoal?.Path?.Count ?? 0;
+
+                while(this.pathLines.Count < numberOfLinesNeeded)
+                {
+                    var line = new Line();
+                    line.Visible = true;
+                    pathLines.Add(line);
+                }
+                while (this.pathLines.Count > numberOfLinesNeeded)
+                {
+                    ShapeManager.Remove(pathLines.Last());
+                }
+
+                for (int i = 0; i < numberOfLinesNeeded; i++)
+                {
+                    Vector3 pointBefore;
+                    if (i == 0)
+                    {
+                        pointBefore = this.Position;
+                    }
+                    else
+                    {
+                        pointBefore = ImmediateGoal.Path[i - 1].Position;
+                    }
+                    Vector3 pointAfter = ImmediateGoal.Path[i].Position;
+
+                    pathLines[i].SetFromAbsoluteEndpoints(pointBefore, pointAfter);
+                }
+
+            }
+        }
+
         private void HealthBarActivity()
         {
             HealthBarRuntimeInstance.PositionTo(this, -6);
