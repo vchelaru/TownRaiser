@@ -10,6 +10,8 @@ namespace TownRaiser.AI
 {
     public class AttackThenRetreat : HighLevelGoal
     {
+        public const float BuildingAttackingRadius = 64;
+
         Unit owner;
         public Unit Owner
         {
@@ -58,7 +60,8 @@ namespace TownRaiser.AI
             if(attackMove == null && BuildingsToFocusOn.Any(item =>item.CurrentHealth > 0))
             {
                 attackMove = new AttackMoveHighLevelGoal();
-
+                // multiply it by 1.5 to make it larger, so buildings get sucked in no matter what
+                attackMove.AggroRadius = BuildingAttackingRadius * 1.5f;
                 attackMove.Owner = Owner;
                 attackMove.AllUnits = AllUnits;
                 attackMove.AllBuildings = BuildingsToFocusOn;

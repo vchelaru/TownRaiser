@@ -52,6 +52,11 @@ namespace TownRaiser.AI
 
         public float TargetX { get; set; }
         public float TargetY { get; set; }
+        public float AggroRadius
+        {
+            get { return findTargetGoal.AggroRadius; }
+            set { findTargetGoal.AggroRadius = value; }
+        }
 
         bool hasReachedTarget = false;
 
