@@ -18,6 +18,7 @@ using GuiManager = FlatRedBall.Gui.GuiManager;
 using TownRaiser.AI;
 using FlatRedBall.Math;
 using FlatRedBall.Screens;
+using System.Linq;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -45,10 +46,14 @@ namespace TownRaiser.Entities
 
         public int CurrentHealth { get; set; }
 
+
         #endregion
 
         #region Private Fields/Properties
-        
+
+#if DEBUG
+        PositionedObjectList<Line> pathLines = new PositionedObjectList<Line>();
+#endif
 
         // The last time damage was dealt. Damage is dealt one time every X seconds
         // as defined by the DamageFrequency value;
@@ -82,10 +87,52 @@ namespace TownRaiser.Entities
         private void CustomActivity()
         {
             HighLevelActivity();
+
             ImmediateAiActivity();
 
             HealthBarActivity();
+
+#if DEBUG
+            DebugActivity();
+#endif
         }
+
+        private void DebugActivity()
+        {
+            if(DebuggingVariables.ShowUnitPaths)
+            {
+                int numberOfLinesNeeded = this.ImmediateGoal?.Path?.Count ?? 0;
+
+                while(this.pathLines.Count < numberOfLinesNeeded)
+                {
+                    var line = new Line();
+                    line.Visible = true;
+                    pathLines.Add(line);
+                }
+                while (this.pathLines.Count > numberOfLinesNeeded)
+                {
+                    ShapeManager.Remove(pathLines.Last());
+                }
+
+                for (int i = 0; i < numberOfLinesNeeded; i++)
+                {
+                    Vector3 pointBefore;
+                    if (i == 0)
+                    {
+                        pointBefore = this.Position;
+                    }
+                    else
+                    {
+                        pointBefore = ImmediateGoal.Path[i - 1].Position;
+                    }
+                    Vector3 pointAfter = ImmediateGoal.Path[i].Position;
+
+                    pathLines[i].SetFromAbsoluteEndpoints(pointBefore, pointAfter);
+                }
+
+            }
+        }
+
         private void HealthBarActivity()
         {
             HealthBarRuntimeInstance.PositionTo(this, -6);
@@ -120,6 +167,38 @@ namespace TownRaiser.Entities
             {
                 MoveAlongPath();
             }
+        }
+
+        internal void AssignAttackThenRetreat(float worldX, float worldY, bool replace = true)
+        {
+            // we'll just make a circle:
+            var circle = new Circle();
+            circle.Radius = AttackThenRetreat.BuildingAttackingRadius; ;
+            circle.X = worldX;
+            circle.Y = worldY;
+
+            var buildingsToTarget = AllBuildings
+                .Where(item => item.CollideAgainst(circle))
+                .Take(3)
+                .ToList();
+
+            var goal = new AttackThenRetreat();
+            goal.StartX = this.X;
+            goal.StartY = this.Y;
+
+            goal.TargetX = worldX;
+            goal.TargetY = worldY;
+
+            goal.AllUnits = AllUnits;
+            goal.BuildingsToFocusOn.AddRange( buildingsToTarget);
+            goal.Owner = this;
+
+            if (replace)
+            {
+                this.HighLevelGoals.Clear();
+            }
+            this.HighLevelGoals.Push(goal);
+            this.ImmediateGoal = null;
         }
 
         public void AssignMoveAttackGoal(float worldX, float worldY, bool replace = true)
@@ -216,8 +295,10 @@ namespace TownRaiser.Entities
                 nodeNetwork: NodeNetwork,
                 clickPosition: clickPosition,
                 targetResourceTile: resourceGroupTile,
-                targetResourceType: resourceType
+                targetResourceType: resourceType,
+                allBuildings: AllBuildings
             );
+            HighLevelGoals.Clear();
             HighLevelGoals.Push(collectResourceGoal);
         }
         public void AssignAttackGoal(Unit enemy, bool replace = true)

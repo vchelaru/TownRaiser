@@ -15,6 +15,8 @@ namespace TownRaiser.AI
         public PositionedObjectList<Unit> AllUnits { get; set; }
         public PositionedObjectList<Building> AllBuildings { get; set; }
 
+        public float AggroRadius { get; set; } = 80;
+
         public override void DecideWhatToDo()
         {
             TryAssignAttack();
@@ -24,9 +26,8 @@ namespace TownRaiser.AI
         public bool TryAssignAttack(bool replace = true)
         {
             bool didAssignAttack = false;
-
-            const float aggroRadius = 80;
-            const float aggroSquared = aggroRadius * aggroRadius;
+            
+            float aggroSquared = AggroRadius * AggroRadius;
             bool isTargetAnEnemyUnit = !Owner.UnitData.IsEnemy;
 
             var foundUnit = AllUnits.FirstOrDefault(item =>
@@ -53,7 +54,7 @@ namespace TownRaiser.AI
                 }
 #endif
 
-                const float buildingAggroSquared = (80 + 24) * (80 + 24);
+                float buildingAggroSquared = (AggroRadius + 24) * (AggroRadius + 24);
                 var foundBuilding = AllBuildings
                     .Where(item => (item.Position - Owner.Position).LengthSquared() < buildingAggroSquared)
                     .OrderBy(item => (item.Position - Owner.Position).LengthSquared())

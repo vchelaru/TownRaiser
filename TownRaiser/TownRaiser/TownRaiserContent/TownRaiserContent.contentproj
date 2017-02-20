@@ -73,6 +73,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>BuildingData</Name>
     </None>
+    <None Include="GlobalContent\TimedSpawnData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>TimedSpawnData</Name>
+    </None>
     <None Include="GlobalContent\UnitData.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>UnitData</Name>

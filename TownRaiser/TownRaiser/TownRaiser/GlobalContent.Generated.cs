@@ -26,6 +26,7 @@ namespace TownRaiser
 		public static System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.BuildingData> BuildingData { get; set; }
 		public static System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.UnitData> UnitData { get; set; }
 		public static Microsoft.Xna.Framework.Graphics.Texture2D CharactersSheet { get; set; }
+		public static System.Collections.Generic.List<TownRaiser.DataTypes.TimedSpawnData> TimedSpawnData { get; set; }
 		[System.Obsolete("Use GetFile instead")]
 		public static object GetStaticMember (string memberName)
 		{
@@ -41,6 +42,8 @@ namespace TownRaiser
 					return UnitData;
 				case  "CharactersSheet":
 					return CharactersSheet;
+				case  "TimedSpawnData":
+					return TimedSpawnData;
 			}
 			return null;
 		}
@@ -58,6 +61,8 @@ namespace TownRaiser
 					return UnitData;
 				case  "CharactersSheet":
 					return CharactersSheet;
+				case  "TimedSpawnData":
+					return TimedSpawnData;
 			}
 			return null;
 		}
@@ -94,6 +99,18 @@ namespace TownRaiser
 				}
 			}
 			CharactersSheet = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/characterssheet.png", ContentManagerName);
+			if (TimedSpawnData == null)
+			{
+				{
+					// We put the { and } to limit the scope of oldDelimiter
+					char oldDelimiter = FlatRedBall.IO.Csv.CsvFileManager.Delimiter;
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = ',';
+					System.Collections.Generic.List<TownRaiser.DataTypes.TimedSpawnData> temporaryCsvObject = new System.Collections.Generic.List<TownRaiser.DataTypes.TimedSpawnData>();
+					FlatRedBall.IO.Csv.CsvFileManager.CsvDeserializeList(typeof(TownRaiser.DataTypes.TimedSpawnData), "content/globalcontent/timedspawndata.csv", temporaryCsvObject);
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = oldDelimiter;
+					TimedSpawnData = temporaryCsvObject;
+				}
+			}
 						IsInitialized = true;
 			#if DEBUG && WINDOWS
 			InitializeFileWatch();
@@ -108,6 +125,17 @@ namespace TownRaiser
 			if (whatToReload == UnitData)
 			{
 				FlatRedBall.IO.Csv.CsvFileManager.UpdateDictionaryValuesFromCsv(UnitData, "content/globalcontent/unitdata.csv");
+			}
+			if (whatToReload == TimedSpawnData)
+			{
+				{
+					// We put the { and } to limit the scope of oldDelimiter
+					char oldDelimiter = FlatRedBall.IO.Csv.CsvFileManager.Delimiter;
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = ',';
+					TimedSpawnData.Clear();
+					FlatRedBall.IO.Csv.CsvFileManager.CsvDeserializeList(typeof(TownRaiser.DataTypes.TimedSpawnData), "content/globalcontent/timedspawndata.csv", TimedSpawnData);
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = oldDelimiter;
+				}
 			}
 		}
 		#if DEBUG && WINDOWS
@@ -151,6 +179,10 @@ namespace TownRaiser
 				if (relativeFileName == "content/characterssheet.png")
 				{
 					Reload(CharactersSheet);
+				}
+				if (relativeFileName == "content/globalcontent/timedspawndata.csv")
+				{
+					Reload(TimedSpawnData);
 				}
 			}
 			catch{}

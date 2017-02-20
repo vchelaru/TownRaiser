@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="AI\AttackBuildingHighLevelGoal.cs" />
     <Compile Include="AI\AttackMoveHighLevelGoal.cs" />
+    <Compile Include="AI\AttackThenRetreat.cs" />
     <Compile Include="AI\CollectResourceHighLevelGoal.cs" />
     <Compile Include="AI\AttackUnitHighLevelGoal.cs" />
     <Compile Include="AI\FindTargetToAttackHighLevelGoal.cs" />
@@ -127,6 +128,7 @@
     </Compile>
     <Compile Include="DataTypes\Requirement.cs" />
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
+    <Compile Include="DataTypes\TimedSpawnData.Generated.cs" />
     <Compile Include="DataTypes\UnitData.cs" />
     <Compile Include="DataTypes\UnitData.Generated.cs">
       <DependentUpon>UnitData.cs</DependentUpon>

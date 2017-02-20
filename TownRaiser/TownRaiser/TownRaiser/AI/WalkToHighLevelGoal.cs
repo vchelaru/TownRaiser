@@ -54,10 +54,7 @@ namespace TownRaiser.AI
 
         public override void DecideWhatToDo()
         {
-            var hasPath =
-                Owner.ImmediateGoal?.Path?.Count > 0;
-
-            if(!hasPath && !hasAlreadyGottenPath)
+            if(!hasAlreadyGottenPath)
             {
                 GetPath();
             }
