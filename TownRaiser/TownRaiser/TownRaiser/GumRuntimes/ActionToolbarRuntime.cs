@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TownRaiser.DataTypes;
 using TownRaiser.Screens;
 using TownRaiser.Entities;
+using TownRaiser.CustomEvents;
 
 namespace TownRaiser.GumRuntimes
 {
@@ -77,7 +78,14 @@ namespace TownRaiser.GumRuntimes
                 this.PerformCancelStep();
             };
             this.SetVariableState(VariableState.BuildMenuNotSelected);
+            this.ActionStackContainerInstance.UpdateUIDisplay += ReactToUpdateUiChangeEvent;
 
+        }
+
+        public void ReactToUpdateUiChangeEvent(object sender, UpdateUiEventArgs args)
+        {
+            this.MenuTitleDisplayText = args.TitleDisplay;
+            this.ResourceCostContainer.UpadteResourceDisplayText(args);
         }
 
         private void SetVariableState(VariableState state)
@@ -95,6 +103,7 @@ namespace TownRaiser.GumRuntimes
                 this.HeightUnits = Gum.DataTypes.DimensionUnitType.RelativeToChildren;
                 this.Width = 8;
                 this.Height = 8;
+                ReactToUpdateUiChangeEvent(null, UpdateUiEventArgs.RollOffValue);
             }
             this.CurrentVariableState = state;
         }

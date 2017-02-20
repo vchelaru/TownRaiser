@@ -125,13 +125,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>MenuTitleDisplay</Name>
     </None>
-    <None Include="GumProject\Components\ResouceCostContainer.gucx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>ResouceCostContainer</Name>
-    </None>
     <None Include="GumProject\Components\Resource.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Resource</Name>
+    </None>
+    <None Include="GumProject\Components\ResourceCostContainer.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ResourceCostContainer</Name>
     </None>
     <None Include="GumProject\Components\ResourceCostDisplay.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

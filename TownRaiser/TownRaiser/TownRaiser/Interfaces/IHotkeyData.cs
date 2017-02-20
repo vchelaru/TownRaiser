@@ -12,6 +12,10 @@ namespace TownRaiser.Interfaces
     {
         Microsoft.Xna.Framework.Input.Keys Hotkey { get; }
         string ChainName { get; }
+        string MenuTitleDisplay { get; }
+        int Gold { get; }
+        int Lumber { get; }
+        int Stone { get; }
         bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings);
     }
 }

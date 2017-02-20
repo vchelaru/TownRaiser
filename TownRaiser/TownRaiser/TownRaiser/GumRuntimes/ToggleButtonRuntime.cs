@@ -22,6 +22,10 @@ namespace TownRaiser.GumRuntimes
             }
             set
             {
+                if(value == null)
+                {
+                    throw new Exception("Something went wrong. Trying to set hotkey data with null value.");
+                }
                 if(value != null)
                 {
                     m_HotKeyData = value;

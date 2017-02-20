@@ -48,7 +48,7 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>ResouceCostContainer</Name>
+    <Name>ResourceCostContainer</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>

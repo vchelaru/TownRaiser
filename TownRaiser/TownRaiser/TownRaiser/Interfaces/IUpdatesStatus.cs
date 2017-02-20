@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TownRaiser.CustomEvents;
 
 namespace TownRaiser.Interfaces
 { 
@@ -12,8 +13,5 @@ namespace TownRaiser.Interfaces
         float GetHealthRatio();
         string NameDisplay { get; }
     }
-    public class UpdateStatusEventArgs: EventArgs
-    {
-        public bool WasEntityDestroyed { get; set; }
-    }
+    
 }

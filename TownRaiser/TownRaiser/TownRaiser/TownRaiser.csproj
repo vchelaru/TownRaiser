@@ -121,6 +121,8 @@
     <Compile Include="AI\HighLevelGoal.cs" />
     <Compile Include="AI\ImmediateGoal.cs" />
     <Compile Include="AI\WalkToHighLevelGoal.cs" />
+    <Compile Include="CustomEvents\UpdateUiEventArgs.cs" />
+    <Compile Include="CustomEvents\UpdatesStatusEventArgs.cs" />
     <Compile Include="DataTypes\BuildingData.cs" />
     <Compile Include="DataTypes\BuildingData.Generated.cs">
       <DependentUpon>BuildingData.cs</DependentUpon>
@@ -293,7 +295,10 @@
     <Compile Include="GumRuntimes\MenuTitleDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\RectangleRuntime.Generated.cs" />
-    <Compile Include="GumRuntimes\ResouceCostContainerRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ResourceCostContainerRuntime.cs" />
+    <Compile Include="GumRuntimes\ResourceCostContainerRuntime.Generated.cs">
+      <DependentUpon>ResourceCostContainerRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\ResourceCostDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />

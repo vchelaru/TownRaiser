@@ -138,6 +138,7 @@
       <Type>string</Type>
       <Name>MenuTitleDisplayInstance.DisplayText</Name>
       <Value xsi:type="xsd:string">Barracks</Value>
+      <ExposedAsName>MenuTitleDisplayText</ExposedAsName>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -159,13 +160,13 @@
     </Variable>
     <Variable>
       <Type>HorizontalAlignment</Type>
-      <Name>ResouceCostContainerInstance.X Origin</Name>
+      <Name>ResourceCostContainer.X Origin</Name>
       <Value xsi:type="xsd:int">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
-      <Name>ResouceCostContainerInstance.X Units</Name>
+      <Name>ResourceCostContainer.X Units</Name>
       <Value xsi:type="xsd:int">6</Value>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -344,7 +345,7 @@
     </Variable>
     <Variable>
       <Type>bool</Type>
-      <Name>ResouceCostContainerInstance.Visible</Name>
+      <Name>ResourceCostContainer.Visible</Name>
       <Value xsi:type="xsd:boolean">false</Value>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -431,19 +432,19 @@
     </Variable>
     <Variable>
       <Type>bool</Type>
-      <Name>ResouceCostContainerInstance.Visible</Name>
+      <Name>ResourceCostContainer.Visible</Name>
       <Value xsi:type="xsd:boolean">true</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
-      <Name>ResouceCostContainerInstance.X</Name>
+      <Name>ResourceCostContainer.X</Name>
       <Value xsi:type="xsd:float">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
-      <Name>ResouceCostContainerInstance.Y</Name>
+      <Name>ResourceCostContainer.Y</Name>
       <Value xsi:type="xsd:float">28</Value>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -515,8 +516,8 @@
     <BaseType>MenuTitleDisplay</BaseType>
   </Instance>
   <Instance>
-    <Name>ResouceCostContainerInstance</Name>
-    <BaseType>ResouceCostContainer</BaseType>
+    <Name>ResourceCostContainer</Name>
+    <BaseType>ResourceCostContainer</BaseType>
   </Instance>
   <Instance>
     <Name>ActionStackContainerInstance</Name>

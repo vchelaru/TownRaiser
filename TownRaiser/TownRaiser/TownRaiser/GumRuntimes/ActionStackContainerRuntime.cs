@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TownRaiser.CustomEvents;
 using TownRaiser.Interfaces;
 
 namespace TownRaiser.GumRuntimes
@@ -13,6 +14,7 @@ namespace TownRaiser.GumRuntimes
 
         public List<ToggleButtonRuntime> ToggleButtonList;
         public event EventHandler TrainUnit;
+        public event EventHandler<UpdateUiEventArgs> UpdateUIDisplay;
 
         public bool AnyToggleButtonsActivated
         {
@@ -38,20 +40,36 @@ namespace TownRaiser.GumRuntimes
             ToggleButtonList = new List<ToggleButtonRuntime>();
         }
 
+        private ToggleButtonRuntime CreateNewToggleButtonWithOffset(int stackIndex, IHotkeyData data)
+        {
+            ToggleButtonRuntime button = new ToggleButtonRuntime();
+            button.Parent = this;
+            ToggleButtonList.Add(button);
+
+            button.HotkeyData = data;
+
+            button.X = stackIndex % 3 != 0 ? PixelsBetweenButtons : 0;
+            button.Y = stackIndex > 2 && stackIndex % 3 == 0 ? PixelsBetweenButtons : 0;
+            button.RollOn += (notused) =>
+            {
+                UpdateUIDisplay?.Invoke(this, new UpdateUiEventArgs(data));
+            };
+            button.RollOff += (notused) =>
+            {
+                UpdateUIDisplay?.Invoke(this, UpdateUiEventArgs.RollOffValue);
+            };
+
+            button.IsOn = false;
+
+            return button;
+        }
+
         public void AddBuildingToggleButtons()
         {
             int i = 0;
             foreach (var buildingData in GlobalContent.BuildingData)
             {
-                ToggleButtonRuntime building = new ToggleButtonRuntime();
-                building.Parent = this;
-                ToggleButtonList.Add(building);
-
-                building.X = i % 3 != 0 ? PixelsBetweenButtons : 0;
-                building.Y = i > 2 && i % 3 == 0 ? PixelsBetweenButtons : 0;
-
-                building.HotkeyData = buildingData.Value;
-                building.IsOn = false;
+                ToggleButtonRuntime building = CreateNewToggleButtonWithOffset(i, buildingData.Value);
 
                 building.Click += (notused) =>
                 {
@@ -74,18 +92,13 @@ namespace TownRaiser.GumRuntimes
 #endif
                 if (shouldAddButton)
                 {
-                    ToggleButtonRuntime unit = new ToggleButtonRuntime();
-                    unit.Parent = this;
-                    ToggleButtonList.Add(unit);
+                    ToggleButtonRuntime unit = CreateNewToggleButtonWithOffset(i, unitData.Value);
 
-                    unit.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
-                    unit.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
-
-                    unit.HotkeyData = unitData.Value;
                     unit.Click += (notused) =>
                     {
                         UntoggleAllExcept(unit);
                     };
+                    
 
                     i++;
                 }
@@ -102,14 +115,10 @@ namespace TownRaiser.GumRuntimes
                 int i = 0;
                 foreach (var unit in units)
                 {
-                    ToggleButtonRuntime unitButton = new ToggleButtonRuntime();
-                    unitButton.Parent = this;
-                    ToggleButtonList.Add(unitButton);
+                    var unitData = GlobalContent.UnitData[unit];
+                    ToggleButtonRuntime unitButton = CreateNewToggleButtonWithOffset(i, unitData);
 
-                    unitButton.X = i < 0 && i % 3 == 0 ? PixelsBetweenButtons : 0;
-                    unitButton.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
-
-                    unitButton.HotkeyData = GlobalContent.UnitData[unit];
+                    unitButton.HotkeyData = unitData;
                 
                     unitButton.Click += (notused) =>
                     {

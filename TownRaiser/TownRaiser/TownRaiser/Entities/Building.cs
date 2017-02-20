@@ -17,6 +17,7 @@ using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using TownRaiser.Interfaces;
 using FlatRedBall.Screens;
+using TownRaiser.CustomEvents;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;

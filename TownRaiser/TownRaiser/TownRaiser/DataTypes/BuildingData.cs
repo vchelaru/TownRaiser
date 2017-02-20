@@ -14,7 +14,10 @@ namespace TownRaiser.DataTypes
     {
         public Keys Hotkey => HotkeyFieldButUseProperty;
         public string ChainName => Name;
-
+        public string MenuTitleDisplay => this.NameDisplay;
+        public int Gold => 0;
+        public int Lumber => this.LumberCost;
+        public int Stone => this.StoneCost;
         public bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
 
