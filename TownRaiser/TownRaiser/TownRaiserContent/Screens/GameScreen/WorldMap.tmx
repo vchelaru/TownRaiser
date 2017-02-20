@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="MainTileset" tilewidth="16" tileheight="16" tilecount="1024">
   <image source="../../MainTileset.png" width="512" height="512"/>
   <tile id="3">
@@ -104,6 +104,24 @@
     <property name="ResourceType" value="Gold"/>
    </properties>
   </tile>
+  <tile id="47">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
   <tile id="67">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
@@ -114,18 +132,6 @@
    <properties>
     <property name="BlocksPathfinding" value="true"/>
     <property name="ResourceType" value="Water"/>
-   </properties>
-  </tile>
-  <tile id="72">
-   <properties>
-    <property name="BlocksPathfinding" value="true"/>
-    <property name="ResourceType" value="Stone"/>
-   </properties>
-  </tile>
-  <tile id="73">
-   <properties>
-    <property name="BlocksPathfinding" value="true"/>
-    <property name="ResourceType" value="Stone"/>
    </properties>
   </tile>
   <tile id="74">
@@ -146,6 +152,36 @@
     <property name="ResourceType" value="Wood"/>
    </properties>
   </tile>
+  <tile id="77">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="78">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="79">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="80">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="81">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
   <tile id="106">
    <properties>
     <property name="BlocksPathfinding" value="true"/>
@@ -164,6 +200,36 @@
     <property name="ResourceType" value="Wood"/>
    </properties>
   </tile>
+  <tile id="109">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Gold"/>
+   </properties>
+  </tile>
+  <tile id="110">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="111">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="112">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="113">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
   <tile id="138">
    <properties>
     <property name="ResourceType" value="Stone"/>
@@ -175,15 +241,27 @@
     <property name="ResourceType" value="Wood"/>
    </properties>
   </tile>
+  <tile id="143">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
+  <tile id="144">
+   <properties>
+    <property name="BlocksPathfinding" value="true"/>
+    <property name="ResourceType" value="Stone"/>
+   </properties>
+  </tile>
  </tileset>
- <layer name="GroundLayer" width="32" height="32">
+ <layer name="GroundLayer" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   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
+   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
   </data>
  </layer>
- <layer name="AboveGroundLayer" width="32" height="32">
+ <layer name="AboveGroundLayer" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   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
+   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
   </data>
  </layer>
 </map>
