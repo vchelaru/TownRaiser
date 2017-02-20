@@ -47,8 +47,8 @@ namespace TownRaiser.GumRuntimes
                 building.Parent = this;
                 ToggleButtonList.Add(building);
 
-                //building.X = i % 3 != 0 ? PixelsBetweenButtons : 0;
-                //building.Y = i > 2 && i % 3 == 0 ? PixelsBetweenButtons : 0;
+                building.X = i % 3 != 0 ? PixelsBetweenButtons : 0;
+                building.Y = i > 2 && i % 3 == 0 ? PixelsBetweenButtons : 0;
 
                 building.HotkeyData = buildingData.Value;
                 building.IsOn = false;
@@ -61,7 +61,6 @@ namespace TownRaiser.GumRuntimes
                 i++;
             }
 
-            SetVariableState();
         }
 
         public void AddUnitToggleButtons()
@@ -91,8 +90,6 @@ namespace TownRaiser.GumRuntimes
                     i++;
                 }
             }
-
-            SetVariableState();
         }
 
         public void RefreshToggleButtonsTo(IEnumerable<string> units)
@@ -146,13 +143,8 @@ namespace TownRaiser.GumRuntimes
                 toggleButton = null;
             }
 
-            SetVariableState();
         }
 
-        private void SetVariableState()
-        {
-            CurrentVariableState = ToggleButtonList.Count > 0 ? VariableState.NotEmpty : VariableState.Empty;
-        } 
         
         public void UntoggleAllExcept(ToggleButtonRuntime buttonToActivate)
         {
