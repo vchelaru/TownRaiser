@@ -277,6 +277,7 @@
     </Compile>
     <Compile Include="GumRuntimes\Behaviors\IButtonBehavior.Generated.cs" />
     <Compile Include="GumRuntimes\Behaviors\IToggleBehavior.Generated.cs" />
+    <Compile Include="GumRuntimes\BuildMenuToggleButtonRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\CircleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ColoredRectangleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ContainerRuntime.Generated.cs" />
@@ -289,8 +290,11 @@
       <DependentUpon>HealthBarRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\MainMenuGumRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\MenuTitleDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\NineSliceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\RectangleRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ResouceCostContainerRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\ResourceCostDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
@@ -305,6 +309,7 @@
       <DependentUpon>ToggleButtonRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\TrainingUnitSpriteRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\XButtonRuntime.Generated.cs" />
     <Compile Include="Interfaces\IHotkeyData.cs" />
     <Compile Include="Interfaces\IUpdatesStatus.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />

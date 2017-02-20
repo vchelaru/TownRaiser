@@ -47,10 +47,12 @@ namespace TownRaiser.GumRuntimes
                 building.Parent = this;
                 ToggleButtonList.Add(building);
 
-                building.X = i > 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
-                building.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
+                //building.X = i % 3 != 0 ? PixelsBetweenButtons : 0;
+                //building.Y = i > 2 && i % 3 == 0 ? PixelsBetweenButtons : 0;
 
                 building.HotkeyData = buildingData.Value;
+                building.IsOn = false;
+
                 building.Click += (notused) =>
                 {
                     UntoggleAllExcept(building);
@@ -107,7 +109,7 @@ namespace TownRaiser.GumRuntimes
                     unitButton.Parent = this;
                     ToggleButtonList.Add(unitButton);
 
-                    unitButton.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
+                    unitButton.X = i < 0 && i % 3 == 0 ? PixelsBetweenButtons : 0;
                     unitButton.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
 
                     unitButton.HotkeyData = GlobalContent.UnitData[unit];
@@ -143,9 +145,6 @@ namespace TownRaiser.GumRuntimes
                 toggleButton.Destroy();
                 toggleButton = null;
             }
-
-            // Gum seems to not want to update layout when an object is removed, so we'll manually do it:
-            this.UpdateLayout();
 
             SetVariableState();
         }

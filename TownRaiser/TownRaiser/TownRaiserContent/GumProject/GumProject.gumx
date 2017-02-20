@@ -28,6 +28,10 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
+    <Name>BuildMenuToggleButton</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
     <Name>FontTest</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
@@ -40,7 +44,19 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
+    <Name>MenuTitleDisplay</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>ResouceCostContainer</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
     <Name>Resource</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>ResourceCostDisplay</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
@@ -57,6 +73,10 @@
   </ComponentReference>
   <ComponentReference>
     <Name>TrainingUnitSprite</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>XButton</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <StandardElementReference>

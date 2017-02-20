@@ -11,7 +11,7 @@ namespace TownRaiser.Interfaces
     public interface IHotkeyData
     {
         Microsoft.Xna.Framework.Input.Keys Hotkey { get; }
-        IconDisplay ButtonIconDisplayState { get; }
+        string ChainName { get; }
         bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings);
     }
 }

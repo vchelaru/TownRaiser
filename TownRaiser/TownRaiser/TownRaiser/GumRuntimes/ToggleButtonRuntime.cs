@@ -25,8 +25,7 @@ namespace TownRaiser.GumRuntimes
                 if(value != null)
                 {
                     m_HotKeyData = value;
-                    TextInstance.Text = m_HotKeyData.Hotkey.ToString().ToLower();
-                    CurrentIconDisplayState = m_HotKeyData.ButtonIconDisplayState;
+                    SetIconFrom(GlobalContent.GumAnimationChains[m_HotKeyData.ChainName]);
                 }
             }
         }
@@ -41,10 +40,10 @@ namespace TownRaiser.GumRuntimes
             var textureWidth = frame.Texture.Width;
             var textureHeight = frame.Texture.Height;
 
-            this.SpriteInstance.TextureLeft = MathFunctions.RoundToInt( frame.LeftCoordinate / (float)textureWidth);
-            this.SpriteInstance.TextureTop = MathFunctions.RoundToInt(frame.TopCoordinate / (float)textureHeight);
-            this.SpriteInstance.TextureWidth = MathFunctions.RoundToInt((frame.RightCoordinate - frame.LeftCoordinate) / (float)textureWidth);
-            this.SpriteInstance.TextureHeight = MathFunctions.RoundToInt((frame.BottomCoordinate - frame.TopCoordinate) / (float)textureHeight);
+            this.SpriteInstance.TextureLeft = MathFunctions.RoundToInt( frame.LeftCoordinate * (float)textureWidth);
+            this.SpriteInstance.TextureTop = MathFunctions.RoundToInt(frame.TopCoordinate * (float)textureHeight);
+            this.SpriteInstance.TextureWidth = MathFunctions.RoundToInt((frame.RightCoordinate - frame.LeftCoordinate) * (float)textureWidth);
+            this.SpriteInstance.TextureHeight = MathFunctions.RoundToInt((frame.BottomCoordinate - frame.TopCoordinate) * (float)textureHeight);
         }
 
         public void UpdateButtonEnabledState(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)

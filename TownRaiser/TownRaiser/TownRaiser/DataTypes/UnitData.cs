@@ -13,8 +13,7 @@ namespace TownRaiser.DataTypes
     public partial class UnitData : IHotkeyData
     {
         public Keys Hotkey => HotkeyFieldButUseProperty;
-        public IconDisplay ButtonIconDisplayState => ButtonIconDisplayStateButUseProperty;
-
+        public string ChainName => Name;
         public bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
             return GoldCost <= gold && (currentCapacity + Capacity) <= maxCapacity;

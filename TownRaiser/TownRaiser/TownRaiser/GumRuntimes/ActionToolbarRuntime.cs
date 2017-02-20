@@ -54,45 +54,64 @@ namespace TownRaiser.GumRuntimes
             //Stay in select mode until we have selected a toogle button attatched to unit or building data.
             bool anySubButtonSelected = ActionStackContainerInstance.AnyToggleButtonsActivated;
 
-            if (TrainButtonInstance.IsOn && anySubButtonSelected) return ActionMode.Train;
-            else if (BuildButtonInstance.IsOn && anySubButtonSelected) return ActionMode.Build;
-            else return ActionMode.Select;
+
+            //if (this.CurrentVariableState == VariableState.BuildMenuSelected) return ActionMode.Build;
+            ////else if (BuildButtonInstance.IsOn && anySubButtonSelected) return ActionMode.Build;
+            //else return ActionMode.Select;
+            return ActionMode.Select;
         }
 
         partial void CustomInitialize()
         {
-            this.TrainButtonInstance.Click += (notused) =>
+
+            this.BuildMenuToggleButtonInstance.Click += (notused) =>
             {
-                ShowAvailableUnits();
-            };
-            this.BuildButtonInstance.Click += (notused) =>
-            {
-                ShowAvailableBuildings();
+                this.ShowAvailableBuildings();
             };
             this.ActionStackContainerInstance.TrainUnit += (unitData, notused) =>
             {
                 this.TrainUnit(unitData, notused);
             };
+            this.XButtonInstance.Click += (notused) =>
+            {
+                this.PerformCancelStep();
+            };
+            this.SetVariableState(VariableState.BuildMenuNotSelected);
 
         }
 
+        private void SetVariableState(VariableState state)
+        {
+            if(state == VariableState.BuildMenuNotSelected)
+            {
+                this.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+                this.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+                this.Width = 32;
+                this.Height = 32;
+            }
+            else if(state == VariableState.BuildMenuSelected)
+            {
+                this.WidthUnits = Gum.DataTypes.DimensionUnitType.RelativeToChildren;
+                this.HeightUnits = Gum.DataTypes.DimensionUnitType.RelativeToChildren;
+                this.Width = 8;
+                this.Height = 8;
+            }
+            this.CurrentVariableState = state;
+        }
         private void ShowAvailableBuildings()
         {
-            BuildButtonInstance.IsOn = true;
             UntoggleAllExcept(ActionMode.Build);
             AddBuildingOptionsToActionPanel();
         }
 
         private void ShowAvailableUnits()
         {
-            TrainButtonInstance.IsOn = true;
             UntoggleAllExcept(ActionMode.Train);
             AddUnitOptionsToActionPanel();
         }
 
         public void ShowAvailableUnits(IEnumerable<string> units)
         {
-            TrainButtonInstance.IsOn = true;
             UntoggleAllExcept(ActionMode.Train);
             AddUnitOptionsToActionPanel(units);
         }
@@ -102,24 +121,24 @@ namespace TownRaiser.GumRuntimes
             if(actionMode != ActionMode.Build)
             {
                 //Clear the list of build buttons before adding train buttons
-                if (BuildButtonInstance.IsOn)
+                if (this.CurrentVariableState == VariableState.BuildMenuSelected)
                 {
                     RemoveStackContainerOptions();
                 }
-                BuildButtonInstance.IsOn = false;
             }
             if(actionMode != ActionMode.Train)
             {
                 //Clear the list of build buttons before adding train buttons
-                if(TrainButtonInstance.IsOn)
-                {
-                    RemoveStackContainerOptions();
-                }
-                TrainButtonInstance.IsOn = false;
+                //if(TrainButtonInstance.IsOn)
+                //{
+                //    RemoveStackContainerOptions();
+                //}
+                //TrainButtonInstance.IsOn = false;
             }
             if(actionMode == ActionMode.Select)
             {
                 RemoveStackContainerOptions();
+                this.CurrentVariableState = VariableState.BuildMenuNotSelected;
             }
         }
 
@@ -140,6 +159,8 @@ namespace TownRaiser.GumRuntimes
 #endif
             if (addButtons)
             {
+                this.SetVariableState(VariableState.BuildMenuSelected);
+
                 ActionStackContainerInstance.AddBuildingToggleButtons();
             }
         }
@@ -153,19 +174,12 @@ namespace TownRaiser.GumRuntimes
         {
             if(InputManager.Keyboard.KeyPushed(Keys.Escape)) //The escape case depends on the currently selected default button and if a sub button is selected.
             {
-                if(ActionStackContainerInstance.AnyToggleButtonsActivated)
-                {
-                    ActionStackContainerInstance.UntoggleAllExcept(null);
-                }
-                else
-                {
-                    UntoggleAllExcept(ActionMode.Select);
-                }
+                PerformCancelStep();
 
             }
             else if(InputManager.Keyboard.KeyPushed(Keys.B))
             {
-                if(BuildButtonInstance.IsOn == false)
+                if(this.CurrentVariableState == VariableState.BuildMenuNotSelected)
                 {
                     ShowAvailableBuildings();
                 }
@@ -182,6 +196,21 @@ namespace TownRaiser.GumRuntimes
                     }
                 }
             }
+        }
+
+        private void PerformCancelStep()
+        {
+            if (ActionStackContainerInstance.AnyToggleButtonsActivated)
+            {
+                ActionStackContainerInstance.UntoggleAllExcept(null);
+            }
+            else
+            {
+                UntoggleAllExcept(ActionMode.Select);
+            }
+            //ToDo: Rick, escape case properly
+            this.SetVariableState(VariableState.BuildMenuNotSelected);
+
         }
 
         public void UpdateButtonEnabledStates(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)

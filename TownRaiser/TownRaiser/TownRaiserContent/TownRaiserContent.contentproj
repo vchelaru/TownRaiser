@@ -73,6 +73,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>BuildingData</Name>
     </None>
+    <None Include="GlobalContent\GumAnimationChains.achx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>GumAnimationChains</Name>
+    </None>
     <None Include="GlobalContent\UnitData.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>UnitData</Name>
@@ -84,6 +88,10 @@
     <None Include="GumProject\Components\ActionToolbar.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ActionToolbar</Name>
+    </None>
+    <None Include="GumProject\Components\BuildMenuToggleButton.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>BuildMenuToggleButton</Name>
     </None>
     <None Include="GumProject\Components\FontTest.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -113,9 +121,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>HealthBar</Name>
     </None>
+    <None Include="GumProject\Components\MenuTitleDisplay.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>MenuTitleDisplay</Name>
+    </None>
+    <None Include="GumProject\Components\ResouceCostContainer.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ResouceCostContainer</Name>
+    </None>
     <None Include="GumProject\Components\Resource.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Resource</Name>
+    </None>
+    <None Include="GumProject\Components\ResourceCostDisplay.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ResourceCostDisplay</Name>
     </None>
     <None Include="GumProject\Components\ResourceDisplay.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -132,6 +152,10 @@
     <None Include="GumProject\Components\TrainingUnitSprite.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TrainingUnitSprite</Name>
+    </None>
+    <None Include="GumProject\Components\XButton.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>XButton</Name>
     </None>
     <None Include="GumProject\FontCache\font-1.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
