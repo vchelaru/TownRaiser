@@ -10,6 +10,7 @@ using TownRaiser.DataTypes;
 using TownRaiser.Screens;
 using TownRaiser.Entities;
 using TownRaiser.CustomEvents;
+using TownRaiser.Interfaces;
 
 namespace TownRaiser.GumRuntimes
 {
@@ -30,7 +31,7 @@ namespace TownRaiser.GumRuntimes
             get
             {
                 BuildingData toReturn = null;
-                if(this.CurrentVariableState == VariableState.BuildingSelected)
+                if(this.CurrentVariableState == VariableState.PlacingBuilding)
                 {
                     toReturn = this.SelectedBuilding.HotKeyDataAsBuildingData;
                 }
@@ -41,7 +42,7 @@ namespace TownRaiser.GumRuntimes
         public ActionMode GetActionStateBaseOnUi()
         {
 
-            if (this.CurrentVariableState == VariableState.BuildingSelected) return ActionMode.Build;
+            if (this.CurrentVariableState == VariableState.PlacingBuilding) return ActionMode.Build;
             ////else if (BuildButtonInstance.IsOn && anySubButtonSelected) return ActionMode.Build;
             //else return ActionMode.Select;
             return ActionMode.Select;
@@ -49,7 +50,7 @@ namespace TownRaiser.GumRuntimes
 
         partial void CustomInitialize()
         {
-
+            #region BuildingConstruction
             this.BuildMenuButtonInstance.Click += (notused) =>
             {
                 this.AddBuildingOptionsToActionPanel();
@@ -62,10 +63,10 @@ namespace TownRaiser.GumRuntimes
             {
                 this.PerformCancelStep();
             };
-            this.SetVariableState(VariableState.BuildMenuNotSelected);
+            this.SetVariableState(VariableState.SelectModeView);
             this.ActionStackContainerInstance.UpdateUIDisplay += ReactToUpdateUiChangeEvent;
             this.ActionStackContainerInstance.SelectBuildingToConstruct += ReactToBuildingButtonClick;
-
+            #endregion
         }
 
         public void ReactToUpdateUiChangeEvent(object sender, UpdateUiEventArgs args)
@@ -75,73 +76,52 @@ namespace TownRaiser.GumRuntimes
         }
         public void ReactToBuildingButtonClick(object sender, ConstructBuildingEventArgs args)
         {
-            this.SetVariableState( VariableState.BuildingSelected);
+            this.SetVariableState( VariableState.PlacingBuilding);
             this.SelectedBuilding.HotkeyData = args.BuildingData;
         }
-
+        public void SetActionMode(ActionMode modeToSetTo)
+        {
+            //We will have this in case something outside wants a specific selection state.
+            switch(modeToSetTo)
+            {
+                case ActionMode.Select:
+                    this.SetVariableState(VariableState.SelectModeView);
+                    break;
+            }
+        }
         private void SetVariableState(VariableState state)
         {
-            if(state == VariableState.BuildMenuNotSelected || state == VariableState.BuildingSelected)
+            switch(state)
             {
-                this.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-                this.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-                this.Width = 32;
-                this.Height = 32;
+                case VariableState.SelectModeView:
+                case VariableState.PlacingBuilding:
+                    this.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+                    this.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+                    this.Width = 32;
+                    this.Height = 32;
+                    break;
+                case VariableState.BuildMenuSelected:
+                case VariableState.SelectedEntity:
+                    this.WidthUnits = Gum.DataTypes.DimensionUnitType.RelativeToChildren;
+                    this.HeightUnits = Gum.DataTypes.DimensionUnitType.RelativeToChildren;
+                    this.Width = 8;
+                    this.Height = 8;
+                    ReactToUpdateUiChangeEvent(null, UpdateUiEventArgs.RollOffValue);
+
+                    break;
             }
-            else if(state == VariableState.BuildMenuSelected)
-            {
-                this.WidthUnits = Gum.DataTypes.DimensionUnitType.RelativeToChildren;
-                this.HeightUnits = Gum.DataTypes.DimensionUnitType.RelativeToChildren;
-                this.Width = 8;
-                this.Height = 8;
-                ReactToUpdateUiChangeEvent(null, UpdateUiEventArgs.RollOffValue);
-            }
+
             this.CurrentVariableState = state;
         }
-        public void ShowAvailableUnits(IEnumerable<string> units)
+        public void ShowAvailableUnits(IUpdatesStatus selectedEntity)
         {
-            UntoggleAllExcept(ActionMode.Train);
-            AddUnitOptionsToActionPanel(units);
-        }
-
-        private void UntoggleAllExcept(ActionMode actionMode)
-        {
-            if(actionMode != ActionMode.Build)
-            {
-                //Clear the list of build buttons before adding train buttons
-                if (this.CurrentVariableState == VariableState.BuildMenuSelected)
-                {
-                    RemoveStackContainerOptions();
-                }
-            }
-            if(actionMode != ActionMode.Train)
-            {
-                //Clear the list of build buttons before adding train buttons
-                //if(TrainButtonInstance.IsOn)
-                //{
-                //    RemoveStackContainerOptions();
-                //}
-                //TrainButtonInstance.IsOn = false;
-            }
-            if(actionMode == ActionMode.Select)
-            {
-                RemoveStackContainerOptions();
-                this.CurrentVariableState = VariableState.BuildMenuNotSelected;
-            }
-        }
-
-        internal void SetMode(ActionMode actionMode)
-        {
-            UntoggleAllExcept(actionMode);
-        }
-        private void RemoveStackContainerOptions()
-        {
-            ActionStackContainerInstance.RemoveToggleButtons();
+            ActionStackContainerInstance.RefreshToggleButtonsTo(selectedEntity);
+            SetVariableState(VariableState.SelectedEntity);
         }
 
         private void AddBuildingOptionsToActionPanel()
         {
-            bool addButtons = ActionStackContainerInstance.ToggleButtonList.Count == 0;
+            bool addButtons = ActionStackContainerInstance.IconButtonList.Count == 0;
 #if DEBUG
             addButtons &= Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
 #endif
@@ -153,7 +133,7 @@ namespace TownRaiser.GumRuntimes
             }
         }
 
-        private void AddUnitOptionsToActionPanel(IEnumerable<string> units = null)
+        private void AddUnitOptionsToActionPanel(IUpdatesStatus units = null)
         {
             ActionStackContainerInstance.RefreshToggleButtonsTo(units);
         }
@@ -167,14 +147,14 @@ namespace TownRaiser.GumRuntimes
             }
             else if(InputManager.Keyboard.KeyPushed(Keys.B))
             {
-                if(this.CurrentVariableState == VariableState.BuildMenuNotSelected)
+                if(this.CurrentVariableState == VariableState.SelectModeView)
                 {
                     AddBuildingOptionsToActionPanel();
                 }
             }
             else
             {
-                foreach(var button in ActionStackContainerInstance.ToggleButtonList)
+                foreach(var button in ActionStackContainerInstance.IconButtonList)
                 {
                     var hotKey = button.HotkeyData.Hotkey;
                     if(InputManager.Keyboard.KeyPushed(hotKey) && button.HotKeyDataAsUnitData != null)
@@ -188,20 +168,22 @@ namespace TownRaiser.GumRuntimes
 
         private void PerformCancelStep()
         {
-            if(this.CurrentVariableState == VariableState.BuildingSelected)
+            switch(this.CurrentVariableState)
             {
-                AddBuildingOptionsToActionPanel();
-            }
-            else if (this.CurrentVariableState == VariableState.BuildMenuSelected)
-            {
-                ActionStackContainerInstance.RemoveToggleButtons();
-                this.SetVariableState(VariableState.BuildMenuNotSelected);
+                case VariableState.PlacingBuilding:
+                    AddBuildingOptionsToActionPanel();
+                    break;
+                case VariableState.BuildMenuSelected:
+                case VariableState.SelectedEntity:
+                    ActionStackContainerInstance.RemoveIconButtons();
+                    this.SetVariableState(VariableState.SelectModeView);
+                    break;
             }
         }
 
         public void UpdateButtonEnabledStates(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
-            foreach (var button in ActionStackContainerInstance.ToggleButtonList)
+            foreach (var button in ActionStackContainerInstance.IconButtonList)
             {
                 button.UpdateButtonEnabledState(lumber, stone, gold, currentCapacity, maxCapacity, existingBuildings);
             }

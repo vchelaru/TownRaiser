@@ -10,12 +10,12 @@ using TownRaiser.Entities;
 
 namespace TownRaiser.DataTypes
 {
-    public partial class UnitData : IHotkeyData
+    public partial class UnitData : ICommonEntityData
     {
         public Keys Hotkey => HotkeyFieldButUseProperty;
-        public string ChainName => Name;
+        public string DataName => Name;
         public string MenuTitleDisplay => this.NameDisplay;
-        public int Gold => this.Gold;
+        public int Gold => this.GoldCost;
         //At this time, units do not have a stone or lumber requirement
         public int Lumber => 0;
         public int Stone => 0;

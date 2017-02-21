@@ -11,7 +11,10 @@ namespace TownRaiser.Interfaces
     {
         event EventHandler<UpdateStatusEventArgs> UpdateStatus;
         float GetHealthRatio();
-        string NameDisplay { get; }
+        ICommonEntityData EntityData { get; }
+        IEnumerable<string> ButtonDatas { get; }
+        Dictionary<string, double> ProgressPercents { get; }
+        Dictionary<string, int> ButtonCountDisplays { get; }
     }
     
 }

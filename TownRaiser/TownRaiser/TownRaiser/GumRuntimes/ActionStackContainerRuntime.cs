@@ -9,10 +9,10 @@ using TownRaiser.Interfaces;
 namespace TownRaiser.GumRuntimes
 {
     public partial class ActionStackContainerRuntime
-    {
+    { 
         private const int PixelsBetweenButtons = 2;
 
-        public List<IconButtonRuntime> ToggleButtonList;
+        public List<IconButtonRuntime> IconButtonList;
         public event EventHandler<TrainUnitEventArgs> TrainUnit;
         public event EventHandler<UpdateUiEventArgs> UpdateUIDisplay;
 
@@ -20,14 +20,15 @@ namespace TownRaiser.GumRuntimes
 
         partial void CustomInitialize()
         {
-            ToggleButtonList = new List<IconButtonRuntime>();
+            IconButtonList = new List<IconButtonRuntime>();
         }
 
-        private IconButtonRuntime CreateNewToggleButtonWithOffset(int stackIndex, IHotkeyData data)
+        private IconButtonRuntime CreateNewToggleButtonWithOffset(int stackIndex, ICommonEntityData data, IUpdatesStatus selectedEntity = null)
         {
             IconButtonRuntime button = new IconButtonRuntime();
+            button.SetInitialTextureValues();
             button.Parent = this;
-            ToggleButtonList.Add(button);
+            IconButtonList.Add(button);
 
             button.HotkeyData = data;
 
@@ -39,7 +40,10 @@ namespace TownRaiser.GumRuntimes
             };
             button.RollOff += (notused) =>
             {
-                UpdateUIDisplay?.Invoke(this, UpdateUiEventArgs.RollOffValue);
+                //If we will default to the build menu if an entity is not selected when adding toggle buttons.
+                var args = selectedEntity == null ? UpdateUiEventArgs.RollOffValue : new UpdateUiEventArgs(selectedEntity.EntityData);
+
+                UpdateUIDisplay?.Invoke(this, args);
             };
 
             return button;
@@ -57,7 +61,7 @@ namespace TownRaiser.GumRuntimes
                     if (building.Enabled)
                     {
                         this.SelectBuildingToConstruct?.Invoke(building, new ConstructBuildingEventArgs { BuildingData = buildingData.Value });
-                        RemoveToggleButtons();
+                        RemoveIconButtons();
                     }
                 };
 
@@ -88,18 +92,18 @@ namespace TownRaiser.GumRuntimes
             }
         }
 
-        public void RefreshToggleButtonsTo(IEnumerable<string> units)
+        public void RefreshToggleButtonsTo(IUpdatesStatus selectedEntity)
         {
-            RemoveToggleButtons();
+            RemoveIconButtons();
 
-            if(units != null)
+            if(selectedEntity?.ButtonDatas != null)
             {
 
                 int i = 0;
-                foreach (var unit in units)
+                foreach (var unit in selectedEntity.ButtonDatas)
                 {
                     var unitData = GlobalContent.UnitData[unit];
-                    IconButtonRuntime unitButton = CreateNewToggleButtonWithOffset(i, unitData);
+                    IconButtonRuntime unitButton = CreateNewToggleButtonWithOffset(i, unitData, selectedEntity);
 
                     unitButton.HotkeyData = unitData;
                 
@@ -113,19 +117,26 @@ namespace TownRaiser.GumRuntimes
             }
         }
 
-        public void RemoveToggleButtons()
+        public void RemoveIconButtons()
         {
-            for(int i = ToggleButtonList.Count -1; i > -1; i--)
+            for(int i = IconButtonList.Count -1; i > -1; i--)
             {
-                var toggleButton = ToggleButtonList[i];
+                var toggleButton = IconButtonList[i];
 
                 Children.Remove(toggleButton);
-                ToggleButtonList.Remove(toggleButton);
+                IconButtonList.Remove(toggleButton);
 
                 toggleButton.Destroy();
                 toggleButton = null;
             }
 
+        }
+        public void UpdateIconCoolDown(IUpdatesStatus selectedEntity)
+        {
+            foreach(var button in this.IconButtonList)
+            {
+                button.UpdateDisplayFromEntiy(selectedEntity);
+            }
         }
     }
 }

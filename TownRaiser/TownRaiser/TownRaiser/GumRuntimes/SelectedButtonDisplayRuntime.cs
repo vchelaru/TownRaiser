@@ -12,8 +12,8 @@ namespace TownRaiser.GumRuntimes
 {
     public partial class SelectedButtonDisplayRuntime
     {
-        private IHotkeyData m_HotKeyData;
-        public IHotkeyData HotkeyData
+        private ICommonEntityData m_HotKeyData;
+        public ICommonEntityData HotkeyData
         {
             get
             {
@@ -28,7 +28,7 @@ namespace TownRaiser.GumRuntimes
                 if (value != null)
                 {
                     m_HotKeyData = value;
-                    SetIconFrom(GlobalContent.GumAnimationChains[m_HotKeyData.ChainName]);
+                    SetIconFrom(GlobalContent.GumAnimationChains[m_HotKeyData.DataName]);
                 }
             }
         }

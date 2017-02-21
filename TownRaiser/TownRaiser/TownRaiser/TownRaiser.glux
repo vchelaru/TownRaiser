@@ -102,20 +102,6 @@
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
         <NamedObjectSave>
-          <CustomProperty>
-            <Type>bool</Type>
-            <Member>CurrentTrainingUnitVisible</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <SourceType>File</SourceType>
-          <SourceFile>GumProject/Screens/GameScreenGum.gusx</SourceFile>
-          <SourceName>StatusToolbarInstance (TownRaiser.GumRuntimes.StatusToolbarRuntime)</SourceName>
-          <InstanceName>StatusToolbarInstance</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>true</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\BuildingMarker</SourceClassType>
           <InstanceName>BuildingMarkerInstance</InstanceName>

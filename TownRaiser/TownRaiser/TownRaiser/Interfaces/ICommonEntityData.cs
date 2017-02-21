@@ -8,10 +8,10 @@ using static TownRaiser.GumRuntimes.IconButtonRuntime;
 
 namespace TownRaiser.Interfaces
 {
-    public interface IHotkeyData
+    public interface ICommonEntityData
     {
         Microsoft.Xna.Framework.Input.Keys Hotkey { get; }
-        string ChainName { get; }
+        string DataName { get; }
         string MenuTitleDisplay { get; }
         int Gold { get; }
         int Lumber { get; }

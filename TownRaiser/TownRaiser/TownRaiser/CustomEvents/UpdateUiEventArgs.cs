@@ -18,7 +18,7 @@ namespace TownRaiser.CustomEvents
         {
 
         }
-        public UpdateUiEventArgs(IHotkeyData dataToSetFrom)
+        public UpdateUiEventArgs(ICommonEntityData dataToSetFrom)
         {
             TitleDisplay = dataToSetFrom.MenuTitleDisplay;
             GoldCost = dataToSetFrom.Gold;

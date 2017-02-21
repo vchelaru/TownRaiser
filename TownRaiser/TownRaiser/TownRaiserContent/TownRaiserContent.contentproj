@@ -149,10 +149,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>SelectedButtonDisplay</Name>
     </None>
-    <None Include="GumProject\Components\StatusToolbar.gucx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>StatusToolbar</Name>
-    </None>
     <None Include="GumProject\Components\TrainingUnitSprite.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TrainingUnitSprite</Name>

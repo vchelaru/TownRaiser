@@ -10,10 +10,10 @@ using static TownRaiser.GumRuntimes.IconButtonRuntime;
 
 namespace TownRaiser.DataTypes
 {
-    public partial class BuildingData: IHotkeyData
+    public partial class BuildingData: ICommonEntityData
     {
         public Keys Hotkey => HotkeyFieldButUseProperty;
-        public string ChainName => Name;
+        public string DataName => Name;
         public string MenuTitleDisplay => this.NameDisplay;
         public int Gold => 0;
         public int Lumber => this.LumberCost;
