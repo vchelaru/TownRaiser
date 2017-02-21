@@ -175,10 +175,22 @@ namespace TownRaiser.GumRuntimes
                 foreach(var button in ActionStackContainerInstance.ToggleButtonList)
                 {
                     var hotKey = button.HotkeyData.Hotkey;
-                    if(InputManager.Keyboard.KeyPushed(hotKey) && button.HotKeyDataAsUnitData != null)
+                    if(InputManager.Keyboard.KeyPushed(hotKey))
                     {
-                        //ActionStackContainerInstance.UntoggleAllExcept(button);
-                        this.TrainUnit(button.HotKeyDataAsUnitData, null);
+                        if (button.HotKeyDataAsUnitData != null)
+                        {
+                            //ActionStackContainerInstance.UntoggleAllExcept(button);
+                            this.TrainUnit(button.HotKeyDataAsUnitData, null);
+                        }
+                        else if (button.HotKeyDataAsBuildingData != null)
+                        {
+                            // Clear any prior building button selection.
+                            if (ActionStackContainerInstance.AnyToggleButtonsActivated)
+                            {
+                                ActionStackContainerInstance.UntoggleAllExcept(null);
+                            }
+                            button.IsOn = true;
+                        }
                     }
                 }
             }
