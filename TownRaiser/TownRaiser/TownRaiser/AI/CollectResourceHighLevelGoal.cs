@@ -102,6 +102,43 @@ namespace TownRaiser.AI
         /// </summary>
         double arrivedAtResourceTime;
 
+        /// <summary>
+        /// Used to adjust a destination Vector3 within tile, askew from center toward the destination.
+        /// </summary>
+        Vector3 DeterminePositionWithinTileSlightlyCloserToOwner(Vector3 destination, float tileSize)
+        {
+            Vector3 pointSlightlySkewedTowardOwner;
+            // Used to divide the tileSize. (Half was causing weirdness.)
+            const float tileSizePortion = 5;
+            if (Owner.Position.X > destination.X)
+            {
+                if (Owner.Position.Y > destination.Y)
+                {
+                    // Unit is above/right of building. Move target point 
+                    pointSlightlySkewedTowardOwner = destination + new Vector3(tileSize / tileSizePortion, tileSize / tileSizePortion, destination.Z);
+                }
+                else
+                {
+                    // Unit is below/right of building.
+                    pointSlightlySkewedTowardOwner = destination + new Vector3(tileSize / tileSizePortion, tileSize / -tileSizePortion, destination.Z);
+                }
+            }
+            else
+            {
+                if (Owner.Position.Y > destination.Y)
+                {
+                    // Unit is above/left of building.
+                    pointSlightlySkewedTowardOwner = destination + new Vector3(tileSize / -tileSizePortion, tileSize / tileSizePortion, destination.Z);
+                }
+                else
+                {
+                    // Unit is below/right of building.
+                    pointSlightlySkewedTowardOwner = destination + new Vector3(tileSize / -tileSizePortion, tileSize / -tileSizePortion, destination.Z);
+                }
+            }
+            return pointSlightlySkewedTowardOwner;
+        }
+
         public override void DecideWhatToDo()
         {
             if (IsInRangeToReturnResource())
@@ -165,9 +202,10 @@ namespace TownRaiser.AI
 
                     if (ResourceReturnBuilding != null)
                     {
+                        Vector3 pointSlightlySkewedTowardOwner = DeterminePositionWithinTileSlightlyCloserToOwner(ResourceReturnBuildingTile.Position, ResourceReturnBuildingTile.Width);
                         walkGoal = new WalkToHighLevelGoal();
                         walkGoal.Owner = Owner;
-                        walkGoal.TargetPosition = ResourceReturnBuilding.Position;
+                        walkGoal.TargetPosition = pointSlightlySkewedTowardOwner;
                         walkGoal.ForceAttemptToGetToExactTarget = true;
                         walkGoal.DecideWhatToDo();
                     }
@@ -180,9 +218,10 @@ namespace TownRaiser.AI
                 {
                     if (walkGoal == null)
                     {
+                        Vector3 pointSlightlySkewedTowardOwner = DeterminePositionWithinTileSlightlyCloserToOwner(SingleTileCenter, SingleTile.Width);
                         walkGoal = new WalkToHighLevelGoal();
                         walkGoal.Owner = Owner;
-                        walkGoal.TargetPosition = SingleTileCenter;
+                        walkGoal.TargetPosition = pointSlightlySkewedTowardOwner;
                         walkGoal.ForceAttemptToGetToExactTarget = true;
                         walkGoal.DecideWhatToDo();
                     }
