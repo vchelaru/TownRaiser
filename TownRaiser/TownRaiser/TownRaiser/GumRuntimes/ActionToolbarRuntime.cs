@@ -77,6 +77,7 @@ namespace TownRaiser.GumRuntimes
             switch(modeToSetTo)
             {
                 case ActionMode.Select:
+                    this.ActionStackContainerInstance.RemoveIconButtons();
                     this.SetVariableState(VariableState.SelectModeView);
                     break;
             }
@@ -137,12 +138,11 @@ namespace TownRaiser.GumRuntimes
                 PerformCancelStep();
 
             }
-            else if(InputManager.Keyboard.KeyPushed(Keys.B))
+            else if(this.CurrentVariableState == VariableState.SelectModeView && InputManager.Keyboard.KeyPushed(Keys.B))
             {
-                if(this.CurrentVariableState == VariableState.SelectModeView)
-                {
-                    AddBuildingOptionsToActionPanel();
-                }
+
+                AddBuildingOptionsToActionPanel();
+
             }
             else
             {
@@ -161,10 +161,13 @@ namespace TownRaiser.GumRuntimes
                                 }
                                 break;
                             case VariableState.BuildMenuSelected:
-                                //Sanity check to make sure we are in the correct build mode.
                                 if (button.HotKeyDataAsBuildingData != null)
                                 {
-                                    ReactToBuildingButtonClick(null, new ConstructBuildingEventArgs { BuildingData = button.HotKeyDataAsBuildingData });
+                                    //Only allow hotkey to go through if button is enabled.
+                                    if (button.Enabled)
+                                    {
+                                        ReactToBuildingButtonClick(null, new ConstructBuildingEventArgs { BuildingData = button.HotKeyDataAsBuildingData });
+                                    }
                                 }
                                 break;
                         }
@@ -178,6 +181,7 @@ namespace TownRaiser.GumRuntimes
             switch(this.CurrentVariableState)
             {
                 case VariableState.PlacingBuilding:
+                    this.ActionStackContainerInstance.RemoveIconButtons();
                     AddBuildingOptionsToActionPanel();
                     break;
                 case VariableState.BuildMenuSelected:
