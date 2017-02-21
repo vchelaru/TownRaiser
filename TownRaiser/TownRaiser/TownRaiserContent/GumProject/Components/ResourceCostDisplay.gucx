@@ -1,9 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ComponentSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Name>Resource</Name>
-  <BaseType>Container</BaseType>
+  <Name>ResourceCostDisplay</Name>
+  <BaseType>NineSlice</BaseType>
   <State>
     <Name>Default</Name>
+    <Variable>
+      <Type>int</Type>
+      <Name>Alpha</Name>
+      <Value xsi:type="xsd:int">255</Value>
+      <Category>Rendering</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>Blend</Type>
+      <Name>Blend</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <Category>Rendering</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>Blue</Name>
+      <Value xsi:type="xsd:int">255</Value>
+      <Category>Rendering</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
     <Variable>
       <Type>ChildrenLayout</Type>
       <Name>Children Layout</Name>
@@ -14,6 +35,13 @@
       <Type>bool</Type>
       <Name>Clips Children</Name>
       <Value xsi:type="xsd:boolean">false</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>Green</Name>
+      <Value xsi:type="xsd:int">255</Value>
+      <Category>Rendering</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -32,7 +60,7 @@
     <Variable>
       <Type>float</Type>
       <Name>Height</Name>
-      <Value xsi:type="xsd:float">16</Value>
+      <Value xsi:type="xsd:float">14</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -44,25 +72,27 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <Type>IconStateState</Type>
-      <Name>IconStateState</Name>
-      <SetsValue>false</SetsValue>
-    </Variable>
-    <Variable>
       <Type>string</Type>
       <Name>Parent</Name>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <Type>float</Type>
-      <Name>SpriteInstance.Height</Name>
-      <Value xsi:type="xsd:float">100</Value>
+      <Type>int</Type>
+      <Name>Red</Name>
+      <Value xsi:type="xsd:int">255</Value>
+      <Category>Rendering</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
-      <Type>DimensionUnitType</Type>
-      <Name>SpriteInstance.Height Units</Name>
-      <Value xsi:type="xsd:int">3</Value>
+      <Type>ResourceTypeState</Type>
+      <Name>ResourceTypeState</Name>
+      <SetsValue>false</SetsValue>
+    </Variable>
+    <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>SourceFile</Name>
+      <Value xsi:type="xsd:string">..\MainTileset.png</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -81,43 +111,31 @@
     <Variable>
       <Type>int</Type>
       <Name>SpriteInstance.Texture Height</Name>
-      <Value xsi:type="xsd:int">12</Value>
+      <Value xsi:type="xsd:int">10</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>int</Type>
       <Name>SpriteInstance.Texture Left</Name>
-      <Value xsi:type="xsd:int">451</Value>
+      <Value xsi:type="xsd:int">437</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>int</Type>
       <Name>SpriteInstance.Texture Top</Name>
-      <Value xsi:type="xsd:int">35</Value>
+      <Value xsi:type="xsd:int">36</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>int</Type>
       <Name>SpriteInstance.Texture Width</Name>
-      <Value xsi:type="xsd:int">10</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>SpriteInstance.Width</Name>
-      <Value xsi:type="xsd:float">100</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>DimensionUnitType</Type>
-      <Name>SpriteInstance.Width Units</Name>
-      <Value xsi:type="xsd:int">3</Value>
+      <Value xsi:type="xsd:int">6</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>SpriteInstance.X</Name>
-      <Value xsi:type="xsd:float">2</Value>
+      <Value xsi:type="xsd:float">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -165,26 +183,26 @@
     <Variable>
       <Type>float</Type>
       <Name>TextInstance.Height</Name>
-      <Value xsi:type="xsd:float">16</Value>
+      <Value xsi:type="xsd:float">100</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>DimensionUnitType</Type>
       <Name>TextInstance.Height Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>HorizontalAlignment</Type>
       <Name>TextInstance.HorizontalAlignment</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">2</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>string</Type>
       <Name>TextInstance.Text</Name>
-      <Value xsi:type="xsd:string">999,9</Value>
-      <ExposedAsName>ResourceText</ExposedAsName>
+      <Value xsi:type="xsd:string">999</Value>
+      <ExposedAsName>CostText</ExposedAsName>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -196,37 +214,37 @@
     <Variable>
       <Type>VerticalAlignment</Type>
       <Name>TextInstance.VerticalAlignment</Name>
-      <Value xsi:type="xsd:int">2</Value>
+      <Value xsi:type="xsd:int">1</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>TextInstance.Width</Name>
-      <Value xsi:type="xsd:float">66</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>DimensionUnitType</Type>
-      <Name>TextInstance.Width Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:float">30</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>TextInstance.X</Name>
-      <Value xsi:type="xsd:float">22</Value>
+      <Value xsi:type="xsd:float">0</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>HorizontalAlignment</Type>
       <Name>TextInstance.X Origin</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">2</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>PositionUnitType</Type>
       <Name>TextInstance.X Units</Name>
-      <Value xsi:type="xsd:int">0</Value>
+      <Value xsi:type="xsd:int">4</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>TextInstance.Y</Name>
+      <Value xsi:type="xsd:float">0</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -242,6 +260,41 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>TextureAddress</Type>
+      <Name>Texture Address</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <Category>Source</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>Texture Height</Name>
+      <Value xsi:type="xsd:int">16</Value>
+      <Category>Source</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>Texture Left</Name>
+      <Value xsi:type="xsd:int">496</Value>
+      <Category>Source</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>Texture Top</Name>
+      <Value xsi:type="xsd:int">192</Value>
+      <Category>Source</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>Texture Width</Name>
+      <Value xsi:type="xsd:int">16</Value>
+      <Category>Source</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>bool</Type>
       <Name>Visible</Name>
       <Value xsi:type="xsd:boolean">true</Value>
@@ -250,14 +303,14 @@
     <Variable>
       <Type>float</Type>
       <Name>Width</Name>
-      <Value xsi:type="xsd:float">0</Value>
+      <Value xsi:type="xsd:float">42</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>DimensionUnitType</Type>
       <Name>Width Units</Name>
-      <Value xsi:type="xsd:int">4</Value>
+      <Value xsi:type="xsd:int">0</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -316,172 +369,42 @@
     </VariableList>
   </State>
   <Category>
-    <Name>IconState</Name>
-    <State>
-      <Name>Lumber</Name>
-      <Variable>
-        <Type>TextureAddress</Type>
-        <Name>SpriteInstance.Texture Address</Name>
-        <Value xsi:type="xsd:int">1</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Height</Name>
-        <Value xsi:type="xsd:int">14</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Left</Name>
-        <Value xsi:type="xsd:int">451</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Top</Name>
-        <Value xsi:type="xsd:int">49</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Width</Name>
-        <Value xsi:type="xsd:int">10</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Texture Height</Name>
-        <Value xsi:type="xsd:int">16</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <VariableList xsi:type="VariableListSaveOfString">
-        <Type>string</Type>
-        <Name>AnimationFrames</Name>
-        <IsFile>false</IsFile>
-        <IsHiddenInPropertyGrid>false</IsHiddenInPropertyGrid>
-        <Value />
-      </VariableList>
-    </State>
-    <State>
-      <Name>Stone</Name>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Height</Name>
-        <Value xsi:type="xsd:int">8</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Left</Name>
-        <Value xsi:type="xsd:int">448</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Top</Name>
-        <Value xsi:type="xsd:int">71</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Width</Name>
-        <Value xsi:type="xsd:int">15</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <VariableList xsi:type="VariableListSaveOfString">
-        <Type>string</Type>
-        <Name>AnimationFrames</Name>
-        <IsFile>false</IsFile>
-        <IsHiddenInPropertyGrid>false</IsHiddenInPropertyGrid>
-        <Value />
-      </VariableList>
-    </State>
-    <State>
-      <Name>Capacity</Name>
-      <Variable>
-        <Type>float</Type>
-        <Name>SpriteInstance.Height</Name>
-        <Value xsi:type="xsd:float">100</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>DimensionUnitType</Type>
-        <Name>SpriteInstance.Height Units</Name>
-        <Value xsi:type="xsd:int">3</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <IsFile>true</IsFile>
-        <Type>string</Type>
-        <Name>SpriteInstance.SourceFile</Name>
-        <Value xsi:type="xsd:string">..\MainTileset.png</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>TextureAddress</Type>
-        <Name>SpriteInstance.Texture Address</Name>
-        <Value xsi:type="xsd:int">1</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Height</Name>
-        <Value xsi:type="xsd:int">10</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Left</Name>
-        <Value xsi:type="xsd:int">3</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Top</Name>
-        <Value xsi:type="xsd:int">213</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>SpriteInstance.Texture Width</Name>
-        <Value xsi:type="xsd:int">10</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>float</Type>
-        <Name>SpriteInstance.Width</Name>
-        <Value xsi:type="xsd:float">100</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>DimensionUnitType</Type>
-        <Name>SpriteInstance.Width Units</Name>
-        <Value xsi:type="xsd:int">3</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <VariableList xsi:type="VariableListSaveOfString">
-        <Type>string</Type>
-        <Name>AnimationFrames</Name>
-        <IsFile>false</IsFile>
-        <IsHiddenInPropertyGrid>false</IsHiddenInPropertyGrid>
-        <Value />
-      </VariableList>
-    </State>
+    <Name>ResourceType</Name>
     <State>
       <Name>Gold</Name>
       <Variable>
-        <Type>float</Type>
-        <Name>SpriteInstance.Height</Name>
-        <Value xsi:type="xsd:float">100</Value>
+        <Type>TextureAddress</Type>
+        <Name>SpriteInstance.Texture Address</Name>
+        <Value xsi:type="xsd:int">1</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
-        <Type>DimensionUnitType</Type>
-        <Name>SpriteInstance.Height Units</Name>
-        <Value xsi:type="xsd:int">3</Value>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Height</Name>
+        <Value xsi:type="xsd:int">10</Value>
         <SetsValue>true</SetsValue>
       </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Left</Name>
+        <Value xsi:type="xsd:int">437</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Top</Name>
+        <Value xsi:type="xsd:int">36</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Width</Name>
+        <Value xsi:type="xsd:int">6</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
+    <State>
+      <Name>Lumber</Name>
       <Variable>
         <Type>int</Type>
         <Name>SpriteInstance.Texture Height</Name>
@@ -491,31 +414,46 @@
       <Variable>
         <Type>int</Type>
         <Name>SpriteInstance.Texture Left</Name>
-        <Value xsi:type="xsd:int">451</Value>
+        <Value xsi:type="xsd:int">436</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
         <Name>SpriteInstance.Texture Top</Name>
-        <Value xsi:type="xsd:int">35</Value>
+        <Value xsi:type="xsd:int">51</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
         <Type>int</Type>
         <Name>SpriteInstance.Texture Width</Name>
-        <Value xsi:type="xsd:int">10</Value>
+        <Value xsi:type="xsd:int">9</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
+    <State>
+      <Name>Stone</Name>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Height</Name>
+        <Value xsi:type="xsd:int">7</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
-        <Type>float</Type>
-        <Name>SpriteInstance.Width</Name>
-        <Value xsi:type="xsd:float">100</Value>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Left</Name>
+        <Value xsi:type="xsd:int">436</Value>
         <SetsValue>true</SetsValue>
       </Variable>
       <Variable>
-        <Type>DimensionUnitType</Type>
-        <Name>SpriteInstance.Width Units</Name>
-        <Value xsi:type="xsd:int">3</Value>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Top</Name>
+        <Value xsi:type="xsd:int">72</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Width</Name>
+        <Value xsi:type="xsd:int">9</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>

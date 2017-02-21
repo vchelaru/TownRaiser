@@ -3,39 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TownRaiser.CustomEvents;
 using TownRaiser.Interfaces;
 
 namespace TownRaiser.GumRuntimes
 {
     public partial class ActionStackContainerRuntime
-    {
+    { 
         private const int PixelsBetweenButtons = 2;
 
-        public List<ToggleButtonRuntime> ToggleButtonList;
-        public event EventHandler TrainUnit;
+        public List<IconButtonRuntime> IconButtonList;
+        public event EventHandler<TrainUnitEventArgs> TrainUnit;
+        public event EventHandler<UpdateUiEventArgs> UpdateUIDisplay;
 
-        public bool AnyToggleButtonsActivated
-        {
-            get
-            {
-                bool toReturn = false;
-
-                foreach(var button in ToggleButtonList)
-                {
-                    if(button.IsOn)
-                    {
-                        toReturn = true;
-                        break;
-                    }
-                }
-
-                return toReturn;
-            }
-        }
+        public event EventHandler<ConstructBuildingEventArgs> SelectBuildingToConstruct;
 
         partial void CustomInitialize()
         {
-            ToggleButtonList = new List<ToggleButtonRuntime>();
+            IconButtonList = new List<IconButtonRuntime>();
+        }
+
+        private IconButtonRuntime CreateNewToggleButtonWithOffset(int stackIndex, ICommonEntityData data, IUpdatesStatus selectedEntity = null)
+        {
+            IconButtonRuntime button = new IconButtonRuntime();
+            button.SetInitialTextureValues();
+            button.Parent = this;
+            IconButtonList.Add(button);
+
+            button.HotkeyData = data;
+
+            button.X = stackIndex % 3 != 0 ? PixelsBetweenButtons : 0;
+            button.Y = stackIndex > 2 && stackIndex % 3 == 0 ? PixelsBetweenButtons : 0;
+            button.RollOn += (notused) =>
+            {
+                UpdateUIDisplay?.Invoke(this, new UpdateUiEventArgs(data));
+            };
+            button.RollOff += (notused) =>
+            {
+                //If we will default to the build menu if an entity is not selected when adding toggle buttons.
+                var args = selectedEntity == null ? UpdateUiEventArgs.RollOffValue : new UpdateUiEventArgs(selectedEntity.EntityData);
+
+                UpdateUIDisplay?.Invoke(this, args);
+            };
+
+            return button;
         }
 
         public void AddBuildingToggleButtons()
@@ -43,23 +54,19 @@ namespace TownRaiser.GumRuntimes
             int i = 0;
             foreach (var buildingData in GlobalContent.BuildingData)
             {
-                ToggleButtonRuntime building = new ToggleButtonRuntime();
-                building.Parent = this;
-                ToggleButtonList.Add(building);
+                IconButtonRuntime building = CreateNewToggleButtonWithOffset(i, buildingData.Value);
 
-                building.X = i > 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
-                building.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
-
-                building.HotkeyData = buildingData.Value;
                 building.Click += (notused) =>
                 {
-                    UntoggleAllExcept(building);
+                    if (building.Enabled)
+                    {
+                        this.SelectBuildingToConstruct?.Invoke(building, new ConstructBuildingEventArgs { BuildingData = buildingData.Value });
+                        RemoveIconButtons();
+                    }
                 };
 
                 i++;
             }
-
-            SetVariableState();
         }
 
         public void AddUnitToggleButtons()
@@ -73,57 +80,36 @@ namespace TownRaiser.GumRuntimes
 #endif
                 if (shouldAddButton)
                 {
-                    ToggleButtonRuntime unit = new ToggleButtonRuntime();
-                    unit.Parent = this;
-                    ToggleButtonList.Add(unit);
+                    IconButtonRuntime unit = CreateNewToggleButtonWithOffset(i, unitData.Value);
 
-                    unit.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
-                    unit.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
-
-                    unit.HotkeyData = unitData.Value;
                     unit.Click += (notused) =>
                     {
-                        UntoggleAllExcept(unit);
                     };
+                    
 
                     i++;
                 }
             }
-
-            SetVariableState();
         }
 
-        public void RefreshToggleButtonsTo(IEnumerable<string> units)
+        public void RefreshToggleButtonsTo(IUpdatesStatus selectedEntity)
         {
-            RemoveToggleButtons();
+            RemoveIconButtons();
 
-            if(units != null)
+            if(selectedEntity?.ButtonDatas != null)
             {
 
                 int i = 0;
-                foreach (var unit in units)
+                foreach (var unit in selectedEntity.ButtonDatas)
                 {
-                    ToggleButtonRuntime unitButton = new ToggleButtonRuntime();
-                    unitButton.Parent = this;
-                    ToggleButtonList.Add(unitButton);
+                    var unitData = GlobalContent.UnitData[unit];
+                    IconButtonRuntime unitButton = CreateNewToggleButtonWithOffset(i, unitData, selectedEntity);
 
-                    unitButton.X = i < 0 && i % 2 == 0 ? PixelsBetweenButtons : 0;
-                    unitButton.Y = i % 2 == 1 ? PixelsBetweenButtons : 0;
-
-                    unitButton.HotkeyData = GlobalContent.UnitData[unit];
+                    unitButton.HotkeyData = unitData;
                 
                     unitButton.Click += (notused) =>
                     {
-                        unitButton.IsOn = false;
                         this.TrainUnit(unitButton.HotKeyDataAsUnitData, null);
-                    };
-                    unitButton.Push += (notused) =>
-                    {
-                        unitButton.IsOn = true;
-                    };
-                    unitButton.RollOff += (notused) =>
-                    {
-                        unitButton.IsOn = false;
                     };
 
                     i++;
@@ -131,43 +117,25 @@ namespace TownRaiser.GumRuntimes
             }
         }
 
-        public void RemoveToggleButtons()
+        public void RemoveIconButtons()
         {
-            for(int i = ToggleButtonList.Count -1; i > -1; i--)
+            for(int i = IconButtonList.Count -1; i > -1; i--)
             {
-                var toggleButton = ToggleButtonList[i];
+                var toggleButton = IconButtonList[i];
 
                 Children.Remove(toggleButton);
-                ToggleButtonList.Remove(toggleButton);
+                IconButtonList.Remove(toggleButton);
 
                 toggleButton.Destroy();
                 toggleButton = null;
             }
 
-            // Gum seems to not want to update layout when an object is removed, so we'll manually do it:
-            this.UpdateLayout();
-
-            SetVariableState();
         }
-
-        private void SetVariableState()
+        public void UpdateIconCoolDown(IUpdatesStatus selectedEntity)
         {
-            CurrentVariableState = ToggleButtonList.Count > 0 ? VariableState.NotEmpty : VariableState.Empty;
-        } 
-        
-        public void UntoggleAllExcept(ToggleButtonRuntime buttonToActivate)
-        {
-            if (buttonToActivate != null)
+            foreach(var button in this.IconButtonList)
             {
-                buttonToActivate.IsOn = true;
-            }
-
-            foreach(var button in ToggleButtonList)
-            {
-                if(button != buttonToActivate)
-                {
-                    button.IsOn = false;
-                }
+                button.UpdateDisplayFromEntiy(selectedEntity);
             }
         }
     }

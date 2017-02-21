@@ -34,8 +34,4 @@
     <Name>GroupSelectorInstance</Name>
     <BaseType>GroupSelector</BaseType>
   </Instance>
-  <Instance>
-    <Name>StatusToolbarInstance</Name>
-    <BaseType>StatusToolbar</BaseType>
-  </Instance>
 </ScreenSave>

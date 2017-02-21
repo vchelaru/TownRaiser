@@ -17,6 +17,8 @@ using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using TownRaiser.Interfaces;
 using FlatRedBall.Screens;
+using TownRaiser.CustomEvents;
+using System.Linq;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -36,10 +38,12 @@ namespace TownRaiser.Entities
 
         public event EventHandler OnDestroy;
         public event EventHandler<UpdateStatusEventArgs> UpdateStatus;
-        public string NameDisplay => BuildingData.NameDisplay;
+        public ICommonEntityData EntityData => BuildingData;
         public int CurrentHealth { get; set; }
-        public IEnumerable<string> TrainableUnits => BuildingData.TrainableUnits.AsReadOnly();
+        public IEnumerable<string> ButtonDatas => BuildingData.TrainableUnits.AsReadOnly();
         public string CurrentTrainingUnit => TrainingQueue.Count > 0 ? TrainingQueue[0] : null;
+        public Dictionary<string, double> ProgressPercents { get; private set; }
+        public Dictionary<string, int> ButtonCountDisplays { get; private set; }
 
         public Vector3? RallyPoint;
         double constructionTimeStarted = 0;
@@ -52,8 +56,7 @@ namespace TownRaiser.Entities
 
         //While it's a list, we will treat is as a queue.
         //Queues will not let us return it as readonly.
-        public List<string> TrainingQueue;
-        public double TrainingProgressPercent => ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) / GlobalContent.UnitData[CurrentTrainingUnit].TrainTime;
+        public List<string> TrainingQueue { get; private set; }
         #endregion
 
         #region Private Fields/Properties
@@ -68,6 +71,17 @@ namespace TownRaiser.Entities
                 return m_TraningStartTime > 0 && currentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) >= GlobalContent.UnitData[CurrentTrainingUnit].TrainTime;
             }
         }
+
+        private bool DidTrainingStall => m_TraningStartTime < 0;
+        private double TrainingProgress
+        {
+            get
+            {
+                var currentScreen = ScreenManager.CurrentScreen;
+                //We want the progress left. So we subtract the ratio from 1.
+                return  1 - (currentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) / GlobalContent.UnitData[CurrentTrainingUnit].TrainTime);
+            }
+        }
         #endregion
 
 
@@ -77,8 +91,8 @@ namespace TownRaiser.Entities
         /// added to managers will not have this method called.
         /// </summary>
         private void CustomInitialize()
-		{
-            TrainingQueue = new List<string>();
+        {
+            InitializeIUpdatestatusLists();
 
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
@@ -88,7 +102,15 @@ namespace TownRaiser.Entities
 #endif
         }
 
-		private void CustomActivity()
+        private void InitializeIUpdatestatusLists()
+        {
+            TrainingQueue = new List<string>();
+            ProgressPercents = new Dictionary<string, double>(); //A dictionary to support the cooldown system. Units may have abilities under cooldown.
+            ButtonCountDisplays = new Dictionary<string, int>();
+            
+        }
+
+        private void CustomActivity()
 		{
             ConstructionActivity();
             HealthBarActivity();
@@ -140,7 +162,8 @@ namespace TownRaiser.Entities
         {
             if (TrainingQueue.Count > 0 && ScreenManager.CurrentScreen is Screens.GameScreen)
             {
-                var trainingUnit = TrainingQueue[0];
+                var trainingUnit = CurrentTrainingUnit;
+                ProgressPercents[trainingUnit] = TrainingProgress;
                 if(IsTrainingComplete)
                 {
                     var newUnit = ((Screens.GameScreen)ScreenManager.CurrentScreen).SpawnNewUnit(trainingUnit, new Vector3() { X = UnitSpawnX, Y = UnitSpawnY, Z = 1 });
@@ -151,24 +174,41 @@ namespace TownRaiser.Entities
                     }
 
                     TrainingQueue.RemoveAt(0);
+
+                    ButtonCountDisplays[trainingUnit]--;
+
                     if(TrainingQueue.Count > 0)
                     {
-                        StartTraining();
+                        TryStartTraining(CurrentTrainingUnit);
                     }
+                }
+                else if(TrainingQueue.Count > 0 && DidTrainingStall)
+                {
+                    //If the queue greater than 0 we check if we stalled, which is a negative start time.
+                    TryStartTraining(CurrentTrainingUnit);
                 }
                 this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
             }
         }
-        public void AddUnitToTrain(string unit)
+        public bool TryAddUnitToTrain(string unit)
         {
+            bool wasSuccessful = true;
+            //If the queue is empty, we try start the training.
+            //If not we will add the unit to the end of the queue and inform the caller.
             if(TrainingQueue.Count == 0)
             {
-                StartTraining();
+                wasSuccessful = TryStartTraining(unit);
             }
 
-            TrainingQueue.Add(unit);
-            
-            this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
+            if (wasSuccessful)
+            {
+                TrainingQueue.Add(unit);
+                //We will initialize the dictionary with all posible units.
+                ButtonCountDisplays[unit]++;
+
+                this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
+            }
+            return wasSuccessful;
         }
         
 
@@ -182,15 +222,41 @@ namespace TownRaiser.Entities
 		{
             this.OnDestroy?.Invoke(this, null);
             this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs() { WasEntityDestroyed = true });
-            TrainingQueue.Clear();
-            TrainingQueue = null;
+
+            this.TrainingQueue.Clear();
+            this.TrainingQueue = null;
+
+            this.ProgressPercents.Clear();
+            this.ProgressPercents = null;
+
+            this.ButtonCountDisplays.Clear();
+            this.ButtonCountDisplays = null;
 
             this.OnDestroy = null;
             this.UpdateStatus = null;
 		}
-        private void StartTraining()
+        private bool TryStartTraining(string unitName)
         {
-            m_TraningStartTime = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+            var gameScreen = ScreenManager.CurrentScreen as Screens.GameScreen;
+
+            bool canTrain = false;
+            if (gameScreen != null)
+            {
+                canTrain = gameScreen.CheckIfCanStartTraining(unitName);
+
+                if (canTrain)
+                { 
+                    m_TraningStartTime = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+                    ProgressPercents.Clear();
+                    ProgressPercents.Add(unitName, 1);
+                }
+                else
+                {
+                    m_TraningStartTime = -1;
+                }
+            }
+
+            return canTrain;
         }
 
         private static void CustomLoadStaticContent(string contentManagerName)

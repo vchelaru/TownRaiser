@@ -19,8 +19,12 @@ namespace TownRaiser.Entities
             SpriteInstance.CurrentChainName = animationName;
 
             CurrentHealth = BuildingData.Health;
+            //Setup the possible training units.
+            foreach (var unit in BuildingData.TrainableUnits)
+            {
+                ButtonCountDisplays.Add(unit, 0);
+            }
 
-            
         }
 		
 	}

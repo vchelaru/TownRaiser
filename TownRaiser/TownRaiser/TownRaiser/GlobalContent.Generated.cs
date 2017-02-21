@@ -27,6 +27,7 @@ namespace TownRaiser
 		public static System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.UnitData> UnitData { get; set; }
 		public static Microsoft.Xna.Framework.Graphics.Texture2D CharactersSheet { get; set; }
 		public static System.Collections.Generic.List<TownRaiser.DataTypes.TimedSpawnData> TimedSpawnData { get; set; }
+		public static FlatRedBall.Graphics.Animation.AnimationChainList GumAnimationChains { get; set; }
 		[System.Obsolete("Use GetFile instead")]
 		public static object GetStaticMember (string memberName)
 		{
@@ -44,6 +45,8 @@ namespace TownRaiser
 					return CharactersSheet;
 				case  "TimedSpawnData":
 					return TimedSpawnData;
+				case  "GumAnimationChains":
+					return GumAnimationChains;
 			}
 			return null;
 		}
@@ -63,6 +66,8 @@ namespace TownRaiser
 					return CharactersSheet;
 				case  "TimedSpawnData":
 					return TimedSpawnData;
+				case  "GumAnimationChains":
+					return GumAnimationChains;
 			}
 			return null;
 		}
@@ -111,6 +116,7 @@ namespace TownRaiser
 					TimedSpawnData = temporaryCsvObject;
 				}
 			}
+			GumAnimationChains = FlatRedBall.FlatRedBallServices.Load<FlatRedBall.Graphics.Animation.AnimationChainList>(@"content/globalcontent/gumanimationchains.achx", ContentManagerName);
 						IsInitialized = true;
 			#if DEBUG && WINDOWS
 			InitializeFileWatch();
@@ -183,6 +189,10 @@ namespace TownRaiser
 				if (relativeFileName == "content/globalcontent/timedspawndata.csv")
 				{
 					Reload(TimedSpawnData);
+				}
+				if (relativeFileName == "content/globalcontent/gumanimationchains.achx")
+				{
+					Reload(GumAnimationChains);
 				}
 			}
 			catch{}

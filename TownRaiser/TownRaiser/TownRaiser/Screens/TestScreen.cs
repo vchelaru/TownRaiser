@@ -52,13 +52,13 @@ namespace TownRaiser.Screens
 
             if(keyboard.KeyPushed(Keys.Up))
             {
-                var button = new ToggleButtonRuntime();
+                var button = new IconButtonRuntime();
                 button.Parent = this.StackingContainer;
                 button.Click += HandleClick;
             }
             else if(keyboard.KeyPushed(Keys.Down))
             {
-                var buttonToRemove = this.StackingContainer.Children.Last() as ToggleButtonRuntime;
+                var buttonToRemove = this.StackingContainer.Children.Last() as IconButtonRuntime;
 
                 if(buttonToRemove != null)
                 {

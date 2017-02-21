@@ -5,16 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using TownRaiser.Interfaces;
-using static TownRaiser.GumRuntimes.ToggleButtonRuntime;
+using static TownRaiser.GumRuntimes.IconButtonRuntime;
 using TownRaiser.Entities;
 
 namespace TownRaiser.DataTypes
 {
-    public partial class UnitData : IHotkeyData
+    public partial class UnitData : ICommonEntityData
     {
         public Keys Hotkey => HotkeyFieldButUseProperty;
-        public IconDisplay ButtonIconDisplayState => ButtonIconDisplayStateButUseProperty;
-
+        public string DataName => Name;
+        public string MenuTitleDisplay => this.NameDisplay;
+        public int Gold => this.GoldCost;
+        //At this time, units do not have a stone or lumber requirement
+        public int Lumber => 0;
+        public int Stone => 0;
         public bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
             return GoldCost <= gold && (currentCapacity + Capacity) <= maxCapacity;

@@ -9,142 +9,123 @@ using System.Threading.Tasks;
 using TownRaiser.DataTypes;
 using TownRaiser.Screens;
 using TownRaiser.Entities;
+using TownRaiser.CustomEvents;
+using TownRaiser.Interfaces;
 
 namespace TownRaiser.GumRuntimes
 {
     public partial class ActionToolbarRuntime
     {
         public event EventHandler TrainUnit;
-        public UnitData SelectedUnitData
-        {
-            get
-            {
-                UnitData toReturn = null;
-                foreach(var button in ActionStackContainerInstance.ToggleButtonList)
-                {
-                    if(button.IsOn)
-                    {
-                        toReturn = button.HotKeyDataAsUnitData;
-                        break;
-                    }
-                }
-                return toReturn;
-            }
-        }
 
         public BuildingData SelectedBuildingData
         {
             get
             {
                 BuildingData toReturn = null;
-                foreach (var button in ActionStackContainerInstance.ToggleButtonList)
+                if(this.CurrentVariableState == VariableState.PlacingBuilding)
                 {
-                    if (button.IsOn)
-                    {
-                        toReturn = button.HotKeyDataAsBuildingData;
-                        break;
-                    }
+                    toReturn = this.SelectedBuilding.HotKeyDataAsBuildingData;
                 }
                 return toReturn;
             }
         }
 
-        public ActionMode GetActionModeBasedOnToggleState()
+        public ActionMode GetActionStateBaseOnUi()
         {
-            //Stay in select mode until we have selected a toogle button attatched to unit or building data.
-            bool anySubButtonSelected = ActionStackContainerInstance.AnyToggleButtonsActivated;
 
-            if (TrainButtonInstance.IsOn && anySubButtonSelected) return ActionMode.Train;
-            else if (BuildButtonInstance.IsOn && anySubButtonSelected) return ActionMode.Build;
-            else return ActionMode.Select;
+            if (this.CurrentVariableState == VariableState.PlacingBuilding) return ActionMode.Build;
+            ////else if (BuildButtonInstance.IsOn && anySubButtonSelected) return ActionMode.Build;
+            //else return ActionMode.Select;
+            return ActionMode.Select;
         }
 
         partial void CustomInitialize()
         {
-            this.TrainButtonInstance.Click += (notused) =>
+            #region BuildingConstruction
+            this.BuildMenuButtonInstance.Click += (notused) =>
             {
-                ShowAvailableUnits();
-            };
-            this.BuildButtonInstance.Click += (notused) =>
-            {
-                ShowAvailableBuildings();
+                this.AddBuildingOptionsToActionPanel();
             };
             this.ActionStackContainerInstance.TrainUnit += (unitData, notused) =>
             {
                 this.TrainUnit(unitData, notused);
             };
-
-        }
-
-        private void ShowAvailableBuildings()
-        {
-            BuildButtonInstance.IsOn = true;
-            UntoggleAllExcept(ActionMode.Build);
-            AddBuildingOptionsToActionPanel();
-        }
-
-        private void ShowAvailableUnits()
-        {
-            TrainButtonInstance.IsOn = true;
-            UntoggleAllExcept(ActionMode.Train);
-            AddUnitOptionsToActionPanel();
-        }
-
-        public void ShowAvailableUnits(IEnumerable<string> units)
-        {
-            TrainButtonInstance.IsOn = true;
-            UntoggleAllExcept(ActionMode.Train);
-            AddUnitOptionsToActionPanel(units);
-        }
-
-        private void UntoggleAllExcept(ActionMode actionMode)
-        {
-            if(actionMode != ActionMode.Build)
+            this.XButtonInstance.Click += (notused) =>
             {
-                //Clear the list of build buttons before adding train buttons
-                if (BuildButtonInstance.IsOn)
-                {
-                    RemoveStackContainerOptions();
-                }
-                BuildButtonInstance.IsOn = false;
-            }
-            if(actionMode != ActionMode.Train)
+                this.PerformCancelStep();
+            };
+            this.SetVariableState(VariableState.SelectModeView);
+            this.ActionStackContainerInstance.UpdateUIDisplay += ReactToUpdateUiChangeEvent;
+            this.ActionStackContainerInstance.SelectBuildingToConstruct += ReactToBuildingButtonClick;
+            #endregion
+        }
+
+        public void ReactToUpdateUiChangeEvent(object sender, UpdateUiEventArgs args)
+        {
+            this.MenuTitleDisplayText = args.TitleDisplay;
+            this.ResourceCostContainer.UpadteResourceDisplayText(args);
+        }
+        public void ReactToBuildingButtonClick(object sender, ConstructBuildingEventArgs args)
+        {
+            this.SetVariableState( VariableState.PlacingBuilding);
+            this.SelectedBuilding.HotkeyData = args.BuildingData;
+        }
+        public void SetActionMode(ActionMode modeToSetTo)
+        {
+            //We will have this in case something outside wants a specific selection state.
+            switch(modeToSetTo)
             {
-                //Clear the list of build buttons before adding train buttons
-                if(TrainButtonInstance.IsOn)
-                {
-                    RemoveStackContainerOptions();
-                }
-                TrainButtonInstance.IsOn = false;
-            }
-            if(actionMode == ActionMode.Select)
-            {
-                RemoveStackContainerOptions();
+                case ActionMode.Select:
+                    this.SetVariableState(VariableState.SelectModeView);
+                    break;
             }
         }
+        private void SetVariableState(VariableState state)
+        {
+            switch(state)
+            {
+                case VariableState.SelectModeView:
+                case VariableState.PlacingBuilding:
+                    this.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+                    this.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+                    this.Width = 32;
+                    this.Height = 32;
+                    break;
+                case VariableState.BuildMenuSelected:
+                case VariableState.SelectedEntity:
+                    this.WidthUnits = Gum.DataTypes.DimensionUnitType.RelativeToChildren;
+                    this.HeightUnits = Gum.DataTypes.DimensionUnitType.RelativeToChildren;
+                    this.Width = 8;
+                    this.Height = 8;
+                    ReactToUpdateUiChangeEvent(null, UpdateUiEventArgs.RollOffValue);
 
-        internal void SetMode(ActionMode actionMode)
-        {
-            UntoggleAllExcept(actionMode);
+                    break;
+            }
+
+            this.CurrentVariableState = state;
         }
-        private void RemoveStackContainerOptions()
+        public void ShowAvailableUnits(IUpdatesStatus selectedEntity)
         {
-            ActionStackContainerInstance.RemoveToggleButtons();
+            ActionStackContainerInstance.RefreshToggleButtonsTo(selectedEntity);
+            SetVariableState(VariableState.SelectedEntity);
         }
 
         private void AddBuildingOptionsToActionPanel()
         {
-            bool addButtons = ActionStackContainerInstance.ToggleButtonList.Count == 0;
+            bool addButtons = ActionStackContainerInstance.IconButtonList.Count == 0;
 #if DEBUG
             addButtons &= Entities.DebuggingVariables.DoNotAddActionPanelButtons == false;
 #endif
             if (addButtons)
             {
+                this.SetVariableState(VariableState.BuildMenuSelected);
+
                 ActionStackContainerInstance.AddBuildingToggleButtons();
             }
         }
 
-        private void AddUnitOptionsToActionPanel(IEnumerable<string> units = null)
+        private void AddUnitOptionsToActionPanel(IUpdatesStatus units = null)
         {
             ActionStackContainerInstance.RefreshToggleButtonsTo(units);
         }
@@ -153,52 +134,63 @@ namespace TownRaiser.GumRuntimes
         {
             if(InputManager.Keyboard.KeyPushed(Keys.Escape)) //The escape case depends on the currently selected default button and if a sub button is selected.
             {
-                if(ActionStackContainerInstance.AnyToggleButtonsActivated)
-                {
-                    ActionStackContainerInstance.UntoggleAllExcept(null);
-                }
-                else
-                {
-                    UntoggleAllExcept(ActionMode.Select);
-                }
+                PerformCancelStep();
 
             }
             else if(InputManager.Keyboard.KeyPushed(Keys.B))
             {
-                if(BuildButtonInstance.IsOn == false)
+                if(this.CurrentVariableState == VariableState.SelectModeView)
                 {
-                    ShowAvailableBuildings();
+                    AddBuildingOptionsToActionPanel();
                 }
             }
             else
             {
-                foreach(var button in ActionStackContainerInstance.ToggleButtonList)
+                foreach(var button in ActionStackContainerInstance.IconButtonList)
                 {
                     var hotKey = button.HotkeyData.Hotkey;
                     if(InputManager.Keyboard.KeyPushed(hotKey))
                     {
-                        if (button.HotKeyDataAsUnitData != null)
+                        switch(this.CurrentVariableState)
                         {
-                            //ActionStackContainerInstance.UntoggleAllExcept(button);
-                            this.TrainUnit(button.HotKeyDataAsUnitData, null);
-                        }
-                        else if (button.HotKeyDataAsBuildingData != null)
-                        {
-                            // Clear any prior building button selection.
-                            if (ActionStackContainerInstance.AnyToggleButtonsActivated)
-                            {
-                                ActionStackContainerInstance.UntoggleAllExcept(null);
-                            }
-                            button.IsOn = true;
+                            case VariableState.SelectedEntity:
+                                //Selected entity may have different cases for using an ability.
+                                if(button.HotKeyDataAsUnitData != null)
+                                {
+                                    this.TrainUnit(button.HotKeyDataAsUnitData, null);
+                                }
+                                break;
+                            case VariableState.BuildMenuSelected:
+                                //Sanity check to make sure we are in the correct build mode.
+                                if (button.HotKeyDataAsBuildingData != null)
+                                {
+                                    ReactToBuildingButtonClick(null, new ConstructBuildingEventArgs { BuildingData = button.HotKeyDataAsBuildingData });
+                                }
+                                break;
                         }
                     }
                 }
             }
         }
 
+        private void PerformCancelStep()
+        {
+            switch(this.CurrentVariableState)
+            {
+                case VariableState.PlacingBuilding:
+                    AddBuildingOptionsToActionPanel();
+                    break;
+                case VariableState.BuildMenuSelected:
+                case VariableState.SelectedEntity:
+                    ActionStackContainerInstance.RemoveIconButtons();
+                    this.SetVariableState(VariableState.SelectModeView);
+                    break;
+            }
+        }
+
         public void UpdateButtonEnabledStates(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
-            foreach (var button in ActionStackContainerInstance.ToggleButtonList)
+            foreach (var button in ActionStackContainerInstance.IconButtonList)
             {
                 button.UpdateButtonEnabledState(lumber, stone, gold, currentCapacity, maxCapacity, existingBuildings);
             }

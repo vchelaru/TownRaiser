@@ -44,7 +44,18 @@ namespace TownRaiser.Screens
         public int Lumber { get; set; } = 1200;
         public int Stone { get; set; } = 1000;
         public int Gold { get; set; } = 1000;
-        public int CurrentCapacityUsed { get; set; }
+        
+        public int CurrentCapacityUsed
+        {
+            get
+            {
+                return currentCapacityUsedButUseProperty + currentTrainingCapacity;
+            }
+            set
+            {
+                currentCapacityUsedButUseProperty = value;
+            }
+        }
         public int MaxCapacity { get; set; }
 
         TileNodeNetwork tileNodeNetwork;
@@ -63,6 +74,9 @@ namespace TownRaiser.Screens
         private float mapXMax;
         private float mapYMin;
         private float mapYMax;
+
+        private int currentCapacityUsedButUseProperty;
+        private int currentTrainingCapacity;
 
 #if DEBUG
         //Debug fields and properties.
@@ -251,7 +265,7 @@ namespace TownRaiser.Screens
 
         private void BuildMarkerActivity()
         {
-            if(ActionToolbarInstance.GetActionModeBasedOnToggleState() == ActionMode.Build && GetIfCanClickInWorld())
+            if(ActionToolbarInstance.GetActionStateBaseOnUi() == ActionMode.Build && GetIfCanClickInWorld())
             {
                 BuildingMarkerInstance.Visible = true;
                 BuildingMarkerInstance.BuildingData = ActionToolbarInstance.SelectedBuildingData;
@@ -402,7 +416,7 @@ namespace TownRaiser.Screens
                     //Rick Blaylock
                     //After implementing hotkeys and proper unit/building data I ran into issues where the action mode would not update on a double click.
                     //For now, we will check the toggle state on clicks.
-                    switch(ActionToolbarInstance.GetActionModeBasedOnToggleState())
+                    switch(ActionToolbarInstance.GetActionStateBaseOnUi())
                     {
                         case ActionMode.Build:
                             if (BuildingMarkerInstance.CurrentState == Entities.BuildingMarker.VariableState.Normal)
@@ -483,7 +497,7 @@ namespace TownRaiser.Screens
         {
             if(InputManager.Keyboard.KeyDown(Keys.LeftShift) == false && InputManager.Keyboard.KeyDown(Keys.RightShift) == false)
             {
-                ActionToolbarInstance.SetMode(ActionMode.Select);
+                ActionToolbarInstance.SetActionMode(ActionMode.Select);
             }
         }
 
@@ -601,8 +615,8 @@ namespace TownRaiser.Screens
                 selectedBuilding = buildingOver;
                 if (selectedBuilding.IsConstructionComplete)
                 {
-                    ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
-                    StatusToolbarInstance.SetViewFromEntity(selectedBuilding);
+                    //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
+                    ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
                 }
             }
 
@@ -615,7 +629,7 @@ namespace TownRaiser.Screens
         {
             if(selectedBuilding == null && selectedUnits.Count == 0)
             {
-                this.StatusToolbarInstance.SetViewFromEntity(null);
+                this.ActionToolbarInstance.SetViewFromEntity(null);
             }
         }
 
@@ -643,8 +657,9 @@ namespace TownRaiser.Screens
             {
                 throw new Exception("Tried to train a null unit.");
             }
-
-            bool hasEnoughGold = unitData.GoldCost <= this.Gold && (unitData.Capacity + CurrentCapacityUsed) <= MaxCapacity;
+            
+            //Only check gold first.
+            bool hasEnoughGold = unitData.GoldCost <= this.Gold;
 
 #if DEBUG
             if (Entities.DebuggingVariables.HasInfiniteResources)
@@ -653,11 +668,12 @@ namespace TownRaiser.Screens
             }
 #endif
 
-            if (hasEnoughGold)
+            //If we have enough gold, we will add the unit to the end of the queue.
+            //The training will not occur until there is enough capacity, but units can be queued as long as there is gold.
+            bool wasAddeToQueue = hasEnoughGold ? selectedBuilding.TryAddUnitToTrain(unitData.Name) : false;
+
+            if (wasAddeToQueue)
             {
-
-                selectedBuilding.AddUnitToTrain(unitData.Name);
-
                 bool shouldUpdateResources = true;
 #if DEBUG
 
@@ -666,7 +682,6 @@ namespace TownRaiser.Screens
                 if (shouldUpdateResources)
                 {
                     this.Gold -= unitData.GoldCost;
-                    this.CurrentCapacityUsed = UnitList.Where(item => item.UnitData.IsEnemy == false).Sum(item => item.UnitData.Capacity);
                 }
 
                 UpdateResourceDisplay();
@@ -676,65 +691,7 @@ namespace TownRaiser.Screens
                 //tell them?
             }
 
-        }
-
-        private void HandlePerformTrain()
-        {
-            var unitData = ActionToolbarInstance.SelectedUnitData;
-            bool hasEnoughGold = unitData.GoldCost <= this.Gold && (unitData.Capacity + CurrentCapacityUsed)<= MaxCapacity;
-
-#if DEBUG
-            if(Entities.DebuggingVariables.HasInfiniteResources)
-            {
-                hasEnoughGold = true;
-            }
-#endif
-
-            if (hasEnoughGold)
-            {
-                var cursor = GuiManager.Cursor;
-                var x = cursor.WorldXAt(0);
-                var y = cursor.WorldYAt(0);
-                var newUnit = Factories.UnitFactory.CreateNew();
-                newUnit.NodeNetwork = this.tileNodeNetwork;
-                newUnit.AllUnits = UnitList;
-                newUnit.X = x;
-                newUnit.Y = y;
-                newUnit.Z = 1;
-
-
-                if (unitData == null)
-                {
-                    throw new Exception("Unit data is null.");
-                }
-                
-#if DEBUG
-                if(InputManager.Keyboard.KeyDown(Keys.LeftShift))
-                {
-                    unitData = GlobalContent.UnitData[DataTypes.UnitData.Goblin];
-                }
-#endif
-                newUnit.UnitData = unitData;
-                newUnit.TryStartFindingTarget();
-
-                bool shouldUpdateResources = true;
-#if DEBUG
-
-                shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
-#endif
-                if (shouldUpdateResources)
-                {
-                    this.Gold -= unitData.GoldCost;
-                    this.CurrentCapacityUsed = UnitList.Where(item => item.UnitData.IsEnemy == false).Sum(item => item.UnitData.Capacity);
-                }
-
-                UpdateResourceDisplay();
-            }
-            else
-            {
-                //tell them?
-            }
-        }
+        } 
 
         private void HandlePerformBuilding()
         {
@@ -802,6 +759,23 @@ namespace TownRaiser.Screens
             y = MathFunctions.RoundFloat(y, GridWidth * tilesWide, GridWidth * tilesWide / 2);
         }
 
+        public bool CheckIfCanStartTraining(string unit)
+        {
+            var unitCapacity = GlobalContent.UnitData[unit].Capacity;
+
+            var potentialCapacityUsed = CurrentCapacityUsed + unitCapacity;
+
+            bool canTrain = false;
+            if (potentialCapacityUsed <= MaxCapacity)
+            {
+                canTrain = true;
+                currentTrainingCapacity += unitCapacity;
+
+                UpdateResourceDisplay();
+            }
+            return canTrain;
+        }
+
         public void UpdateResourceDisplay()
         {
             this.ResourceDisplayInstance.CapacityText = $"{CurrentCapacityUsed}/{this.MaxCapacity.ToString()}";
@@ -817,13 +791,24 @@ namespace TownRaiser.Screens
             var newUnit = Factories.UnitFactory.CreateNew();
 
             newUnit.Position = spawnPoint;
-            newUnit.UnitData = GlobalContent.UnitData[unitDataKey];
+            var unitData = GlobalContent.UnitData[unitDataKey];
+            newUnit.UnitData = unitData;
             newUnit.AllUnits = this.UnitList;
             newUnit.AllBuildings = this.BuildingList;
             newUnit.NodeNetwork = this.tileNodeNetwork;
 
+            //Capacity is, current units in training + the units which have been trained.
+            //Do not count enemy units.
+            if (unitData.IsEnemy == false)
+            {
+                currentTrainingCapacity -= unitData.Capacity;
+                CurrentCapacityUsed = UnitList.Select(x => x.UnitData).Where(x => x.IsEnemy == false).Sum(x => x.Capacity); //makes sure we have the correct capacity when units are trained.
+                UpdateResourceDisplay();
+            }
+
             return newUnit;
         }
+
         void CustomDestroy()
 		{
 
