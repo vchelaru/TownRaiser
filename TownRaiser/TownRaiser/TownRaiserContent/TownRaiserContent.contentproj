@@ -89,9 +89,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ActionToolbar</Name>
     </None>
-    <None Include="GumProject\Components\BuildMenuToggleButton.gucx">
+    <None Include="GumProject\Components\BuildMenuButton.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>BuildMenuToggleButton</Name>
+      <Name>BuildMenuButton</Name>
     </None>
     <None Include="GumProject\Components\FontTest.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -121,6 +121,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>HealthBar</Name>
     </None>
+    <None Include="GumProject\Components\IconButton.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>IconButton</Name>
+    </None>
     <None Include="GumProject\Components\MenuTitleDisplay.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>MenuTitleDisplay</Name>
@@ -141,13 +145,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ResourceDisplay</Name>
     </None>
+    <None Include="GumProject\Components\SelectedButtonDisplay.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>SelectedButtonDisplay</Name>
+    </None>
     <None Include="GumProject\Components\StatusToolbar.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>StatusToolbar</Name>
-    </None>
-    <None Include="GumProject\Components\ToggleButton.gucx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>ToggleButton</Name>
     </None>
     <None Include="GumProject\Components\TrainingUnitSprite.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

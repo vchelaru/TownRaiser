@@ -12,37 +12,20 @@ namespace TownRaiser.GumRuntimes
     {
         private const int PixelsBetweenButtons = 2;
 
-        public List<ToggleButtonRuntime> ToggleButtonList;
-        public event EventHandler TrainUnit;
+        public List<IconButtonRuntime> ToggleButtonList;
+        public event EventHandler<TrainUnitEventArgs> TrainUnit;
         public event EventHandler<UpdateUiEventArgs> UpdateUIDisplay;
 
-        public bool AnyToggleButtonsActivated
-        {
-            get
-            {
-                bool toReturn = false;
-
-                foreach(var button in ToggleButtonList)
-                {
-                    if(button.IsOn)
-                    {
-                        toReturn = true;
-                        break;
-                    }
-                }
-
-                return toReturn;
-            }
-        }
+        public event EventHandler<ConstructBuildingEventArgs> SelectBuildingToConstruct;
 
         partial void CustomInitialize()
         {
-            ToggleButtonList = new List<ToggleButtonRuntime>();
+            ToggleButtonList = new List<IconButtonRuntime>();
         }
 
-        private ToggleButtonRuntime CreateNewToggleButtonWithOffset(int stackIndex, IHotkeyData data)
+        private IconButtonRuntime CreateNewToggleButtonWithOffset(int stackIndex, IHotkeyData data)
         {
-            ToggleButtonRuntime button = new ToggleButtonRuntime();
+            IconButtonRuntime button = new IconButtonRuntime();
             button.Parent = this;
             ToggleButtonList.Add(button);
 
@@ -59,8 +42,6 @@ namespace TownRaiser.GumRuntimes
                 UpdateUIDisplay?.Invoke(this, UpdateUiEventArgs.RollOffValue);
             };
 
-            button.IsOn = false;
-
             return button;
         }
 
@@ -69,16 +50,19 @@ namespace TownRaiser.GumRuntimes
             int i = 0;
             foreach (var buildingData in GlobalContent.BuildingData)
             {
-                ToggleButtonRuntime building = CreateNewToggleButtonWithOffset(i, buildingData.Value);
+                IconButtonRuntime building = CreateNewToggleButtonWithOffset(i, buildingData.Value);
 
                 building.Click += (notused) =>
                 {
-                    UntoggleAllExcept(building);
+                    if (building.Enabled)
+                    {
+                        this.SelectBuildingToConstruct?.Invoke(building, new ConstructBuildingEventArgs { BuildingData = buildingData.Value });
+                        RemoveToggleButtons();
+                    }
                 };
 
                 i++;
             }
-
         }
 
         public void AddUnitToggleButtons()
@@ -92,11 +76,10 @@ namespace TownRaiser.GumRuntimes
 #endif
                 if (shouldAddButton)
                 {
-                    ToggleButtonRuntime unit = CreateNewToggleButtonWithOffset(i, unitData.Value);
+                    IconButtonRuntime unit = CreateNewToggleButtonWithOffset(i, unitData.Value);
 
                     unit.Click += (notused) =>
                     {
-                        UntoggleAllExcept(unit);
                     };
                     
 
@@ -116,22 +99,13 @@ namespace TownRaiser.GumRuntimes
                 foreach (var unit in units)
                 {
                     var unitData = GlobalContent.UnitData[unit];
-                    ToggleButtonRuntime unitButton = CreateNewToggleButtonWithOffset(i, unitData);
+                    IconButtonRuntime unitButton = CreateNewToggleButtonWithOffset(i, unitData);
 
                     unitButton.HotkeyData = unitData;
                 
                     unitButton.Click += (notused) =>
                     {
-                        unitButton.IsOn = false;
                         this.TrainUnit(unitButton.HotKeyDataAsUnitData, null);
-                    };
-                    unitButton.Push += (notused) =>
-                    {
-                        unitButton.IsOn = true;
-                    };
-                    unitButton.RollOff += (notused) =>
-                    {
-                        unitButton.IsOn = false;
                     };
 
                     i++;
@@ -152,23 +126,6 @@ namespace TownRaiser.GumRuntimes
                 toggleButton = null;
             }
 
-        }
-
-        
-        public void UntoggleAllExcept(ToggleButtonRuntime buttonToActivate)
-        {
-            if (buttonToActivate != null)
-            {
-                buttonToActivate.IsOn = true;
-            }
-
-            foreach(var button in ToggleButtonList)
-            {
-                if(button != buttonToActivate)
-                {
-                    button.IsOn = false;
-                }
-            }
         }
     }
 }

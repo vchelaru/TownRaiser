@@ -20,16 +20,8 @@ namespace TownRaiser.GumRuntimes
         {
             get
             {
-                UnitData toReturn = null;
-                foreach(var button in ActionStackContainerInstance.ToggleButtonList)
-                {
-                    if(button.IsOn)
-                    {
-                        toReturn = button.HotKeyDataAsUnitData;
-                        break;
-                    }
-                }
-                return toReturn;
+                //ToDo:Return not null. Returning null while I implement Justin's pretty Ui.
+                return null;
             }
         }
 
@@ -38,25 +30,18 @@ namespace TownRaiser.GumRuntimes
             get
             {
                 BuildingData toReturn = null;
-                foreach (var button in ActionStackContainerInstance.ToggleButtonList)
+                if(this.CurrentVariableState == VariableState.BuildingSelected)
                 {
-                    if (button.IsOn)
-                    {
-                        toReturn = button.HotKeyDataAsBuildingData;
-                        break;
-                    }
+                    toReturn = this.SelectedBuilding.HotKeyDataAsBuildingData;
                 }
                 return toReturn;
             }
         }
 
-        public ActionMode GetActionModeBasedOnToggleState()
+        public ActionMode GetActionStateBaseOnUi()
         {
-            //Stay in select mode until we have selected a toogle button attatched to unit or building data.
-            bool anySubButtonSelected = ActionStackContainerInstance.AnyToggleButtonsActivated;
 
-
-            //if (this.CurrentVariableState == VariableState.BuildMenuSelected) return ActionMode.Build;
+            if (this.CurrentVariableState == VariableState.BuildingSelected) return ActionMode.Build;
             ////else if (BuildButtonInstance.IsOn && anySubButtonSelected) return ActionMode.Build;
             //else return ActionMode.Select;
             return ActionMode.Select;
@@ -65,9 +50,9 @@ namespace TownRaiser.GumRuntimes
         partial void CustomInitialize()
         {
 
-            this.BuildMenuToggleButtonInstance.Click += (notused) =>
+            this.BuildMenuButtonInstance.Click += (notused) =>
             {
-                this.ShowAvailableBuildings();
+                this.AddBuildingOptionsToActionPanel();
             };
             this.ActionStackContainerInstance.TrainUnit += (unitData, notused) =>
             {
@@ -79,6 +64,7 @@ namespace TownRaiser.GumRuntimes
             };
             this.SetVariableState(VariableState.BuildMenuNotSelected);
             this.ActionStackContainerInstance.UpdateUIDisplay += ReactToUpdateUiChangeEvent;
+            this.ActionStackContainerInstance.SelectBuildingToConstruct += ReactToBuildingButtonClick;
 
         }
 
@@ -87,10 +73,15 @@ namespace TownRaiser.GumRuntimes
             this.MenuTitleDisplayText = args.TitleDisplay;
             this.ResourceCostContainer.UpadteResourceDisplayText(args);
         }
+        public void ReactToBuildingButtonClick(object sender, ConstructBuildingEventArgs args)
+        {
+            this.SetVariableState( VariableState.BuildingSelected);
+            this.SelectedBuilding.HotkeyData = args.BuildingData;
+        }
 
         private void SetVariableState(VariableState state)
         {
-            if(state == VariableState.BuildMenuNotSelected)
+            if(state == VariableState.BuildMenuNotSelected || state == VariableState.BuildingSelected)
             {
                 this.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
                 this.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
@@ -107,18 +98,6 @@ namespace TownRaiser.GumRuntimes
             }
             this.CurrentVariableState = state;
         }
-        private void ShowAvailableBuildings()
-        {
-            UntoggleAllExcept(ActionMode.Build);
-            AddBuildingOptionsToActionPanel();
-        }
-
-        private void ShowAvailableUnits()
-        {
-            UntoggleAllExcept(ActionMode.Train);
-            AddUnitOptionsToActionPanel();
-        }
-
         public void ShowAvailableUnits(IEnumerable<string> units)
         {
             UntoggleAllExcept(ActionMode.Train);
@@ -190,7 +169,7 @@ namespace TownRaiser.GumRuntimes
             {
                 if(this.CurrentVariableState == VariableState.BuildMenuNotSelected)
                 {
-                    ShowAvailableBuildings();
+                    AddBuildingOptionsToActionPanel();
                 }
             }
             else
@@ -209,17 +188,15 @@ namespace TownRaiser.GumRuntimes
 
         private void PerformCancelStep()
         {
-            if (ActionStackContainerInstance.AnyToggleButtonsActivated)
+            if(this.CurrentVariableState == VariableState.BuildingSelected)
             {
-                ActionStackContainerInstance.UntoggleAllExcept(null);
+                AddBuildingOptionsToActionPanel();
             }
-            else
+            else if (this.CurrentVariableState == VariableState.BuildMenuSelected)
             {
-                UntoggleAllExcept(ActionMode.Select);
+                ActionStackContainerInstance.RemoveToggleButtons();
+                this.SetVariableState(VariableState.BuildMenuNotSelected);
             }
-            //ToDo: Rick, escape case properly
-            this.SetVariableState(VariableState.BuildMenuNotSelected);
-
         }
 
         public void UpdateButtonEnabledStates(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)

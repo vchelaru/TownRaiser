@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TownRaiser.Entities;
 using TownRaiser.Interfaces;
-using static TownRaiser.GumRuntimes.ToggleButtonRuntime;
+using static TownRaiser.GumRuntimes.IconButtonRuntime;
 
 namespace TownRaiser.DataTypes
 {
@@ -18,11 +18,11 @@ namespace TownRaiser.DataTypes
         public int Gold => 0;
         public int Lumber => this.LumberCost;
         public int Stone => this.StoneCost;
-        public bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
+        public bool ShouldEnableButton(int availableLumber, int availableStone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
 
             //ToDo: do we care about capacity?
-            if (lumber < LumberCost || stone < StoneCost)
+            if (availableLumber < LumberCost || availableStone < StoneCost)
             {
                 return false;
             }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ComponentSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Name>ToggleButton</Name>
+  <Name>IconButton</Name>
   <BaseType>Container</BaseType>
   <State>
     <Name>Default</Name>
@@ -149,79 +149,6 @@
       <Type>IconDisplayState</Type>
       <Name>IconDisplayState</Name>
       <SetsValue>false</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>int</Type>
-      <Name>NeededForIsOn.Alpha</Name>
-      <Value xsi:type="xsd:int">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>NeededForIsOn.Height</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>DimensionUnitType</Type>
-      <Name>NeededForIsOn.Height Units</Name>
-      <Value xsi:type="xsd:int">2</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>bool</Type>
-      <Name>NeededForIsOn.Visible</Name>
-      <Value xsi:type="xsd:boolean">false</Value>
-      <ExposedAsName>IsOn</ExposedAsName>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>NeededForIsOn.Width</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>DimensionUnitType</Type>
-      <Name>NeededForIsOn.Width Units</Name>
-      <Value xsi:type="xsd:int">2</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>NeededForIsOn.X</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>HorizontalAlignment</Type>
-      <Name>NeededForIsOn.X Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>NeededForIsOn.X Units</Name>
-      <Value xsi:type="xsd:int">6</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>float</Type>
-      <Name>NeededForIsOn.Y</Name>
-      <Value xsi:type="xsd:float">0</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>VerticalAlignment</Type>
-      <Name>NeededForIsOn.Y Origin</Name>
-      <Value xsi:type="xsd:int">1</Value>
-      <SetsValue>true</SetsValue>
-    </Variable>
-    <Variable>
-      <Type>PositionUnitType</Type>
-      <Name>NeededForIsOn.Y Units</Name>
-      <Value xsi:type="xsd:int">7</Value>
-      <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>string</Type>
@@ -416,38 +343,9 @@
     </VariableList>
   </State>
   <Category>
-    <Name>ToggleCategory</Name>
+    <Name>ButtonCategory</Name>
     <State>
-      <Name>EnabledOn</Name>
-      <Variable>
-        <IsFile>true</IsFile>
-        <Type>string</Type>
-        <Name>ButtonBackground.SourceFile</Name>
-        <Value xsi:type="xsd:string">..\MainTileset.png</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>TextureAddress</Type>
-        <Name>ButtonBackground.Texture Address</Name>
-        <Value xsi:type="xsd:int">1</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>ButtonBackground.Texture Top</Name>
-        <Value xsi:type="xsd:int">64</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <VariableList xsi:type="VariableListSaveOfString">
-        <Type>string</Type>
-        <Name>AnimationFrames</Name>
-        <IsFile>false</IsFile>
-        <IsHiddenInPropertyGrid>false</IsHiddenInPropertyGrid>
-        <Value />
-      </VariableList>
-    </State>
-    <State>
-      <Name>EnabledOff</Name>
+      <Name>Enabled</Name>
       <Variable>
         <Type>int</Type>
         <Name>ButtonBackground.Texture Top</Name>
@@ -456,10 +354,7 @@
       </Variable>
     </State>
     <State>
-      <Name>DisabledOn</Name>
-    </State>
-    <State>
-      <Name>DisabledOff</Name>
+      <Name>Disabled</Name>
       <Variable>
         <Type>int</Type>
         <Name>ButtonBackground.Texture Top</Name>
@@ -468,10 +363,7 @@
       </Variable>
     </State>
     <State>
-      <Name>HighlightedOn</Name>
-    </State>
-    <State>
-      <Name>HighlightedOff</Name>
+      <Name>Highlighted</Name>
       <Variable>
         <Type>int</Type>
         <Name>ButtonBackground.Texture Top</Name>
@@ -480,16 +372,9 @@
       </Variable>
     </State>
     <State>
-      <Name>PushedOn</Name>
-    </State>
-    <State>
-      <Name>PushedOff</Name>
+      <Name>Pushed</Name>
     </State>
   </Category>
-  <Instance>
-    <Name>NeededForIsOn</Name>
-    <BaseType>ColoredRectangle</BaseType>
-  </Instance>
   <Instance>
     <Name>ButtonBackground</Name>
     <BaseType>NineSlice</BaseType>
@@ -500,7 +385,7 @@
   </Instance>
   <Behaviors>
     <ElementBehaviorReference>
-      <BehaviorName>ToggleBehavior</BehaviorName>
+      <BehaviorName>ButtonBehavior</BehaviorName>
     </ElementBehaviorReference>
   </Behaviors>
 </ComponentSave>

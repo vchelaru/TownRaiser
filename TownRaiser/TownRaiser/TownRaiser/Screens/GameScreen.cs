@@ -251,7 +251,7 @@ namespace TownRaiser.Screens
 
         private void BuildMarkerActivity()
         {
-            if(ActionToolbarInstance.GetActionModeBasedOnToggleState() == ActionMode.Build && GetIfCanClickInWorld())
+            if(ActionToolbarInstance.GetActionStateBaseOnUi() == ActionMode.Build && GetIfCanClickInWorld())
             {
                 BuildingMarkerInstance.Visible = true;
                 BuildingMarkerInstance.BuildingData = ActionToolbarInstance.SelectedBuildingData;
@@ -402,7 +402,7 @@ namespace TownRaiser.Screens
                     //Rick Blaylock
                     //After implementing hotkeys and proper unit/building data I ran into issues where the action mode would not update on a double click.
                     //For now, we will check the toggle state on clicks.
-                    switch(ActionToolbarInstance.GetActionModeBasedOnToggleState())
+                    switch(ActionToolbarInstance.GetActionStateBaseOnUi())
                     {
                         case ActionMode.Build:
                             if (BuildingMarkerInstance.CurrentState == Entities.BuildingMarker.VariableState.Normal)

@@ -57,7 +57,7 @@
       <IsFile>true</IsFile>
       <Type>string</Type>
       <Name>TextInstance.CustomFontFile</Name>
-      <Value xsi:type="xsd:string">FontCache\font-1.fnt</Value>
+      <Value xsi:type="xsd:string">FontCache\font-2.fnt</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -81,7 +81,7 @@
     <Variable>
       <Type>string</Type>
       <Name>TextInstance.Text</Name>
-      <Value xsi:type="xsd:string">The quick brown fox jumped over the lazy dog.</Value>
+      <Value xsi:type="xsd:string" />
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>

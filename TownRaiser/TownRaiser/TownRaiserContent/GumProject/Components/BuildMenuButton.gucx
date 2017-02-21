@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ComponentSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Name>BuildMenuToggleButton</Name>
+  <Name>BuildMenuButton</Name>
   <BaseType>Container</BaseType>
   <State>
     <Name>Default</Name>
@@ -357,120 +357,30 @@
     </VariableList>
   </State>
   <Category>
-    <Name>ToggleCategory</Name>
+    <Name>ButtonCategory</Name>
     <State>
-      <Name>EnabledOn</Name>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Height</Name>
-        <Value xsi:type="xsd:int">32</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Left</Name>
-        <Value xsi:type="xsd:int">480</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Top</Name>
-        <Value xsi:type="xsd:int">32</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Width</Name>
-        <Value xsi:type="xsd:int">32</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-    </State>
-    <State>
-      <Name>EnabledOff</Name>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Height</Name>
-        <Value xsi:type="xsd:int">32</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Left</Name>
-        <Value xsi:type="xsd:int">480</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
+      <Name>Enabled</Name>
       <Variable>
         <Type>int</Type>
         <Name>Background.Texture Top</Name>
         <Value xsi:type="xsd:int">0</Value>
         <SetsValue>true</SetsValue>
       </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Width</Name>
-        <Value xsi:type="xsd:int">32</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
     </State>
     <State>
-      <Name>DisabledOn</Name>
+      <Name>Disabled</Name>
     </State>
     <State>
-      <Name>DisabledOff</Name>
-    </State>
-    <State>
-      <Name>HighlightedOn</Name>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Height</Name>
-        <Value xsi:type="xsd:int">32</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Left</Name>
-        <Value xsi:type="xsd:int">480</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
+      <Name>Highlighted</Name>
       <Variable>
         <Type>int</Type>
         <Name>Background.Texture Top</Name>
         <Value xsi:type="xsd:int">32</Value>
         <SetsValue>true</SetsValue>
       </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Width</Name>
-        <Value xsi:type="xsd:int">32</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
     </State>
     <State>
-      <Name>HighlightedOff</Name>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Left</Name>
-        <Value xsi:type="xsd:int">480</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Top</Name>
-        <Value xsi:type="xsd:int">32</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-      <Variable>
-        <Type>int</Type>
-        <Name>Background.Texture Width</Name>
-        <Value xsi:type="xsd:int">32</Value>
-        <SetsValue>true</SetsValue>
-      </Variable>
-    </State>
-    <State>
-      <Name>PushedOn</Name>
-    </State>
-    <State>
-      <Name>PushedOff</Name>
+      <Name>Pushed</Name>
     </State>
   </Category>
   <Instance>
@@ -487,7 +397,7 @@
   </Instance>
   <Behaviors>
     <ElementBehaviorReference>
-      <BehaviorName>ToggleBehavior</BehaviorName>
+      <BehaviorName>ButtonBehavior</BehaviorName>
     </ElementBehaviorReference>
   </Behaviors>
 </ComponentSave>

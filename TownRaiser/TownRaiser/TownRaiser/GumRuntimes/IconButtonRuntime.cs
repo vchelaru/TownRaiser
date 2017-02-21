@@ -11,7 +11,7 @@ using TownRaiser.Interfaces;
 
 namespace TownRaiser.GumRuntimes
 {
-    public partial class ToggleButtonRuntime
+    public partial class IconButtonRuntime
     {
         private IHotkeyData m_HotKeyData;
         public IHotkeyData HotkeyData
@@ -62,13 +62,6 @@ namespace TownRaiser.GumRuntimes
 #endif
 
             Enabled = isEnabled;
-
-
-            //Switch off if the button is disabled.
-            if(Enabled == false)
-            {
-                IsOn = false;
-            }
         }
     }
 }

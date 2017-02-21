@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TownRaiser.Entities;
-using static TownRaiser.GumRuntimes.ToggleButtonRuntime;
+using static TownRaiser.GumRuntimes.IconButtonRuntime;
 
 namespace TownRaiser.Interfaces
 {

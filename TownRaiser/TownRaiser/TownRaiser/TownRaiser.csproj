@@ -19,6 +19,7 @@
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,7 +32,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -121,6 +121,8 @@
     <Compile Include="AI\HighLevelGoal.cs" />
     <Compile Include="AI\ImmediateGoal.cs" />
     <Compile Include="AI\WalkToHighLevelGoal.cs" />
+    <Compile Include="CustomEvents\ConstructBuildingEventArgs.cs" />
+    <Compile Include="CustomEvents\TrainUnitEventArgs.cs" />
     <Compile Include="CustomEvents\UpdateUiEventArgs.cs" />
     <Compile Include="CustomEvents\UpdatesStatusEventArgs.cs" />
     <Compile Include="DataTypes\BuildingData.cs" />
@@ -279,7 +281,7 @@
     </Compile>
     <Compile Include="GumRuntimes\Behaviors\IButtonBehavior.Generated.cs" />
     <Compile Include="GumRuntimes\Behaviors\IToggleBehavior.Generated.cs" />
-    <Compile Include="GumRuntimes\BuildMenuToggleButtonRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\BuildMenuButtonRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\CircleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ColoredRectangleRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ContainerRuntime.Generated.cs" />
@@ -290,6 +292,10 @@
     <Compile Include="GumRuntimes\HealthBarRuntime.cs" />
     <Compile Include="GumRuntimes\HealthBarRuntime.Generated.cs">
       <DependentUpon>HealthBarRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GumRuntimes\IconButtonRuntime.cs" />
+    <Compile Include="GumRuntimes\IconButtonRuntime.Generated.cs">
+      <DependentUpon>IconButtonRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\MainMenuGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\MenuTitleDisplayRuntime.Generated.cs" />
@@ -302,6 +308,10 @@
     <Compile Include="GumRuntimes\ResourceCostDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceDisplayRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\ResourceRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\SelectedButtonDisplayRuntime.cs" />
+    <Compile Include="GumRuntimes\SelectedButtonDisplayRuntime.Generated.cs">
+      <DependentUpon>SelectedButtonDisplayRuntime.cs</DependentUpon>
+    </Compile>
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\StatusToolbarRuntime.cs" />
     <Compile Include="GumRuntimes\StatusToolbarRuntime.Generated.cs">
@@ -309,10 +319,6 @@
     </Compile>
     <Compile Include="GumRuntimes\TestScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
-    <Compile Include="GumRuntimes\ToggleButtonRuntime.cs" />
-    <Compile Include="GumRuntimes\ToggleButtonRuntime.Generated.cs">
-      <DependentUpon>ToggleButtonRuntime.cs</DependentUpon>
-    </Compile>
     <Compile Include="GumRuntimes\TrainingUnitSpriteRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\XButtonRuntime.Generated.cs" />
     <Compile Include="Interfaces\IHotkeyData.cs" />

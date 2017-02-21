@@ -28,7 +28,7 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>BuildMenuToggleButton</Name>
+    <Name>BuildMenuButton</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
@@ -44,15 +44,19 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
+    <Name>IconButton</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
     <Name>MenuTitleDisplay</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>ResourceCostContainer</Name>
+    <Name>Resource</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>Resource</Name>
+    <Name>ResourceCostContainer</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
@@ -64,11 +68,11 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>StatusToolbar</Name>
+    <Name>SelectedButtonDisplay</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>ToggleButton</Name>
+    <Name>StatusToolbar</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
