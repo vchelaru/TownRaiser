@@ -298,6 +298,10 @@ namespace TownRaiser.Entities
                 targetResourceType: resourceType,
                 allBuildings: AllBuildings
             );
+            if (ImmediateGoal?.Path != null)
+            {
+                ImmediateGoal.Path.Clear();
+            }
             HighLevelGoals.Clear();
             HighLevelGoals.Push(collectResourceGoal);
         }
