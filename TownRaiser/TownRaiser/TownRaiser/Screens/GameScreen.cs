@@ -504,7 +504,39 @@ namespace TownRaiser.Screens
             var keyboard = InputManager.Keyboard;
             if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
             {
-                DebugAddUnit(GlobalContent.UnitData[UnitData.Fighter]);
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
+            }
+            if (keyboard.KeyDown(Keys.D2))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Bat]);
+            }
+            if (keyboard.KeyDown(Keys.D3))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Cyclops]);
+            }
+            if (keyboard.KeyDown(Keys.D4))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Dragon]);
+            }
+            if (keyboard.KeyDown(Keys.D5))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.KingSkeleton]);
+            }
+            if (keyboard.KeyDown(Keys.D6)
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Octopus]);
+            }
+            if (keyboard.KeyDown(Keys.D7)
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Skeleton]);
+            }
+            if (keyboard.KeyDown(Keys.D8))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Slime]);
+            }
+            if (keyboard.KeyDown(Keys.D9))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Slime]);
             }
 
             var cursor = GuiManager.Cursor;

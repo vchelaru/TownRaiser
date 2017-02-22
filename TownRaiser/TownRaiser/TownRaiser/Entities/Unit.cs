@@ -19,6 +19,7 @@ using TownRaiser.AI;
 using FlatRedBall.Math;
 using FlatRedBall.Screens;
 using System.Linq;
+using StateInterpolationPlugin;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -376,8 +377,7 @@ namespace TownRaiser.Entities
         private void CustomDestroy()
 		{
 
-
-		}
+        }
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
