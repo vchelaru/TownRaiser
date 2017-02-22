@@ -51,4 +51,88 @@
       <BottomCoordinate>272</BottomCoordinate>
     </Frame>
   </AnimationChain>
+  <AnimationChain>
+    <Name>Cyclops</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\2d misc\medieval-fantasy\monsters\cyclops.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>32</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>16</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Dragon</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\2d misc\medieval-fantasy\monsters\dragon.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>38</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>29</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>KingSkeleton</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\2d misc\medieval-fantasy\monsters\king skeleton.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>32</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>25</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Octopus</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\2d misc\medieval-fantasy\monsters\leonard.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>51</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>27</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Skeleton</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\2d misc\medieval-fantasy\monsters\skeleton.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>13</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>11</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Slime</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\2d misc\medieval-fantasy\monsters\slime.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>13</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>6</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Snake</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\2d misc\medieval-fantasy\monsters\snake.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>0</LeftCoordinate>
+      <RightCoordinate>24</RightCoordinate>
+      <TopCoordinate>0</TopCoordinate>
+      <BottomCoordinate>16</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
 </AnimationChainArraySave>

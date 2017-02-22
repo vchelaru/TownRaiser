@@ -110,6 +110,13 @@ namespace TownRaiser.Screens
             (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Wood"));
 #if DEBUG
             woodResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+            if (Entities.DebuggingVariables.ShowResourceCollision)
+            {
+                foreach (var rect in woodResourceShapeCollection.Rectangles)
+                {
+                    rect.Color = Microsoft.Xna.Framework.Color.Green;
+                }
+            }
 #endif
 
             stoneResourceShapeCollection = new TileShapeCollection();
@@ -117,6 +124,13 @@ namespace TownRaiser.Screens
               (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Stone"));
 #if DEBUG
             stoneResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+            if (Entities.DebuggingVariables.ShowResourceCollision)
+            {
+                foreach (var rect in stoneResourceShapeCollection.Rectangles)
+                {
+                    rect.Color = Microsoft.Xna.Framework.Color.Gray;
+                }
+            }
 #endif
 
             waterResourceShapeCollection = new TileShapeCollection();
@@ -124,6 +138,13 @@ namespace TownRaiser.Screens
               (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Water"));
 #if DEBUG
             waterResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+            if (Entities.DebuggingVariables.ShowResourceCollision)
+            {
+                foreach (var rect in waterResourceShapeCollection.Rectangles)
+                {
+                    rect.Color = Microsoft.Xna.Framework.Color.Blue;
+                }
+            }
 #endif
 
             goldResourceShapeCollection = new TileShapeCollection();
@@ -131,6 +152,13 @@ namespace TownRaiser.Screens
               (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Gold"));
 #if DEBUG
             goldResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+            if (Entities.DebuggingVariables.ShowResourceCollision)
+            {
+                foreach (var rect in goldResourceShapeCollection.Rectangles)
+                {
+                    rect.Color = Microsoft.Xna.Framework.Color.Yellow;
+                }
+            }
 #endif
 
 
@@ -476,7 +504,39 @@ namespace TownRaiser.Screens
             var keyboard = InputManager.Keyboard;
             if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
             {
-                DebugAddUnit(GlobalContent.UnitData[UnitData.Fighter]);
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
+            }
+            if (keyboard.KeyDown(Keys.D2))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Bat]);
+            }
+            if (keyboard.KeyDown(Keys.D3))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Cyclops]);
+            }
+            if (keyboard.KeyDown(Keys.D4))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Dragon]);
+            }
+            if (keyboard.KeyDown(Keys.D5))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.KingSkeleton]);
+            }
+            if (keyboard.KeyDown(Keys.D6)
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Octopus]);
+            }
+            if (keyboard.KeyDown(Keys.D7)
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Skeleton]);
+            }
+            if (keyboard.KeyDown(Keys.D8))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Slime]);
+            }
+            if (keyboard.KeyDown(Keys.D9))
+            {
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Slime]);
             }
 
             var cursor = GuiManager.Cursor;
