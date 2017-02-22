@@ -110,6 +110,13 @@ namespace TownRaiser.Screens
             (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Wood"));
 #if DEBUG
             woodResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+            if (Entities.DebuggingVariables.ShowResourceCollision)
+            {
+                foreach (var rect in woodResourceShapeCollection.Rectangles)
+                {
+                    rect.Color = Microsoft.Xna.Framework.Color.Green;
+                }
+            }
 #endif
 
             stoneResourceShapeCollection = new TileShapeCollection();
@@ -117,6 +124,13 @@ namespace TownRaiser.Screens
               (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Stone"));
 #if DEBUG
             stoneResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+            if (Entities.DebuggingVariables.ShowResourceCollision)
+            {
+                foreach (var rect in stoneResourceShapeCollection.Rectangles)
+                {
+                    rect.Color = Microsoft.Xna.Framework.Color.Gray;
+                }
+            }
 #endif
 
             waterResourceShapeCollection = new TileShapeCollection();
@@ -124,6 +138,13 @@ namespace TownRaiser.Screens
               (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Water"));
 #if DEBUG
             waterResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+            if (Entities.DebuggingVariables.ShowResourceCollision)
+            {
+                foreach (var rect in waterResourceShapeCollection.Rectangles)
+                {
+                    rect.Color = Microsoft.Xna.Framework.Color.Blue;
+                }
+            }
 #endif
 
             goldResourceShapeCollection = new TileShapeCollection();
@@ -131,6 +152,13 @@ namespace TownRaiser.Screens
               (list) => list.Any(item => item.Name == "ResourceType" && item.Value as string == "Gold"));
 #if DEBUG
             goldResourceShapeCollection.Visible = Entities.DebuggingVariables.ShowResourceCollision;
+            if (Entities.DebuggingVariables.ShowResourceCollision)
+            {
+                foreach (var rect in goldResourceShapeCollection.Rectangles)
+                {
+                    rect.Color = Microsoft.Xna.Framework.Color.Yellow;
+                }
+            }
 #endif
 
 
