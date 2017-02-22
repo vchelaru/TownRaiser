@@ -13,7 +13,7 @@ namespace TownRaiser.GumRuntimes
         private const int PixelsBetweenButtons = 2;
 
         public List<IconButtonRuntime> IconButtonList;
-        public event EventHandler<TrainUnitEventArgs> TrainUnit;
+        public event EventHandler<TrainUnitEventArgs> TrainUnitInvokedFromButton;
         public event EventHandler<UpdateUiEventArgs> UpdateUIDisplay;
 
         public event EventHandler<ConstructBuildingEventArgs> SelectBuildingToConstruct;
@@ -112,7 +112,7 @@ namespace TownRaiser.GumRuntimes
                     {
                         if (unitButton.Enabled)
                         {
-                            this.TrainUnit(unitButton.HotKeyDataAsUnitData, null);
+                            this.TrainUnitInvokedFromButton(unitButton, new TrainUnitEventArgs() { UnitData = unitData });
                         }
                     };
 

@@ -26,6 +26,11 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>CannotAffordState</Type>
+      <Name>CannotAffordState</Name>
+      <SetsValue>false</SetsValue>
+    </Variable>
+    <Variable>
       <Type>ChildrenLayout</Type>
       <Name>Children Layout</Name>
       <Value xsi:type="xsd:int">0</Value>
@@ -172,6 +177,11 @@
       <Type>State</Type>
       <Name>State</Name>
       <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>TextColorState</Type>
+      <Name>TextColorState</Name>
+      <SetsValue>false</SetsValue>
     </Variable>
     <Variable>
       <IsFile>true</IsFile>
@@ -454,6 +464,51 @@
         <Type>int</Type>
         <Name>SpriteInstance.Texture Width</Name>
         <Value xsi:type="xsd:int">9</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
+  </Category>
+  <Category>
+    <Name>TextColor</Name>
+    <State>
+      <Name>CanAfford</Name>
+      <Variable>
+        <Type>int</Type>
+        <Name>TextInstance.Blue</Name>
+        <Value xsi:type="xsd:int">255</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>TextInstance.Green</Name>
+        <Value xsi:type="xsd:int">255</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>TextInstance.Red</Name>
+        <Value xsi:type="xsd:int">255</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
+    <State>
+      <Name>CannotAfford</Name>
+      <Variable>
+        <Type>int</Type>
+        <Name>TextInstance.Blue</Name>
+        <Value xsi:type="xsd:int">0</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>TextInstance.Green</Name>
+        <Value xsi:type="xsd:int">0</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>TextInstance.Red</Name>
+        <Value xsi:type="xsd:int">255</Value>
         <SetsValue>true</SetsValue>
       </Variable>
     </State>

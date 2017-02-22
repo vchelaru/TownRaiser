@@ -29,6 +29,12 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>TextColorState</Type>
+      <Name>Gold.TextColorState</Name>
+      <ExposedAsName>GoldTextColorState</ExposedAsName>
+      <SetsValue>false</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>Gold.X</Name>
       <Value xsi:type="xsd:float">0</Value>
@@ -104,6 +110,12 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>TextColorState</Type>
+      <Name>Lumber.TextColorState</Name>
+      <ExposedAsName>LumberTextColorState</ExposedAsName>
+      <SetsValue>false</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>Lumber.X</Name>
       <Value xsi:type="xsd:float">2</Value>
@@ -160,6 +172,12 @@
       <Name>Stone.ResourceTypeState</Name>
       <Value xsi:type="xsd:string">Stone</Value>
       <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>TextColorState</Type>
+      <Name>Stone.TextColorState</Name>
+      <ExposedAsName>StoneTextColorState</ExposedAsName>
+      <SetsValue>false</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>

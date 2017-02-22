@@ -13,6 +13,7 @@ namespace TownRaiser.CustomEvents
         public int LumberCost;
         public int StoneCost;
         public string TitleDisplay;
+        public bool ShouldCheckAffordability;
 
         public UpdateUiEventArgs()
         {
@@ -24,6 +25,7 @@ namespace TownRaiser.CustomEvents
             GoldCost = dataToSetFrom.Gold;
             LumberCost = dataToSetFrom.Lumber;
             StoneCost = dataToSetFrom.Stone;
+            ShouldCheckAffordability = true;
         }
 
         public static UpdateUiEventArgs RollOffValue = new UpdateUiEventArgs { GoldCost = 0, LumberCost = 0, StoneCost = 0, TitleDisplay = "Build Menu" };

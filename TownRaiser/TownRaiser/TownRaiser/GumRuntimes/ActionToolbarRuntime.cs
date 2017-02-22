@@ -16,7 +16,7 @@ namespace TownRaiser.GumRuntimes
 {
     public partial class ActionToolbarRuntime
     {
-        public event EventHandler TrainUnit;
+        public event EventHandler<TrainUnitEventArgs> TrainUnitInvokedFromActionToolbar;
 
         public BuildingData SelectedBuildingData
         {
@@ -47,9 +47,12 @@ namespace TownRaiser.GumRuntimes
             {
                 this.AddBuildingOptionsToActionPanel();
             };
-            this.ActionStackContainerInstance.TrainUnit += (unitData, notused) =>
+            this.ActionStackContainerInstance.TrainUnitInvokedFromButton += (notUsed, args) =>
             {
-                this.TrainUnit(unitData, notused);
+                this.TrainUnitInvokedFromActionToolbar(notUsed, args);
+                //Update the Ui for the case that we cannot afford a unit after clicking the button.
+                //This should not effect hot key presses. Since they will invoke the local TrainUnit Event directly
+                ReactToUpdateUiChangeEvent(null, new UpdateUiEventArgs(args.UnitData));
             };
             this.XButtonInstance.Click += (notused) =>
             {
@@ -157,7 +160,7 @@ namespace TownRaiser.GumRuntimes
                                 //Selected entity may have different cases for using an ability.
                                 if(button.HotKeyDataAsUnitData != null)
                                 {
-                                    this.TrainUnit(button.HotKeyDataAsUnitData, null);
+                                    this.TrainUnitInvokedFromActionToolbar(null, new TrainUnitEventArgs() { UnitData = button.HotKeyDataAsUnitData });
                                 }
                                 break;
                             case VariableState.BuildMenuSelected:

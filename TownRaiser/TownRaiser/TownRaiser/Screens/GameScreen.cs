@@ -262,9 +262,9 @@ namespace TownRaiser.Screens
 
         private void InitializeEvents()
         {
-            ActionToolbarInstance.TrainUnit += (unitData, notUsed) =>
+            ActionToolbarInstance.TrainUnitInvokedFromActionToolbar += (notused, args) =>
             {
-                HandlePerfromTrain(unitData as DataTypes.UnitData);
+                HandlePerfromTrain(args.UnitData);
             };
         }
 
