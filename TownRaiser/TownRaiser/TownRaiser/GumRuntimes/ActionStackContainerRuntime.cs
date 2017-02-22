@@ -23,13 +23,14 @@ namespace TownRaiser.GumRuntimes
             IconButtonList = new List<IconButtonRuntime>();
         }
 
-        private IconButtonRuntime CreateNewToggleButtonWithOffset(int stackIndex, ICommonEntityData data, IUpdatesStatus selectedEntity = null)
+        private IconButtonRuntime CreateNewIconButtonWithOffset(int stackIndex, ICommonEntityData data, IUpdatesStatus selectedEntity = null)
         {
             IconButtonRuntime button = new IconButtonRuntime();
             button.SetInitialTextureValues();
             button.Parent = this;
             IconButtonList.Add(button);
 
+            button.EntityCreatedFrom = selectedEntity;
             button.HotkeyData = data;
 
             button.X = stackIndex % 3 != 0 ? PixelsBetweenButtons : 0;
@@ -54,7 +55,7 @@ namespace TownRaiser.GumRuntimes
             int i = 0;
             foreach (var buildingData in GlobalContent.BuildingData)
             {
-                IconButtonRuntime building = CreateNewToggleButtonWithOffset(i, buildingData.Value);
+                IconButtonRuntime building = CreateNewIconButtonWithOffset(i, buildingData.Value);
 
                 building.Click += (notused) =>
                 {
@@ -80,7 +81,7 @@ namespace TownRaiser.GumRuntimes
 #endif
                 if (shouldAddButton)
                 {
-                    IconButtonRuntime unit = CreateNewToggleButtonWithOffset(i, unitData.Value);
+                    IconButtonRuntime unit = CreateNewIconButtonWithOffset(i, unitData.Value);
 
                     unit.Click += (notused) =>
                     {
@@ -103,13 +104,16 @@ namespace TownRaiser.GumRuntimes
                 foreach (var unit in selectedEntity.ButtonDatas)
                 {
                     var unitData = GlobalContent.UnitData[unit];
-                    IconButtonRuntime unitButton = CreateNewToggleButtonWithOffset(i, unitData, selectedEntity);
+                    IconButtonRuntime unitButton = CreateNewIconButtonWithOffset(i, unitData, selectedEntity);
 
                     unitButton.HotkeyData = unitData;
                 
                     unitButton.Click += (notused) =>
                     {
-                        this.TrainUnit(unitButton.HotKeyDataAsUnitData, null);
+                        if (unitButton.Enabled)
+                        {
+                            this.TrainUnit(unitButton.HotKeyDataAsUnitData, null);
+                        }
                     };
 
                     i++;
@@ -126,6 +130,7 @@ namespace TownRaiser.GumRuntimes
                 Children.Remove(toggleButton);
                 IconButtonList.Remove(toggleButton);
 
+                toggleButton.EntityCreatedFrom = null;
                 toggleButton.Destroy();
                 toggleButton = null;
             }

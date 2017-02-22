@@ -13,6 +13,8 @@ namespace TownRaiser.GumRuntimes
 {
     public partial class IconButtonRuntime
     {
+        public IUpdatesStatus EntityCreatedFrom;
+
         private float m_ProgressSpriteOriginalTopCoordinate;
         private float m_ProgressSpriteOriginalHeight;
 
@@ -61,7 +63,7 @@ namespace TownRaiser.GumRuntimes
 
         public void UpdateButtonEnabledState(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
         {
-            var isEnabled = m_HotKeyData.ShouldEnableButton(lumber, stone, gold, currentCapacity, maxCapacity, existingBuildings);
+            var isEnabled = m_HotKeyData.ShouldEnableButton(lumber, stone, gold, currentCapacity, maxCapacity, existingBuildings, EntityCreatedFrom);
 
 #if DEBUG
             if(Entities.DebuggingVariables.HasInfiniteResources)

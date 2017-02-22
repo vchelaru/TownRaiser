@@ -169,6 +169,10 @@ namespace TownRaiser.Screens
         private void HandleGroupSelection(object sender, EventArgs e)
         {
             selectedUnits.Clear();
+
+            //If we are attempting a group selection we should prep for the selected building being deselcted.
+            selectedBuilding = null;
+
             foreach(var unit in this.UnitList)
             {
                 bool canSelect =
@@ -187,7 +191,25 @@ namespace TownRaiser.Screens
                     selectedUnits.Add(unit);
                 }
             }
+            
+            //If we did not select any units and a buildng is under the cursor, select the building.
+            if (selectedUnits.Count == 0)
+            {
+
+                var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(GuiManager.Cursor));
+                if (buildingOver != null)
+                {
+                    selectedBuilding = buildingOver;
+                    if (selectedBuilding.IsConstructionComplete)
+                    {
+                        //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
+                        ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                    }
+                }
+            }
+
             UpdateSelectionMarker();
+            CheckSelectionState();
         }
 
         private void InitializeNodeNetwork()
@@ -609,14 +631,17 @@ namespace TownRaiser.Screens
 
             }
 
-            var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
-            if(buildingOver != null && selectedUnits.Count == 0)
+            if(selectedUnits.Count == 0)
             {
-                selectedBuilding = buildingOver;
-                if (selectedBuilding.IsConstructionComplete)
+                var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
+                if (buildingOver != null)
                 {
-                    //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
-                    ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                    selectedBuilding = buildingOver;
+                    if (selectedBuilding.IsConstructionComplete)
+                    {
+                        //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
+                        ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                    }
                 }
             }
 
@@ -627,7 +652,7 @@ namespace TownRaiser.Screens
 
         public void CheckSelectionState()
         {
-            if(selectedBuilding == null && selectedUnits.Count == 0)
+            if(selectedBuilding == null)
             {
                 this.ActionToolbarInstance.SetViewFromEntity(null);
             }

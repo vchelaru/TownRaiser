@@ -18,11 +18,11 @@ namespace TownRaiser.DataTypes
         public int Gold => 0;
         public int Lumber => this.LumberCost;
         public int Stone => this.StoneCost;
-        public bool ShouldEnableButton(int availableLumber, int availableStone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
+        public bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings, IUpdatesStatus entityCreatedFrom)
         {
 
             //ToDo: do we care about capacity?
-            if (availableLumber < LumberCost || availableStone < StoneCost)
+            if (lumber < LumberCost || stone < StoneCost)
             {
                 return false;
             }
