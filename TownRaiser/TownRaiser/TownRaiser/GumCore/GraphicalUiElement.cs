@@ -697,7 +697,9 @@ namespace Gum.Wireframe
             set;
         }
 
-
+        /// <summary>
+        /// The pixel coorinate of the top of the displayed region.
+        /// </summary>
         public int TextureTop
         {
             get
@@ -714,6 +716,10 @@ namespace Gum.Wireframe
             }
         }
 
+
+        /// <summary>
+        /// The pixel coorinate of the left of the displayed region.
+        /// </summary>
         public int TextureLeft
         {
             get
@@ -729,6 +735,11 @@ namespace Gum.Wireframe
                 }
             }
         }
+
+
+        /// <summary>
+        /// The pixel width of the displayed region.
+        /// </summary>
         public int TextureWidth
         {
             get
@@ -744,6 +755,11 @@ namespace Gum.Wireframe
                 }
             }
         }
+
+
+        /// <summary>
+        /// The pixel height of the displayed region.
+        /// </summary>
         public int TextureHeight
         {
             get

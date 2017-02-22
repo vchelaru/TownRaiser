@@ -318,6 +318,7 @@
       <DependentUpon>SelectedButtonDisplayRuntime.cs</DependentUpon>
     </Compile>
     <Compile Include="GumRuntimes\SpriteRuntime.Generated.cs" />
+    <Compile Include="GumRuntimes\TestComponentRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TestScreenGumRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TextRuntime.Generated.cs" />
     <Compile Include="GumRuntimes\TrainingUnitSpriteRuntime.Generated.cs" />
