@@ -72,10 +72,6 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>TestComponent</Name>
-    <ElementType>Component</ElementType>
-  </ComponentReference>
-  <ComponentReference>
     <Name>TrainingUnitSprite</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>

@@ -49,6 +49,34 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>life-box-empty-2</Name>
     </None>
+    <None Include="2d misc\medieval-fantasy\monsters\cyclops.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>cyclops</Name>
+    </None>
+    <None Include="2d misc\medieval-fantasy\monsters\dragon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>dragon</Name>
+    </None>
+    <None Include="2d misc\medieval-fantasy\monsters\king skeleton.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>king skeleton</Name>
+    </None>
+    <None Include="2d misc\medieval-fantasy\monsters\leonard.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>leonard</Name>
+    </None>
+    <None Include="2d misc\medieval-fantasy\monsters\skeleton.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>skeleton</Name>
+    </None>
+    <None Include="2d misc\medieval-fantasy\monsters\slime.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>slime</Name>
+    </None>
+    <None Include="2d misc\medieval-fantasy\monsters\snake.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>snake</Name>
+    </None>
     <None Include="CharactersSheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>CharactersSheet</Name>
@@ -153,10 +181,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>SelectedButtonDisplay</Name>
     </None>
-    <None Include="GumProject\Components\TestComponent.gucx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>TestComponent</Name>
-    </None>
     <None Include="GumProject\Components\TrainingUnitSprite.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TrainingUnitSprite</Name>
@@ -188,10 +212,6 @@
     <None Include="GumProject\FontCache\Font18Arial_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Font18Arial_0</Name>
-    </None>
-    <None Include="GumProject\FontCache\Font21Arial Narrow.fnt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>Font21Arial Narrow</Name>
     </None>
     <None Include="GumProject\GumProject.gumx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
