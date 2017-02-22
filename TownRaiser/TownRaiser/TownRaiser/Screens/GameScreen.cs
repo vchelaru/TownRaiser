@@ -522,11 +522,11 @@ namespace TownRaiser.Screens
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.KingSkeleton]);
             }
-            if (keyboard.KeyDown(Keys.D6)
+            if (keyboard.KeyDown(Keys.D6))
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Octopus]);
             }
-            if (keyboard.KeyDown(Keys.D7)
+            if (keyboard.KeyDown(Keys.D7))
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Skeleton]);
             }
