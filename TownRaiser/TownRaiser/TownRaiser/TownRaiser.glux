@@ -1088,6 +1088,42 @@
       <HasPublicProperty>true</HasPublicProperty>
       <ProjectsToExcludeFrom />
     </ReferencedFileSave>
+    <ReferencedFileSave>
+      <Name>GlobalContent/CursorGraphics/AttackCursor.png</Name>
+      <IsSharedStatic>true</IsSharedStatic>
+      <Summary>Do not load at runtime we will manually load it as a bitmap image.</Summary>
+      <HasPublicProperty>true</HasPublicProperty>
+      <LoadedAtRuntime>false</LoadedAtRuntime>
+      <AddToManagers>false</AddToManagers>
+      <ProjectsToExcludeFrom />
+    </ReferencedFileSave>
+    <ReferencedFileSave>
+      <Name>GlobalContent/CursorGraphics/MoveCursor.png</Name>
+      <IsSharedStatic>true</IsSharedStatic>
+      <Summary>Do not load at runtime we will manually load it as a bitmap image.</Summary>
+      <HasPublicProperty>true</HasPublicProperty>
+      <LoadedAtRuntime>false</LoadedAtRuntime>
+      <AddToManagers>false</AddToManagers>
+      <ProjectsToExcludeFrom />
+    </ReferencedFileSave>
+    <ReferencedFileSave>
+      <Name>GlobalContent/CursorGraphics/SelectCursor.png</Name>
+      <IsSharedStatic>true</IsSharedStatic>
+      <Summary>Do not load at runtime we will manually load it as a bitmap image.</Summary>
+      <HasPublicProperty>true</HasPublicProperty>
+      <LoadedAtRuntime>false</LoadedAtRuntime>
+      <AddToManagers>false</AddToManagers>
+      <ProjectsToExcludeFrom />
+    </ReferencedFileSave>
+    <ReferencedFileSave>
+      <Name>GlobalContent/CursorGraphics/TargetCursor.png</Name>
+      <IsSharedStatic>true</IsSharedStatic>
+      <Summary>Do not load at runtime we will manually load it as a bitmap image.</Summary>
+      <HasPublicProperty>true</HasPublicProperty>
+      <LoadedAtRuntime>false</LoadedAtRuntime>
+      <AddToManagers>false</AddToManagers>
+      <ProjectsToExcludeFrom />
+    </ReferencedFileSave>
   </GlobalFiles>
   <GlobalContentSettingsSave>
     <LoadAsynchronously>false</LoadAsynchronously>

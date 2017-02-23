@@ -260,6 +260,8 @@ namespace TownRaiser.Entities
 
                 direction.Z = 0;
                 Velocity = direction * UnitData.MovementSpeed;
+
+                SpriteInstance.FlipHorizontal = Velocity.X < 0;
             }
         }
 
