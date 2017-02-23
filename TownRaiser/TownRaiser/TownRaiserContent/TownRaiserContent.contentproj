@@ -101,6 +101,22 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>BuildingData</Name>
     </None>
+    <None Include="GlobalContent\CursorGraphics\AttackCursor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>AttackCursor</Name>
+    </None>
+    <None Include="GlobalContent\CursorGraphics\MoveCursor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>MoveCursor</Name>
+    </None>
+    <None Include="GlobalContent\CursorGraphics\SelectCursor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>SelectCursor</Name>
+    </None>
+    <None Include="GlobalContent\CursorGraphics\TargetCursor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>TargetCursor</Name>
+    </None>
     <None Include="GlobalContent\GumAnimationChains.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>GumAnimationChains</Name>

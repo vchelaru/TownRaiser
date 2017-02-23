@@ -53,13 +53,16 @@ namespace TownRaiser
 #endif
 
             IsMouseVisible = true;
-		
+
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
             FlatRedBallServices.GraphicsOptions.TextureFilter = TextureFilter.Point;
 
 			CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
 			GlobalContent.Initialize();
 			FlatRedBall.Screens.ScreenManager.Start(typeof(TownRaiser.Screens.GameScreen));
+
+            //Setup a custom 
+            CustomCursorGraphicController.Initialize(this);
 
             base.Initialize();
         }

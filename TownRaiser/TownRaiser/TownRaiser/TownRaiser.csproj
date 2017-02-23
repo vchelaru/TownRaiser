@@ -98,6 +98,8 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -122,6 +124,7 @@
     <Compile Include="AI\HighLevelGoal.cs" />
     <Compile Include="AI\ImmediateGoal.cs" />
     <Compile Include="AI\WalkToHighLevelGoal.cs" />
+    <Compile Include="CustomCursorGraphicController.cs" />
     <Compile Include="CustomEvents\ConstructBuildingEventArgs.cs" />
     <Compile Include="CustomEvents\TrainUnitEventArgs.cs" />
     <Compile Include="CustomEvents\UpdateUiEventArgs.cs" />

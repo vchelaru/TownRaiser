@@ -35,7 +35,6 @@ namespace TownRaiser.Screens
         Train,
         Build
     }
-
     #endregion
 
     public partial class GameScreen
@@ -305,12 +304,38 @@ namespace TownRaiser.Screens
             HotkeyActivity();
 
             ClickActivity();
-
+            
             CameraMovementActivity();
 
             CollisionActivity();
 
             BuildMarkerActivity();
+
+            CursorChangeActivity();
+        }
+
+        private void CursorChangeActivity()
+        {
+            var cursor = GuiManager.Cursor;
+            
+            //ToDo: Add other conditions to the special cursors.
+            if(cursor.MiddleDown)
+            {
+                CustomCursorGraphicController.CurrentCursorState = CursorState.Move;
+            }
+            else if(selectedUnits.Count > 0 && cursor.SecondaryDown) 
+            {
+                CustomCursorGraphicController.CurrentCursorState = CursorState.Attack;
+            }
+            else if(selectedBuilding != null && cursor.SecondaryDown)
+            {
+                CustomCursorGraphicController.CurrentCursorState = CursorState.Target;
+            }
+            else
+            {
+                CustomCursorGraphicController.CurrentCursorState = CursorState.Select;
+            }
+
         }
 
         private void BuildMarkerActivity()
