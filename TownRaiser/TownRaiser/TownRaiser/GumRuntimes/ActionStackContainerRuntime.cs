@@ -26,7 +26,6 @@ namespace TownRaiser.GumRuntimes
         private IconButtonRuntime CreateNewIconButtonWithOffset(int stackIndex, ICommonEntityData data, IUpdatesStatus selectedEntity = null)
         {
             IconButtonRuntime button = new IconButtonRuntime();
-            button.SetInitialTextureValues();
             button.Parent = this;
             IconButtonList.Add(button);
 
@@ -42,7 +41,7 @@ namespace TownRaiser.GumRuntimes
             button.RollOff += (notused) =>
             {
                 //If we will default to the build menu if an entity is not selected when adding toggle buttons.
-                var args = selectedEntity == null ? UpdateUiEventArgs.RollOffValue : new UpdateUiEventArgs(selectedEntity.EntityData);
+                var args = selectedEntity == null ? UpdateUiEventArgs.RollOffValue : new UpdateUiEventArgs() { TitleDisplay = selectedEntity.EntityData.MenuTitleDisplay };
 
                 UpdateUIDisplay?.Invoke(this, args);
             };

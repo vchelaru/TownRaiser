@@ -96,6 +96,7 @@ namespace TownRaiser.Entities
 
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
+            this.HealthBarRuntimeInstance.Z = -1;
 
 #if DEBUG
             this.AxisAlignedRectangleInstance.Visible = DebuggingVariables.ShowBuildingOutline;

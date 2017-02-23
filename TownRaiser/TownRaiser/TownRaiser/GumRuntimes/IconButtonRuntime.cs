@@ -42,7 +42,7 @@ namespace TownRaiser.GumRuntimes
         public BuildingData HotKeyDataAsBuildingData => m_HotKeyData as BuildingData;
         public UnitData HotKeyDataAsUnitData => m_HotKeyData as UnitData;
 
-        public void SetInitialTextureValues()
+        partial void CustomInitialize()
         {
             m_ProgressSpriteOriginalTopCoordinate = this.ProgressSprite.TextureTop;
             m_ProgressSpriteOriginalHeight = this.ProgressSprite.TextureHeight;
