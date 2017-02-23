@@ -91,8 +91,6 @@ namespace TownRaiser.Entities
 
             ImmediateAiActivity();
 
-            HealthBarActivity();
-
 #if DEBUG
             DebugActivity();
 #endif
@@ -370,6 +368,14 @@ namespace TownRaiser.Entities
 
                 targetBuilding.TakeDamage(UnitData.AttackDamage);
             }
+        }
+
+        public override void UpdateDependencies(double currentTime)
+        {
+            base.UpdateDependencies(currentTime);
+
+            HealthBarActivity();
+
         }
 
 
