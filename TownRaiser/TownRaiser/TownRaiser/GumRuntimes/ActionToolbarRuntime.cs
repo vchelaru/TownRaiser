@@ -42,7 +42,7 @@ namespace TownRaiser.GumRuntimes
 
         partial void CustomInitialize()
         {
-            #region BuildingConstruction
+            this.RaiseChildrenEventsOutsideOfBounds = true;
             this.BuildMenuButtonInstance.Click += (notused) =>
             {
                 this.AddBuildingOptionsToActionPanel();
@@ -61,7 +61,6 @@ namespace TownRaiser.GumRuntimes
             this.SetVariableState(VariableState.SelectModeView);
             this.ActionStackContainerInstance.UpdateUIDisplay += ReactToUpdateUiChangeEvent;
             this.ActionStackContainerInstance.SelectBuildingToConstruct += ReactToBuildingButtonClick;
-            #endregion
         }
 
         public void ReactToUpdateUiChangeEvent(object sender, UpdateUiEventArgs args)

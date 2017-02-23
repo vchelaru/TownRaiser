@@ -37,8 +37,7 @@ namespace TownRaiser.GumRuntimes
             m_LastSelectedEntity = selectedEntity;
             if (m_LastSelectedEntity != null)
             {
-                this.MenuTitleDisplayText = selectedEntity.EntityData.MenuTitleDisplay;
-                this.ReactToUpdateUiChangeEvent(this, new UpdateUiEventArgs(selectedEntity.EntityData));
+                this.ReactToUpdateUiChangeEvent(this, new UpdateUiEventArgs() { TitleDisplay = selectedEntity.EntityData.MenuTitleDisplay });
             }
         }
 
