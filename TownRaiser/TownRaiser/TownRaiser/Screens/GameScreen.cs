@@ -91,7 +91,7 @@ namespace TownRaiser.Screens
             InitializeCamera();
 
 
-            FlatRedBall.Debugging.Debugger.TextCorner = FlatRedBall.Debugging.Debugger.Corner.TopRight;
+            FlatRedBall.Debugging.Debugger.TextCorner = FlatRedBall.Debugging.Debugger.Corner.TopLeft;
 
             InitializeEvents();
 
