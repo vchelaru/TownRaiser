@@ -326,6 +326,23 @@
       <Name>weapon</Name>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\GameScreen\Sfx\ui_collect_gold_1.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>ui_collect_gold_1</Name>
+    </Compile>
+    <Compile Include="Screens\GameScreen\Sfx\ui_collect_lumber_1.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>ui_collect_lumber_1</Name>
+    </Compile>
+    <Compile Include="Screens\GameScreen\Sfx\ui_collect_stone_1.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>ui_collect_stone_1</Name>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

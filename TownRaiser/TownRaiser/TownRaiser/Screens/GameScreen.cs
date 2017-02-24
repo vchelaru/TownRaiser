@@ -40,9 +40,54 @@ namespace TownRaiser.Screens
     public partial class GameScreen
 	{
         #region Fields/Properties
-        public int Lumber { get; set; } = 1200;
-        public int Stone { get; set; } = 1000;
-        public int Gold { get; set; } = 1000;
+        private int m_LumberButUsePropertyExceptOnInit;
+        private int m_StoneButUsePropertyExceptOnInit;
+        private int m_GoldButUsePropertyExceptOnInit;
+        public int Lumber
+        {
+            get
+            {
+                return m_LumberButUsePropertyExceptOnInit;
+            }
+            set
+            {
+                if(m_LumberButUsePropertyExceptOnInit < value)
+                {
+                    ui_collect_lumber_1.Play();
+                }
+                m_LumberButUsePropertyExceptOnInit = value;
+            }
+        }
+        public int Stone
+        {
+            get
+            {
+                return m_StoneButUsePropertyExceptOnInit;
+            }
+            set
+            {
+                if(m_StoneButUsePropertyExceptOnInit < value)
+                {
+                    ui_collect_stone_1.Play();
+                }
+                m_StoneButUsePropertyExceptOnInit = value;
+            }
+        }
+        public int Gold
+        {
+            get
+            {
+                return m_GoldButUsePropertyExceptOnInit;
+            }
+            set
+            {
+                if(m_GoldButUsePropertyExceptOnInit < value)
+                {
+                    ui_collect_gold_1.Play();
+                }
+                m_GoldButUsePropertyExceptOnInit = value;
+            }
+        }
         
         public int CurrentCapacityUsed
         {
@@ -90,8 +135,7 @@ namespace TownRaiser.Screens
         {
             InitializeCamera();
 
-
-            FlatRedBall.Debugging.Debugger.TextCorner = FlatRedBall.Debugging.Debugger.Corner.TopLeft;
+            FlatRedBall.Debugging.Debugger.TextCorner = FlatRedBall.Debugging.Debugger.Corner.BottomLeft;
 
             InitializeEvents();
 
@@ -185,6 +229,11 @@ namespace TownRaiser.Screens
 
         private void InitializeUi()
         {
+            //Set local resource varables.
+            m_LumberButUsePropertyExceptOnInit = 1200;
+            m_StoneButUsePropertyExceptOnInit = 1000;
+            m_GoldButUsePropertyExceptOnInit = 1000;
+
             this.GroupSelectorInstance.VisualRepresentation = GroupSelectorGumInstance;
             this.GroupSelectorInstance.IsInSelectionMode = true;
 
