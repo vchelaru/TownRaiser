@@ -134,6 +134,7 @@
       <DependentUpon>BuildingData.cs</DependentUpon>
     </Compile>
     <Compile Include="DataTypes\Requirement.cs" />
+    <Compile Include="DataTypes\SoundEffectData.Generated.cs" />
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
     <Compile Include="DataTypes\TimedSpawnData.Generated.cs" />
     <Compile Include="DataTypes\UnitData.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Entities\Unit.Generated.Event.cs">
       <DependentUpon>Unit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Unit.Sfx.cs" />
     <Compile Include="Factories\BuildingFactory.Generated.cs" />
     <Compile Include="Factories\EncounterSpawnPointFactory.Generated.cs" />
     <Compile Include="Factories\UnitFactory.Generated.cs" />

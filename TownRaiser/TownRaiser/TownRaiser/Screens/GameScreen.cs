@@ -38,7 +38,12 @@ namespace TownRaiser.Screens
         Build
     }
     #endregion
-
+    public enum ResourceType
+    {
+        Gold,
+        Lumber,
+        Stone
+    }
     public partial class GameScreen
 	{
         #region Fields/Properties
@@ -724,10 +729,10 @@ namespace TownRaiser.Screens
                 var stoneResourceOver = stoneResourceShapeCollection.GetTileAt(worldX, worldY);
                 var goldResourceOver = goldResourceShapeCollection.GetTileAt(worldX, worldY);
                 var resourceOver = woodResourceOver ?? stoneResourceOver ?? goldResourceOver;
-                string resourceType = null;
-                if (woodResourceOver != null) { resourceType = "Wood"; }
-                else if (stoneResourceOver != null) { resourceType = "Stone"; }
-                else if (goldResourceOver != null) { resourceType = "Gold"; }
+                ResourceType? resourceType = null;
+                if (woodResourceOver != null) { resourceType = ResourceType.Lumber; }
+                else if (stoneResourceOver != null) { resourceType = ResourceType.Stone; }
+                else if (goldResourceOver != null) { resourceType = ResourceType.Gold; }
 
                 var enemyOver = UnitList.FirstOrDefault(item =>
                     item.UnitData.IsEnemy && item.HasCursorOver(cursor));
@@ -741,7 +746,7 @@ namespace TownRaiser.Screens
                     else if (resourceOver != null)
                     {
                         var clickLocation = new Vector3(worldX, worldY, 0);
-                        selectedUnit.AssignResourceCollectGoal(clickLocation, resourceOver, resourceType);
+                        selectedUnit.AssignResourceCollectGoal(clickLocation, resourceOver, resourceType.Value);
                     }
                     else
                     {

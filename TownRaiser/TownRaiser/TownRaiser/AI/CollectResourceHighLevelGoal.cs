@@ -27,7 +27,7 @@ namespace TownRaiser.AI
         /// </summary>
         public AxisAlignedRectangle SingleTile { get; private set; }
         public AxisAlignedRectangle TargetResourceTile { get; private set; }
-        public string TargetResourceType { get; private set; }
+        public ResourceType TargetResourceType { get; private set; }
         public PositionedObjectList<Building> AllBuildings { get; set; }
         public Building ResourceReturnBuilding { get; set; }
         public AxisAlignedRectangle ResourceReturnBuildingTile { get; set; }
@@ -64,7 +64,7 @@ namespace TownRaiser.AI
             return newAar;
         }
 
-        public ResourceCollectHighLevelGoal(Unit owner, TileNodeNetwork nodeNetwork, Vector3 clickPosition, AxisAlignedRectangle targetResourceTile, string targetResourceType, PositionedObjectList<Building> allBuildings)
+        public ResourceCollectHighLevelGoal(Unit owner, TileNodeNetwork nodeNetwork, Vector3 clickPosition, AxisAlignedRectangle targetResourceTile, ResourceType targetResourceType, PositionedObjectList<Building> allBuildings)
         {
             Owner = owner;
             NodeNetwork = nodeNetwork;
@@ -149,19 +149,19 @@ namespace TownRaiser.AI
                 walkGoal = null;
 
                 var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
-
+                
                 // Increment appropriate resource.
-                if (TargetResourceType == "Wood")
+                switch (TargetResourceType)
                 {
-                    screen.Lumber += Owner.UnitData.ResourceHarvestAmount;
-                }
-                else if (TargetResourceType == "Stone")
-                {
-                    screen.Stone += Owner.UnitData.ResourceHarvestAmount;
-                }
-                else if (TargetResourceType == "Gold")
-                {
-                    screen.Gold += Owner.UnitData.ResourceHarvestAmount;
+                    case ResourceType.Gold:
+                        screen.Gold += Owner.UnitData.ResourceHarvestAmount;
+                        break;
+                    case ResourceType.Lumber:
+                        screen.Lumber += Owner.UnitData.ResourceHarvestAmount;
+                        break;
+                    case ResourceType.Stone:
+                        screen.Stone += Owner.UnitData.ResourceHarvestAmount;
+                        break;
                 }
 
                 // Update UI
@@ -185,6 +185,10 @@ namespace TownRaiser.AI
                 {
                     arrivedAtResourceTime = screen.PauseAdjustedCurrentTime;
                 }
+
+                //Try to play gather sfx
+                Unit.TryToPlayResourceGatheringSfx(this.TargetResourceType);
+
                 bool canCollect = screen.PauseAdjustedSecondsSince(arrivedAtResourceTime) >= CollectFrequencyInSeconds;
 
                 if (canCollect)
