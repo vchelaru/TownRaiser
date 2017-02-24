@@ -55,24 +55,24 @@
     <Name>Cyclops</Name>
     <ColorKey>0</ColorKey>
     <Frame>
-      <TextureName>..\..\2d misc\medieval-fantasy\monsters\cyclops.png</TextureName>
+      <TextureName>../../MainTileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
       <LeftCoordinate>0</LeftCoordinate>
-      <RightCoordinate>32</RightCoordinate>
-      <TopCoordinate>0</TopCoordinate>
-      <BottomCoordinate>16</BottomCoordinate>
+      <RightCoordinate>16</RightCoordinate>
+      <TopCoordinate>304</TopCoordinate>
+      <BottomCoordinate>320</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
     <Name>Dragon</Name>
     <ColorKey>0</ColorKey>
     <Frame>
-      <TextureName>..\..\2d misc\medieval-fantasy\monsters\dragon.png</TextureName>
+      <TextureName>../../MainTileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
       <LeftCoordinate>0</LeftCoordinate>
-      <RightCoordinate>38</RightCoordinate>
-      <TopCoordinate>0</TopCoordinate>
-      <BottomCoordinate>29</BottomCoordinate>
+      <RightCoordinate>48</RightCoordinate>
+      <TopCoordinate>336</TopCoordinate>
+      <BottomCoordinate>368</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
@@ -103,36 +103,36 @@
     <Name>Skeleton</Name>
     <ColorKey>0</ColorKey>
     <Frame>
-      <TextureName>..\..\2d misc\medieval-fantasy\monsters\skeleton.png</TextureName>
+      <TextureName>../../MainTileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
       <LeftCoordinate>0</LeftCoordinate>
-      <RightCoordinate>13</RightCoordinate>
-      <TopCoordinate>0</TopCoordinate>
-      <BottomCoordinate>11</BottomCoordinate>
+      <RightCoordinate>16</RightCoordinate>
+      <TopCoordinate>272</TopCoordinate>
+      <BottomCoordinate>288</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
     <Name>Slime</Name>
     <ColorKey>0</ColorKey>
     <Frame>
-      <TextureName>..\..\2d misc\medieval-fantasy\monsters\slime.png</TextureName>
+      <TextureName>../../MainTileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
       <LeftCoordinate>0</LeftCoordinate>
-      <RightCoordinate>13</RightCoordinate>
-      <TopCoordinate>0</TopCoordinate>
-      <BottomCoordinate>6</BottomCoordinate>
+      <RightCoordinate>16</RightCoordinate>
+      <TopCoordinate>288</TopCoordinate>
+      <BottomCoordinate>304</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
     <Name>Snake</Name>
     <ColorKey>0</ColorKey>
     <Frame>
-      <TextureName>..\..\2d misc\medieval-fantasy\monsters\snake.png</TextureName>
+      <TextureName>../../MainTileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
       <LeftCoordinate>0</LeftCoordinate>
-      <RightCoordinate>24</RightCoordinate>
-      <TopCoordinate>0</TopCoordinate>
-      <BottomCoordinate>16</BottomCoordinate>
+      <RightCoordinate>32</RightCoordinate>
+      <TopCoordinate>320</TopCoordinate>
+      <BottomCoordinate>336</BottomCoordinate>
     </Frame>
   </AnimationChain>
 </AnimationChainArraySave>
