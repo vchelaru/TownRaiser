@@ -345,6 +345,7 @@
       <DependentUpon>TestScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Setup\CameraSetup.cs" />
+    <Compile Include="Spawning\RaidSpawner.cs" />
     <Compile Include="StateInterpolation\Back.cs" />
     <Compile Include="StateInterpolation\Bounce.cs" />
     <Compile Include="StateInterpolation\Circular.cs" />

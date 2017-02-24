@@ -1,2 +1,8 @@
-"Name (string, required)",Health (float)
-Monster,100
+"ThreatLevel (int, required)",Units (List<string>)
+0,
+1,Bat
+2,Slime
+,Slime
+3,Goblin
+,Slime
+,Bat

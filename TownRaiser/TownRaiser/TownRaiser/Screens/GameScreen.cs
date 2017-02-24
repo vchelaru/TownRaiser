@@ -24,6 +24,8 @@ using FlatRedBall.Math;
 using FlatRedBall.TileCollisions;
 using TownRaiser.DataTypes;
 using TownRaiser.Entities;
+using TownRaiser.Spawning;
+using Microsoft.Xna.Framework;
 
 namespace TownRaiser.Screens
 {
@@ -40,6 +42,9 @@ namespace TownRaiser.Screens
     public partial class GameScreen
 	{
         #region Fields/Properties
+
+        private RaidSpawner raidSpawner;
+
         private int m_LumberButUsePropertyExceptOnInit;
         private int m_StoneButUsePropertyExceptOnInit;
         private int m_GoldButUsePropertyExceptOnInit;
@@ -144,6 +149,16 @@ namespace TownRaiser.Screens
             InitializeResourceTileShapeCollections();
 
             InitializeUi();
+
+            InitializeRaidSpawner();
+        }
+
+        private void InitializeRaidSpawner()
+        {
+            raidSpawner = new RaidSpawner();
+            raidSpawner.Buildings = BuildingList;
+            raidSpawner.NodeNetwork = tileNodeNetwork;
+            raidSpawner.RequestSpawn += HandleRaidSpawn;
         }
 
         private void InitializeResourceTileShapeCollections()
@@ -353,7 +368,7 @@ namespace TownRaiser.Screens
             HotkeyActivity();
 
             ClickActivity();
-            
+
             CameraMovementActivity();
 
             CollisionActivity();
@@ -361,6 +376,22 @@ namespace TownRaiser.Screens
             BuildMarkerActivity();
 
             CursorChangeActivity();
+            RaidSpawningActivity();
+        }
+
+        private void RaidSpawningActivity()
+        {
+            bool shouldSpawn = true;
+#if DEBUG
+            if (DebuggingVariables.NoTimedSpawns)
+            {
+                shouldSpawn = false;
+            }
+#endif
+            if(shouldSpawn)
+            {
+                raidSpawner.Activity();
+            }
         }
 
         private void CursorChangeActivity()
@@ -943,13 +974,28 @@ namespace TownRaiser.Screens
             this.ResourceDisplayInstance.GoldText = this.Gold.ToString();
         }
 
-        #endregion
+        private void HandleRaidSpawn(IEnumerable<UnitData> unitDatas, Vector3 spawnPoint)
+        {
+            List<Unit> newEnemies = new List<Entities.Unit>();
+            foreach(var unitData in unitDatas)
+            {
+                var newEnemy = SpawnNewUnit(unitData.Name, spawnPoint);
+
+                newEnemies.Add(newEnemy);
+            }
+
+
+        }
+
+#endregion
 
         public Entities.Unit SpawnNewUnit(string unitDataKey, Vector3 spawnPoint)
         {
             var newUnit = Factories.UnitFactory.CreateNew();
 
             newUnit.Position = spawnPoint;
+            // make it sit above the ground
+            newUnit.Z = 1;
             var unitData = GlobalContent.UnitData[unitDataKey];
             newUnit.UnitData = unitData;
             newUnit.AllUnits = this.UnitList;
