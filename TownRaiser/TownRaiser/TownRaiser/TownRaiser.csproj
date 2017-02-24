@@ -187,7 +187,9 @@
     <Compile Include="Entities\Unit.Generated.Event.cs">
       <DependentUpon>Unit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Unit.Sfx.cs" />
+    <Compile Include="Entities\Unit.Sfx.cs">
+      <DependentUpon>Unit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Factories\BuildingFactory.Generated.cs" />
     <Compile Include="Factories\EncounterSpawnPointFactory.Generated.cs" />
     <Compile Include="Factories\UnitFactory.Generated.cs" />
