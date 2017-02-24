@@ -1049,6 +1049,18 @@
           <RuntimeType>Microsoft.Xna.Framework.Graphics.Texture2D</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Name>Entities/Unit/Sfx/CharacterAction/unit_chop_wood_1.wav</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Name>Entities/Unit/Sfx/CharacterAction/unit_chop_wood_2.wav</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
       </ReferencedFiles>
       <CreatedByOtherEntities>true</CreatedByOtherEntities>
       <Events>
@@ -1140,6 +1152,13 @@
       <HasPublicProperty>true</HasPublicProperty>
       <LoadedAtRuntime>false</LoadedAtRuntime>
       <AddToManagers>false</AddToManagers>
+      <ProjectsToExcludeFrom />
+    </ReferencedFileSave>
+    <ReferencedFileSave>
+      <Name>GlobalContent/SoundEffectData.csv</Name>
+      <IsSharedStatic>true</IsSharedStatic>
+      <HasPublicProperty>true</HasPublicProperty>
+      <CreatesDictionary>true</CreatesDictionary>
       <ProjectsToExcludeFrom />
     </ReferencedFileSave>
   </GlobalFiles>

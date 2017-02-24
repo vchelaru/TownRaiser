@@ -1,0 +1,4 @@
+"Name (string, required)",SecondsBetweenPlays (double)
+GatherLumber,.5
+GatherStone,.5
+GatherGold,.5

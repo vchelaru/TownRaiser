@@ -28,6 +28,7 @@ namespace TownRaiser
 		public static Microsoft.Xna.Framework.Graphics.Texture2D CharactersSheet { get; set; }
 		public static System.Collections.Generic.List<TownRaiser.DataTypes.TimedSpawnData> TimedSpawnData { get; set; }
 		public static FlatRedBall.Graphics.Animation.AnimationChainList GumAnimationChains { get; set; }
+		public static System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.SoundEffectData> SoundEffectData { get; set; }
 		[System.Obsolete("Use GetFile instead")]
 		public static object GetStaticMember (string memberName)
 		{
@@ -47,6 +48,8 @@ namespace TownRaiser
 					return TimedSpawnData;
 				case  "GumAnimationChains":
 					return GumAnimationChains;
+				case  "SoundEffectData":
+					return SoundEffectData;
 			}
 			return null;
 		}
@@ -68,6 +71,8 @@ namespace TownRaiser
 					return TimedSpawnData;
 				case  "GumAnimationChains":
 					return GumAnimationChains;
+				case  "SoundEffectData":
+					return SoundEffectData;
 			}
 			return null;
 		}
@@ -117,6 +122,18 @@ namespace TownRaiser
 				}
 			}
 			GumAnimationChains = FlatRedBall.FlatRedBallServices.Load<FlatRedBall.Graphics.Animation.AnimationChainList>(@"content/globalcontent/gumanimationchains.achx", ContentManagerName);
+			if (SoundEffectData == null)
+			{
+				{
+					// We put the { and } to limit the scope of oldDelimiter
+					char oldDelimiter = FlatRedBall.IO.Csv.CsvFileManager.Delimiter;
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = ',';
+					System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.SoundEffectData> temporaryCsvObject = new System.Collections.Generic.Dictionary<string, TownRaiser.DataTypes.SoundEffectData>();
+					FlatRedBall.IO.Csv.CsvFileManager.CsvDeserializeDictionary<string, TownRaiser.DataTypes.SoundEffectData>("content/globalcontent/soundeffectdata.csv", temporaryCsvObject);
+					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = oldDelimiter;
+					SoundEffectData = temporaryCsvObject;
+				}
+			}
 						IsInitialized = true;
 			#if DEBUG && WINDOWS
 			InitializeFileWatch();
@@ -142,6 +159,10 @@ namespace TownRaiser
 					FlatRedBall.IO.Csv.CsvFileManager.CsvDeserializeList(typeof(TownRaiser.DataTypes.TimedSpawnData), "content/globalcontent/timedspawndata.csv", TimedSpawnData);
 					FlatRedBall.IO.Csv.CsvFileManager.Delimiter = oldDelimiter;
 				}
+			}
+			if (whatToReload == SoundEffectData)
+			{
+				FlatRedBall.IO.Csv.CsvFileManager.UpdateDictionaryValuesFromCsv(SoundEffectData, "content/globalcontent/soundeffectdata.csv");
 			}
 		}
 		#if DEBUG && WINDOWS
@@ -193,6 +214,10 @@ namespace TownRaiser
 				if (relativeFileName == "content/globalcontent/gumanimationchains.achx")
 				{
 					Reload(GumAnimationChains);
+				}
+				if (relativeFileName == "content/globalcontent/soundeffectdata.csv")
+				{
+					Reload(SoundEffectData);
 				}
 			}
 			catch{}

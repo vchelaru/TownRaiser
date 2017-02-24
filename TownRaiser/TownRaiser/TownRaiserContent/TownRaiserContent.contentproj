@@ -121,6 +121,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>GumAnimationChains</Name>
     </None>
+    <None Include="GlobalContent\SoundEffectData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>SoundEffectData</Name>
+    </None>
     <None Include="GlobalContent\TimedSpawnData.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TimedSpawnData</Name>
@@ -327,6 +331,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Unit\Sfx\CharacterAction\unit_chop_wood_1.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_chop_wood_1</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\CharacterAction\unit_chop_wood_2.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_chop_wood_2</Name>
+    </Compile>
     <Compile Include="Screens\GameScreen\Sfx\ui_collect_gold_1.wav">
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>

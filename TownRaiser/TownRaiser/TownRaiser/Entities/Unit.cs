@@ -289,7 +289,7 @@ namespace TownRaiser.Entities
             }
         }
 
-        public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, string resourceType)
+        public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, Screens.ResourceType resourceType)
         {
             var collectResourceGoal = new ResourceCollectHighLevelGoal(
                 owner: this,
@@ -377,6 +377,8 @@ namespace TownRaiser.Entities
             HealthBarActivity();
 
         }
+
+        
 
 
 
