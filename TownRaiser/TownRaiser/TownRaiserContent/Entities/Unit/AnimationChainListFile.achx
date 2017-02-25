@@ -171,4 +171,40 @@
       <BottomCoordinate>79</BottomCoordinate>
     </Frame>
   </AnimationChain>
+  <AnimationChain>
+    <Name>ShadowSmall</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>448</LeftCoordinate>
+      <RightCoordinate>464</RightCoordinate>
+      <TopCoordinate>93</TopCoordinate>
+      <BottomCoordinate>96</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>ShadowMedium</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>422</LeftCoordinate>
+      <RightCoordinate>443</RightCoordinate>
+      <TopCoordinate>93</TopCoordinate>
+      <BottomCoordinate>96</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>ShadowLarge</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>423</LeftCoordinate>
+      <RightCoordinate>458</RightCoordinate>
+      <TopCoordinate>109</TopCoordinate>
+      <BottomCoordinate>112</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
 </AnimationChainArraySave>
