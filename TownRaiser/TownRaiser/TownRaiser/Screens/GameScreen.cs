@@ -488,6 +488,9 @@ namespace TownRaiser.Screens
 
         private void PerformUnitsVsUnitsCollision()
         {
+            // larger value keeps them from overlapping...
+            const float separationCoefficient = 3;
+
             for(int i = 0; i < UnitList.Count -1; i++)
             {
                 var first = UnitList[i];
@@ -507,8 +510,8 @@ namespace TownRaiser.Screens
                         first.Position -= firstRepositionVector;
                         second.Position -= secondRepositionVector;
 
-                        first.Position += firstRepositionVector * TimeManager.SecondDifference;
-                        second.Position += secondRepositionVector * TimeManager.SecondDifference;
+                        first.Position += separationCoefficient * firstRepositionVector * TimeManager.SecondDifference;
+                        second.Position += separationCoefficient * secondRepositionVector * TimeManager.SecondDifference;
                     }
                 }
             }
