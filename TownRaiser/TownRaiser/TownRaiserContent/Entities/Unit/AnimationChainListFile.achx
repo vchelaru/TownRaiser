@@ -135,4 +135,40 @@
       <BottomCoordinate>336</BottomCoordinate>
     </Frame>
   </AnimationChain>
+  <AnimationChain>
+    <Name>ResourceLumber</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>436</LeftCoordinate>
+      <RightCoordinate>445</RightCoordinate>
+      <TopCoordinate>51</TopCoordinate>
+      <BottomCoordinate>63</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>ResourceGold</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>437</LeftCoordinate>
+      <RightCoordinate>443</RightCoordinate>
+      <TopCoordinate>36</TopCoordinate>
+      <BottomCoordinate>46</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>ResourceStone</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>436</LeftCoordinate>
+      <RightCoordinate>445</RightCoordinate>
+      <TopCoordinate>72</TopCoordinate>
+      <BottomCoordinate>79</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
 </AnimationChainArraySave>

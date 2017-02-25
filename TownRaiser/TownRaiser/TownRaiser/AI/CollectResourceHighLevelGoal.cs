@@ -168,6 +168,7 @@ namespace TownRaiser.AI
                 screen.UpdateResourceDisplay();
 
                 hasResourceToReturn = false;
+                Owner.ToggleResourceIndicator(hasResourceToReturn, resourceType: TargetResourceType);
                 ResourceReturnBuilding = null;
                 // Default to !isWalking later to set up return-to-resource trip.
             }
@@ -194,6 +195,7 @@ namespace TownRaiser.AI
                 if (canCollect)
                 {
                     hasResourceToReturn = true;
+                    Owner.ToggleResourceIndicator(hasResourceToReturn, resourceType: TargetResourceType);
                     arrivedAtResourceTime = 0;
                     // Set up to return resource
                     // Find "closest" building by position comparison.

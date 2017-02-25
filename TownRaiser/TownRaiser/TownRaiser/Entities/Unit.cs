@@ -289,6 +289,25 @@ namespace TownRaiser.Entities
             }
         }
 
+        public void ToggleResourceIndicator(bool isEnabled, Screens.ResourceType resourceType)
+        {
+            ResourceIndicatorSpriteInstance.Visible = isEnabled;
+            string resourceAnimationChainName;
+            switch (resourceType) {
+                case Screens.ResourceType.Lumber:
+                    resourceAnimationChainName = "ResourceLumber";
+                    break;
+                case Screens.ResourceType.Stone:
+                    resourceAnimationChainName = "ResourceStone";
+                    break;
+                default:
+                //case Screens.ResourceType.Gold:
+                    resourceAnimationChainName = "ResourceGold";
+                    break;
+            }
+            ResourceIndicatorSpriteInstance.CurrentChainName = resourceAnimationChainName;
+        }
+
         public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, Screens.ResourceType resourceType)
         {
             var collectResourceGoal = new ResourceCollectHighLevelGoal(
