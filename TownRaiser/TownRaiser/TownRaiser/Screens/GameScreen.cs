@@ -749,7 +749,8 @@ namespace TownRaiser.Screens
                     {
                         selectedUnit.AssignAttackGoal(enemyOver);
                     }
-                    else if (resourceOver != null)
+                    // If a unit initiates battle, then it cannot gather resources
+                    else if (resourceOver != null && selectedUnit.UnitData.InitiatesBattle == false)
                     {
                         var clickLocation = new Vector3(worldX, worldY, 0);
                         selectedUnit.AssignResourceCollectGoal(clickLocation, resourceOver, resourceType.Value);
