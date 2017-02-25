@@ -22,7 +22,8 @@ namespace TownRaiser.DataTypes
         public bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings, IUpdatesStatus entityCreatedFrom)
         {
             //An entity button should be enabled if there is enough gold and either capacity exists or there are units in the training queue.
-            return GoldCost <= gold && ((currentCapacity + Capacity) <= maxCapacity || entityCreatedFrom.ButtonCountDisplays.Any(x => x.Value > 0));
+            return GoldCost <= gold && ((currentCapacity + Capacity) <= maxCapacity || 
+                entityCreatedFrom?.ButtonCountDisplays?.Any(x => x.Value > 0) == true) ;
         }
     }
 }
