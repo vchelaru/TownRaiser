@@ -787,41 +787,43 @@ namespace TownRaiser.Screens
             selectedUnits.Clear();
             selectedBuilding = null;
 
+            // buildings are less abundant than units, so let's give preference to building selection:
+
             var cursor = GuiManager.Cursor;
 
-            var unitOver = UnitList.FirstOrDefault(item => 
-                item.UnitData.IsEnemy == false && item.HasCursorOver(cursor));
-
-#if DEBUG
-            if(DebuggingVariables.CanSelectEnemies)
+            var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
+            if (buildingOver != null)
             {
-                // doubles the check but it's debug so who cares
-                unitOver = UnitList.FirstOrDefault(item =>
-                    item.HasCursorOver(cursor));
-            }
-#endif
-
-
-            if(unitOver != null)
-            {
-                selectedUnits.Add(unitOver);
-
-            }
-
-            if(selectedUnits.Count == 0)
-            {
-                var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
-                if (buildingOver != null)
+                selectedBuilding = buildingOver;
+                if (selectedBuilding.IsConstructionComplete)
                 {
-                    selectedBuilding = buildingOver;
-                    if (selectedBuilding.IsConstructionComplete)
-                    {
-                        //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
-                        ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
-                    }
+                    //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
+                    ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
                 }
             }
 
+
+            if(buildingOver == null)
+            {
+                var unitOver = UnitList.FirstOrDefault(item => 
+                    item.UnitData.IsEnemy == false && item.HasCursorOver(cursor));
+
+    #if DEBUG
+                if(DebuggingVariables.CanSelectEnemies)
+                {
+                    // doubles the check but it's debug so who cares
+                    unitOver = UnitList.FirstOrDefault(item =>
+                        item.HasCursorOver(cursor));
+                }
+    #endif
+
+
+                if(unitOver != null)
+                {
+                    selectedUnits.Add(unitOver);
+                }
+            }
+            
 
             UpdateSelectionMarker();
             CheckSelectionState();
