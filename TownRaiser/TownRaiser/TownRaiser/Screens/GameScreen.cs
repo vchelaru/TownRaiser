@@ -230,6 +230,8 @@ namespace TownRaiser.Screens
 
         private void InitializeCamera()
         {
+            SpriteManager.OrderedSortType = FlatRedBall.Graphics.SortType.ZSecondaryParentY;
+
             //Eventually place the map at the main base spawn point.
             Camera.Main.X = Camera.Main.RelativeXEdgeAt(0) + .2f;
             Camera.Main.Y = -Camera.Main.RelativeYEdgeAt(0) + .2f;
@@ -258,6 +260,10 @@ namespace TownRaiser.Screens
             this.GroupSelectorInstance.IsInSelectionMode = true;
 
             this.GroupSelectorInstance.SelectionFinished += HandleGroupSelection;
+
+            // move the UI above all other stuff
+            //GameScreenGum.Z = 20;
+            SpriteManager.AddToLayer(GameScreenGum, this.UiLayer);
 
             UpdateResourceDisplay();
         }
@@ -907,45 +913,58 @@ namespace TownRaiser.Screens
                 isOverOtherBuilding = BuildingList.Any(item => item.HasCursorOver(cursor));
             }
 
-            if(hasEnoughResources && !isOverOtherBuilding)
+            bool canBuild = hasEnoughResources && !isOverOtherBuilding;
+
+            if (canBuild)
             {
-                // do it!
-                var building = Factories.BuildingFactory.CreateNew();
-                building.BuildingConstructionCompleted += () =>
-                {
-                    UpdateCapacityValue();
-                    UpdateResourceDisplay();
-                };
+                PerformBuildAtCursor(buildingType);
+            }
+        }
 
-                float x, y;
-                GetBuildLocationFromCursor(out x, out y);
+        private void PerformBuildAtCursor(BuildingData buildingType)
+        {
+            var building = Factories.BuildingFactory.CreateNew();
+            building.BuildingConstructionCompleted += () =>
+            {
+                UpdateCapacityValue();
+                UpdateResourceDisplay();
+            };
+            building.OnDestroy += (not, used) =>
+            {
+                UpdateCapacityValue();
+                UpdateResourceDisplay();
 
-                building.X = x;
-                building.Y = y;
-                building.Z = 1;
+                // re-add a node here
+                tileNodeNetwork.AddAndLinkTiledNodeWorld(building.X, building.Y);
 
-                building.StartBuilding();
+            };
 
-                building.BuildingData = buildingType;
+            float x, y;
+            GetBuildLocationFromCursor(out x, out y);
 
-                bool shouldUpdateResources = true;
+            building.X = x;
+            building.Y = y;
+            building.Z = 1;
+
+            building.StartBuilding();
+
+            tileNodeNetwork.RemoveAndUnlinkNode(ref building.Position);
+
+            building.BuildingData = buildingType;
+
+            bool shouldUpdateResources = true;
 #if DEBUG
 
-                shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
+            shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
 #endif
-                if(shouldUpdateResources)
-                {
-                    this.Lumber -= buildingType.LumberCost;
-                    this.Stone -= buildingType.StoneCost;
-
-                    UpdateCapacityValue();
-
-                    UpdateResourceDisplay();
-                }
-            }
-            else
+            if (shouldUpdateResources)
             {
-                // tell them?
+                this.Lumber -= buildingType.LumberCost;
+                this.Stone -= buildingType.StoneCost;
+
+                UpdateCapacityValue();
+
+                UpdateResourceDisplay();
             }
         }
 
@@ -991,6 +1010,14 @@ namespace TownRaiser.Screens
 
                 UpdateResourceDisplay();
             }
+
+#if DEBUG
+            if(DebuggingVariables.HasInfiniteResources)
+            {
+                canTrain = true;
+            }
+#endif
+
             return canTrain;
         }
 
@@ -1014,8 +1041,6 @@ namespace TownRaiser.Screens
 
 
         }
-
-#endregion
 
         public Entities.Unit SpawnNewUnit(string unitDataKey, Vector3 spawnPoint)
         {
@@ -1041,6 +1066,8 @@ namespace TownRaiser.Screens
 
             return newUnit;
         }
+#endregion
+
 
         void CustomDestroy()
 		{

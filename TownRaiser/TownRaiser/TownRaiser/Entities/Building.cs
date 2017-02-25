@@ -36,8 +36,7 @@ namespace TownRaiser.Entities
 
         private const int MaxTrainableUnits = 5;
 
-        public event EventHandler OnDestroy;
-        public event EventHandler<UpdateStatusEventArgs> UpdateStatus;
+
         public ICommonEntityData EntityData => BuildingData;
         public int CurrentHealth { get; set; }
         public IEnumerable<string> ButtonDatas => BuildingData.TrainableUnits.AsReadOnly();
@@ -92,6 +91,8 @@ namespace TownRaiser.Entities
         #endregion
 
         public event Action BuildingConstructionCompleted;
+        public event EventHandler OnDestroy;
+        public event EventHandler<UpdateStatusEventArgs> UpdateStatus;
 
         #region Initialize Methods
 
@@ -184,7 +185,11 @@ namespace TownRaiser.Entities
                 ProgressPercents[trainingUnit] = TrainingProgress;
                 if(IsTrainingComplete)
                 {
-                    var newUnit = ((Screens.GameScreen)ScreenManager.CurrentScreen).SpawnNewUnit(trainingUnit, new Vector3() { X = UnitSpawnX, Y = UnitSpawnY, Z = 1 });
+                    var spawnPosition = new Vector3() { X = UnitSpawnX, Y = UnitSpawnY, Z = 1 };
+                    // so the units don't stack in a line line:
+                    spawnPosition.Y += FlatRedBallServices.Random.Between(0, 1);
+                    spawnPosition.X += FlatRedBallServices.Random.Between(0, 1);
+                    var newUnit = ((Screens.GameScreen)ScreenManager.CurrentScreen).SpawnNewUnit(trainingUnit, spawnPosition);
 
                     if(RallyPoint.HasValue)
                     {

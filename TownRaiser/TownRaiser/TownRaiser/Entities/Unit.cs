@@ -75,7 +75,7 @@ namespace TownRaiser.Entities
             //// This should prob be done in Glue instead, but I don't think Glue currently supports this:
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
-            this.HealthBarRuntimeInstance.Z = -1;
+            this.HealthBarRuntimeInstance.Z = 2;
 #if DEBUG
             this.ResourceCollectCircleInstance.Visible = DebuggingVariables.ShowResourceCollision;
 #endif
@@ -181,23 +181,31 @@ namespace TownRaiser.Entities
                 .Take(3)
                 .ToList();
 
-            var goal = new AttackThenRetreat();
-            goal.StartX = this.X;
-            goal.StartY = this.Y;
-
-            goal.TargetX = worldX;
-            goal.TargetY = worldY;
-
-            goal.AllUnits = AllUnits;
-            goal.BuildingsToFocusOn.AddRange( buildingsToTarget);
-            goal.Owner = this;
-
-            if (replace)
+            // if there's no buildings, then just do a regular attack move:
+            if(buildingsToTarget.Count == 0)
             {
-                this.HighLevelGoals.Clear();
+                AssignMoveAttackGoal(worldX, worldY, replace);
             }
-            this.HighLevelGoals.Push(goal);
-            this.ImmediateGoal = null;
+            else
+            {
+                var goal = new AttackThenRetreat();
+                goal.StartX = this.X;
+                goal.StartY = this.Y;
+
+                goal.TargetX = worldX;
+                goal.TargetY = worldY;
+
+                goal.AllUnits = AllUnits;
+                goal.BuildingsToFocusOn.AddRange( buildingsToTarget);
+                goal.Owner = this;
+
+                if (replace)
+                {
+                    this.HighLevelGoals.Clear();
+                }
+                this.HighLevelGoals.Push(goal);
+                this.ImmediateGoal = null;
+            }
         }
 
         public void AssignMoveAttackGoal(float worldX, float worldY, bool replace = true)
