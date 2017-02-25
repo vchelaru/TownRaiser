@@ -1080,13 +1080,37 @@
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/CharacterAction/unit_chop_wood_1.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/CharacterAction/unit_chop_wood_2.wav</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Name>Entities/Unit/Sfx/CharacterAction/unit_mine_gold_1.wav</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Name>Entities/Unit/Sfx/CharacterAction/unit_mine_gold_2.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
@@ -1182,13 +1206,6 @@
       <HasPublicProperty>true</HasPublicProperty>
       <LoadedAtRuntime>false</LoadedAtRuntime>
       <AddToManagers>false</AddToManagers>
-      <ProjectsToExcludeFrom />
-    </ReferencedFileSave>
-    <ReferencedFileSave>
-      <Name>GlobalContent/SoundEffectData.csv</Name>
-      <IsSharedStatic>true</IsSharedStatic>
-      <HasPublicProperty>true</HasPublicProperty>
-      <CreatesDictionary>true</CreatesDictionary>
       <ProjectsToExcludeFrom />
     </ReferencedFileSave>
   </GlobalFiles>

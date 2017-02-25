@@ -156,6 +156,13 @@ namespace TownRaiser.Screens
             InitializeUi();
 
             InitializeRaidSpawner();
+
+            InitializeSoundTracker();
+        }
+
+        private void InitializeSoundTracker()
+        {
+            SoundEffectTracker.Initialize();
         }
 
         private void InitializeRaidSpawner()

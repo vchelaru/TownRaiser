@@ -349,6 +349,7 @@
       <DependentUpon>TestScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Setup\CameraSetup.cs" />
+    <Compile Include="SoundEffectTracker.cs" />
     <Compile Include="Spawning\RaidSpawner.cs" />
     <Compile Include="StateInterpolation\Back.cs" />
     <Compile Include="StateInterpolation\Bounce.cs" />
