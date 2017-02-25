@@ -140,7 +140,7 @@ namespace TownRaiser.Entities
 
         private void HealthBarActivity()
         {
-            HealthBarRuntimeInstance.PositionTo(this, -6);
+            HealthBarRuntimeInstance.PositionTo(this, -SpriteInstance.Height * .85f);
 
             var healthPercentage = 100 * this.CurrentHealth / (float)UnitData.Health;
 

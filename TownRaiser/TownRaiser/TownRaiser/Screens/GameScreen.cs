@@ -620,7 +620,7 @@ namespace TownRaiser.Screens
             var keyboard = InputManager.Keyboard;
             if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
             {
-                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Snake]);
             }
             if (keyboard.KeyDown(Keys.D2))
             {
@@ -652,7 +652,7 @@ namespace TownRaiser.Screens
             }
             if (keyboard.KeyDown(Keys.D9))
             {
-                DebugAddUnit(GlobalContent.UnitData[UnitData.Slime]);
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
             }
 
             var cursor = GuiManager.Cursor;
