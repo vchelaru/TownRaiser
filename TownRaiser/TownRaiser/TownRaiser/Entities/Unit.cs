@@ -63,6 +63,12 @@ namespace TownRaiser.Entities
 
         #endregion
 
+        #region Events
+
+        public event Action Died;
+
+        #endregion
+
         #region Initialize
 
         /// <summary>
@@ -367,6 +373,7 @@ namespace TownRaiser.Entities
             if(CurrentHealth <= 0)
             {
                 Destroy();
+                Died?.Invoke();
             }
         }
 

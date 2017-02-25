@@ -925,6 +925,8 @@ namespace TownRaiser.Screens
         private void PerformBuildAtCursor(BuildingData buildingType)
         {
             var building = Factories.BuildingFactory.CreateNew();
+            building.BuildingData = buildingType;
+
             building.BuildingConstructionCompleted += () =>
             {
                 UpdateCapacityValue();
@@ -951,7 +953,6 @@ namespace TownRaiser.Screens
 
             tileNodeNetwork.RemoveAndUnlinkNode(ref building.Position);
 
-            building.BuildingData = buildingType;
 
             bool shouldUpdateResources = true;
 #if DEBUG
@@ -971,7 +972,12 @@ namespace TownRaiser.Screens
 
         private void UpdateCapacityValue()
         {
-            
+
+            CurrentCapacityUsed = UnitList
+                .Select(x => x.UnitData)
+                .Where(x => x.IsEnemy == false)
+                .Sum(x => x.Capacity); //makes sure we have the correct capacity when units are trained.
+
             this.MaxCapacity = BuildingList.Sum(item =>
             {
                 if (item.IsConstructionComplete)
@@ -1046,6 +1052,11 @@ namespace TownRaiser.Screens
         public Entities.Unit SpawnNewUnit(string unitDataKey, Vector3 spawnPoint)
         {
             var newUnit = Factories.UnitFactory.CreateNew();
+            newUnit.Died += () =>
+            {
+                UpdateCapacityValue();
+                UpdateResourceDisplay();
+            };
 
             newUnit.Position = spawnPoint;
             // make it sit above the ground
