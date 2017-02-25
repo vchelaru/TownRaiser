@@ -91,12 +91,10 @@ namespace TownRaiser.Entities
         }
         #endregion
 
+        public event Action BuildingConstructionCompleted;
 
-        /// <summary>
-        /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
-        /// This method is called when the Entity is added to managers. Entities which are instantiated but not
-        /// added to managers will not have this method called.
-        /// </summary>
+        #region Initialize Methods
+
         private void CustomInitialize()
         {
             InitializeIUpdatestatusLists();
@@ -117,6 +115,10 @@ namespace TownRaiser.Entities
             ButtonCountDisplays = new Dictionary<string, int>();
             
         }
+
+        #endregion
+
+        #region Activity Methods
 
         private void CustomActivity()
 		{
@@ -151,6 +153,7 @@ namespace TownRaiser.Entities
                 {
                     SpriteInstance.CurrentChainName = BuildingData.Name;
                     IsConstructionComplete = true;
+                    BuildingConstructionCompleted?.Invoke();
                 }
             }
         }
@@ -233,23 +236,6 @@ namespace TownRaiser.Entities
             return CurrentHealth / BuildingData.Health;
         }
 
-        private void CustomDestroy()
-		{
-            this.OnDestroy?.Invoke(this, null);
-            this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs() { WasEntityDestroyed = true });
-
-            this.TrainingQueue.Clear();
-            this.TrainingQueue = null;
-
-            this.ProgressPercents.Clear();
-            this.ProgressPercents = null;
-
-            this.ButtonCountDisplays.Clear();
-            this.ButtonCountDisplays = null;
-
-            this.OnDestroy = null;
-            this.UpdateStatus = null;
-		}
         private bool TryStartTraining(string unitName)
         {
             var gameScreen = ScreenManager.CurrentScreen as Screens.GameScreen;
@@ -273,13 +259,6 @@ namespace TownRaiser.Entities
 
             return canTrain;
         }
-
-        private static void CustomLoadStaticContent(string contentManagerName)
-        {
-
-
-        }
-
         internal void TakeDamage(int attackDamage)
         {
             CurrentHealth -= attackDamage;
@@ -288,11 +267,37 @@ namespace TownRaiser.Entities
                 Destroy();
             }
         }
-
         internal void InterpolateToState(object buildComplete, double buildTime)
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+        private void CustomDestroy()
+		{
+            this.OnDestroy?.Invoke(this, null);
+            this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs() { WasEntityDestroyed = true });
+
+            this.TrainingQueue.Clear();
+            this.TrainingQueue = null;
+
+            this.ProgressPercents.Clear();
+            this.ProgressPercents = null;
+
+            this.ButtonCountDisplays.Clear();
+            this.ButtonCountDisplays = null;
+
+            this.OnDestroy = null;
+            this.UpdateStatus = null;
+		}
+
+        private static void CustomLoadStaticContent(string contentManagerName)
+        {
+
+
+        }
+
+
 
 
     }

@@ -581,7 +581,7 @@ namespace TownRaiser.Screens
                         case ActionMode.Build:
                             if (BuildingMarkerInstance.CurrentState == Entities.BuildingMarker.VariableState.Normal)
                             {
-                                HandlePerformBuilding();
+                                HandlePerformBuildingClick();
                                 HandlePostClick();
                             }
                             break;
@@ -888,7 +888,7 @@ namespace TownRaiser.Screens
 
         } 
 
-        private void HandlePerformBuilding()
+        private void HandlePerformBuildingClick()
         {
 
             DataTypes.BuildingData buildingType = ActionToolbarInstance.SelectedBuildingData;
@@ -911,6 +911,12 @@ namespace TownRaiser.Screens
             {
                 // do it!
                 var building = Factories.BuildingFactory.CreateNew();
+                building.BuildingConstructionCompleted += () =>
+                {
+                    UpdateCapacityValue();
+                    UpdateResourceDisplay();
+                };
+
                 float x, y;
                 GetBuildLocationFromCursor(out x, out y);
 
@@ -927,19 +933,36 @@ namespace TownRaiser.Screens
 
                 shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
 #endif
-                if (shouldUpdateResources)
+                if(shouldUpdateResources)
                 {
                     this.Lumber -= buildingType.LumberCost;
                     this.Stone -= buildingType.StoneCost;
-                    this.MaxCapacity = BuildingList.Sum(item => item.BuildingData.Capacity);
-                }
 
-                UpdateResourceDisplay();
+                    UpdateCapacityValue();
+
+                    UpdateResourceDisplay();
+                }
             }
             else
             {
                 // tell them?
             }
+        }
+
+        private void UpdateCapacityValue()
+        {
+            
+            this.MaxCapacity = BuildingList.Sum(item =>
+            {
+                if (item.IsConstructionComplete)
+                {
+                    return item.BuildingData.Capacity;
+                }
+                else
+                {
+                    return 0;
+                }
+            });
         }
 
         private static void GetBuildLocationFromCursor(out float x, out float y)
