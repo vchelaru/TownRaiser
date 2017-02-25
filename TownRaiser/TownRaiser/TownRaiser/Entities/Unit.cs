@@ -405,7 +405,10 @@ namespace TownRaiser.Entities
 
         private void CustomDestroy()
 		{
-
+            while (this.pathLines.Count > 0)
+            {
+                ShapeManager.Remove(pathLines.Last());
+            }
         }
 
         private static void CustomLoadStaticContent(string contentManagerName)

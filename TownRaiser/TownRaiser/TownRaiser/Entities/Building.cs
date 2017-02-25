@@ -68,6 +68,13 @@ namespace TownRaiser.Entities
             {
                 var currentScreen = ScreenManager.CurrentScreen;
 
+#if DEBUG
+                if(DebuggingVariables.BuildAndTrainImmediately)
+                {
+                    return true;
+                }
+#endif
+
                 return m_TraningStartTime > 0 && currentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) >= GlobalContent.UnitData[CurrentTrainingUnit].TrainTime;
             }
         }
@@ -124,6 +131,13 @@ namespace TownRaiser.Entities
             {
                 var ratioComplete = 
                     FlatRedBall.Screens.ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(constructionTimeStarted) / BuildingData.BuildTime;
+
+#if DEBUG
+                if(DebuggingVariables.BuildAndTrainImmediately)
+                {
+                    ratioComplete = 1;
+                }
+#endif
 
                 if(ratioComplete < .5)
                 {
