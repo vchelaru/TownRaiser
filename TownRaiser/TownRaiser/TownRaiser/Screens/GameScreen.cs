@@ -240,39 +240,38 @@ namespace TownRaiser.Screens
 
         private void HandleGroupSelection(object sender, EventArgs e)
         {
+            //Clear selected building and units
             selectedUnits.Clear();
-
-            //If we are attempting a group selection we should prep for the selected building being deselcted.
             selectedBuilding = null;
+            topSelectedUnit = null;
 
-            foreach(var unit in this.UnitList)
+            // buildings are less abundant than units, so let's give preference to building selection:
+
+            var cursor = GuiManager.Cursor;
+
+            selectedBuilding = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
+
+            if (selectedBuilding == null)
             {
-                bool canSelect =
-                    unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
+                foreach (var unit in this.UnitList)
+                {
+                    bool canSelect =
+                        unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
 
 #if DEBUG
-                if(DebuggingVariables.CanSelectEnemies)
-                {
-                    // a little inefficient but whatever, it's debug
-                    canSelect = unit.CollideAgainst(GroupSelectorInstance);
-                }
+                    if (DebuggingVariables.CanSelectEnemies)
+                    {
+                        // a little inefficient but whatever, it's debug
+                        canSelect = unit.CollideAgainst(GroupSelectorInstance);
+                    }
 #endif
 
-                if (canSelect)
-                {
-                    selectedUnits.Add(unit);
+                    if (canSelect)
+                    {
+                        selectedUnits.Add(unit);
+                    }
                 }
-            }
-            
-            //If we did not select any units and a buildng is under the cursor, select the building.
-            if (selectedUnits.Count == 0)
-            {
 
-                var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(GuiManager.Cursor));
-                if (buildingOver != null)
-                {
-                    selectedBuilding = buildingOver;
-                }
             }
 
             UpdateSelectionMarker();
@@ -349,6 +348,7 @@ namespace TownRaiser.Screens
             BuildMarkerActivity();
 
             CursorChangeActivity();
+
             RaidSpawningActivity();
         }
 
@@ -395,6 +395,9 @@ namespace TownRaiser.Screens
         {
             if(ActionToolbarInstance.GetActionStateBaseOnUi() == ActionMode.Build && GetIfCanClickInWorld())
             {
+                //We don't want to show the group selector if we are placing a building.
+                GroupSelectorInstance.IsInSelectionMode = false;
+
                 BuildingMarkerInstance.Visible = true;
                 BuildingMarkerInstance.BuildingData = ActionToolbarInstance.SelectedBuildingData;
                 float x, y;
@@ -429,6 +432,7 @@ namespace TownRaiser.Screens
                 if (BuildingMarkerInstance.CurrentState != Entities.BuildingMarker.VariableState.Invalid) {
                     BuildingMarkerInstance.CurrentState = Entities.BuildingMarker.VariableState.Invalid;
                 }
+                GroupSelectorInstance.IsInSelectionMode = true;
             }
         }
 
@@ -754,52 +758,36 @@ namespace TownRaiser.Screens
             //Clear selected building and units
             selectedUnits.Clear();
             selectedBuilding = null;
+            topSelectedUnit = null;
 
             // buildings are less abundant than units, so let's give preference to building selection:
 
             var cursor = GuiManager.Cursor;
 
-            var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
-            if (buildingOver != null)
+            selectedBuilding = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
+
+            if (selectedBuilding == null)
             {
-                selectedBuilding = buildingOver;
-                if (selectedBuilding.IsConstructionComplete)
+                foreach (var unit in this.UnitList)
                 {
-                    //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
-                    ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
-                }
-            }
-
-
-            if(buildingOver == null)
-            {
-            var unitOver = UnitList.FirstOrDefault(item => 
-                item.UnitData.IsEnemy == false && item.HasCursorOver(cursor));
+                    bool canSelect =
+                        unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
 
 #if DEBUG
-            if(DebuggingVariables.CanSelectEnemies)
-            {
-                // doubles the check but it's debug so who cares
-                unitOver = UnitList.FirstOrDefault(item =>
-                    item.HasCursorOver(cursor));
-            }
+                    if (DebuggingVariables.CanSelectEnemies)
+                    {
+                        // a little inefficient but whatever, it's debug
+                        canSelect = unit.CollideAgainst(GroupSelectorInstance);
+                    }
 #endif
 
-
-            if(unitOver != null)
-            {
-                selectedUnits.Add(unitOver);
-            }
-
-            if(selectedUnits.Count == 0)
-            {
-                var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
-                if (buildingOver != null)
-                {
-                    selectedBuilding = buildingOver;
+                    if (canSelect)
+                    {
+                        selectedUnits.Add(unit);
+                    }
                 }
-            }
 
+            }
 
             UpdateSelectionMarker();
             HandlePostSelection();
@@ -810,16 +798,17 @@ namespace TownRaiser.Screens
             if(selectedBuilding == null && selectedUnits.Count == 0)
             {
                 this.ActionToolbarInstance.SetViewFromEntity(null);
-                topSelectedUnit = null;
             }
-            else if(selectedUnits.Count > 0)
+            else if (selectedBuilding != null)
+            {
+                this.ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                
+            }
+            else 
             {
                 topSelectedUnit = GetTopSelectedUnit();
                 Unit.TryPlaySelectSound(topSelectedUnit);
-            }
-            else
-            {
-                this.ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                this.ActionToolbarInstance.SetViewFromEntity(null);
             }
         }
 

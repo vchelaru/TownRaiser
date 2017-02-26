@@ -13,6 +13,7 @@ namespace TownRaiser.Entities
         private static string BuildingConstructionComplete = "building_constuction_complete";
         private static string GenericBuildingComplete = "building_constuction_complete_generic_1";
         private static string BuildingContstructionStart = "building_construction_start_generic_1";
+        private static string BuildingDestruction = "building_destruction";
 
         private static void PlayConstructionCompleteSoundEffect(BuildingData building)
         {
@@ -33,6 +34,11 @@ namespace TownRaiser.Entities
             //Right now we do not have building specific start sounds. But I want to track the when the sound is played.
             //Unless desired by the sound guys, we will keep it setup like this.
             SoundEffectTracker.TryPlaySound(building_constuction_start_generic_1, BuildingContstructionStart);
+        }
+
+        public static void PlayDestructionSoundEffect()
+        {
+
         }
     }
 }
