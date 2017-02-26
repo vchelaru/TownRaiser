@@ -137,6 +137,7 @@ namespace TownRaiser.Entities
                 {
                     SpriteInstance.CurrentChainName = BuildingData.Name;
                     IsConstructionComplete = true;
+                    PlayConstructionCompleteSoundEffect(BuildingData);
                 }
             }
         }
@@ -147,6 +148,7 @@ namespace TownRaiser.Entities
             IsConstructionComplete = false;
             constructionTimeStarted = FlatRedBall.Screens.ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
             // to force an immediate update of visuals
+            PlayConstructionStartSoundEffect();
             ConstructionActivity();
         }
 
@@ -271,8 +273,13 @@ namespace TownRaiser.Entities
             CurrentHealth -= attackDamage;
             if (CurrentHealth <= 0)
             {
-                Destroy();
+                PerformDestruction();
             }
+        }
+
+        private void PerformDestruction()
+        {
+            Destroy();
         }
 
         internal void InterpolateToState(object buildComplete, double buildTime)

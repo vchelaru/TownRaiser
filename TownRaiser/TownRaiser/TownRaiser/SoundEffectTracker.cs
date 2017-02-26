@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,11 @@ namespace TownRaiser
         }
 
         private static Dictionary<string, SoundTrackerData> m_LastSoundPlayTimes;
-        public static void Initialize()
+        private static double m_SoundRadius;
+        public static void Initialize(double soundRadius)
         {
             m_LastSoundPlayTimes = new Dictionary<string, SoundTrackerData>();
+            m_SoundRadius = soundRadius;
         }
 
         public static void Destroy()
@@ -41,26 +44,31 @@ namespace TownRaiser
             return lastPlayTime;
         }
 
-        private static void RegisterTimeLastPlayed(string soundEffectName, double soundEffectDuration, double screenTimePlayed)
+        private static void RegisterTimeLastPlayed(string soundEffectName, double soundEffectDuration, double lastTimePlayed)
         {
             if (m_LastSoundPlayTimes.ContainsKey(soundEffectName))
             {
                 var data = m_LastSoundPlayTimes[soundEffectName];
-                data.LastPlayTime = screenTimePlayed;
-                m_LastSoundPlayTimes[soundEffectName] = data;
+                data.LastPlayTime = lastTimePlayed;
+                m_LastSoundPlayTimes[soundEffectName] = new SoundTrackerData(){SoundDuration = soundEffectDuration, LastPlayTime = lastTimePlayed };
             }
             else
             {
-                m_LastSoundPlayTimes.Add(soundEffectName, new SoundTrackerData() { LastPlayTime = screenTimePlayed, SoundDuration = soundEffectDuration});
+                m_LastSoundPlayTimes.Add(soundEffectName, new SoundTrackerData() { LastPlayTime = lastTimePlayed, SoundDuration = soundEffectDuration});
             }
         }
 
-        public static void TryPlaySound(SoundEffect soundEffect, string soundEffectName)
+        public static void TryPlaySound(SoundEffect soundEffect, string soundEffectName, float volume = 1, float pitch = 0, float pan = 0)
         {
 #if DEBUG
             if (soundEffect == null)
             {
-                throw new Exception($"The sound effect: {soundEffectName}, does not exist.");
+                if (Entities.DebuggingVariables.ThrowExceptionIfNoSoundEffect)
+                {
+                    throw new Exception($"The sound effect: {soundEffectName}, does not exist.");
+                }
+
+                return;
             }
 #endif
 
@@ -69,9 +77,20 @@ namespace TownRaiser
 
             if (currentScreen.PauseAdjustedSecondsSince(lastSoundPlayTime) >= soundEffect.Duration.TotalSeconds)
             {
-                soundEffect.Play();
+                soundEffect.Play(volume, pitch, pan);
                 RegisterTimeLastPlayed(soundEffectName, soundEffect.Duration.TotalSeconds, currentScreen.PauseAdjustedCurrentTime);
             }
         }
+
+        public static void TryPlayCameraRestrictedSoundEffect(SoundEffect soundEffect, string soundEffectName, Vector3 cameraPos, Vector3 soundOrigin)
+        {
+            float distance = (cameraPos - soundOrigin).LengthSquared();
+
+            if(distance <= m_SoundRadius)
+            {
+                TryPlaySound(soundEffect, soundEffectName);
+            }
+        }
+
     }
 }

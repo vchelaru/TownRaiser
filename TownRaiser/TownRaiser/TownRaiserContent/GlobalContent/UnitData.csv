@@ -5,7 +5,7 @@ Bat,Bat,bat,40,,,4,9,70,0,,true,true,B
 Goblin,Goblin,goblin,100,,,12,10,50,0,,true,true,G
 Cyclops,Cyclops,cyclops,500,,,40,12,40,,,true,true,
 Dragon,Dragon,dragon,600,,,60,16,50,0,,true,true,
-KingSkeleton,King Skeleton,king_skeleton,300,,,30,12,30,,,true,true,
+KingSkeleton,King Skeleton,kingskeleton,300,,,30,12,30,,,true,true,
 Octopus,Tako Tako,octopus,400,,,50,20,25,,,true,true,
 Skeleton,Skeleton,skeleton,100,,,10,8,20,,,true,true,
 Slime,Slime,slime,20,,,3,6,40,,,true,true,

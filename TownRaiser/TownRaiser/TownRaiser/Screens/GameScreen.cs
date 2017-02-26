@@ -26,6 +26,7 @@ using TownRaiser.DataTypes;
 using TownRaiser.Entities;
 using TownRaiser.Spawning;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TownRaiser.Screens
 {
@@ -50,54 +51,9 @@ namespace TownRaiser.Screens
 
         private RaidSpawner raidSpawner;
 
-        private int m_LumberButUsePropertyExceptOnInit;
-        private int m_StoneButUsePropertyExceptOnInit;
-        private int m_GoldButUsePropertyExceptOnInit;
-        public int Lumber
-        {
-            get
-            {
-                return m_LumberButUsePropertyExceptOnInit;
-            }
-            set
-            {
-                if(m_LumberButUsePropertyExceptOnInit < value)
-                {
-                    ui_collect_lumber_1.Play();
-                }
-                m_LumberButUsePropertyExceptOnInit = value;
-            }
-        }
-        public int Stone
-        {
-            get
-            {
-                return m_StoneButUsePropertyExceptOnInit;
-            }
-            set
-            {
-                if(m_StoneButUsePropertyExceptOnInit < value)
-                {
-                    ui_collect_stone_1.Play();
-                }
-                m_StoneButUsePropertyExceptOnInit = value;
-            }
-        }
-        public int Gold
-        {
-            get
-            {
-                return m_GoldButUsePropertyExceptOnInit;
-            }
-            set
-            {
-                if(m_GoldButUsePropertyExceptOnInit < value)
-                {
-                    ui_collect_gold_1.Play();
-                }
-                m_GoldButUsePropertyExceptOnInit = value;
-            }
-        }
+        public int Lumber { get; set; } = 1200;
+        public int Stone { get; set; } = 1000;
+        public int Gold { get; set; } = 1000;
         
         public int CurrentCapacityUsed
         {
@@ -122,6 +78,8 @@ namespace TownRaiser.Screens
         public const float GridWidth = 16;
 
         List<Entities.Unit> selectedUnits = new List<Entities.Unit>();
+        UnitData topSelectedUnit;
+
         Entities.Building selectedBuilding;
 
         private float mapXMin;
@@ -147,8 +105,6 @@ namespace TownRaiser.Screens
 
             FlatRedBall.Debugging.Debugger.TextCorner = FlatRedBall.Debugging.Debugger.Corner.BottomLeft;
 
-            InitializeEvents();
-
             InitializeNodeNetwork();
 
             InitializeResourceTileShapeCollections();
@@ -162,7 +118,11 @@ namespace TownRaiser.Screens
 
         private void InitializeSoundTracker()
         {
-            SoundEffectTracker.Initialize();
+            //This sets the minimum distance for sounds to play from camera center.
+            var mainCamera = Camera.Main;
+            var halfWidth = mainCamera.OrthogonalWidth / 2;
+            var halfHeight = mainCamera.OrthogonalHeight / 2;
+            SoundEffectTracker.Initialize(halfHeight * halfHeight + halfWidth * halfWidth);
         }
 
         private void InitializeRaidSpawner()
@@ -257,14 +217,17 @@ namespace TownRaiser.Screens
         private void InitializeUi()
         {
             //Set local resource varables.
-            m_LumberButUsePropertyExceptOnInit = 1200;
-            m_StoneButUsePropertyExceptOnInit = 1000;
-            m_GoldButUsePropertyExceptOnInit = 1000;
+            
 
             this.GroupSelectorInstance.VisualRepresentation = GroupSelectorGumInstance;
             this.GroupSelectorInstance.IsInSelectionMode = true;
 
             this.GroupSelectorInstance.SelectionFinished += HandleGroupSelection;
+
+            ActionToolbarInstance.TrainUnitInvokedFromActionToolbar += (notused, args) =>
+            {
+                HandlePerfromTrain(args.UnitData);
+            };
 
             UpdateResourceDisplay();
         }
@@ -303,16 +266,11 @@ namespace TownRaiser.Screens
                 if (buildingOver != null)
                 {
                     selectedBuilding = buildingOver;
-                    if (selectedBuilding.IsConstructionComplete)
-                    {
-                        //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
-                        ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
-                    }
                 }
             }
 
             UpdateSelectionMarker();
-            CheckSelectionState();
+            HandlePostSelection();
         }
 
         private void InitializeNodeNetwork()
@@ -365,10 +323,7 @@ namespace TownRaiser.Screens
 
         private void InitializeEvents()
         {
-            ActionToolbarInstance.TrainUnitInvokedFromActionToolbar += (notused, args) =>
-            {
-                HandlePerfromTrain(args.UnitData);
-            };
+            
         }
 
         #endregion
@@ -726,6 +681,9 @@ namespace TownRaiser.Screens
             //Only do this work if we have selected units
             if (selectedUnits.Count > 0)
             {
+                //Play obey order sound effect
+                Unit.TryPlayObeySound(topSelectedUnit);
+
                 Cursor cursor = GuiManager.Cursor;
 
                 var worldX = cursor.WorldXAt(0);
@@ -814,25 +772,49 @@ namespace TownRaiser.Screens
                 if (buildingOver != null)
                 {
                     selectedBuilding = buildingOver;
-                    if (selectedBuilding.IsConstructionComplete)
-                    {
-                        //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
-                        ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
-                    }
                 }
             }
 
 
             UpdateSelectionMarker();
-            CheckSelectionState();
+            HandlePostSelection();
         }
 
-        public void CheckSelectionState()
+        public void HandlePostSelection()
         {
-            if(selectedBuilding == null)
+            if(selectedBuilding == null && selectedUnits.Count == 0)
             {
                 this.ActionToolbarInstance.SetViewFromEntity(null);
+                topSelectedUnit = null;
             }
+            else if(selectedUnits.Count > 0)
+            {
+                topSelectedUnit = GetTopSelectedUnit();
+                Unit.TryPlaySelectSound(topSelectedUnit);
+            }
+            else
+            {
+                this.ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+            }
+        }
+
+        private UnitData GetTopSelectedUnit()
+        {
+            var distinctList = selectedUnits.Select(x => x.UnitData).Distinct();
+            UnitData topData = null;
+            int topDataCount = 0;
+
+            foreach (var unit in distinctList)
+            {
+                var currentCount = selectedUnits.Count(x => x.UnitData == unit);
+                if (topData == null || topDataCount < currentCount)
+                {
+                    topData = unit;
+                    topDataCount = currentCount; ;
+                }
+            }
+
+            return topData;
         }
 
         private void UpdateSelectionMarker()
@@ -1023,7 +1005,34 @@ namespace TownRaiser.Screens
                 UpdateResourceDisplay();
             }
 
+            Unit.TryPlaySpawnSound(unitData);
+
             return newUnit;
+        }
+
+        public void TryPlayResourceCollectSound(ResourceType resource, Vector3 soundOrigin)
+        {
+            SoundEffect soundEffect;
+            string soundEffectName;
+            switch(resource)
+            {
+                case ResourceType.Gold:
+                    soundEffect = ui_collect_gold_1;
+                    soundEffectName = "ui_collect_gold_1";
+                    break;
+                case ResourceType.Lumber:
+                    soundEffect = ui_collect_lumber_1;
+                    soundEffectName = "ui_collect_lumber_1";
+                    break;
+                case ResourceType.Stone:
+                    soundEffect = ui_collect_stone_1;
+                    soundEffectName = "ui_collect_stone_1";
+                    break;
+                default:
+                    throw new Exception($"Resource type does not have a sound: {resource.ToString()}");
+                    break;
+            }
+            SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, soundOrigin);
         }
 
         void CustomDestroy()

@@ -339,8 +339,20 @@ namespace TownRaiser.Entities
             CurrentHealth -= attackDamage;
             if(CurrentHealth <= 0)
             {
-                Destroy();
+                PerformDeath();
             }
+        }
+
+        private void PerformDeath()
+        {
+            TryPlayDeathSound(this);
+            if (UnitData.IsEnemy == false)
+            {
+                var screen = ScreenManager.CurrentScreen as Screens.GameScreen;
+                screen.CurrentCapacityUsed -= UnitData.Capacity;
+                screen.UpdateResourceDisplay();
+            }
+            Destroy();
         }
 
         public void TryAttack(Unit targetUnit)
@@ -353,6 +365,7 @@ namespace TownRaiser.Entities
                 lastDamageDealt = screen.PauseAdjustedCurrentTime;
 
                 targetUnit.TakeDamage(UnitData.AttackDamage);
+                TryPlayAttackSound(this);
             }
         }
 
@@ -367,6 +380,8 @@ namespace TownRaiser.Entities
                 lastDamageDealt = screen.PauseAdjustedCurrentTime;
 
                 targetBuilding.TakeDamage(UnitData.AttackDamage);
+
+                TryPlayAttackSound(this);
             }
         }
 
@@ -386,7 +401,7 @@ namespace TownRaiser.Entities
 
         private void CustomDestroy()
 		{
-
+            
         }
 
         private static void CustomLoadStaticContent(string contentManagerName)

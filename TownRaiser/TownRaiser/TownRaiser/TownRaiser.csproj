@@ -151,6 +151,7 @@
     <Compile Include="Entities\Building.Generated.Event.cs">
       <DependentUpon>Building.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Building.Sfx.cs" />
     <Compile Include="Entities\BuildingMarker.cs" />
     <Compile Include="Entities\BuildingMarker.Event.cs">
       <DependentUpon>BuildingMarker.cs</DependentUpon>
