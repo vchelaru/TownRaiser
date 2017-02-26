@@ -1030,6 +1030,11 @@ namespace TownRaiser.Screens
             this.ResourceDisplayInstance.LumberText = this.Lumber.ToString();
             this.ResourceDisplayInstance.StoneText = this.Stone.ToString();
             this.ResourceDisplayInstance.GoldText = this.Gold.ToString();
+
+            if (selectedBuilding != null)
+            {
+                ActionToolbarInstance.UpdateCostUiFromLastRollOver();
+            }
         }
 
         private void HandleRaidSpawn(IEnumerable<UnitData> unitDatas, Vector3 spawnPoint)

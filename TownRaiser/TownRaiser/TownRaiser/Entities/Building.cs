@@ -68,7 +68,7 @@ namespace TownRaiser.Entities
                 var currentScreen = ScreenManager.CurrentScreen;
 
 #if DEBUG
-                if(DebuggingVariables.BuildAndTrainImmediately)
+                if(DebuggingVariables.TrainImmediately)
                 {
                     return true;
                 }
@@ -136,7 +136,7 @@ namespace TownRaiser.Entities
                     FlatRedBall.Screens.ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(constructionTimeStarted) / BuildingData.BuildTime;
 
 #if DEBUG
-                if(DebuggingVariables.BuildAndTrainImmediately)
+                if(DebuggingVariables.BuildImmediately)
                 {
                     ratioComplete = 1;
                 }

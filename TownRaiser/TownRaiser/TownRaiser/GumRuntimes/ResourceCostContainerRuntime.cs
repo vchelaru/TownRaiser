@@ -5,13 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TownRaiser.CustomEvents;
+using TownRaiser.Interfaces;
 
 namespace TownRaiser.GumRuntimes
 {
     public partial class ResourceCostContainerRuntime
     {
+        private ICommonEntityData m_LastUpdatedData;
         public void UpadteResourceDisplayText(UpdateUiEventArgs args)
         {
+            m_LastUpdatedData = args.SelectedData;
+
             this.GoldCostText = $"{args.GoldCost}";
             this.LumberCostText = $"{args.LumberCost}";
             this.StoneCostText = $"{args.StoneCost}";
@@ -30,6 +34,14 @@ namespace TownRaiser.GumRuntimes
                 GoldTextColorState = ResourceCostDisplayRuntime.TextColor.CanAfford;
                 LumberTextColorState = ResourceCostDisplayRuntime.TextColor.CanAfford;
                 StoneTextColorState = ResourceCostDisplayRuntime.TextColor.CanAfford;
+            }
+        }
+
+        public void UpdateFromLastRollOverData()
+        {
+            if (m_LastUpdatedData != null)
+            {
+                UpadteResourceDisplayText(new UpdateUiEventArgs(m_LastUpdatedData));
             }
         }
     }

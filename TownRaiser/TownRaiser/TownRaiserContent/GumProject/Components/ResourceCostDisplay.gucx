@@ -467,6 +467,33 @@
         <SetsValue>true</SetsValue>
       </Variable>
     </State>
+    <State>
+      <Name>Capacity</Name>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Height</Name>
+        <Value xsi:type="xsd:int">10</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Left</Name>
+        <Value xsi:type="xsd:int">3</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Top</Name>
+        <Value xsi:type="xsd:int">213</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+      <Variable>
+        <Type>int</Type>
+        <Name>SpriteInstance.Texture Width</Name>
+        <Value xsi:type="xsd:int">10</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
   </Category>
   <Category>
     <Name>TextColor</Name>

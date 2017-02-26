@@ -63,6 +63,10 @@ namespace TownRaiser.GumRuntimes
             this.ActionStackContainerInstance.SelectBuildingToConstruct += ReactToBuildingButtonClick;
         }
 
+        public void UpdateCostUiFromLastRollOver()
+        {
+            this.ResourceCostContainer.UpdateFromLastRollOverData();
+        }
         public void ReactToUpdateUiChangeEvent(object sender, UpdateUiEventArgs args)
         {
             this.MenuTitleDisplayText = args.TitleDisplay;
