@@ -156,6 +156,17 @@ namespace TownRaiser.Screens
             InitializeUi();
 
             InitializeRaidSpawner();
+
+            InitializeEncounterPoints();
+        }
+
+        private void InitializeEncounterPoints()
+        {
+            // this is temporary code - do we eventually want these set in the TMX? If so, do they reference a CSV? or do they 
+            // have their own values....probably CSV so that we can tune difficulty
+            var encounterPoint = new EncounterSpawnPoint();
+            encounterPoint.X = 500;
+            encounterPoint.Y = -600;
         }
 
         private void InitializeRaidSpawner()
@@ -387,6 +398,7 @@ namespace TownRaiser.Screens
             BuildMarkerActivity();
 
             CursorChangeActivity();
+
             RaidSpawningActivity();
         }
 
@@ -849,6 +861,7 @@ namespace TownRaiser.Screens
             while(SelectionMarkerList.Count < selectedUnits.Count)
             {
                 var selectionMarker = new Entities.SelectionMarker();
+                selectionMarker.RelativeZ = -.01f;
                 SelectionMarkerList.Add(selectionMarker);
             }
 
