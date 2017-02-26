@@ -152,14 +152,14 @@
     <Variable>
       <Type>bool</Type>
       <Name>HasEvents</Name>
-      <Value xsi:type="xsd:boolean">true</Value>
+      <Value xsi:type="xsd:boolean">false</Value>
       <Category>Behavior</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>float</Type>
       <Name>Height</Name>
-      <Value xsi:type="xsd:float">4</Value>
+      <Value xsi:type="xsd:float">3</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>

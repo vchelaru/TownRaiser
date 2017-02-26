@@ -197,6 +197,8 @@ namespace TownRaiser.Screens
 
         private void InitializeCamera()
         {
+            SpriteManager.OrderedSortType = FlatRedBall.Graphics.SortType.ZSecondaryParentY;
+
             //Eventually place the map at the main base spawn point.
             Camera.Main.X = Camera.Main.RelativeXEdgeAt(0) + .2f;
             Camera.Main.Y = -Camera.Main.RelativeYEdgeAt(0) + .2f;
@@ -228,6 +230,10 @@ namespace TownRaiser.Screens
             {
                 HandlePerfromTrain(args.UnitData);
             };
+
+            // move the UI above all other stuff
+            //GameScreenGum.Z = 20;
+            SpriteManager.AddToLayer(GameScreenGum, this.UiLayer);
 
             UpdateResourceDisplay();
         }
@@ -444,6 +450,9 @@ namespace TownRaiser.Screens
 
         private void PerformUnitsVsUnitsCollision()
         {
+            // larger value keeps them from overlapping...
+            const float separationCoefficient = 3;
+
             for(int i = 0; i < UnitList.Count -1; i++)
             {
                 var first = UnitList[i];
@@ -463,8 +472,8 @@ namespace TownRaiser.Screens
                         first.Position -= firstRepositionVector;
                         second.Position -= secondRepositionVector;
 
-                        first.Position += firstRepositionVector * TimeManager.SecondDifference;
-                        second.Position += secondRepositionVector * TimeManager.SecondDifference;
+                        first.Position += separationCoefficient * firstRepositionVector * TimeManager.SecondDifference;
+                        second.Position += separationCoefficient * secondRepositionVector * TimeManager.SecondDifference;
                     }
                 }
             }
@@ -543,7 +552,7 @@ namespace TownRaiser.Screens
                         case ActionMode.Build:
                             if (BuildingMarkerInstance.CurrentState == Entities.BuildingMarker.VariableState.Normal)
                             {
-                                HandlePerformBuilding();
+                                HandlePerformBuildingClick();
                                 HandlePostClick();
                             }
                             break;
@@ -576,7 +585,7 @@ namespace TownRaiser.Screens
             var keyboard = InputManager.Keyboard;
             if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
             {
-                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Snake]);
             }
             if (keyboard.KeyDown(Keys.D2))
             {
@@ -608,7 +617,7 @@ namespace TownRaiser.Screens
             }
             if (keyboard.KeyDown(Keys.D9))
             {
-                DebugAddUnit(GlobalContent.UnitData[UnitData.Slime]);
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Goblin]);
             }
 
             var cursor = GuiManager.Cursor;
@@ -708,7 +717,8 @@ namespace TownRaiser.Screens
                     {
                         selectedUnit.AssignAttackGoal(enemyOver);
                     }
-                    else if (resourceOver != null)
+                    // If a unit initiates battle, then it cannot gather resources
+                    else if (resourceOver != null && selectedUnit.UnitData.InitiatesBattle == false)
                     {
                         var clickLocation = new Vector3(worldX, worldY, 0);
                         selectedUnit.AssignResourceCollectGoal(clickLocation, resourceOver, resourceType.Value);
@@ -745,8 +755,24 @@ namespace TownRaiser.Screens
             selectedUnits.Clear();
             selectedBuilding = null;
 
+            // buildings are less abundant than units, so let's give preference to building selection:
+
             var cursor = GuiManager.Cursor;
 
+            var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
+            if (buildingOver != null)
+            {
+                selectedBuilding = buildingOver;
+                if (selectedBuilding.IsConstructionComplete)
+                {
+                    //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
+                    ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                }
+            }
+
+
+            if(buildingOver == null)
+            {
             var unitOver = UnitList.FirstOrDefault(item => 
                 item.UnitData.IsEnemy == false && item.HasCursorOver(cursor));
 
@@ -763,7 +789,6 @@ namespace TownRaiser.Screens
             if(unitOver != null)
             {
                 selectedUnits.Add(unitOver);
-
             }
 
             if(selectedUnits.Count == 0)
@@ -877,7 +902,7 @@ namespace TownRaiser.Screens
 
         } 
 
-        private void HandlePerformBuilding()
+        private void HandlePerformBuildingClick()
         {
 
             DataTypes.BuildingData buildingType = ActionToolbarInstance.SelectedBuildingData;
@@ -896,10 +921,34 @@ namespace TownRaiser.Screens
                 isOverOtherBuilding = BuildingList.Any(item => item.HasCursorOver(cursor));
             }
 
-            if(hasEnoughResources && !isOverOtherBuilding)
+            bool canBuild = hasEnoughResources && !isOverOtherBuilding;
+
+            if (canBuild)
             {
-                // do it!
+                PerformBuildAtCursor(buildingType);
+            }
+        }
+
+        private void PerformBuildAtCursor(BuildingData buildingType)
+        {
                 var building = Factories.BuildingFactory.CreateNew();
+            building.BuildingData = buildingType;
+
+            building.BuildingConstructionCompleted += () =>
+            {
+                UpdateCapacityValue();
+                UpdateResourceDisplay();
+            };
+            building.OnDestroy += (not, used) =>
+            {
+                UpdateCapacityValue();
+                UpdateResourceDisplay();
+
+                // re-add a node here
+                tileNodeNetwork.AddAndLinkTiledNodeWorld(building.X, building.Y);
+
+            };
+
                 float x, y;
                 GetBuildLocationFromCursor(out x, out y);
 
@@ -909,7 +958,8 @@ namespace TownRaiser.Screens
 
                 building.StartBuilding();
 
-                building.BuildingData = buildingType;
+            tileNodeNetwork.RemoveAndUnlinkNode(ref building.Position);
+
 
                 bool shouldUpdateResources = true;
 #if DEBUG
@@ -920,15 +970,32 @@ namespace TownRaiser.Screens
                 {
                     this.Lumber -= buildingType.LumberCost;
                     this.Stone -= buildingType.StoneCost;
-                    this.MaxCapacity = BuildingList.Sum(item => item.BuildingData.Capacity);
-                }
+
+                UpdateCapacityValue();
 
                 UpdateResourceDisplay();
             }
+        }
+
+        private void UpdateCapacityValue()
+        {
+
+            CurrentCapacityUsed = UnitList
+                .Select(x => x.UnitData)
+                .Where(x => x.IsEnemy == false)
+                .Sum(x => x.Capacity); //makes sure we have the correct capacity when units are trained.
+
+            this.MaxCapacity = BuildingList.Sum(item =>
+            {
+                if (item.IsConstructionComplete)
+                {
+                    return item.BuildingData.Capacity;
+                }
             else
             {
-                // tell them?
+                    return 0;
             }
+            });
         }
 
         private static void GetBuildLocationFromCursor(out float x, out float y)
@@ -957,6 +1024,14 @@ namespace TownRaiser.Screens
 
                 UpdateResourceDisplay();
             }
+
+#if DEBUG
+            if(DebuggingVariables.HasInfiniteResources)
+            {
+                canTrain = true;
+            }
+#endif
+
             return canTrain;
         }
 
@@ -981,11 +1056,14 @@ namespace TownRaiser.Screens
 
         }
 
-#endregion
-
         public Entities.Unit SpawnNewUnit(string unitDataKey, Vector3 spawnPoint)
         {
             var newUnit = Factories.UnitFactory.CreateNew();
+            newUnit.Died += () =>
+            {
+                UpdateCapacityValue();
+                UpdateResourceDisplay();
+            };
 
             newUnit.Position = spawnPoint;
             // make it sit above the ground
@@ -1009,6 +1087,7 @@ namespace TownRaiser.Screens
 
             return newUnit;
         }
+#endregion
 
         public void TryPlayResourceCollectSound(ResourceType resource, Vector3 soundOrigin)
         {
@@ -1034,6 +1113,7 @@ namespace TownRaiser.Screens
             }
             SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, soundOrigin);
         }
+
 
         void CustomDestroy()
 		{

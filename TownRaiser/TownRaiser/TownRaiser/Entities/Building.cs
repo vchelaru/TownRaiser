@@ -36,8 +36,7 @@ namespace TownRaiser.Entities
 
         private const int MaxTrainableUnits = 5;
 
-        public event EventHandler OnDestroy;
-        public event EventHandler<UpdateStatusEventArgs> UpdateStatus;
+
         public ICommonEntityData EntityData => BuildingData;
         public int CurrentHealth { get; set; }
         public IEnumerable<string> ButtonDatas => BuildingData.TrainableUnits.AsReadOnly();
@@ -68,6 +67,13 @@ namespace TownRaiser.Entities
             {
                 var currentScreen = ScreenManager.CurrentScreen;
 
+#if DEBUG
+                if(DebuggingVariables.BuildAndTrainImmediately)
+                {
+                    return true;
+                }
+#endif
+
                 return m_TraningStartTime > 0 && currentScreen.PauseAdjustedSecondsSince(m_TraningStartTime) >= GlobalContent.UnitData[CurrentTrainingUnit].TrainTime;
             }
         }
@@ -84,12 +90,12 @@ namespace TownRaiser.Entities
         }
         #endregion
 
+        public event Action BuildingConstructionCompleted;
+        public event EventHandler OnDestroy;
+        public event EventHandler<UpdateStatusEventArgs> UpdateStatus;
 
-        /// <summary>
-        /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
-        /// This method is called when the Entity is added to managers. Entities which are instantiated but not
-        /// added to managers will not have this method called.
-        /// </summary>
+        #region Initialize Methods
+
         private void CustomInitialize()
         {
             InitializeIUpdatestatusLists();
@@ -111,6 +117,10 @@ namespace TownRaiser.Entities
             
         }
 
+        #endregion
+
+        #region Activity Methods
+
         private void CustomActivity()
 		{
             ConstructionActivity();
@@ -125,6 +135,13 @@ namespace TownRaiser.Entities
                 var ratioComplete = 
                     FlatRedBall.Screens.ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(constructionTimeStarted) / BuildingData.BuildTime;
 
+#if DEBUG
+                if(DebuggingVariables.BuildAndTrainImmediately)
+                {
+                    ratioComplete = 1;
+                }
+#endif
+
                 if(ratioComplete < .5)
                 {
                     SpriteInstance.CurrentChainName = "BeingBuilt1";
@@ -138,6 +155,7 @@ namespace TownRaiser.Entities
                     SpriteInstance.CurrentChainName = BuildingData.Name;
                     IsConstructionComplete = true;
                     PlayConstructionCompleteSoundEffect(BuildingData);
+                    BuildingConstructionCompleted?.Invoke();
                 }
             }
         }
@@ -169,7 +187,11 @@ namespace TownRaiser.Entities
                 ProgressPercents[trainingUnit] = TrainingProgress;
                 if(IsTrainingComplete)
                 {
-                    var newUnit = ((Screens.GameScreen)ScreenManager.CurrentScreen).SpawnNewUnit(trainingUnit, new Vector3() { X = UnitSpawnX, Y = UnitSpawnY, Z = 1 });
+                    var spawnPosition = new Vector3() { X = UnitSpawnX, Y = UnitSpawnY, Z = 1 };
+                    // so the units don't stack in a line line:
+                    spawnPosition.Y += FlatRedBallServices.Random.Between(0, 1);
+                    spawnPosition.X += FlatRedBallServices.Random.Between(0, 1);
+                    var newUnit = ((Screens.GameScreen)ScreenManager.CurrentScreen).SpawnNewUnit(trainingUnit, spawnPosition);
 
                     if(RallyPoint.HasValue)
                     {
@@ -221,23 +243,6 @@ namespace TownRaiser.Entities
             return CurrentHealth / BuildingData.Health;
         }
 
-        private void CustomDestroy()
-		{
-            this.OnDestroy?.Invoke(this, null);
-            this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs() { WasEntityDestroyed = true });
-
-            this.TrainingQueue.Clear();
-            this.TrainingQueue = null;
-
-            this.ProgressPercents.Clear();
-            this.ProgressPercents = null;
-
-            this.ButtonCountDisplays.Clear();
-            this.ButtonCountDisplays = null;
-
-            this.OnDestroy = null;
-            this.UpdateStatus = null;
-		}
         private bool TryStartTraining(string unitName)
         {
             var gameScreen = ScreenManager.CurrentScreen as Screens.GameScreen;
@@ -261,13 +266,6 @@ namespace TownRaiser.Entities
 
             return canTrain;
         }
-
-        private static void CustomLoadStaticContent(string contentManagerName)
-        {
-
-
-        }
-
         internal void TakeDamage(int attackDamage)
         {
             CurrentHealth -= attackDamage;
@@ -276,7 +274,6 @@ namespace TownRaiser.Entities
                 PerformDestruction();
             }
         }
-
         private void PerformDestruction()
         {
             Destroy();
@@ -286,6 +283,33 @@ namespace TownRaiser.Entities
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+        private void CustomDestroy()
+		{
+            this.OnDestroy?.Invoke(this, null);
+            this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs() { WasEntityDestroyed = true });
+
+            this.TrainingQueue.Clear();
+            this.TrainingQueue = null;
+
+            this.ProgressPercents.Clear();
+            this.ProgressPercents = null;
+
+            this.ButtonCountDisplays.Clear();
+            this.ButtonCountDisplays = null;
+
+            this.OnDestroy = null;
+            this.UpdateStatus = null;
+    }
+
+        private static void CustomLoadStaticContent(string contentManagerName)
+        {
+
+
+}
+
+
 
 
     }

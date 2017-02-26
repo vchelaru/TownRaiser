@@ -15,9 +15,14 @@ namespace TownRaiser.Entities
         void OnAfterUnitDataSet (object sender, EventArgs e)
         {
             var animationName = this.UnitData.Name;
-            
             this.SpriteInstance.CurrentChainName = animationName;
+            // line up the bottom of the sprite
+            this.SpriteInstance.UpdateToCurrentAnimationFrame();
+            this.SpriteInstance.RelativeY = this.SpriteInstance.Height / 2.0f;
+
+
             this.CurrentHealth = this.UnitData.Health;
+            this.ShadowSprite.CurrentChainName = "Shadow" + UnitData.Size;
         }
 		
 	}

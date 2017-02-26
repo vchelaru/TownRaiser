@@ -63,6 +63,12 @@ namespace TownRaiser.Entities
 
         #endregion
 
+        #region Events
+
+        public event Action Died;
+
+        #endregion
+
         #region Initialize
 
         /// <summary>
@@ -75,7 +81,7 @@ namespace TownRaiser.Entities
             //// This should prob be done in Glue instead, but I don't think Glue currently supports this:
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
-            this.HealthBarRuntimeInstance.Z = -1;
+            this.HealthBarRuntimeInstance.Z = 2;
 #if DEBUG
             this.ResourceCollectCircleInstance.Visible = DebuggingVariables.ShowResourceCollision;
 #endif
@@ -134,7 +140,7 @@ namespace TownRaiser.Entities
 
         private void HealthBarActivity()
         {
-            HealthBarRuntimeInstance.PositionTo(this, -6);
+            HealthBarRuntimeInstance.PositionTo(this, -SpriteInstance.Height * .85f);
 
             var healthPercentage = 100 * this.CurrentHealth / (float)UnitData.Health;
 
@@ -181,6 +187,13 @@ namespace TownRaiser.Entities
                 .Take(3)
                 .ToList();
 
+            // if there's no buildings, then just do a regular attack move:
+            if(buildingsToTarget.Count == 0)
+            {
+                AssignMoveAttackGoal(worldX, worldY, replace);
+            }
+            else
+            {
             var goal = new AttackThenRetreat();
             goal.StartX = this.X;
             goal.StartY = this.Y;
@@ -198,6 +211,7 @@ namespace TownRaiser.Entities
             }
             this.HighLevelGoals.Push(goal);
             this.ImmediateGoal = null;
+        }
         }
 
         public void AssignMoveAttackGoal(float worldX, float worldY, bool replace = true)
@@ -259,7 +273,7 @@ namespace TownRaiser.Entities
                 direction.Z = 0;
                 Velocity = direction * UnitData.MovementSpeed;
 
-                SpriteInstance.FlipHorizontal = Velocity.X < 0;
+                SpriteInstance.FlipHorizontal = Velocity.X > 0;
             }
         }
 
@@ -287,6 +301,25 @@ namespace TownRaiser.Entities
                 HighLevelGoals.Clear();
                 HighLevelGoals.Push(goal);
             }
+        }
+
+        public void ToggleResourceIndicator(bool isEnabled, Screens.ResourceType resourceType)
+        {
+            ResourceIndicatorSpriteInstance.Visible = isEnabled;
+            string resourceAnimationChainName;
+            switch (resourceType) {
+                case Screens.ResourceType.Lumber:
+                    resourceAnimationChainName = "ResourceLumber";
+                    break;
+                case Screens.ResourceType.Stone:
+                    resourceAnimationChainName = "ResourceStone";
+                    break;
+                default:
+                //case Screens.ResourceType.Gold:
+                    resourceAnimationChainName = "ResourceGold";
+                    break;
+            }
+            ResourceIndicatorSpriteInstance.CurrentChainName = resourceAnimationChainName;
         }
 
         public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, Screens.ResourceType resourceType)
@@ -340,6 +373,7 @@ namespace TownRaiser.Entities
             if(CurrentHealth <= 0)
             {
                 PerformDeath();
+                Died?.Invoke();
             }
         }
 
@@ -401,7 +435,10 @@ namespace TownRaiser.Entities
 
         private void CustomDestroy()
 		{
-            
+            while (this.pathLines.Count > 0)
+            {
+                ShapeManager.Remove(pathLines.Last());
+        }
         }
 
         private static void CustomLoadStaticContent(string contentManagerName)
