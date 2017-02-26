@@ -12,6 +12,7 @@ namespace TownRaiser.CustomEvents
         public int GoldCost;
         public int LumberCost;
         public int StoneCost;
+        public int CapacityCost;
         public string TitleDisplay;
         public bool ShouldCheckAffordability;
         public ICommonEntityData SelectedData;
@@ -27,6 +28,7 @@ namespace TownRaiser.CustomEvents
             GoldCost = dataToSetFrom.Gold;
             LumberCost = dataToSetFrom.Lumber;
             StoneCost = dataToSetFrom.Stone;
+            CapacityCost = dataToSetFrom.CapacityUsed;
             ShouldCheckAffordability = true;
         }
 

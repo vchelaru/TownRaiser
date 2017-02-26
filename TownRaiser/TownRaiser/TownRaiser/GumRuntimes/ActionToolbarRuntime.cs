@@ -127,6 +127,7 @@ namespace TownRaiser.GumRuntimes
             if (addButtons)
             {
                 this.SetVariableState(VariableState.BuildMenuSelected);
+                this.ResourceCostContainer.CurrentMenuTypeState = ResourceCostContainerRuntime.MenuType.BuildMenu;
 
                 ActionStackContainerInstance.AddBuildingToggleButtons();
             }

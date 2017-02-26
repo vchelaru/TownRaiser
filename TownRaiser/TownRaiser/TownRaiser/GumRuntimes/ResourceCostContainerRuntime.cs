@@ -19,6 +19,7 @@ namespace TownRaiser.GumRuntimes
             this.GoldCostText = $"{args.GoldCost}";
             this.LumberCostText = $"{args.LumberCost}";
             this.StoneCostText = $"{args.StoneCost}";
+            this.CapacityCostText = $"{args.CapacityCost}";
             
             //ChangeColor based on affordability.
             if(args.ShouldCheckAffordability)
@@ -27,6 +28,7 @@ namespace TownRaiser.GumRuntimes
                 GoldTextColorState = gameScreen.Gold >= args.GoldCost ? ResourceCostDisplayRuntime.TextColor.CanAfford : ResourceCostDisplayRuntime.TextColor.CannotAfford;
                 LumberTextColorState = gameScreen.Lumber >= args.LumberCost ? ResourceCostDisplayRuntime.TextColor.CanAfford : ResourceCostDisplayRuntime.TextColor.CannotAfford;
                 StoneTextColorState = gameScreen.Stone >= args.StoneCost ? ResourceCostDisplayRuntime.TextColor.CanAfford : ResourceCostDisplayRuntime.TextColor.CannotAfford;
+                CapacityTextColorState = gameScreen.MaxCapacity >=  gameScreen.CurrentCapacityUsed + args.CapacityCost || gameScreen.HasTrainingUnits ? ResourceCostDisplayRuntime.TextColor.CanAfford : ResourceCostDisplayRuntime.TextColor.CannotAfford;
 
             }
             else
@@ -34,6 +36,7 @@ namespace TownRaiser.GumRuntimes
                 GoldTextColorState = ResourceCostDisplayRuntime.TextColor.CanAfford;
                 LumberTextColorState = ResourceCostDisplayRuntime.TextColor.CanAfford;
                 StoneTextColorState = ResourceCostDisplayRuntime.TextColor.CanAfford;
+                CapacityTextColorState = ResourceCostDisplayRuntime.TextColor.CanAfford;
             }
         }
 

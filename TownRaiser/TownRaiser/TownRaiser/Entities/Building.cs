@@ -187,6 +187,18 @@ namespace TownRaiser.Entities
                 ProgressPercents[trainingUnit] = TrainingProgress;
                 if(IsTrainingComplete)
                 {
+
+                    TrainingQueue.RemoveAt(0);
+
+                    ButtonCountDisplays[trainingUnit]--;
+
+                    if(TrainingQueue.Count > 0)
+                    {
+                        TryStartTraining(CurrentTrainingUnit);
+                    }
+
+                    //Spawn the unit after qeueuing up a new unit for training.
+                    //This will ensure the ui can properly update to show if the unit has enough capacity or if there is a queued unit.
                     var spawnPosition = new Vector3() { X = UnitSpawnX, Y = UnitSpawnY, Z = 1 };
                     // so the units don't stack in a line line:
                     spawnPosition.Y += FlatRedBallServices.Random.Between(0, 1);
@@ -196,15 +208,6 @@ namespace TownRaiser.Entities
                     if(RallyPoint.HasValue)
                     {
                         newUnit.AssignMoveGoal(RallyPoint.Value.X, RallyPoint.Value.Y);
-                    }
-
-                    TrainingQueue.RemoveAt(0);
-
-                    ButtonCountDisplays[trainingUnit]--;
-
-                    if(TrainingQueue.Count > 0)
-                    {
-                        TryStartTraining(CurrentTrainingUnit);
                     }
                 }
                 else if(TrainingQueue.Count > 0 && DidTrainingStall)
@@ -241,6 +244,11 @@ namespace TownRaiser.Entities
         {
             
             return CurrentHealth / BuildingData.Health;
+        }
+
+        public bool IsCursorOverSprite(Cursor cursor)
+        {
+            return SpriteInstance.Alpha != 0 && SpriteInstance.AbsoluteVisible && cursor.IsOn3D(SpriteInstance, LayerProvidedByContainer);
         }
 
         private bool TryStartTraining(string unitName)
