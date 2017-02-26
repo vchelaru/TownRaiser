@@ -194,24 +194,24 @@ namespace TownRaiser.Entities
             }
             else
             {
-                var goal = new AttackThenRetreat();
-                goal.StartX = this.X;
-                goal.StartY = this.Y;
+            var goal = new AttackThenRetreat();
+            goal.StartX = this.X;
+            goal.StartY = this.Y;
 
-                goal.TargetX = worldX;
-                goal.TargetY = worldY;
+            goal.TargetX = worldX;
+            goal.TargetY = worldY;
 
-                goal.AllUnits = AllUnits;
-                goal.BuildingsToFocusOn.AddRange( buildingsToTarget);
-                goal.Owner = this;
+            goal.AllUnits = AllUnits;
+            goal.BuildingsToFocusOn.AddRange( buildingsToTarget);
+            goal.Owner = this;
 
-                if (replace)
-                {
-                    this.HighLevelGoals.Clear();
-                }
-                this.HighLevelGoals.Push(goal);
-                this.ImmediateGoal = null;
+            if (replace)
+            {
+                this.HighLevelGoals.Clear();
             }
+            this.HighLevelGoals.Push(goal);
+            this.ImmediateGoal = null;
+        }
         }
 
         public void AssignMoveAttackGoal(float worldX, float worldY, bool replace = true)
@@ -372,9 +372,21 @@ namespace TownRaiser.Entities
             CurrentHealth -= attackDamage;
             if(CurrentHealth <= 0)
             {
-                Destroy();
+                PerformDeath();
                 Died?.Invoke();
             }
+        }
+
+        private void PerformDeath()
+        {
+            TryPlayDeathSound(this);
+            if (UnitData.IsEnemy == false)
+            {
+                var screen = ScreenManager.CurrentScreen as Screens.GameScreen;
+                screen.CurrentCapacityUsed -= UnitData.Capacity;
+                screen.UpdateResourceDisplay();
+            }
+            Destroy();
         }
 
         public void TryAttack(Unit targetUnit)
@@ -387,6 +399,7 @@ namespace TownRaiser.Entities
                 lastDamageDealt = screen.PauseAdjustedCurrentTime;
 
                 targetUnit.TakeDamage(UnitData.AttackDamage);
+                TryPlayAttackSound(this);
             }
         }
 
@@ -401,6 +414,8 @@ namespace TownRaiser.Entities
                 lastDamageDealt = screen.PauseAdjustedCurrentTime;
 
                 targetBuilding.TakeDamage(UnitData.AttackDamage);
+
+                TryPlayAttackSound(this);
             }
         }
 
@@ -423,7 +438,7 @@ namespace TownRaiser.Entities
             while (this.pathLines.Count > 0)
             {
                 ShapeManager.Remove(pathLines.Last());
-            }
+        }
         }
 
         private static void CustomLoadStaticContent(string contentManagerName)

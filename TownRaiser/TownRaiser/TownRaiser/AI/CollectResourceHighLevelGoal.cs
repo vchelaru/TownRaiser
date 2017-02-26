@@ -163,6 +163,8 @@ namespace TownRaiser.AI
                         screen.Stone += Owner.UnitData.ResourceHarvestAmount;
                         break;
                 }
+                //Try to play the collect sound.
+                screen.TryPlayResourceCollectSound(TargetResourceType, Owner.Position);
 
                 // Update UI
                 screen.UpdateResourceDisplay();
@@ -188,7 +190,7 @@ namespace TownRaiser.AI
                 }
 
                 //Try to play gather sfx
-                Unit.TryToPlayResourceGatheringSfx(this.TargetResourceType);
+                Unit.TryToPlayResourceGatheringSfx(Owner.Position, this.TargetResourceType);
 
                 bool canCollect = screen.PauseAdjustedSecondsSince(arrivedAtResourceTime) >= CollectFrequencyInSeconds;
 

@@ -68,7 +68,7 @@ namespace TownRaiser.Entities
                 var currentScreen = ScreenManager.CurrentScreen;
 
 #if DEBUG
-                if(DebuggingVariables.BuildAndTrainImmediately)
+                if(DebuggingVariables.TrainImmediately)
                 {
                     return true;
                 }
@@ -136,7 +136,7 @@ namespace TownRaiser.Entities
                     FlatRedBall.Screens.ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(constructionTimeStarted) / BuildingData.BuildTime;
 
 #if DEBUG
-                if(DebuggingVariables.BuildAndTrainImmediately)
+                if(DebuggingVariables.BuildImmediately)
                 {
                     ratioComplete = 1;
                 }
@@ -154,6 +154,7 @@ namespace TownRaiser.Entities
                 {
                     SpriteInstance.CurrentChainName = BuildingData.Name;
                     IsConstructionComplete = true;
+                    PlayConstructionCompleteSoundEffect(BuildingData);
                     BuildingConstructionCompleted?.Invoke();
                 }
             }
@@ -165,6 +166,7 @@ namespace TownRaiser.Entities
             IsConstructionComplete = false;
             constructionTimeStarted = FlatRedBall.Screens.ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
             // to force an immediate update of visuals
+            PlayConstructionStartSoundEffect();
             ConstructionActivity();
         }
 
@@ -269,9 +271,14 @@ namespace TownRaiser.Entities
             CurrentHealth -= attackDamage;
             if (CurrentHealth <= 0)
             {
-                Destroy();
+                PerformDestruction();
             }
         }
+        private void PerformDestruction()
+        {
+            Destroy();
+        }
+
         internal void InterpolateToState(object buildComplete, double buildTime)
         {
             throw new NotImplementedException();
@@ -294,13 +301,13 @@ namespace TownRaiser.Entities
 
             this.OnDestroy = null;
             this.UpdateStatus = null;
-		}
+    }
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
 
 
-        }
+}
 
 
 

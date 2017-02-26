@@ -1,75 +1,107 @@
-﻿using System;
+﻿using FlatRedBall;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TownRaiser.DataTypes;
 
 namespace TownRaiser.Entities
 {
     public partial class Unit
     {
-        private static double m_TimeSinceLastLumberSound = -1;
-        private static double m_TimeSinceLastStoneSound = -1;
-        private static double m_TimeSinceLastGoldSound = -1;
-        public static void TryToPlayResourceGatheringSfx(Screens.ResourceType resourceType)
+
+        private static readonly string UnitWoodChop = "unit_chop_wood";
+        private static readonly string UnitMineGold = "unit_mine_gold";
+        private static readonly string UnitMineStone = "unit_mine_stone";
+
+        private static readonly string UnitAttack = "unit_attack";
+        private static readonly string UnitDeath = "unit_death";
+        private static readonly string UnitObey = "unit_obey";
+        private static readonly string UnitSelect = "unit_select";
+        private static readonly string UnitSpawn = "unit_spawn";
+        
+        public static void TryToPlayResourceGatheringSfx(Vector3 soundOrigin, Screens.ResourceType resourceType)
         {
+            SoundEffect soundEffect = null;
             switch (resourceType)
             {
                 case Screens.ResourceType.Gold:
-                    TryPlayGoldHarvestSound();
+                    soundEffect = GetRandomSoundEffect(UnitMineGold);
+                    SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, UnitMineGold, Camera.Main.Position, soundOrigin);
                     break;
                 case Screens.ResourceType.Lumber:
-                    TryPlayLumberHarvestSound();
+                    soundEffect = GetRandomSoundEffect(UnitWoodChop);
+                    SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, UnitWoodChop, Camera.Main.Position, soundOrigin);
                     break;
                 case Screens.ResourceType.Stone:
-                    TryPlayStoneHarvestSound();
+                    //ToDo: Rick - Uncomment when stone is implemented.
+                    //soundEffect = GetRandomSoundEffect(UnitMineGold);
+                    //SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, UnitMineStone, Camera.Main.Position, soundOrigin);
                     break;
             }
         }
 
-        private static void TryPlayStoneHarvestSound()
+        public static void TryPlayAttackSound(Unit unit)
         {
-            //Keepign this commented out till we get those sounds.
-            //var gameScreen = FlatRedBall.Screens.ScreenManager.CurrentScreen as Screens.GameScreen;
+            var soundEffectName = $"{UnitAttack}_{unit.UnitData.SoundEffectName}";
+            var soundEffect = GetRandomSoundEffect(soundEffectName);
 
-            //if(gameScreen.PauseAdjustedSecondsSince(m_TimeSinceLastStoneSound) >= GlobalContent.SoundEffectData[DataTypes.SoundEffectData.GatherStone].SecondsBetweenPlays)
-            //{
-            //    int randomInt = FlatRedBall.FlatRedBallServices.Random.Next(1);
-                
-            //    m_TimeSinceLastStoneSound = gameScreen.PauseAdjustedCurrentTime;
-            //}
+            SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, unit.Position);
         }
-
-        private static void TryPlayLumberHarvestSound()
+        public static void TryPlayDeathSound(Unit unit)
         {
-            var gameScreen = FlatRedBall.Screens.ScreenManager.CurrentScreen as Screens.GameScreen;
+            var soundEffectName = $"{UnitDeath}_{unit.UnitData.SoundEffectName}";
+            var soundEffect = GetRandomSoundEffect(soundEffectName);
 
-            if (gameScreen.PauseAdjustedSecondsSince(m_TimeSinceLastLumberSound) >= GlobalContent.SoundEffectData[DataTypes.SoundEffectData.GatherLumber].SecondsBetweenPlays)
+            SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, unit.Position);
+        }
+        public static void TryPlayObeySound(UnitData unit)
+        {
+            var soundEffectName = $"{UnitObey}_{unit.SoundEffectName}";
+            TryPlayRandomSound(soundEffectName);
+        }
+        public static void TryPlaySelectSound(UnitData unit)
+        {
+            var soundEffectName = $"{UnitSelect}_{unit.SoundEffectName}";
+            TryPlayRandomSound(soundEffectName);
+        }
+        public static void TryPlaySpawnSound(UnitData unit)
+        {
+            var soundEffectName = $"{UnitSpawn}_{unit.SoundEffectName}";
+            TryPlayRandomSound(soundEffectName);
+        }
+        public static SoundEffect GetRandomSoundEffect(string soundName)
+        {
+            int count = 1;
+            //Finds the number of sounds
+            while (true)
             {
-                int randomInt = FlatRedBall.FlatRedBallServices.Random.Next(1);
-                if (randomInt == 0)
+                bool soundExists = GetFile($"{soundName}_{count + 1}") != null;
+                if (soundExists)
                 {
-                    unit_chop_wood_1.Play();
+                    count++;
                 }
                 else
                 {
-                    unit_chop_wood_2.Play();
+                    break;
                 }
-                m_TimeSinceLastLumberSound = gameScreen.PauseAdjustedCurrentTime;
             }
+            //Picks a random sound from a variant if it exists
+            int randomInt = FlatRedBall.FlatRedBallServices.Random.Next(count) + 1;
+
+            return (SoundEffect)GetFile($"{soundName}_{randomInt}");
         }
 
-        private static void TryPlayGoldHarvestSound()
+        public static void TryPlayRandomSound(string soundName)
         {
-            //Keepign this commented out till we get those sounds.
-            //var gameScreen = FlatRedBall.Screens.ScreenManager.CurrentScreen as Screens.GameScreen;
-
-            //if (gameScreen.PauseAdjustedSecondsSince(m_TimeSinceLastGoldSound) >= GlobalContent.SoundEffectData[DataTypes.SoundEffectData.GatherGold].SecondsBetweenPlays)
-            //{
-            //    int randomInt = FlatRedBall.FlatRedBallServices.Random.Next(1);
-
-            //    m_TimeSinceLastGoldSound = gameScreen.PauseAdjustedCurrentTime;
-            //}
+            var soundEffect = GetRandomSoundEffect(soundName);
+                        
+            //For now only track by the sound class, not the random numbered sound variation.
+            //We can expand that later.
+            SoundEffectTracker.TryPlaySound(soundEffect, soundName);
         }
     }
 }

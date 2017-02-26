@@ -26,6 +26,7 @@ using TownRaiser.DataTypes;
 using TownRaiser.Entities;
 using TownRaiser.Spawning;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TownRaiser.Screens
 {
@@ -50,54 +51,9 @@ namespace TownRaiser.Screens
 
         private RaidSpawner raidSpawner;
 
-        private int m_LumberButUsePropertyExceptOnInit;
-        private int m_StoneButUsePropertyExceptOnInit;
-        private int m_GoldButUsePropertyExceptOnInit;
-        public int Lumber
-        {
-            get
-            {
-                return m_LumberButUsePropertyExceptOnInit;
-            }
-            set
-            {
-                if(m_LumberButUsePropertyExceptOnInit < value)
-                {
-                    ui_collect_lumber_1.Play();
-                }
-                m_LumberButUsePropertyExceptOnInit = value;
-            }
-        }
-        public int Stone
-        {
-            get
-            {
-                return m_StoneButUsePropertyExceptOnInit;
-            }
-            set
-            {
-                if(m_StoneButUsePropertyExceptOnInit < value)
-                {
-                    ui_collect_stone_1.Play();
-                }
-                m_StoneButUsePropertyExceptOnInit = value;
-            }
-        }
-        public int Gold
-        {
-            get
-            {
-                return m_GoldButUsePropertyExceptOnInit;
-            }
-            set
-            {
-                if(m_GoldButUsePropertyExceptOnInit < value)
-                {
-                    ui_collect_gold_1.Play();
-                }
-                m_GoldButUsePropertyExceptOnInit = value;
-            }
-        }
+        public int Lumber { get; set; } = 1200;
+        public int Stone { get; set; } = 1000;
+        public int Gold { get; set; } = 1000;
         
         public int CurrentCapacityUsed
         {
@@ -122,6 +78,8 @@ namespace TownRaiser.Screens
         public const float GridWidth = 16;
 
         List<Entities.Unit> selectedUnits = new List<Entities.Unit>();
+        UnitData topSelectedUnit;
+
         Entities.Building selectedBuilding;
 
         private float mapXMin;
@@ -147,8 +105,6 @@ namespace TownRaiser.Screens
 
             FlatRedBall.Debugging.Debugger.TextCorner = FlatRedBall.Debugging.Debugger.Corner.BottomLeft;
 
-            InitializeEvents();
-
             InitializeNodeNetwork();
 
             InitializeResourceTileShapeCollections();
@@ -158,6 +114,8 @@ namespace TownRaiser.Screens
             InitializeRaidSpawner();
 
             InitializeEncounterPoints();
+            
+            InitializeSoundTracker();
         }
 
         private void InitializeEncounterPoints()
@@ -167,6 +125,15 @@ namespace TownRaiser.Screens
             var encounterPoint = new EncounterSpawnPoint();
             encounterPoint.X = 500;
             encounterPoint.Y = -600;
+        }
+
+        private void InitializeSoundTracker()
+        {
+            //This sets the minimum distance for sounds to play from camera center.
+            var mainCamera = Camera.Main;
+            var halfWidth = mainCamera.OrthogonalWidth / 2;
+            var halfHeight = mainCamera.OrthogonalHeight / 2;
+            SoundEffectTracker.Initialize(halfHeight * halfHeight + halfWidth * halfWidth);
         }
 
         private void InitializeRaidSpawner()
@@ -263,14 +230,17 @@ namespace TownRaiser.Screens
         private void InitializeUi()
         {
             //Set local resource varables.
-            m_LumberButUsePropertyExceptOnInit = 1200;
-            m_StoneButUsePropertyExceptOnInit = 1000;
-            m_GoldButUsePropertyExceptOnInit = 1000;
+            
 
             this.GroupSelectorInstance.VisualRepresentation = GroupSelectorGumInstance;
             this.GroupSelectorInstance.IsInSelectionMode = true;
 
             this.GroupSelectorInstance.SelectionFinished += HandleGroupSelection;
+
+            ActionToolbarInstance.TrainUnitInvokedFromActionToolbar += (notused, args) =>
+            {
+                HandlePerfromTrain(args.UnitData);
+            };
 
             // move the UI above all other stuff
             //GameScreenGum.Z = 20;
@@ -281,48 +251,42 @@ namespace TownRaiser.Screens
 
         private void HandleGroupSelection(object sender, EventArgs e)
         {
+            //Clear selected building and units
             selectedUnits.Clear();
-
-            //If we are attempting a group selection we should prep for the selected building being deselcted.
             selectedBuilding = null;
+            topSelectedUnit = null;
 
-            foreach(var unit in this.UnitList)
+            // buildings are less abundant than units, so let's give preference to building selection:
+
+            var cursor = GuiManager.Cursor;
+
+            selectedBuilding = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
+
+            if (selectedBuilding == null)
             {
-                bool canSelect =
-                    unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
+                foreach (var unit in this.UnitList)
+                {
+                    bool canSelect =
+                        unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
 
 #if DEBUG
-                if(DebuggingVariables.CanSelectEnemies)
-                {
-                    // a little inefficient but whatever, it's debug
-                    canSelect = unit.CollideAgainst(GroupSelectorInstance);
-                }
+                    if (DebuggingVariables.CanSelectEnemies)
+                    {
+                        // a little inefficient but whatever, it's debug
+                        canSelect = unit.CollideAgainst(GroupSelectorInstance);
+                    }
 #endif
 
-                if (canSelect)
-                {
-                    selectedUnits.Add(unit);
-                }
-            }
-            
-            //If we did not select any units and a buildng is under the cursor, select the building.
-            if (selectedUnits.Count == 0)
-            {
-
-                var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(GuiManager.Cursor));
-                if (buildingOver != null)
-                {
-                    selectedBuilding = buildingOver;
-                    if (selectedBuilding.IsConstructionComplete)
+                    if (canSelect)
                     {
-                        //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
-                        ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                        selectedUnits.Add(unit);
                     }
                 }
+
             }
 
             UpdateSelectionMarker();
-            CheckSelectionState();
+            HandlePostSelection();
         }
 
         private void InitializeNodeNetwork()
@@ -375,10 +339,7 @@ namespace TownRaiser.Screens
 
         private void InitializeEvents()
         {
-            ActionToolbarInstance.TrainUnitInvokedFromActionToolbar += (notused, args) =>
-            {
-                HandlePerfromTrain(args.UnitData);
-            };
+            
         }
 
         #endregion
@@ -445,6 +406,9 @@ namespace TownRaiser.Screens
         {
             if(ActionToolbarInstance.GetActionStateBaseOnUi() == ActionMode.Build && GetIfCanClickInWorld())
             {
+                //We don't want to show the group selector if we are placing a building.
+                GroupSelectorInstance.IsInSelectionMode = false;
+
                 BuildingMarkerInstance.Visible = true;
                 BuildingMarkerInstance.BuildingData = ActionToolbarInstance.SelectedBuildingData;
                 float x, y;
@@ -479,6 +443,7 @@ namespace TownRaiser.Screens
                 if (BuildingMarkerInstance.CurrentState != Entities.BuildingMarker.VariableState.Invalid) {
                     BuildingMarkerInstance.CurrentState = Entities.BuildingMarker.VariableState.Invalid;
                 }
+                GroupSelectorInstance.IsInSelectionMode = true;
             }
         }
 
@@ -740,6 +705,9 @@ namespace TownRaiser.Screens
             //Only do this work if we have selected units
             if (selectedUnits.Count > 0)
             {
+                //Play obey order sound effect
+                Unit.TryPlayObeySound(topSelectedUnit);
+
                 Cursor cursor = GuiManager.Cursor;
 
                 var worldX = cursor.WorldXAt(0);
@@ -801,55 +769,77 @@ namespace TownRaiser.Screens
             //Clear selected building and units
             selectedUnits.Clear();
             selectedBuilding = null;
+            topSelectedUnit = null;
 
             // buildings are less abundant than units, so let's give preference to building selection:
 
             var cursor = GuiManager.Cursor;
 
-            var buildingOver = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
-            if (buildingOver != null)
+            selectedBuilding = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
+
+            if (selectedBuilding == null)
             {
-                selectedBuilding = buildingOver;
-                if (selectedBuilding.IsConstructionComplete)
+                foreach (var unit in this.UnitList)
                 {
-                    //ActionToolbarInstance.ShowAvailableUnits(selectedBuilding.TrainableUnits);
-                    ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                    bool canSelect =
+                        unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
+
+#if DEBUG
+                    if (DebuggingVariables.CanSelectEnemies)
+                    {
+                        // a little inefficient but whatever, it's debug
+                        canSelect = unit.CollideAgainst(GroupSelectorInstance);
+                    }
+#endif
+
+                    if (canSelect)
+                    {
+                        selectedUnits.Add(unit);
+                    }
                 }
+
             }
-
-
-            if(buildingOver == null)
-            {
-                var unitOver = UnitList.FirstOrDefault(item => 
-                    item.UnitData.IsEnemy == false && item.HasCursorOver(cursor));
-
-    #if DEBUG
-                if(DebuggingVariables.CanSelectEnemies)
-                {
-                    // doubles the check but it's debug so who cares
-                    unitOver = UnitList.FirstOrDefault(item =>
-                        item.HasCursorOver(cursor));
-                }
-    #endif
-
-
-                if(unitOver != null)
-                {
-                    selectedUnits.Add(unitOver);
-                }
-            }
-            
 
             UpdateSelectionMarker();
-            CheckSelectionState();
+            HandlePostSelection();
         }
 
-        public void CheckSelectionState()
+        public void HandlePostSelection()
         {
-            if(selectedBuilding == null)
+            if(selectedBuilding == null && selectedUnits.Count == 0)
             {
                 this.ActionToolbarInstance.SetViewFromEntity(null);
             }
+            else if (selectedBuilding != null)
+            {
+                this.ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                
+            }
+            else 
+            {
+                topSelectedUnit = GetTopSelectedUnit();
+                Unit.TryPlaySelectSound(topSelectedUnit);
+                this.ActionToolbarInstance.SetViewFromEntity(null);
+            }
+        }
+
+        private UnitData GetTopSelectedUnit()
+        {
+            var distinctList = selectedUnits.Select(x => x.UnitData).Distinct();
+            UnitData topData = null;
+            int topDataCount = 0;
+
+            foreach (var unit in distinctList)
+            {
+                var currentCount = selectedUnits.Count(x => x.UnitData == unit);
+                if (topData == null || topDataCount < currentCount)
+                {
+                    topData = unit;
+                    topDataCount = currentCount; ;
+                }
+            }
+
+            return topData;
         }
 
         private void UpdateSelectionMarker()
@@ -942,7 +932,7 @@ namespace TownRaiser.Screens
 
         private void PerformBuildAtCursor(BuildingData buildingType)
         {
-            var building = Factories.BuildingFactory.CreateNew();
+                var building = Factories.BuildingFactory.CreateNew();
             building.BuildingData = buildingType;
 
             building.BuildingConstructionCompleted += () =>
@@ -960,27 +950,27 @@ namespace TownRaiser.Screens
 
             };
 
-            float x, y;
-            GetBuildLocationFromCursor(out x, out y);
+                float x, y;
+                GetBuildLocationFromCursor(out x, out y);
 
-            building.X = x;
-            building.Y = y;
-            building.Z = 1;
+                building.X = x;
+                building.Y = y;
+                building.Z = 1;
 
-            building.StartBuilding();
+                building.StartBuilding();
 
             tileNodeNetwork.RemoveAndUnlinkNode(ref building.Position);
 
 
-            bool shouldUpdateResources = true;
+                bool shouldUpdateResources = true;
 #if DEBUG
 
-            shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
+                shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
 #endif
-            if (shouldUpdateResources)
-            {
-                this.Lumber -= buildingType.LumberCost;
-                this.Stone -= buildingType.StoneCost;
+                if (shouldUpdateResources)
+                {
+                    this.Lumber -= buildingType.LumberCost;
+                    this.Stone -= buildingType.StoneCost;
 
                 UpdateCapacityValue();
 
@@ -1002,10 +992,10 @@ namespace TownRaiser.Screens
                 {
                     return item.BuildingData.Capacity;
                 }
-                else
-                {
+            else
+            {
                     return 0;
-                }
+            }
             });
         }
 
@@ -1052,6 +1042,11 @@ namespace TownRaiser.Screens
             this.ResourceDisplayInstance.LumberText = this.Lumber.ToString();
             this.ResourceDisplayInstance.StoneText = this.Stone.ToString();
             this.ResourceDisplayInstance.GoldText = this.Gold.ToString();
+
+            if (selectedBuilding != null)
+            {
+                ActionToolbarInstance.UpdateCostUiFromLastRollOver();
+            }
         }
 
         private void HandleRaidSpawn(IEnumerable<UnitData> unitDatas, Vector3 spawnPoint)
@@ -1094,9 +1089,36 @@ namespace TownRaiser.Screens
                 UpdateResourceDisplay();
             }
 
+            Unit.TryPlaySpawnSound(unitData);
+
             return newUnit;
         }
 #endregion
+
+        public void TryPlayResourceCollectSound(ResourceType resource, Vector3 soundOrigin)
+        {
+            SoundEffect soundEffect;
+            string soundEffectName;
+            switch(resource)
+            {
+                case ResourceType.Gold:
+                    soundEffect = ui_collect_gold_1;
+                    soundEffectName = "ui_collect_gold_1";
+                    break;
+                case ResourceType.Lumber:
+                    soundEffect = ui_collect_lumber_1;
+                    soundEffectName = "ui_collect_lumber_1";
+                    break;
+                case ResourceType.Stone:
+                    soundEffect = ui_collect_stone_1;
+                    soundEffectName = "ui_collect_stone_1";
+                    break;
+                default:
+                    throw new Exception($"Resource type does not have a sound: {resource.ToString()}");
+                    break;
+            }
+            SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, soundOrigin);
+        }
 
 
         void CustomDestroy()

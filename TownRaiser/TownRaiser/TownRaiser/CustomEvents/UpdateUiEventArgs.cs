@@ -14,6 +14,7 @@ namespace TownRaiser.CustomEvents
         public int StoneCost;
         public string TitleDisplay;
         public bool ShouldCheckAffordability;
+        public ICommonEntityData SelectedData;
 
         public UpdateUiEventArgs()
         {
@@ -21,6 +22,7 @@ namespace TownRaiser.CustomEvents
         }
         public UpdateUiEventArgs(ICommonEntityData dataToSetFrom)
         {
+            SelectedData = dataToSetFrom;
             TitleDisplay = dataToSetFrom.MenuTitleDisplay;
             GoldCost = dataToSetFrom.Gold;
             LumberCost = dataToSetFrom.Lumber;
