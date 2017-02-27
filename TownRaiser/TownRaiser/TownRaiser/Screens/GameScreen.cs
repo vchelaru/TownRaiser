@@ -47,6 +47,7 @@ namespace TownRaiser.Screens
     }
     public partial class GameScreen
 	{
+        public event EventHandler SecondaryClick;
         #region Fields/Properties
 
         private RaidSpawner raidSpawner;
@@ -583,7 +584,15 @@ namespace TownRaiser.Screens
 
             if(cursor.SecondaryClick)
             {
-                HandleSecondaryClick();
+                if (GetIfCanClickInWorld())
+                {
+                    HandleSecondaryClick();
+                }
+                else
+                {
+                    //Check if we should handle right click events in the Ui.
+                    SecondaryClick?.Invoke(null, null);
+                }
             }
         }
 
@@ -803,7 +812,7 @@ namespace TownRaiser.Screens
             HandlePostSelection();
         }
 
-        public void HandlePostSelection()
+        private void HandlePostSelection()
         {
             if(selectedBuilding == null && selectedUnits.Count == 0)
             {
@@ -1048,6 +1057,8 @@ namespace TownRaiser.Screens
             }
         }
 
+        
+
         private void HandleRaidSpawn(IEnumerable<UnitData> unitDatas, Vector3 spawnPoint)
         {
             List<Unit> newEnemies = new List<Entities.Unit>();
@@ -1097,7 +1108,24 @@ namespace TownRaiser.Screens
 
             return newUnit;
         }
-#endregion
+
+        public void CancelLastTrainingInstanceOfUnit(string unitToCancel)
+        {
+            if (selectedBuilding != null)
+            {
+                //If the unit was canceled we know we need to upate the gold count.
+                //However, we may not have to update the training capacity. So we will pass it in as a ref which has smarter logic to 
+                //update it appropriately.
+                var wasCancelled = selectedBuilding.CancelLastTrainingInstance(unitToCancel, ref currentTrainingCapacity);
+                if (wasCancelled)
+                {
+                    var unitData = GlobalContent.UnitData[unitToCancel];
+                    Gold += unitData.Gold;
+                    UpdateResourceDisplay();
+                }
+            }
+        }
+        #endregion
 
         public void TryPlayResourceCollectSound(ResourceType resource, Vector3 soundOrigin)
         {

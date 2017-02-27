@@ -38,7 +38,19 @@ namespace TownRaiser.Entities
 
 
         public ICommonEntityData EntityData => BuildingData;
-        public int CurrentHealth { get; set; }
+        private int m_CurrentHealth;
+        public int CurrentHealth
+        {
+            get
+            {
+                return m_CurrentHealth;
+            }
+            set
+            {
+                m_CurrentHealth = value;
+                UpdateHealthSprite();
+            }
+        }
         public IEnumerable<string> ButtonDatas => BuildingData.TrainableUnits.AsReadOnly();
         public string CurrentTrainingUnit => TrainingQueue.Count > 0 ? TrainingQueue[0] : null;
         public Dictionary<string, double> ProgressPercents { get; private set; }
@@ -102,6 +114,7 @@ namespace TownRaiser.Entities
 
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
+            this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.Full;
             this.HealthBarRuntimeInstance.Z = -1;
 
 #if DEBUG
@@ -181,7 +194,7 @@ namespace TownRaiser.Entities
 
         private void TrainingActivity()
         {
-            if (TrainingQueue.Count > 0 && ScreenManager.CurrentScreen is Screens.GameScreen)
+            if (TrainingQueue.Count > 0)
             {
                 var trainingUnit = CurrentTrainingUnit;
                 ProgressPercents[trainingUnit] = TrainingProgress;
@@ -238,12 +251,47 @@ namespace TownRaiser.Entities
             }
             return wasSuccessful;
         }
-        
+
+        public bool CancelLastTrainingInstance(string unitTypeToCancel, ref int trainingUnitCapacity)
+        {
+            bool wasCanceled = false;
+            if(TrainingQueue.Count > 0)
+            {
+                int lastIndex = TrainingQueue.LastIndexOf(unitTypeToCancel);
+
+                if (lastIndex > -1)
+                {
+                    TrainingQueue.RemoveAt(lastIndex);
+                    ButtonCountDisplays[unitTypeToCancel]--;
+
+                    if(lastIndex == 0)
+                    {
+                        trainingUnitCapacity -= GlobalContent.UnitData[unitTypeToCancel].Capacity;
+
+                        if (TrainingQueue.Count > 0)
+                        {
+                            TryStartTraining(CurrentTrainingUnit);
+                        }
+                    }
+
+                    if(ButtonCountDisplays[unitTypeToCancel] == 0)
+                    {
+                        ProgressPercents[unitTypeToCancel] = 0;
+                    }
+
+                    this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
+
+                    wasCanceled = true;
+                }
+            }
+
+            return wasCanceled;
+        }
 
         public float GetHealthRatio()
         {
             
-            return CurrentHealth / BuildingData.Health;
+            return (float)CurrentHealth / (float)BuildingData.Health;
         }
 
         public bool IsCursorOverSprite(Cursor cursor)
@@ -282,6 +330,24 @@ namespace TownRaiser.Entities
                 PerformDestruction();
             }
         }
+        public void UpdateHealthSprite()
+        {
+            var healthRatio = GetHealthRatio();
+
+            if(healthRatio > .66)
+            {
+                this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.Full;
+            }
+            else if(healthRatio > .33)
+            {
+                this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.TwoThird;
+            }
+            else
+            {
+                this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.OneThird;
+            }
+
+        }
         private void PerformDestruction()
         {
             Destroy();
@@ -297,6 +363,14 @@ namespace TownRaiser.Entities
 		{
             this.OnDestroy?.Invoke(this, null);
             this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs() { WasEntityDestroyed = true });
+
+            //Refund any training units on building destruction.
+            var gameScreen = ScreenManager.CurrentScreen as Screens.GameScreen;
+            foreach (var unit in TrainingQueue)
+            {
+                gameScreen.Gold += GlobalContent.UnitData[unit].Gold;
+            }
+            gameScreen.UpdateResourceDisplay();
 
             this.TrainingQueue.Clear();
             this.TrainingQueue = null;
