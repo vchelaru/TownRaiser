@@ -47,6 +47,14 @@ namespace TownRaiser.Entities
 
         public int CurrentHealth { get; set; }
 
+        public bool HasResourceToReturn
+        {
+            get { return ResourceTypeToReturn != null; }
+        }
+        /// <summary>
+        /// If unit has a resource to return, this is the type. If not, should be null.
+        /// </summary>
+        public Screens.ResourceType? ResourceTypeToReturn { get; set; }
 
         #endregion
 
@@ -303,23 +311,27 @@ namespace TownRaiser.Entities
             }
         }
 
-        public void ToggleResourceIndicator(bool isEnabled, Screens.ResourceType resourceType)
+        void ToggleResourceIndicator()
         {
-            ResourceIndicatorSpriteInstance.Visible = isEnabled;
-            string resourceAnimationChainName;
-            switch (resourceType) {
-                case Screens.ResourceType.Lumber:
-                    resourceAnimationChainName = "ResourceLumber";
-                    break;
-                case Screens.ResourceType.Stone:
-                    resourceAnimationChainName = "ResourceStone";
-                    break;
-                default:
-                //case Screens.ResourceType.Gold:
-                    resourceAnimationChainName = "ResourceGold";
-                    break;
+            ResourceIndicatorSpriteInstance.Visible = HasResourceToReturn;
+            // Set resource image, if we have one. (Otherwise, don't care since it's not visible.)
+            if (ResourceTypeToReturn != null)
+            {
+                string resourceAnimationChainName;
+                switch (ResourceTypeToReturn.Value) {
+                    case Screens.ResourceType.Lumber:
+                        resourceAnimationChainName = "ResourceLumber";
+                        break;
+                    case Screens.ResourceType.Stone:
+                        resourceAnimationChainName = "ResourceStone";
+                        break;
+                    default:
+                    //case Screens.ResourceType.Gold:
+                        resourceAnimationChainName = "ResourceGold";
+                        break;
+                }
+                ResourceIndicatorSpriteInstance.CurrentChainName = resourceAnimationChainName;
             }
-            ResourceIndicatorSpriteInstance.CurrentChainName = resourceAnimationChainName;
         }
 
         public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, Screens.ResourceType resourceType)
@@ -328,7 +340,7 @@ namespace TownRaiser.Entities
                 owner: this,
                 nodeNetwork: NodeNetwork,
                 clickPosition: clickPosition,
-                targetResourceTile: resourceGroupTile,
+                targetResourceMergedTile: resourceGroupTile,
                 targetResourceType: resourceType,
                 allBuildings: AllBuildings
             );
@@ -427,11 +439,18 @@ namespace TownRaiser.Entities
 
         }
 
-        
+
 
 
 
         #endregion
+
+        public void SetResourceToReturn(Screens.ResourceType? resourceType = null)
+        {
+            ResourceTypeToReturn = resourceType;
+
+            ToggleResourceIndicator();
+        }
 
         private void CustomDestroy()
 		{
