@@ -458,38 +458,38 @@ namespace TownRaiser.Screens
         private void PerformUnitVsEncounterPointCollision()
         {
             // brute force it for now:
-            for(int i = 0; i < EncounterSpawnPointList.Count; i++)
+            for (int i = 0; i < EncounterSpawnPointList.Count; i++)
             {
                 var encounterPoint = EncounterSpawnPointList[i];
 
-                if(encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.Dormant)
+                if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.Dormant)
                 {
                     // don't do anything with this encounter point, it can't spawn until it 
                     // regenerates all dead units:
                     continue;
                 }
-                else if(encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.Spawned)
+                else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.Spawned)
                 {
                     // if no units are touching this, then it will go back to Active mode, waiting for the next spawn:
                     bool areAnyUnitsTouching = UnitList.Any(unit => unit.CollideAgainst(encounterPoint));
 
-                    if(!areAnyUnitsTouching)
+                    if (!areAnyUnitsTouching)
                     {
                         encounterPoint.ReturnSpawnedUnits();
                     }
                 }
-                else if(encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ReturningUnits)
+                else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ReturningUnits)
                 {
                     // See if the the player has brought units back to the spawn point, if so, go back and attack!
                     var playerUnit = UnitList.FirstOrDefault(unit => unit.CollideAgainst(encounterPoint));
 
                 }
-                else if(encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ActiveWaiting)
+                else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ActiveWaiting)
                 {
                     bool areAnyUnitsTouching = UnitList.Any(item => item.CollideAgainst(encounterPoint));
 
                 }
-
+            }
         }
 
         private void PerformUnitsVsTerrainCollision()
