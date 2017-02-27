@@ -1190,7 +1190,6 @@ namespace TownRaiser.Screens
             }
             SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, soundOrigin);
         }
-#endregion
 
         void CustomDestroy()
 		{

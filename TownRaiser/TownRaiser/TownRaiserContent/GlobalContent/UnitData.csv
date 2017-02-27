@@ -1,6 +1,6 @@
 "Name (string, required)",NameDisplay (string),SoundEffectName (string),Health (int),TrainTime (double),ResourceHarvestAmount (int),AttackDamage (int),AttackRange (float),MovementSpeed (float),GoldCost (int),Capacity (int),Size (string),IsEnemy (bool),InitiatesBattle (bool),HotkeyFieldButUseProperty (Microsoft.Xna.Framework.Input.Keys)
 Worker,Worker,worker,100,5,20,10,10,50,50,1,Small,false,false,W
-Fighter,Figher,fighter,150,10,,18,12,40,100,1,Small,false,true,F
+Fighter,Fighter,fighter,150,10,,18,12,40,100,1,Small,false,true,F
 Bat,Bat,bat,40,,,4,9,70,0,,Small,true,true,B
 Goblin,Goblin,goblin,100,,,12,10,50,0,,Small,true,true,G
 Cyclops,Cyclops,cyclops,500,,,40,12,40,,,Medium,true,true,
