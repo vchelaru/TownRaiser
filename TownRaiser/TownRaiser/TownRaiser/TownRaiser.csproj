@@ -175,6 +175,10 @@
     <Compile Include="Entities\GroupSelector.Generated.cs">
       <DependentUpon>GroupSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\RallyPointMarker.cs" />
+    <Compile Include="Entities\RallyPointMarker.Generated.cs">
+      <DependentUpon>RallyPointMarker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\SelectionMarker.cs" />
     <Compile Include="Entities\SelectionMarker.Generated.cs">
       <DependentUpon>SelectionMarker.cs</DependentUpon>
@@ -194,6 +198,7 @@
     </Compile>
     <Compile Include="Factories\BuildingFactory.Generated.cs" />
     <Compile Include="Factories\EncounterSpawnPointFactory.Generated.cs" />
+    <Compile Include="Factories\RallyPointMarkerFactory.Generated.cs" />
     <Compile Include="Factories\UnitFactory.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="GumCore\AnimationFrame.cs" />
