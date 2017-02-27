@@ -32,7 +32,8 @@ namespace TownRaiser.Entities
         {
             ActiveWaiting,
             Spawned,
-            Dormant
+            Dormant,
+            ReturningUnits
         }
 
         public LogicState CurrentLogicState { get; set; }
@@ -65,5 +66,10 @@ namespace TownRaiser.Entities
 
 
         }
-	}
+
+        internal void ReturnSpawnedUnits()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

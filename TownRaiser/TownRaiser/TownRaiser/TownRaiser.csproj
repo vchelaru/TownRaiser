@@ -134,7 +134,6 @@
       <DependentUpon>BuildingData.cs</DependentUpon>
     </Compile>
     <Compile Include="DataTypes\Requirement.cs" />
-    <Compile Include="DataTypes\SoundEffectData.Generated.cs" />
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
     <Compile Include="DataTypes\TimedSpawnData.Generated.cs" />
     <Compile Include="DataTypes\UnitData.cs" />
