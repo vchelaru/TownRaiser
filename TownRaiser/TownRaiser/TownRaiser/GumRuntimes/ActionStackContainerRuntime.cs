@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlatRedBall.Gui;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -98,6 +99,7 @@ namespace TownRaiser.GumRuntimes
 
             if(selectedEntity?.ButtonDatas != null)
             {
+                var gameScreen = FlatRedBall.Screens.ScreenManager.CurrentScreen as Screens.GameScreen;
 
                 int i = 0;
                 foreach (var unit in selectedEntity.ButtonDatas)
@@ -112,6 +114,15 @@ namespace TownRaiser.GumRuntimes
                         if (unitButton.Enabled)
                         {
                             this.TrainUnitInvokedFromButton(unitButton, new TrainUnitEventArgs() { UnitData = unitData });
+                        }
+                        
+                    };
+
+                    gameScreen.SecondaryClick += (not, used) =>
+                    {
+                        if (unitButton.HasCursorOver(GuiManager.Cursor))
+                        {
+                            gameScreen.CancelLastTrainingInstanceOfUnit(unitData.Name);
                         }
                     };
 

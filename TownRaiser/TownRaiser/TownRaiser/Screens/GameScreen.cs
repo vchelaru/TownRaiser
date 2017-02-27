@@ -47,6 +47,7 @@ namespace TownRaiser.Screens
     }
     public partial class GameScreen
 	{
+        public event EventHandler SecondaryClick;
         #region Fields/Properties
 
         private RaidSpawner raidSpawner;
@@ -255,6 +256,7 @@ namespace TownRaiser.Screens
         {
             //Clear selected building and units
             selectedUnits.Clear();
+            selectedBuilding?.UpdateRallyPointVisibility(false);
             selectedBuilding = null;
             topSelectedUnit = null;
 
@@ -540,6 +542,10 @@ namespace TownRaiser.Screens
             if(InputManager.Keyboard.AnyKeyPushed())
             {
                 ActionToolbarInstance.ReactToKeyPress();
+                if(ActionToolbarInstance.CurrentVariableState == GumRuntimes.ActionToolbarRuntime.VariableState.SelectModeView)
+                {
+                    selectedBuilding?.UpdateRallyPointVisibility(false);
+                }
             }
 
         }
@@ -623,7 +629,15 @@ namespace TownRaiser.Screens
 
             if(cursor.SecondaryClick)
             {
-                HandleSecondaryClick();
+                if (GetIfCanClickInWorld())
+                {
+                    HandleSecondaryClick();
+                }
+                else
+                {
+                    //Raise the SecondaryClick event for any unit buttons which can cancel training.
+                    SecondaryClick?.Invoke(null, null);
+                }
             }
         }
 
@@ -728,15 +742,38 @@ namespace TownRaiser.Screens
         {
             //Create a rally point for units that are created.
             //If the selected building can train units.
-            if(selectedBuilding != null && selectedBuilding.HasTrainableUnits)
+            Cursor cursor = GuiManager.Cursor;
+            if (selectedBuilding != null)
             {
-                Cursor cursor = GuiManager.Cursor;
+                
+                if(selectedBuilding.IsConstructionComplete == false && selectedBuilding.IsCursorOverSprite(cursor))
+                {
+                    CancelBuildingConstruction();
+                }
+                else if (selectedBuilding.HasTrainableUnits)
+                {
+                    var worldX = cursor.WorldXAt(0);
+                    var worldY = cursor.WorldYAt(0);
 
-                var worldX = cursor.WorldXAt(0);
-                var worldY = cursor.WorldYAt(0);
-
-                selectedBuilding.RallyPoint = new Vector3() { X = worldX, Y = worldY};
+                    selectedBuilding.RallyPoint = new Vector3() { X = worldX, Y = worldY, Z = selectedBuilding.Z };
+                }
             }
+            else if(selectedUnits.Count == 0)
+            {
+                selectedBuilding = BuildingList.FirstOrDefault(x => x.IsCursorOverSprite(cursor));
+                if (selectedBuilding != null)
+                {
+                    CancelBuildingConstruction();
+                }
+            }
+        }
+
+        private void CancelBuildingConstruction()
+        {
+            selectedBuilding.TryCancelBuilding();
+            selectedBuilding = null;
+            UpdateResourceDisplay();
+            HandlePostSelection();
         }
 
         private void HandleSelectedUnitsRightClick()
@@ -807,6 +844,7 @@ namespace TownRaiser.Screens
         {
             //Clear selected building and units
             selectedUnits.Clear();
+            selectedBuilding?.UpdateRallyPointVisibility(false);
             selectedBuilding = null;
             topSelectedUnit = null;
 
@@ -843,15 +881,16 @@ namespace TownRaiser.Screens
             HandlePostSelection();
         }
 
-        public void HandlePostSelection()
+        private void HandlePostSelection()
         {
             if(selectedBuilding == null && selectedUnits.Count == 0)
             {
-                this.ActionToolbarInstance.SetViewFromEntity(null);
+                this.ActionToolbarInstance.SetViewFromEntity(null);                
             }
             else if (selectedBuilding != null)
             {
                 this.ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                selectedBuilding.UpdateRallyPointVisibility(true);
                 
             }
             else 
@@ -1088,6 +1127,8 @@ namespace TownRaiser.Screens
             }
         }
 
+        
+
         private void HandleRaidSpawn(IEnumerable<UnitData> unitDatas, Vector3 spawnPoint)
         {
             List<Unit> newEnemies = new List<Entities.Unit>();
@@ -1138,6 +1179,24 @@ namespace TownRaiser.Screens
             return newUnit;
         }
 
+        public void CancelLastTrainingInstanceOfUnit(string unitToCancel)
+        {
+            if (selectedBuilding != null)
+            {
+                //If the unit was canceled we know we need to upate the gold count.
+                //However, we may not have to update the training capacity. So we will pass it in as a ref which has smarter logic to 
+                //update it appropriately.
+                var wasCancelled = selectedBuilding.CancelLastTrainingInstance(unitToCancel, ref currentTrainingCapacity);
+                if (wasCancelled)
+                {
+                    var unitData = GlobalContent.UnitData[unitToCancel];
+                    Gold += unitData.Gold;
+                    UpdateResourceDisplay();
+                }
+            }
+        }
+        #endregion
+
         public void TryPlayResourceCollectSound(ResourceType resource, Vector3 soundOrigin)
         {
             SoundEffect soundEffect;
@@ -1162,7 +1221,6 @@ namespace TownRaiser.Screens
             }
             SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, soundOrigin);
         }
-#endregion
 
         void CustomDestroy()
 		{

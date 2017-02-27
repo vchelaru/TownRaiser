@@ -426,6 +426,36 @@
       <Processor>SoundEffectProcessor</Processor>
       <Name>unit_obey_fighter_3</Name>
     </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_obey_fighter_4.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_fighter_4</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_obey_fighter_5.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_fighter_5</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_obey_fighter_6.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_fighter_6</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_obey_fighter_7.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_fighter_7</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_obey_fighter_8.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_fighter_8</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_obey_fighter_9.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_fighter_9</Name>
+    </Compile>
     <Compile Include="Entities\Unit\Sfx\Fighter\unit_select_fighter_1.wav">
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
@@ -441,6 +471,41 @@
       <Processor>SoundEffectProcessor</Processor>
       <Name>unit_select_fighter_3</Name>
     </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_select_fighter_4.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_fighter_4</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_select_fighter_5.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_fighter_5</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_select_fighter_6.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_fighter_6</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_select_fighter_7.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_fighter_7</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_select_fighter_8.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_fighter_8</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_select_fighter_9.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_fighter_9</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_spawn_figher_4.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_spawn_figher_4</Name>
+    </Compile>
     <Compile Include="Entities\Unit\Sfx\Fighter\unit_spawn_fighter_1.wav">
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
@@ -455,6 +520,16 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Name>unit_spawn_fighter_3</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_spawn_fighter_5.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_spawn_fighter_5</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Fighter\unit_spawn_fighter_6.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_spawn_fighter_6</Name>
     </Compile>
     <Compile Include="Entities\Unit\Sfx\Worker\unit_attack_worker_1.wav">
       <Importer>WavImporter</Importer>
@@ -501,6 +576,36 @@
       <Processor>SoundEffectProcessor</Processor>
       <Name>unit_obey_worker_3</Name>
     </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_obey_worker_4.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_worker_4</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_obey_worker_5.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_worker_5</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_obey_worker_6.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_worker_6</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_obey_worker_7.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_worker_7</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_obey_worker_8.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_worker_8</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_obey_worker_9.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_obey_worker_9</Name>
+    </Compile>
     <Compile Include="Entities\Unit\Sfx\Worker\unit_select_worker_1.wav">
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
@@ -516,6 +621,36 @@
       <Processor>SoundEffectProcessor</Processor>
       <Name>unit_select_worker_3</Name>
     </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_select_worker_4.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_worker_4</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_select_worker_5.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_worker_5</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_select_worker_6.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_worker_6</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_select_worker_7.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_worker_7</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_select_worker_8.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_worker_8</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_select_worker_9.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_select_worker_9</Name>
+    </Compile>
     <Compile Include="Entities\Unit\Sfx\Worker\unit_spawn_worker_1.wav">
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
@@ -530,6 +665,21 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Name>unit_spawn_worker_3</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_spawn_worker_4.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_spawn_worker_4</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_spawn_worker_5.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_spawn_worker_5</Name>
+    </Compile>
+    <Compile Include="Entities\Unit\Sfx\Worker\unit_spawn_worker_6.wav">
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Name>unit_spawn_worker_6</Name>
     </Compile>
     <Compile Include="Screens\GameScreen\Sfx\ui_collect_gold_1.wav">
       <Importer>WavImporter</Importer>

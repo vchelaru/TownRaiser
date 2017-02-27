@@ -17,6 +17,12 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>bool</Type>
+      <Name>FillBar.Animate</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>FillBar.Height</Name>
       <Value xsi:type="xsd:float">0</Value>
@@ -32,6 +38,43 @@
       <Type>string</Type>
       <Name>FillBar.Parent</Name>
       <Value xsi:type="xsd:string">FillBarContainer</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>FillBar.SourceFile</Name>
+      <Value xsi:type="xsd:string">..\MainTileset.png</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>TextureAddress</Type>
+      <Name>FillBar.Texture Address</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>FillBar.Texture Height</Name>
+      <Value xsi:type="xsd:int">2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>FillBar.Texture Left</Name>
+      <Value xsi:type="xsd:int">374</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>FillBar.Texture Top</Name>
+      <Value xsi:type="xsd:int">4</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>FillBar.Texture Width</Name>
+      <Value xsi:type="xsd:int">24</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -144,6 +187,11 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>FullState</Type>
+      <Name>FullState</Name>
+      <SetsValue>false</SetsValue>
+    </Variable>
+    <Variable>
       <Type>string</Type>
       <Name>Guide</Name>
       <Category>Position</Category>
@@ -157,9 +205,14 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>HealthStatusState</Type>
+      <Name>HealthStatusState</Name>
+      <SetsValue>false</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>Height</Name>
-      <Value xsi:type="xsd:float">3</Value>
+      <Value xsi:type="xsd:float">4</Value>
       <Category>Dimensions</Category>
       <SetsValue>true</SetsValue>
     </Variable>
@@ -186,7 +239,37 @@
       <IsFile>true</IsFile>
       <Type>string</Type>
       <Name>NineSliceInstance.SourceFile</Name>
-      <Value xsi:type="xsd:string">..\2d misc\medieval-fantasy\hud\life-box-empty-2.png</Value>
+      <Value xsi:type="xsd:string">..\MainTileset.png</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>TextureAddress</Type>
+      <Name>NineSliceInstance.Texture Address</Name>
+      <Value xsi:type="xsd:int">1</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>NineSliceInstance.Texture Height</Name>
+      <Value xsi:type="xsd:int">4</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>NineSliceInstance.Texture Left</Name>
+      <Value xsi:type="xsd:int">374</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>NineSliceInstance.Texture Top</Name>
+      <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>int</Type>
+      <Name>NineSliceInstance.Texture Width</Name>
+      <Value xsi:type="xsd:int">26</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -236,6 +319,11 @@
       <Name>NineSliceInstance.Y Units</Name>
       <Value xsi:type="xsd:int">7</Value>
       <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>OneThirdState</Type>
+      <Name>OneThirdState</Name>
+      <SetsValue>false</SetsValue>
     </Variable>
     <Variable>
       <Type>string</Type>
@@ -313,7 +401,44 @@
       <Category>Position</Category>
       <SetsValue>true</SetsValue>
     </Variable>
+    <VariableList xsi:type="VariableListSaveOfString">
+      <Type>string</Type>
+      <Name>AnimationFrames</Name>
+      <IsFile>false</IsFile>
+      <IsHiddenInPropertyGrid>false</IsHiddenInPropertyGrid>
+      <Value />
+    </VariableList>
   </State>
+  <Category>
+    <Name>HealthStatus</Name>
+    <State>
+      <Name>TwoThird</Name>
+      <Variable>
+        <Type>int</Type>
+        <Name>FillBar.Texture Top</Name>
+        <Value xsi:type="xsd:int">6</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
+    <State>
+      <Name>Full</Name>
+      <Variable>
+        <Type>int</Type>
+        <Name>FillBar.Texture Top</Name>
+        <Value xsi:type="xsd:int">4</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
+    <State>
+      <Name>OneThird</Name>
+      <Variable>
+        <Type>int</Type>
+        <Name>FillBar.Texture Top</Name>
+        <Value xsi:type="xsd:int">8</Value>
+        <SetsValue>true</SetsValue>
+      </Variable>
+    </State>
+  </Category>
   <Instance>
     <Name>NineSliceInstance</Name>
     <BaseType>NineSlice</BaseType>
@@ -324,7 +449,7 @@
   </Instance>
   <Instance>
     <Name>FillBar</Name>
-    <BaseType>ColoredRectangle</BaseType>
+    <BaseType>Sprite</BaseType>
   </Instance>
   <Behaviors />
 </ComponentSave>
