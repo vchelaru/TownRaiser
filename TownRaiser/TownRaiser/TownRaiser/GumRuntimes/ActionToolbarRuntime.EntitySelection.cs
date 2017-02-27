@@ -29,6 +29,7 @@ namespace TownRaiser.GumRuntimes
             }
             else if (selectedEntity is Entities.Building)
             {
+                this.ResourceCostContainer.CurrentMenuTypeState = ResourceCostContainerRuntime.MenuType.TrainUnits;
                 UpdateBuildingStatus(selectedEntity as Entities.Building);
                 SetVariableState(VariableState.SelectedEntity);
                 selectedEntity.UpdateStatus += ReactToBuilidingStatusChange;

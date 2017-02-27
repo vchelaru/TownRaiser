@@ -54,6 +54,8 @@ namespace TownRaiser.Screens
         public int Lumber { get; set; } = 1200;
         public int Stone { get; set; } = 1000;
         public int Gold { get; set; } = 1000;
+
+        public bool HasTrainingUnits => selectedBuilding != null && selectedBuilding.TrainingQueue.Count > 0;
         
         public int CurrentCapacityUsed
         {
@@ -256,33 +258,30 @@ namespace TownRaiser.Screens
             selectedBuilding = null;
             topSelectedUnit = null;
 
-            // buildings are less abundant than units, so let's give preference to building selection:
+            // The user is most likely attempting to select units, we should prioritize unit seletction here.
 
-            var cursor = GuiManager.Cursor;
-
-            selectedBuilding = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
-
-            if (selectedBuilding == null)
+            foreach (var unit in this.UnitList)
             {
-                foreach (var unit in this.UnitList)
-                {
-                    bool canSelect =
-                        unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
+                bool canSelect =
+                    unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
 
 #if DEBUG
-                    if (DebuggingVariables.CanSelectEnemies)
-                    {
-                        // a little inefficient but whatever, it's debug
-                        canSelect = unit.CollideAgainst(GroupSelectorInstance);
-                    }
+                if (DebuggingVariables.CanSelectEnemies)
+                {
+                    // a little inefficient but whatever, it's debug
+                    canSelect = unit.CollideAgainst(GroupSelectorInstance);
+                }
 #endif
 
-                    if (canSelect)
-                    {
-                        selectedUnits.Add(unit);
-                    }
+                if (canSelect)
+                {
+                    selectedUnits.Add(unit);
                 }
+            }
 
+            if (selectedUnits.Count == 0)
+            {
+                selectedBuilding = BuildingList.FirstOrDefault(item => item.HasCursorOver(GuiManager.Cursor));
             }
 
             UpdateSelectionMarker();
@@ -810,33 +809,33 @@ namespace TownRaiser.Screens
             selectedBuilding = null;
             topSelectedUnit = null;
 
-            // buildings are less abundant than units, so let's give preference to building selection:
+            
 
             var cursor = GuiManager.Cursor;
 
-            selectedBuilding = BuildingList.FirstOrDefault(item => item.HasCursorOver(cursor));
+            selectedBuilding = BuildingList.FirstOrDefault(item => item.IsCursorOverSprite(cursor));
 
             if (selectedBuilding == null)
             {
                 foreach (var unit in this.UnitList)
                 {
                     bool canSelect =
-                        unit.UnitData.IsEnemy == false && unit.CollideAgainst(GroupSelectorInstance);
+                        unit.UnitData.IsEnemy == false && unit.HasCursorOver(cursor);
 
-#if DEBUG
+    #if DEBUG
                     if (DebuggingVariables.CanSelectEnemies)
                     {
                         // a little inefficient but whatever, it's debug
                         canSelect = unit.CollideAgainst(GroupSelectorInstance);
                     }
-#endif
+    #endif
 
                     if (canSelect)
                     {
                         selectedUnits.Add(unit);
+                        break; //Break out since we have found a unit from a click. Only drag and select should select should select many.
                     }
                 }
-
             }
 
             UpdateSelectionMarker();
@@ -1126,6 +1125,11 @@ namespace TownRaiser.Screens
                 currentTrainingCapacity -= unitData.Capacity;
                 CurrentCapacityUsed = UnitList.Select(x => x.UnitData).Where(x => x.IsEnemy == false).Sum(x => x.Capacity); //makes sure we have the correct capacity when units are trained.
                 UpdateResourceDisplay();
+            }
+
+            if(selectedBuilding != null)
+            {
+                this.ActionToolbarInstance.UpdateCostUiFromLastRollOver();
             }
 
             Unit.TryPlaySpawnSound(unitData);

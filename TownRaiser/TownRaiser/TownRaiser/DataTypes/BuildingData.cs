@@ -18,6 +18,7 @@ namespace TownRaiser.DataTypes
         public int Gold => 0;
         public int Lumber => this.LumberCost;
         public int Stone => this.StoneCost;
+        public int CapacityUsed => 0; //buildings don't consume capacity.
         public bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings, IUpdatesStatus entityCreatedFrom)
         {
 

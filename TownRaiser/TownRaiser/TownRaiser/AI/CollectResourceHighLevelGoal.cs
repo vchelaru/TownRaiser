@@ -206,10 +206,10 @@ namespace TownRaiser.AI
                         .Where(building => building.BuildingData.Name == BuildingData.TownHall)
                         .OrderBy(building => (building.Position - Owner.Position).Length())
                         .FirstOrDefault();
-                    ResourceReturnBuildingTile = GetSingleTile(ResourceReturnBuilding.Position);
 
                     if (ResourceReturnBuilding != null)
                     {
+                        ResourceReturnBuildingTile = GetSingleTile(ResourceReturnBuilding.Position);
                         Vector3 pointSlightlySkewedTowardOwner = DeterminePositionWithinTileSlightlyCloserToOwner(ResourceReturnBuildingTile.Position, ResourceReturnBuildingTile.Width);
                         walkGoal = new WalkToHighLevelGoal();
                         walkGoal.Owner = Owner;

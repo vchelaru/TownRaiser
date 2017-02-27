@@ -16,6 +16,7 @@ namespace TownRaiser.Interfaces
         int Gold { get; }
         int Lumber { get; }
         int Stone { get; }
+        int CapacityUsed { get; }
         bool ShouldEnableButton(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings, IUpdatesStatus entityCreatedFrom);
     }
 }
