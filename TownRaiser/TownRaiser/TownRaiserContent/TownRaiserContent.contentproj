@@ -117,6 +117,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TargetCursor</Name>
     </None>
+    <None Include="GlobalContent\EncounterPointData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>EncounterPointData</Name>
+    </None>
     <None Include="GlobalContent\GumAnimationChains.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>GumAnimationChains</Name>

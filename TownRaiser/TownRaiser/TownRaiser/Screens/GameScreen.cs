@@ -124,9 +124,9 @@ namespace TownRaiser.Screens
         {
             // this is temporary code - do we eventually want these set in the TMX? If so, do they reference a CSV? or do they 
             // have their own values....probably CSV so that we can tune difficulty
-            var encounterPoint = new EncounterSpawnPoint();
+            var encounterPoint = Factories.EncounterSpawnPointFactory.CreateNew();
             encounterPoint.X = 500;
-            encounterPoint.Y = -600;
+            encounterPoint.Y = -400;
         }
 
         private void InitializeSoundTracker()
@@ -454,7 +454,6 @@ namespace TownRaiser.Screens
 
             PerformUnitVsEncounterPointCollision();
         }
-
         private void PerformUnitVsEncounterPointCollision()
         {
             // brute force it for now:
@@ -471,26 +470,28 @@ namespace TownRaiser.Screens
                 else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.Spawned)
                 {
                     // if no units are touching this, then it will go back to Active mode, waiting for the next spawn:
-                    bool areAnyUnitsTouching = UnitList.Any(unit => unit.CollideAgainst(encounterPoint));
+                    bool areAnyUnitsTouching = UnitList.Any(unit => unit.UnitData.IsEnemy == false && unit.CollideAgainst(encounterPoint));
 
                     if (!areAnyUnitsTouching)
                     {
                         encounterPoint.ReturnSpawnedUnits();
                     }
                 }
-                else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ReturningUnits)
+                else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ReturningUnits ||
+                    encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ActiveWaiting)
                 {
-                    // See if the the player has brought units back to the spawn point, if so, go back and attack!
-                    var playerUnit = UnitList.FirstOrDefault(unit => unit.CollideAgainst(encounterPoint));
+                    var playerUnit = UnitList.FirstOrDefault(unit => unit.UnitData.IsEnemy == false && unit.CollideAgainst(encounterPoint));
+
+                    if (playerUnit != null)
+                    {
+                        encounterPoint.Attack(playerUnit, SpawnNewUnit);
+                    }
 
                 }
-                else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ActiveWaiting)
-                {
-                    bool areAnyUnitsTouching = UnitList.Any(item => item.CollideAgainst(encounterPoint));
 
-                }
             }
         }
+
 
         private void PerformUnitsVsTerrainCollision()
         {

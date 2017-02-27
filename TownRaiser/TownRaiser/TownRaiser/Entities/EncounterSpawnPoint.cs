@@ -15,6 +15,8 @@ using FlatRedBall.Math.Splines;
 using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
+using FlatRedBall.Math;
+using FlatRedBall.Screens;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -28,15 +30,25 @@ namespace TownRaiser.Entities
 {
 	public partial class EncounterSpawnPoint
 	{
+        #region Enums
+
         public enum LogicState
         {
             ActiveWaiting,
             Spawned,
-            Dormant,
-            ReturningUnits
+            ReturningUnits,
+            Dormant
         }
 
+        #endregion
+
+        double lastTimeDestroyed;
+
+        PositionedObjectList<Unit> UnitsCreatedByThis = new PositionedObjectList<Unit>();
+
         public LogicState CurrentLogicState { get; set; }
+
+        public int Difficulty { get; set; } = 0;
 
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
@@ -51,9 +63,15 @@ namespace TownRaiser.Entities
 
 		private void CustomActivity()
 		{
+            bool shouldReactivate = this.CurrentLogicState == LogicState.Dormant &&
+                ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(lastTimeDestroyed) > RegenerationTime;
 
+            if(shouldReactivate)
+            {
+                this.CurrentLogicState = LogicState.ActiveWaiting;
+            }
 
-		}
+        }
 
 		private void CustomDestroy()
 		{
@@ -69,7 +87,58 @@ namespace TownRaiser.Entities
 
         internal void ReturnSpawnedUnits()
         {
-            throw new NotImplementedException();
+
+        }
+
+        internal void Attack(Unit playerUnit, Func<string, Vector3, Unit> spawnAction)
+        {
+            if(CurrentLogicState == LogicState.ReturningUnits)
+            {
+                // units already exist, so attack:
+                foreach(var unit in UnitsCreatedByThis)
+                {
+                    unit.AssignMoveAttackGoal(playerUnit.X, playerUnit.Y);
+                }
+            }
+            else
+            {
+                CreateAllNewUnits(spawnAction);
+
+                foreach (var unit in UnitsCreatedByThis)
+                {
+                    unit.AssignMoveAttackGoal(playerUnit.X, playerUnit.Y);
+                }
+            }
+
+            this.CurrentLogicState = LogicState.Spawned;
+        }
+
+        private void CreateAllNewUnits(Func<string, Vector3, Unit> spawnAction)
+        {
+            var data = GlobalContent.EncounterPointData[this.Difficulty];
+
+            foreach(var enemyName in data.Enemies)
+            {
+                var unit = spawnAction(enemyName, this.Position);
+
+                unit.Died += HandleUnitDied;
+
+                this.UnitsCreatedByThis.Add(unit);
+            }
+        }
+
+        private void HandleUnitDied()
+        {
+            if(this.UnitsCreatedByThis.Count == 0)
+            {
+                HandleAllUnitsKilled();
+            }
+        }
+
+        private void HandleAllUnitsKilled()
+        {
+            lastTimeDestroyed = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+            this.CurrentLogicState = LogicState.Dormant;
         }
     }
 }

@@ -133,6 +133,7 @@
     <Compile Include="DataTypes\BuildingData.Generated.cs">
       <DependentUpon>BuildingData.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataTypes\EncounterPointData.Generated.cs" />
     <Compile Include="DataTypes\Requirement.cs" />
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
     <Compile Include="DataTypes\TimedSpawnData.Generated.cs" />
