@@ -27,6 +27,7 @@ using TownRaiser.Entities;
 using TownRaiser.Spawning;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using FlatRedBall.TileEntities;
 
 namespace TownRaiser.Screens
 {
@@ -38,15 +39,18 @@ namespace TownRaiser.Screens
         Train,
         Build
     }
-    #endregion
+
     public enum ResourceType
     {
         Gold,
         Lumber,
         Stone
     }
+    #endregion
+
     public partial class GameScreen
 	{
+        public event EventHandler SecondaryClick;
         #region Fields/Properties
 
         private RaidSpawner raidSpawner;
@@ -79,7 +83,7 @@ namespace TownRaiser.Screens
 
         public const float GridWidth = 16;
 
-        List<Entities.Unit> selectedUnits = new List<Entities.Unit>();
+        PositionedObjectList<Entities.Unit> selectedUnits = new PositionedObjectList<Entities.Unit>();
         UnitData topSelectedUnit;
 
         Entities.Building selectedBuilding;
@@ -122,11 +126,14 @@ namespace TownRaiser.Screens
 
         private void InitializeEncounterPoints()
         {
+            TileEntityInstantiator.CreateEntitiesFrom(WorldMap);
+
+
             // this is temporary code - do we eventually want these set in the TMX? If so, do they reference a CSV? or do they 
             // have their own values....probably CSV so that we can tune difficulty
-            var encounterPoint = new EncounterSpawnPoint();
+            var encounterPoint = Factories.EncounterSpawnPointFactory.CreateNew();
             encounterPoint.X = 500;
-            encounterPoint.Y = -600;
+            encounterPoint.Y = -400;
         }
 
         private void InitializeSoundTracker()
@@ -255,6 +262,7 @@ namespace TownRaiser.Screens
         {
             //Clear selected building and units
             selectedUnits.Clear();
+            selectedBuilding?.UpdateRallyPointVisibility(false);
             selectedBuilding = null;
             topSelectedUnit = null;
 
@@ -471,24 +479,25 @@ namespace TownRaiser.Screens
                 else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.Spawned)
                 {
                     // if no units are touching this, then it will go back to Active mode, waiting for the next spawn:
-                    bool areAnyUnitsTouching = UnitList.Any(unit => unit.CollideAgainst(encounterPoint));
+                    bool areAnyUnitsTouching = UnitList.Any(unit => unit.UnitData.IsEnemy == false && unit.CollideAgainst(encounterPoint));
 
                     if (!areAnyUnitsTouching)
                     {
                         encounterPoint.ReturnSpawnedUnits();
                     }
                 }
-                else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ReturningUnits)
+                else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ReturningUnits ||
+                    encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ActiveWaiting)
                 {
-                    // See if the the player has brought units back to the spawn point, if so, go back and attack!
-                    var playerUnit = UnitList.FirstOrDefault(unit => unit.CollideAgainst(encounterPoint));
+                    var playerUnit = UnitList.FirstOrDefault(unit => unit.UnitData.IsEnemy == false && unit.CollideAgainst(encounterPoint));
+
+                    if (playerUnit != null)
+                    {
+                        encounterPoint.Attack(playerUnit, SpawnNewUnit);
+                    }
 
                 }
-                else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ActiveWaiting)
-                {
-                    bool areAnyUnitsTouching = UnitList.Any(item => item.CollideAgainst(encounterPoint));
 
-                }
             }
         }
 
@@ -539,6 +548,10 @@ namespace TownRaiser.Screens
             if(InputManager.Keyboard.AnyKeyPushed())
             {
                 ActionToolbarInstance.ReactToKeyPress();
+                if(ActionToolbarInstance.CurrentVariableState == GumRuntimes.ActionToolbarRuntime.VariableState.SelectModeView)
+                {
+                    selectedBuilding?.UpdateRallyPointVisibility(false);
+                }
             }
 
         }
@@ -622,7 +635,15 @@ namespace TownRaiser.Screens
 
             if(cursor.SecondaryClick)
             {
-                HandleSecondaryClick();
+                if (GetIfCanClickInWorld())
+                {
+                    HandleSecondaryClick();
+                }
+                else
+                {
+                    //Raise the SecondaryClick event for any unit buttons which can cancel training.
+                    SecondaryClick?.Invoke(null, null);
+                }
             }
         }
 
@@ -664,7 +685,7 @@ namespace TownRaiser.Screens
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Skeleton]);
             }
-            if (keyboard.KeyDown(Keys.D8))
+            if (keyboard.KeyDown(Keys.D8) )
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Slime]);
             }
@@ -727,15 +748,38 @@ namespace TownRaiser.Screens
         {
             //Create a rally point for units that are created.
             //If the selected building can train units.
-            if(selectedBuilding != null && selectedBuilding.HasTrainableUnits)
+            Cursor cursor = GuiManager.Cursor;
+            if (selectedBuilding != null)
             {
-                Cursor cursor = GuiManager.Cursor;
+                
+                if(selectedBuilding.IsConstructionComplete == false && selectedBuilding.IsCursorOverSprite(cursor))
+                {
+                    CancelBuildingConstruction();
+                }
+                else if (selectedBuilding.HasTrainableUnits)
+                {
+                    var worldX = cursor.WorldXAt(0);
+                    var worldY = cursor.WorldYAt(0);
 
-                var worldX = cursor.WorldXAt(0);
-                var worldY = cursor.WorldYAt(0);
-
-                selectedBuilding.RallyPoint = new Vector3() { X = worldX, Y = worldY};
+                    selectedBuilding.RallyPoint = new Vector3() { X = worldX, Y = worldY, Z = selectedBuilding.Z };
+                }
             }
+            else if(selectedUnits.Count == 0)
+            {
+                selectedBuilding = BuildingList.FirstOrDefault(x => x.IsCursorOverSprite(cursor));
+                if (selectedBuilding != null)
+                {
+                    CancelBuildingConstruction();
+                }
+            }
+        }
+
+        private void CancelBuildingConstruction()
+        {
+            selectedBuilding.TryCancelBuilding();
+            selectedBuilding = null;
+            UpdateResourceDisplay();
+            HandlePostSelection();
         }
 
         private void HandleSelectedUnitsRightClick()
@@ -816,6 +860,7 @@ namespace TownRaiser.Screens
         {
             //Clear selected building and units
             selectedUnits.Clear();
+            selectedBuilding?.UpdateRallyPointVisibility(false);
             selectedBuilding = null;
             topSelectedUnit = null;
 
@@ -852,15 +897,16 @@ namespace TownRaiser.Screens
             HandlePostSelection();
         }
 
-        public void HandlePostSelection()
+        private void HandlePostSelection()
         {
             if(selectedBuilding == null && selectedUnits.Count == 0)
             {
-                this.ActionToolbarInstance.SetViewFromEntity(null);
+                this.ActionToolbarInstance.SetViewFromEntity(null);                
             }
             else if (selectedBuilding != null)
             {
                 this.ActionToolbarInstance.SetViewFromEntity(selectedBuilding);
+                selectedBuilding.UpdateRallyPointVisibility(true);
                 
             }
             else 
@@ -1097,6 +1143,8 @@ namespace TownRaiser.Screens
             }
         }
 
+        
+
         private void HandleRaidSpawn(IEnumerable<UnitData> unitDatas, Vector3 spawnPoint)
         {
             List<Unit> newEnemies = new List<Entities.Unit>();
@@ -1117,11 +1165,12 @@ namespace TownRaiser.Screens
             {
                 UpdateCapacityValue();
                 UpdateResourceDisplay();
+                UpdateSelectionMarker();
             };
 
             newUnit.Position = spawnPoint;
             // make it sit above the ground
-            newUnit.Z = 1;
+            newUnit.Z = 1.5f;
             var unitData = GlobalContent.UnitData[unitDataKey];
             newUnit.UnitData = unitData;
             newUnit.AllUnits = this.UnitList;
@@ -1147,6 +1196,24 @@ namespace TownRaiser.Screens
             return newUnit;
         }
 
+        public void CancelLastTrainingInstanceOfUnit(string unitToCancel)
+        {
+            if (selectedBuilding != null)
+            {
+                //If the unit was canceled we know we need to upate the gold count.
+                //However, we may not have to update the training capacity. So we will pass it in as a ref which has smarter logic to 
+                //update it appropriately.
+                var wasCancelled = selectedBuilding.CancelLastTrainingInstance(unitToCancel, ref currentTrainingCapacity);
+                if (wasCancelled)
+                {
+                    var unitData = GlobalContent.UnitData[unitToCancel];
+                    Gold += unitData.Gold;
+                    UpdateResourceDisplay();
+                }
+            }
+        }
+        #endregion
+
         public void TryPlayResourceCollectSound(ResourceType resource, Vector3 soundOrigin)
         {
             SoundEffect soundEffect;
@@ -1171,7 +1238,6 @@ namespace TownRaiser.Screens
             }
             SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, soundOrigin);
         }
-#endregion
 
         void CustomDestroy()
 		{

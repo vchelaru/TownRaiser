@@ -25,6 +25,7 @@ namespace TownRaiser.GumRuntimes
 
             if (selectedEntity == null)
             {
+                ActionStackContainerInstance.RemoveIconButtons();
                 SetVariableState(VariableState.SelectModeView);
             }
             else if (selectedEntity is Entities.Building)

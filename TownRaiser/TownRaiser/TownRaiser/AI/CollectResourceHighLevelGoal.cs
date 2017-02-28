@@ -108,6 +108,7 @@ namespace TownRaiser.AI
         {
             return Owner.HasResourceToReturn
                 && ResourceReturnBuilding != null
+                && ResourceReturnBuilding.IsConstructionComplete			
                 && Owner.ResourceCollectCircleInstance.CollideAgainst(ResourceReturnBuildingTile);
         }
         void ClearResourceState()
@@ -294,7 +295,7 @@ namespace TownRaiser.AI
             // Find "closest" building by position comparison.
             // FUTURE: Get building with shorted node path (in case closest is a long winding path).
             ResourceReturnBuilding = AllBuildings
-                        .Where(building => building.BuildingData.Name == BuildingData.TownHall)
+                        .Where(building => building.BuildingData.Name == BuildingData.TownHall && building.IsConstructionComplete)
                         .OrderBy(building => (building.Position - Owner.Position).Length())
                         .FirstOrDefault();
 

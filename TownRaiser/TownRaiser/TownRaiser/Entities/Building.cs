@@ -38,13 +38,46 @@ namespace TownRaiser.Entities
 
 
         public ICommonEntityData EntityData => BuildingData;
-        public int CurrentHealth { get; set; }
+        private int m_CurrentHealth;
+        public int CurrentHealth
+        {
+            get
+            {
+                return m_CurrentHealth;
+            }
+            set
+            {
+                m_CurrentHealth = value;
+                UpdateHealthSprite();
+            }
+        }
         public IEnumerable<string> ButtonDatas => BuildingData.TrainableUnits.AsReadOnly();
         public string CurrentTrainingUnit => TrainingQueue.Count > 0 ? TrainingQueue[0] : null;
         public Dictionary<string, double> ProgressPercents { get; private set; }
         public Dictionary<string, int> ButtonCountDisplays { get; private set; }
 
-        public Vector3? RallyPoint;
+        private RallyPointMarker m_RallyPointMarker;
+        private Vector3? m_RallyPoint;
+        public Vector3? RallyPoint
+        {
+            get
+            {
+                return m_RallyPoint;
+            }
+            set
+            {
+                m_RallyPoint = value;
+                if(m_RallyPoint.HasValue)
+                {
+                    if(m_RallyPointMarker == null)
+                    {
+                        m_RallyPointMarker = Factories.RallyPointMarkerFactory.CreateNew();
+                    }
+                    m_RallyPointMarker.Position = m_RallyPoint.Value;
+                }
+            }
+        }
+
         double constructionTimeStarted = 0;
         public bool IsConstructionComplete { get; private set; } = true;
         public bool HasTrainableUnits => BuildingData.TrainableUnits.Count > 0;
@@ -102,6 +135,7 @@ namespace TownRaiser.Entities
 
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
+            this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.Full;
             this.HealthBarRuntimeInstance.Z = -1;
 
 #if DEBUG
@@ -181,7 +215,7 @@ namespace TownRaiser.Entities
 
         private void TrainingActivity()
         {
-            if (TrainingQueue.Count > 0 && ScreenManager.CurrentScreen is Screens.GameScreen)
+            if (TrainingQueue.Count > 0)
             {
                 var trainingUnit = CurrentTrainingUnit;
                 ProgressPercents[trainingUnit] = TrainingProgress;
@@ -218,6 +252,16 @@ namespace TownRaiser.Entities
                 this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
             }
         }
+        public void TryCancelBuilding()
+        {
+            if(IsConstructionComplete == false)
+            {
+                var gameScreen = ScreenManager.CurrentScreen as Screens.GameScreen;
+                gameScreen.Stone += BuildingData.Stone;
+                gameScreen.Lumber += BuildingData.Lumber;
+                this.Destroy();
+            }
+        }
         public bool TryAddUnitToTrain(string unit)
         {
             bool wasSuccessful = true;
@@ -238,12 +282,47 @@ namespace TownRaiser.Entities
             }
             return wasSuccessful;
         }
-        
+
+        public bool CancelLastTrainingInstance(string unitTypeToCancel, ref int trainingUnitCapacity)
+        {
+            bool wasCanceled = false;
+            if(TrainingQueue.Count > 0)
+            {
+                int lastIndex = TrainingQueue.LastIndexOf(unitTypeToCancel);
+
+                if (lastIndex > -1)
+                {
+                    TrainingQueue.RemoveAt(lastIndex);
+                    ButtonCountDisplays[unitTypeToCancel]--;
+
+                    if(lastIndex == 0)
+                    {
+                        trainingUnitCapacity -= GlobalContent.UnitData[unitTypeToCancel].Capacity;
+
+                        if (TrainingQueue.Count > 0)
+                        {
+                            TryStartTraining(CurrentTrainingUnit);
+                        }
+                    }
+
+                    if(ButtonCountDisplays[unitTypeToCancel] == 0)
+                    {
+                        ProgressPercents[unitTypeToCancel] = 0;
+                    }
+
+                    this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs());
+
+                    wasCanceled = true;
+                }
+            }
+
+            return wasCanceled;
+        }
 
         public float GetHealthRatio()
         {
             
-            return CurrentHealth / BuildingData.Health;
+            return (float)CurrentHealth / (float)BuildingData.Health;
         }
 
         public bool IsCursorOverSprite(Cursor cursor)
@@ -279,12 +358,33 @@ namespace TownRaiser.Entities
             CurrentHealth -= attackDamage;
             if (CurrentHealth <= 0)
             {
-                PerformDestruction();
+                Destroy();
             }
         }
-        private void PerformDestruction()
+        public void UpdateHealthSprite()
         {
-            Destroy();
+            var healthRatio = GetHealthRatio();
+
+            if(healthRatio > .66)
+            {
+                this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.Full;
+            }
+            else if(healthRatio > .33)
+            {
+                this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.TwoThird;
+            }
+            else
+            {
+                this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.OneThird;
+            }
+
+        }
+        public void UpdateRallyPointVisibility(bool isVisible)
+        {
+            if (m_RallyPointMarker != null)
+            {
+                m_RallyPointMarker.SpriteInstanceVisible = isVisible;
+            }
         }
 
         internal void InterpolateToState(object buildComplete, double buildTime)
@@ -298,6 +398,14 @@ namespace TownRaiser.Entities
             this.OnDestroy?.Invoke(this, null);
             this.UpdateStatus?.Invoke(this, new UpdateStatusEventArgs() { WasEntityDestroyed = true });
 
+            //Refund any training units on building destruction.
+            var gameScreen = ScreenManager.CurrentScreen as Screens.GameScreen;
+            foreach (var unit in TrainingQueue)
+            {
+                gameScreen.Gold += GlobalContent.UnitData[unit].Gold;
+            }
+            gameScreen.UpdateResourceDisplay();
+
             this.TrainingQueue.Clear();
             this.TrainingQueue = null;
 
@@ -309,6 +417,9 @@ namespace TownRaiser.Entities
 
             this.OnDestroy = null;
             this.UpdateStatus = null;
+
+            m_RallyPointMarker?.Destroy();
+            m_RallyPointMarker = null;
     }
 
         private static void CustomLoadStaticContent(string contentManagerName)

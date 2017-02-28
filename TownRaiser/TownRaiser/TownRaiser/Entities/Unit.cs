@@ -45,8 +45,20 @@ namespace TownRaiser.Entities
 
         public PositionedObjectList<Building> AllBuildings { get; set; }
 
-        public int CurrentHealth { get; set; }
-
+        private int m_CurrentHealth;
+        public int CurrentHealth
+        {
+            get
+            {
+                return m_CurrentHealth;
+            }
+            set
+            {
+                m_CurrentHealth = value;
+                UpdateHealthSprite();
+            }
+        }
+        
         public bool HasResourceToReturn
         {
             get { return ResourceTypeToReturn != null; }
@@ -89,7 +101,8 @@ namespace TownRaiser.Entities
             //// This should prob be done in Glue instead, but I don't think Glue currently supports this:
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
-            this.HealthBarRuntimeInstance.Z = 2;
+            this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.Full;
+            this.HealthBarRuntimeInstance.Z = -2;
 #if DEBUG
             this.ResourceCollectCircleInstance.Visible = DebuggingVariables.ShowResourceCollision;
 #endif
@@ -150,9 +163,14 @@ namespace TownRaiser.Entities
         {
             HealthBarRuntimeInstance.PositionTo(this, -SpriteInstance.Height * .85f);
 
-            var healthPercentage = 100 * this.CurrentHealth / (float)UnitData.Health;
+            var healthPercentage = 100 * GetHealthRatio();
 
             this.HealthBarRuntimeInstance.HealthPercentage = healthPercentage;
+        }
+
+        private float GetHealthRatio()
+        {
+            return this.CurrentHealth / (float)UnitData.Health;
         }
 
         private void HighLevelActivity()
@@ -462,6 +480,25 @@ namespace TownRaiser.Entities
 
         #endregion
 
+        public void UpdateHealthSprite()
+        {
+            var healthRatio = GetHealthRatio();
+
+            if (healthRatio > .66)
+            {
+                this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.Full;
+            }
+            else if (healthRatio > .33)
+            {
+                this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.TwoThird;
+            }
+            else
+            {
+                this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.OneThird;
+            }
+
+        }
+
         public void SetResourceToReturn(Screens.ResourceType? resourceType = null)
         {
             ResourceTypeToReturn = resourceType;
@@ -474,7 +511,7 @@ namespace TownRaiser.Entities
             while (this.pathLines.Count > 0)
             {
                 ShapeManager.Remove(pathLines.Last());
-        }
+            }
         }
 
         private static void CustomLoadStaticContent(string contentManagerName)
