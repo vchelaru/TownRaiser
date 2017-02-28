@@ -46,6 +46,12 @@ namespace TownRaiser.Screens
         Lumber,
         Stone
     }
+
+    public enum MusicMode
+    {
+        Peace,
+        Combat,
+    }
     #endregion
 
     public partial class GameScreen
@@ -54,6 +60,8 @@ namespace TownRaiser.Screens
         #region Fields/Properties
 
         private RaidSpawner raidSpawner;
+
+        private MusicMode m_CurrentMusicModeState;
 
         public int Lumber { get; set; } = 1200;
         public int Stone { get; set; } = 1000;
@@ -122,6 +130,15 @@ namespace TownRaiser.Screens
             InitializeEncounterPoints();
             
             InitializeSoundTracker();
+
+            InitializeMusic();
+        }
+
+        private void InitializeMusic()
+        {
+            m_CurrentMusicModeState = MusicMode.Peace;
+            
+            FlatRedBall.Audio.AudioManager.PlaySong(FR_TownSong_Loop, true, false);
         }
 
         private void InitializeEncounterPoints()
@@ -368,6 +385,39 @@ namespace TownRaiser.Screens
             CursorChangeActivity();
 
             RaidSpawningActivity();
+
+            MusicActivity();
+        }
+
+        private void MusicActivity()
+        {
+            var camera = Camera.Main;
+
+            if(CombatTracker.AreUnitsInCombat)
+            {
+                if (m_CurrentMusicModeState == MusicMode.Peace)
+                {
+                    m_CurrentMusicModeState = MusicMode.Combat;
+                    FlatRedBall.Audio.AudioManager.PlaySong(FR_BattleSong_Loop, true, false);
+                }
+            }
+            else if( CombatTracker.AreUnitsInCombat == false && m_CurrentMusicModeState == MusicMode.Combat)
+            {
+                m_CurrentMusicModeState = MusicMode.Peace;
+                FlatRedBall.Audio.AudioManager.PlaySong(FR_TownSong_Loop, false, false);
+                if (CombatTracker.PlayerCount > 0)
+                {
+                    FlatRedBall.Audio.AudioManager.PlaySongThenResumeCurrent(FR_VictorySong, false);
+                    this.Call(HackPlayAfter).After(FR_VictorySong.Duration.TotalSeconds);
+                }
+                CombatTracker.Clear();
+
+            }
+        }
+
+        private void HackPlayAfter()
+        {
+            FlatRedBall.Audio.AudioManager.PlaySong(FR_TownSong_Loop, false, false);
         }
 
         private void RaidSpawningActivity()
@@ -1224,7 +1274,6 @@ namespace TownRaiser.Screens
                     break;
                 default:
                     throw new Exception($"Resource type does not have a sound: {resource.ToString()}");
-                    break;
             }
             SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, soundOrigin);
         }
