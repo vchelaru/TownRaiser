@@ -345,7 +345,7 @@ namespace TownRaiser.AI
                 var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
                 
                 // Increment appropriate resource.
-                switch (TargetResourceType)
+                switch (Owner.ResourceTypeToReturn)
                 {
                     case ResourceType.Gold:
                         screen.Gold += Owner.UnitData.ResourceHarvestAmount;
@@ -358,7 +358,7 @@ namespace TownRaiser.AI
                         break;
                 }
                 //Try to play the collect sound.
-                screen.TryPlayResourceCollectSound(TargetResourceType, Owner.Position);
+                screen.TryPlayResourceCollectSound(Owner.ResourceTypeToReturn.Value, Owner.Position);
 
                 // Update UI
                 screen.UpdateResourceDisplay();
