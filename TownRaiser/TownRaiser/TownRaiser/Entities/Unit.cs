@@ -334,6 +334,23 @@ namespace TownRaiser.Entities
             }
         }
 
+        /// <summary>
+        /// Unit has a resource to return, but we don't have enough to restart a full resource collection goal (e.g., harvested item, then cancelled -> no prior resource destination available).
+        /// </summary>
+        public void AssignResourceReturnGoal(Vector3 clickPosition, Building targetReturnBuilding, Screens.ResourceType resourceType)
+        {
+            var returnResourceGoal = new ResourceReturnHighLevelGoal(
+                owner: this,
+                nodeNetwork: NodeNetwork,
+                targetReturnBuilding: targetReturnBuilding
+            );
+            if (ImmediateGoal?.Path != null)
+            {
+                ImmediateGoal.Path.Clear();
+            }
+            HighLevelGoals.Clear();
+            HighLevelGoals.Push(returnResourceGoal);
+        }
         public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, Screens.ResourceType resourceType)
         {
             var collectResourceGoal = new ResourceCollectHighLevelGoal(

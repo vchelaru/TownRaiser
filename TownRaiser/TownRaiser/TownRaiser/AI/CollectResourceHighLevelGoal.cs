@@ -9,6 +9,167 @@ using TownRaiser.DataTypes;
 
 namespace TownRaiser.AI
 {
+    class ResourceReturnHighLevelGoal : HighLevelGoal
+    {
+        WalkToHighLevelGoal currentWalkGoal;
+
+        public Unit Owner { get; private set; }
+        public TileNodeNetwork NodeNetwork { get; private set; }
+
+        public ResourceType TargetResourceType { get; private set; }
+
+        public Building ResourceReturnBuilding { get; set; }
+        public AxisAlignedRectangle ResourceReturnBuildingTile { get; set; }
+
+        static AxisAlignedRectangle GetSingleTile(Vector3 singleTileCenter)
+        {
+            float roundedX = MathFunctions.RoundFloat(singleTileCenter.X - GameScreen.GridWidth / 2.0f, GameScreen.GridWidth);
+            float roundedY = MathFunctions.RoundFloat(singleTileCenter.Y - GameScreen.GridWidth / 2.0f, GameScreen.GridWidth);
+
+            AxisAlignedRectangle newAar = new AxisAlignedRectangle();
+            newAar.Width = GameScreen.GridWidth;
+            newAar.Height = GameScreen.GridWidth;
+            newAar.Left = roundedX;
+            newAar.Bottom = roundedY;
+            newAar.Visible = false;
+
+#if DEBUG
+            newAar.Visible = DebuggingVariables.ShowResourceCollision;
+#endif
+
+            return newAar;
+        }
+
+        public ResourceReturnHighLevelGoal(Unit owner, TileNodeNetwork nodeNetwork, Building targetReturnBuilding)
+        {
+            Owner = owner;
+            NodeNetwork = nodeNetwork;
+
+            ResourceReturnBuilding = targetReturnBuilding;
+            ResourceReturnBuildingTile = GetSingleTile(ResourceReturnBuilding.Position);
+        }
+
+        public override bool GetIfDone()
+        {
+            return ResourceReturnBuilding == null || Owner.HasResourceToReturn == false;
+        }
+
+        /// <summary>
+        /// Used to adjust a destination Vector3 within tile, askew from center toward the destination.
+        /// </summary>
+        Vector3 DeterminePositionWithinTileSlightlyCloserToOwner(Vector3 destination, float tileSize)
+        {
+            Vector3 pointSlightlySkewedTowardOwner;
+            // Used to divide the tileSize. (Half was causing weirdness.)
+            const float tileSizePortion = 5;
+            if (Owner.Position.X > destination.X)
+            {
+                if (Owner.Position.Y > destination.Y)
+                {
+                    // Unit is above/right of building. Move target point 
+                    pointSlightlySkewedTowardOwner = destination + new Vector3(tileSize / tileSizePortion, tileSize / tileSizePortion, destination.Z);
+                }
+                else
+                {
+                    // Unit is below/right of building.
+                    pointSlightlySkewedTowardOwner = destination + new Vector3(tileSize / tileSizePortion, tileSize / -tileSizePortion, destination.Z);
+                }
+            }
+            else
+            {
+                if (Owner.Position.Y > destination.Y)
+                {
+                    // Unit is above/left of building.
+                    pointSlightlySkewedTowardOwner = destination + new Vector3(tileSize / -tileSizePortion, tileSize / tileSizePortion, destination.Z);
+                }
+                else
+                {
+                    // Unit is below/right of building.
+                    pointSlightlySkewedTowardOwner = destination + new Vector3(tileSize / -tileSizePortion, tileSize / -tileSizePortion, destination.Z);
+                }
+            }
+            return pointSlightlySkewedTowardOwner;
+        }
+
+        public WalkToHighLevelGoal GetResourceReturnWalkGoal()
+        {
+            ResourceReturnBuildingTile = GetSingleTile(ResourceReturnBuilding.Position);
+            Vector3 pointSlightlySkewedTowardOwner = DeterminePositionWithinTileSlightlyCloserToOwner(ResourceReturnBuildingTile.Position, ResourceReturnBuildingTile.Width);
+            var walkGoal = new WalkToHighLevelGoal()
+            {
+                Owner = Owner,
+                TargetPosition = pointSlightlySkewedTowardOwner,
+                ForceAttemptToGetToExactTarget = true,
+            };
+            return walkGoal;
+        }
+
+        bool IsInRangeToReturnResource()
+        {
+            return Owner.HasResourceToReturn
+                && ResourceReturnBuilding != null
+                && Owner.ResourceCollectCircleInstance.CollideAgainst(ResourceReturnBuildingTile);
+        }
+        void ClearResourceState()
+        {
+            Owner.SetResourceToReturn(null);
+            ResourceReturnBuilding = null;
+            ResourceReturnBuildingTile = null;
+        }
+
+        void StopMoving()
+        {
+            currentWalkGoal = null;
+            Owner?.ImmediateGoal?.Path?.Clear();
+            Owner.Velocity = Vector3.Zero;
+        }
+
+        public override void DecideWhatToDo()
+        {
+            if (IsInRangeToReturnResource())
+            {
+                // We're close enough to our target return destination: unload!
+                StopMoving();
+
+                var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
+
+                // Increment appropriate resource.
+                switch (TargetResourceType)
+                {
+                    case ResourceType.Gold:
+                        screen.Gold += Owner.UnitData.ResourceHarvestAmount;
+                        break;
+                    case ResourceType.Lumber:
+                        screen.Lumber += Owner.UnitData.ResourceHarvestAmount;
+                        break;
+                    case ResourceType.Stone:
+                        screen.Stone += Owner.UnitData.ResourceHarvestAmount;
+                        break;
+                }
+                //Try to play the collect sound.
+                screen.TryPlayResourceCollectSound(TargetResourceType, Owner.Position);
+
+                // Update UI
+                screen.UpdateResourceDisplay();
+
+                ClearResourceState();
+                // Default to !isWalking later to set up return-to-resource trip.
+            }
+            else
+            {
+                bool isWalking = Owner?.ImmediateGoal?.Path?.Count > 0;
+                if (!isWalking)
+                {
+                    if (currentWalkGoal == null)
+                    {
+                        currentWalkGoal = GetResourceReturnWalkGoal();
+                        currentWalkGoal.DecideWhatToDo();
+                    }
+                }
+            }
+        }
+    }
+
     class ResourceCollectHighLevelGoal : HighLevelGoal
     {
         WalkToHighLevelGoal currentWalkGoal;

@@ -778,7 +778,7 @@ namespace TownRaiser.Screens
                     else if (selectedUnit.HasResourceToReturn && buildingOver?.BuildingData?.Name == BuildingData.TownHall)
                     {
                         var clickLocation = new Vector3(worldX, worldY, 0);
-                        selectedUnit.AssignResourceCollectGoal(clickLocation, resourceOver, selectedUnit.ResourceTypeToReturn.Value);
+                        selectedUnit.AssignResourceReturnGoal(clickLocation, buildingOver, selectedUnit.ResourceTypeToReturn.Value);
                     }
                     // If a unit initiates battle, then it cannot gather resources
                     else if (resourceOver != null && selectedUnit.UnitData.InitiatesBattle == false)
