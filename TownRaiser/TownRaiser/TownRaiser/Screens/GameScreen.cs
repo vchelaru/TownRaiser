@@ -1160,7 +1160,7 @@ namespace TownRaiser.Screens
 
             newUnit.Position = spawnPoint;
             // make it sit above the ground
-            newUnit.Z = 1;
+            newUnit.Z = 1.5f;
             var unitData = GlobalContent.UnitData[unitDataKey];
             newUnit.UnitData = unitData;
             newUnit.AllUnits = this.UnitList;
