@@ -955,14 +955,14 @@
             <ValueAsFloat>96</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
-            <Type>Color</Type>
-            <Member>Color</Member>
-            <ValueAsString>Red</ValueAsString>
-          </CustomProperty>
-          <CustomProperty>
             <Type>bool</Type>
             <Member>Visible</Member>
             <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>Color</Type>
+            <Member>Color</Member>
+            <ValueAsString>Red</ValueAsString>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -1404,7 +1404,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Y</Member>
-            <ValueAsFloat>-5</ValueAsFloat>
+            <ValueAsFloat>5</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
