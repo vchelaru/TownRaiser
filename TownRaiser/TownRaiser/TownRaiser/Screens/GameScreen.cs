@@ -855,6 +855,10 @@ namespace TownRaiser.Screens
                 else if (stoneResourceOver != null) { resourceType = ResourceType.Stone; }
                 else if (goldResourceOver != null) { resourceType = ResourceType.Gold; }
 
+                // Are we right-clicking on a building?
+                var buildingOver = BuildingList.FirstOrDefault(item => item.IsCursorOverSprite(cursor));
+
+                // Are we right-clicking an enemy?
                 var enemyOver = UnitList.FirstOrDefault(item =>
                     item.UnitData.IsEnemy && item.HasCursorOver(cursor));
 
@@ -863,6 +867,12 @@ namespace TownRaiser.Screens
                     if (enemyOver != null)
                     {
                         selectedUnit.AssignAttackGoal(enemyOver);
+                    }
+                    // If unit has resource to return and we are right-clicking a town hall to return it to...
+                    else if (selectedUnit.HasResourceToReturn && buildingOver?.BuildingData?.Name == BuildingData.TownHall)
+                    {
+                        var clickLocation = new Vector3(worldX, worldY, 0);
+                        selectedUnit.AssignResourceReturnGoal(clickLocation, buildingOver, selectedUnit.ResourceTypeToReturn.Value);
                     }
                     // If a unit initiates battle, then it cannot gather resources
                     else if (resourceOver != null && selectedUnit.UnitData.InitiatesBattle == false)
@@ -875,14 +885,14 @@ namespace TownRaiser.Screens
                         // todo: do we want to differentiate between move and move+attack?
                         const bool forceWalk = false;
 
-                        if(selectedUnit.UnitData.InitiatesBattle == false || forceWalk)
+                        if (selectedUnit.UnitData.InitiatesBattle == false || forceWalk)
                         {
                             selectedUnit.AssignMoveGoal(worldX, worldY);
                         }
                         else
                         {
                             // todo: this eventually will get removed, but it's here for testing:
-                            if(selectedUnit.UnitData.IsEnemy)
+                            if (selectedUnit.UnitData.IsEnemy)
                             {
                                 selectedUnit.AssignAttackThenRetreat(worldX, worldY);
                             }

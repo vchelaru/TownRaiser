@@ -58,7 +58,15 @@ namespace TownRaiser.Entities
                 UpdateHealthSprite();
             }
         }
-
+        
+        public bool HasResourceToReturn
+        {
+            get { return ResourceTypeToReturn != null; }
+        }
+        /// <summary>
+        /// If unit has a resource to return, this is the type. If not, should be null.
+        /// </summary>
+        public Screens.ResourceType? ResourceTypeToReturn { get; set; }
 
         #endregion
 
@@ -271,7 +279,10 @@ namespace TownRaiser.Entities
 
             var amountMovedIn2Frames = UnitData.MovementSpeed * 2 / 60.0f;
 
-            if ((Position - node.Position).Length() < amountMovedIn2Frames)
+            var difference = Position - node.Position;
+            difference.Z = 0;
+
+            if (difference.Length() < amountMovedIn2Frames)
             {
                 ImmediateGoal.Path.RemoveAt(0);
 
@@ -321,32 +332,53 @@ namespace TownRaiser.Entities
             }
         }
 
-        public void ToggleResourceIndicator(bool isEnabled, Screens.ResourceType resourceType)
+        void ToggleResourceIndicator()
         {
-            ResourceIndicatorSpriteInstance.Visible = isEnabled;
-            string resourceAnimationChainName;
-            switch (resourceType) {
-                case Screens.ResourceType.Lumber:
-                    resourceAnimationChainName = "ResourceLumber";
-                    break;
-                case Screens.ResourceType.Stone:
-                    resourceAnimationChainName = "ResourceStone";
-                    break;
-                default:
-                //case Screens.ResourceType.Gold:
-                    resourceAnimationChainName = "ResourceGold";
-                    break;
+            ResourceIndicatorSpriteInstance.Visible = HasResourceToReturn;
+            // Set resource image, if we have one. (Otherwise, don't care since it's not visible.)
+            if (ResourceTypeToReturn != null)
+            {
+                string resourceAnimationChainName;
+                switch (ResourceTypeToReturn.Value) {
+                    case Screens.ResourceType.Lumber:
+                        resourceAnimationChainName = "ResourceLumber";
+                        break;
+                    case Screens.ResourceType.Stone:
+                        resourceAnimationChainName = "ResourceStone";
+                        break;
+                    default:
+                    //case Screens.ResourceType.Gold:
+                        resourceAnimationChainName = "ResourceGold";
+                        break;
+                }
+                ResourceIndicatorSpriteInstance.CurrentChainName = resourceAnimationChainName;
             }
-            ResourceIndicatorSpriteInstance.CurrentChainName = resourceAnimationChainName;
         }
 
+        /// <summary>
+        /// Unit has a resource to return, but we don't have enough to restart a full resource collection goal (e.g., harvested item, then cancelled -> no prior resource destination available).
+        /// </summary>
+        public void AssignResourceReturnGoal(Vector3 clickPosition, Building targetReturnBuilding, Screens.ResourceType resourceType)
+        {
+            var returnResourceGoal = new ResourceReturnHighLevelGoal(
+                owner: this,
+                nodeNetwork: NodeNetwork,
+                targetReturnBuilding: targetReturnBuilding
+            );
+            if (ImmediateGoal?.Path != null)
+            {
+                ImmediateGoal.Path.Clear();
+            }
+            HighLevelGoals.Clear();
+            HighLevelGoals.Push(returnResourceGoal);
+        }
         public void AssignResourceCollectGoal(Vector3 clickPosition, AxisAlignedRectangle resourceGroupTile, Screens.ResourceType resourceType)
         {
             var collectResourceGoal = new ResourceCollectHighLevelGoal(
                 owner: this,
                 nodeNetwork: NodeNetwork,
                 clickPosition: clickPosition,
-                targetResourceTile: resourceGroupTile,
+                targetResourceMergedTile: resourceGroupTile,
                 targetResourceType: resourceType,
                 allBuildings: AllBuildings
             );
@@ -479,6 +511,14 @@ namespace TownRaiser.Entities
             }
 
         }
+
+        public void SetResourceToReturn(Screens.ResourceType? resourceType = null)
+        {
+            ResourceTypeToReturn = resourceType;
+
+            ToggleResourceIndicator();
+        }
+
         private void CustomDestroy()
 		{
             while (this.pathLines.Count > 0)
