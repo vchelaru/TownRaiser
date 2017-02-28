@@ -63,10 +63,6 @@ namespace TownRaiser.Screens
 
         private MusicMode m_CurrentMusicModeState;
 
-        public int Lumber { get; set; } = 1200;
-        public int Stone { get; set; } = 1000;
-        public int Gold { get; set; } = 1000;
-
         public bool HasTrainingUnits => selectedBuilding != null && selectedBuilding.TrainingQueue.Count > 0;
         
         public int CurrentCapacityUsed
@@ -127,7 +123,7 @@ namespace TownRaiser.Screens
 
             InitializeRaidSpawner();
 
-            InitializeEncounterPoints();
+            InitializeEntities();
             
             InitializeSoundTracker();
 
@@ -142,16 +138,23 @@ namespace TownRaiser.Screens
             FlatRedBall.Audio.AudioManager.PlaySong(FR_TownSong_Loop, true, false);
         }
 
-        private void InitializeEncounterPoints()
+        private void InitializeEntities()
         {
             TileEntityInstantiator.CreateEntitiesFrom(WorldMap);
 
+            MakeFirstBuildingTownHall();
+        }
 
-            // this is temporary code - do we eventually want these set in the TMX? If so, do they reference a CSV? or do they 
-            // have their own values....probably CSV so that we can tune difficulty
-            var encounterPoint = Factories.EncounterSpawnPointFactory.CreateNew();
-            encounterPoint.X = 500;
-            encounterPoint.Y = -400;
+        private void MakeFirstBuildingTownHall()
+        {
+            var firstBuilding = BuildingList[0];
+            firstBuilding.BuildingData = GlobalContent.BuildingData[BuildingData.TownHall];
+
+            UpdateCapacityValue();
+            UpdateResourceDisplay();
+
+            Camera.Main.X = firstBuilding.X;
+            Camera.Main.Y = firstBuilding.Y;
         }
 
         private void InitializeSoundTracker()
