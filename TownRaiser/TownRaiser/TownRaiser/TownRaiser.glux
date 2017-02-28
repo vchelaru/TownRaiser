@@ -99,6 +99,45 @@
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
+          <Name>Screens/GameScreen/FR_VictorySong.mp3</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <LoadedOnlyWhenReferenced>true</LoadedOnlyWhenReferenced>
+          <RuntimeType>Microsoft.Xna.Framework.Media.Song</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
+          <Name>Screens/GameScreen/FR_BattleSong_Loop.mp3</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <LoadedOnlyWhenReferenced>true</LoadedOnlyWhenReferenced>
+          <RuntimeType>Microsoft.Xna.Framework.Media.Song</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
+          <Name>Screens/GameScreen/FR_TownSong_Loop.mp3</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <LoadedOnlyWhenReferenced>true</LoadedOnlyWhenReferenced>
+          <RuntimeType>Microsoft.Xna.Framework.Media.Song</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
       </ReferencedFiles>
       <NamedObjects>
         <NamedObjectSave>
@@ -813,7 +852,7 @@
           </Properties>
           <Name>ShowUnitPaths</Name>
           <Type>bool</Type>
-          <DefaultValue xsi:type="xsd:boolean">false</DefaultValue>
+          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
           <IsShared>true</IsShared>
         </CustomVariable>
         <CustomVariable>

@@ -430,6 +430,7 @@ namespace TownRaiser.Entities
         private void PerformDeath()
         {
             TryPlayDeathSound(this);
+            CombatTracker.RemoveUnit(this);
             if (UnitData.IsEnemy == false)
             {
                 var screen = ScreenManager.CurrentScreen as Screens.GameScreen;
@@ -446,6 +447,9 @@ namespace TownRaiser.Entities
 
             if (canAttack)
             {
+                CombatTracker.RegisterUnitForCombat(this);
+                CombatTracker.RegisterUnitForCombat(targetUnit);
+
                 lastDamageDealt = screen.PauseAdjustedCurrentTime;
 
                 targetUnit.TakeDamage(UnitData.AttackDamage);
@@ -477,9 +481,15 @@ namespace TownRaiser.Entities
 
         }
 
+        public bool IsInCameraBounds()
+        {
+            float left = Camera.Main.AbsoluteLeftXEdgeAt(Z);
+            float right = Camera.Main.AbsoluteRightXEdgeAt(Z);
+            float top = Camera.Main.AbsoluteTopYEdgeAt(Z);
+            float bottom = Camera.Main.AbsoluteBottomYEdgeAt(Z);
 
-
-
+            return left < X && right > X && bottom < Y && top > Y;
+        }
 
         #endregion
 
