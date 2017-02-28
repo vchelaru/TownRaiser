@@ -813,7 +813,7 @@
           </Properties>
           <Name>BuildImmediately</Name>
           <Type>bool</Type>
-          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
+          <DefaultValue xsi:type="xsd:boolean">false</DefaultValue>
           <IsShared>true</IsShared>
         </CustomVariable>
         <CustomVariable>
@@ -824,6 +824,18 @@
             </PropertySave>
           </Properties>
           <Name>TrainImmediately</Name>
+          <Type>bool</Type>
+          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
+          <IsShared>true</IsShared>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>bool</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>ShowEncounterPoints</Name>
           <Type>bool</Type>
           <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
           <IsShared>true</IsShared>
@@ -886,6 +898,17 @@
           <Type>double</Type>
           <DefaultValue xsi:type="xsd:double">40</DefaultValue>
         </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>int</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>Difficulty</Name>
+          <Type>int</Type>
+          <DefaultValue xsi:type="xsd:int">1</DefaultValue>
+        </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
       <Name>Entities\EncounterSpawnPoint</Name>
@@ -894,12 +917,17 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Radius</Member>
-            <ValueAsFloat>128</ValueAsFloat>
+            <ValueAsFloat>96</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>Color</Type>
             <Member>Color</Member>
             <ValueAsString>Red</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>Visible</Member>
+            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -1046,8 +1074,13 @@
         <NamedObjectSave>
           <CustomProperty>
             <Type>float</Type>
-            <Member>TextureScale</Member>
-            <ValueAsFloat>1</ValueAsFloat>
+            <Member>X</Member>
+            <ValueAsFloat>4</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>8</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>Texture2D</Type>
@@ -1076,13 +1109,8 @@
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
-            <Member>Y</Member>
-            <ValueAsFloat>8</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>4</ValueAsFloat>
+            <Member>TextureScale</Member>
+            <ValueAsFloat>1</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />

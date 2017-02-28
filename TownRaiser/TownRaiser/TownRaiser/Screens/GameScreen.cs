@@ -27,6 +27,7 @@ using TownRaiser.Entities;
 using TownRaiser.Spawning;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using FlatRedBall.TileEntities;
 
 namespace TownRaiser.Screens
 {
@@ -38,13 +39,15 @@ namespace TownRaiser.Screens
         Train,
         Build
     }
-    #endregion
+
     public enum ResourceType
     {
         Gold,
         Lumber,
         Stone
     }
+    #endregion
+
     public partial class GameScreen
 	{
         public event EventHandler SecondaryClick;
@@ -123,6 +126,9 @@ namespace TownRaiser.Screens
 
         private void InitializeEncounterPoints()
         {
+            TileEntityInstantiator.CreateEntitiesFrom(WorldMap);
+
+
             // this is temporary code - do we eventually want these set in the TMX? If so, do they reference a CSV? or do they 
             // have their own values....probably CSV so that we can tune difficulty
             var encounterPoint = Factories.EncounterSpawnPointFactory.CreateNew();
@@ -456,6 +462,7 @@ namespace TownRaiser.Screens
 
             PerformUnitVsEncounterPointCollision();
         }
+
         private void PerformUnitVsEncounterPointCollision()
         {
             // brute force it for now:
@@ -493,7 +500,6 @@ namespace TownRaiser.Screens
 
             }
         }
-
 
         private void PerformUnitsVsTerrainCollision()
         {

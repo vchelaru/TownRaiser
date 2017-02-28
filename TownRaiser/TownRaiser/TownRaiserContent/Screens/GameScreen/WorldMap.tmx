@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" nextobjectid="5">
  <tileset firstgid="1" name="MainTileset" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="../../MainTileset.png" width="512" height="512"/>
   <tile id="3">
@@ -259,4 +259,30 @@
    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
   </data>
  </layer>
+ <objectgroup name="SpawnPointLayer">
+  <object id="1" gid="57" x="432" y="384" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="2" gid="57" x="304" y="512" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="3" gid="57" x="160" y="560" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="4" gid="57" x="32" y="528" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

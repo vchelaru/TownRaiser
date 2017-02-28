@@ -17,6 +17,7 @@ using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using FlatRedBall.Math;
 using FlatRedBall.Screens;
+using System.Linq;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -42,24 +43,28 @@ namespace TownRaiser.Entities
 
         #endregion
 
+        #region Fields/Properties
+
         double lastTimeDestroyed;
 
         PositionedObjectList<Unit> UnitsCreatedByThis = new PositionedObjectList<Unit>();
 
         public LogicState CurrentLogicState { get; set; }
 
-        public int Difficulty { get; set; } = 0;
+        #endregion
 
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
         /// added to managers will not have this method called.
         /// </summary>
-		private void CustomInitialize()
+        private void CustomInitialize()
 		{
+#if DEBUG
+            this.CircleInstance.Visible = DebuggingVariables.ShowEncounterPoints;
+#endif
 
-
-		}
+        }
 
 		private void CustomActivity()
 		{
@@ -115,7 +120,7 @@ namespace TownRaiser.Entities
 
         private void CreateAllNewUnits(Func<string, Vector3, Unit> spawnAction)
         {
-            var data = GlobalContent.EncounterPointData[this.Difficulty];
+            var data = GlobalContent.EncounterPointData.FirstOrDefault(item => item.Difficulty == this.Difficulty);
 
             foreach(var enemyName in data.Enemies)
             {
