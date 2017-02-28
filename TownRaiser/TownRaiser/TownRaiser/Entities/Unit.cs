@@ -279,7 +279,10 @@ namespace TownRaiser.Entities
 
             var amountMovedIn2Frames = UnitData.MovementSpeed * 2 / 60.0f;
 
-            if ((Position - node.Position).Length() < amountMovedIn2Frames)
+            var difference = Position - node.Position;
+            difference.Z = 0;
+
+            if (difference.Length() < amountMovedIn2Frames)
             {
                 ImmediateGoal.Path.RemoveAt(0);
 
