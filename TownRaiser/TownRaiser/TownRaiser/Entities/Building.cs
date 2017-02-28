@@ -335,7 +335,7 @@ namespace TownRaiser.Entities
             var gameScreen = ScreenManager.CurrentScreen as Screens.GameScreen;
 
             bool canTrain = false;
-            if (gameScreen != null)
+            if (this.IsConstructionComplete == true && gameScreen != null)
             {
                 canTrain = gameScreen.CheckIfCanStartTraining(unitName);
 
@@ -356,6 +356,7 @@ namespace TownRaiser.Entities
         internal void TakeDamage(int attackDamage)
         {
             CurrentHealth -= attackDamage;
+            PlayDamageSoundEffect();
             if (CurrentHealth <= 0)
             {
                 Destroy();

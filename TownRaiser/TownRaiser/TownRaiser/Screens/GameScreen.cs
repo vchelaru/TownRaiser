@@ -52,6 +52,7 @@ namespace TownRaiser.Screens
     {
         Peace,
         Combat,
+        Silent
     }
     #endregion
 
@@ -134,9 +135,17 @@ namespace TownRaiser.Screens
 
         private void InitializeMusic()
         {
-            m_CurrentMusicModeState = MusicMode.Peace;
-            
-            FlatRedBall.Audio.AudioManager.PlaySong(FR_TownSong_Loop, true, false);
+            bool shouldPlayMusic = true;
+#if DEBUG
+            shouldPlayMusic = DebuggingVariables.TurnMusicOff == false;
+#endif
+
+            m_CurrentMusicModeState = shouldPlayMusic ? MusicMode.Peace : MusicMode.Silent;
+
+            if (m_CurrentMusicModeState == MusicMode.Peace)
+            {
+                FlatRedBall.Audio.AudioManager.PlaySong(FR_TownSong_Loop, true, false);
+            }
             MediaPlayer.IsRepeating = true;
         }
 

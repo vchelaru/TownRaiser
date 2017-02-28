@@ -454,6 +454,7 @@ namespace TownRaiser.Entities
 
                 targetUnit.TakeDamage(UnitData.AttackDamage);
                 TryPlayAttackSound(this);
+                TryPlayWeaponsSound(this);
             }
         }
 

@@ -22,6 +22,8 @@ namespace TownRaiser.Entities
         private static readonly string UnitObey = "unit_obey";
         private static readonly string UnitSelect = "unit_select";
         private static readonly string UnitSpawn = "unit_spawn";
+
+        private static readonly string WeaponSound = "combat_attack";
         
         public static void TryToPlayResourceGatheringSfx(Vector3 soundOrigin, Screens.ResourceType resourceType)
         {
@@ -54,6 +56,13 @@ namespace TownRaiser.Entities
         public static void TryPlayDeathSound(Unit unit)
         {
             var soundEffectName = $"{UnitDeath}_{unit.UnitData.SoundEffectName}";
+            var soundEffect = GetRandomSoundEffect(soundEffectName);
+
+            SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, unit.Position);
+        }
+        public static void TryPlayWeaponsSound(Unit unit)
+        {
+            string soundEffectName = $"{WeaponSound}_{unit.UnitData.WeaponSoundEffectName}";
             var soundEffect = GetRandomSoundEffect(soundEffectName);
 
             SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, unit.Position);
