@@ -28,6 +28,7 @@ using TownRaiser.Spawning;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using FlatRedBall.TileEntities;
+using Microsoft.Xna.Framework.Media;
 
 namespace TownRaiser.Screens
 {
@@ -136,6 +137,7 @@ namespace TownRaiser.Screens
             m_CurrentMusicModeState = MusicMode.Peace;
             
             FlatRedBall.Audio.AudioManager.PlaySong(FR_TownSong_Loop, true, false);
+            MediaPlayer.IsRepeating = true;
         }
 
         private void InitializeEntities()
