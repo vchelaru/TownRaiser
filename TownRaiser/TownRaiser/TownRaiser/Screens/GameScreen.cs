@@ -132,6 +132,7 @@ namespace TownRaiser.Screens
             InitializeSoundTracker();
 
             InitializeMusic();
+
         }
 
         private void InitializeMusic()
@@ -407,7 +408,7 @@ namespace TownRaiser.Screens
                 FlatRedBall.Audio.AudioManager.PlaySong(FR_TownSong_Loop, false, false);
                 if (CombatTracker.PlayerCount > 0)
                 {
-                    FlatRedBall.Audio.AudioManager.PlaySongThenResumeCurrent(FR_VictorySong, false);
+                    FlatRedBall.Audio.AudioManager.PlaySong(FR_VictorySong,false, false);
                     this.Call(HackPlayAfter).After(FR_VictorySong.Duration.TotalSeconds);
                 }
                 CombatTracker.Clear();
