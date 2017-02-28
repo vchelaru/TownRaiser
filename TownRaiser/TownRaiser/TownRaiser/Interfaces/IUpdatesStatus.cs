@@ -15,6 +15,7 @@ namespace TownRaiser.Interfaces
         IEnumerable<string> ButtonDatas { get; }
         Dictionary<string, double> ProgressPercents { get; }
         Dictionary<string, int> ButtonCountDisplays { get; }
+        bool IsConstructionComplete { get; }
     }
     
 }

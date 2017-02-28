@@ -199,11 +199,11 @@ namespace TownRaiser.GumRuntimes
             }
         }
 
-        public void UpdateButtonEnabledStates(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
+        public void UpdateButtonEnabledStates(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings, IUpdatesStatus selectedBuilding)
         {
             foreach (var button in ActionStackContainerInstance.IconButtonList)
             {
-                button.UpdateButtonEnabledState(lumber, stone, gold, currentCapacity, maxCapacity, existingBuildings);
+                button.UpdateButtonEnabledState(lumber, stone, gold, currentCapacity, maxCapacity, existingBuildings, selectedBuilding);
             }
         }
     }

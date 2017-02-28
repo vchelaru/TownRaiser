@@ -609,7 +609,7 @@ namespace TownRaiser.Screens
         private void HotkeyActivity()
         {
             var completedBuildings = BuildingList.Where(item => item.IsConstructionComplete).ToList();
-            ActionToolbarInstance.UpdateButtonEnabledStates(Lumber, Stone, Gold, CurrentCapacityUsed, MaxCapacity, completedBuildings);
+            ActionToolbarInstance.UpdateButtonEnabledStates(Lumber, Stone, Gold, CurrentCapacityUsed, MaxCapacity, completedBuildings, selectedBuilding);
             if(InputManager.Keyboard.AnyKeyPushed())
             {
                 ActionToolbarInstance.ReactToKeyPress();

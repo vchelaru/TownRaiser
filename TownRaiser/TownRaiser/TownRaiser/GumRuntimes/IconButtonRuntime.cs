@@ -61,10 +61,15 @@ namespace TownRaiser.GumRuntimes
             this.SpriteInstance.TextureHeight = MathFunctions.RoundToInt((frame.BottomCoordinate - frame.TopCoordinate) * (float)textureHeight);
         }
 
-        public void UpdateButtonEnabledState(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings)
+        public void UpdateButtonEnabledState(int lumber, int stone, int gold, int currentCapacity, int maxCapacity, IEnumerable<Building> existingBuildings, IUpdatesStatus selectedBuilding)
         {
             var isEnabled = m_HotKeyData.ShouldEnableButton(lumber, stone, gold, currentCapacity, maxCapacity, existingBuildings, EntityCreatedFrom);
 
+            //Only enable the button if the selected builidng has completed construction.
+            if(selectedBuilding != null)
+            {
+                isEnabled &= selectedBuilding.IsConstructionComplete;
+            }
 #if DEBUG
             if(Entities.DebuggingVariables.HasInfiniteResources)
             {
