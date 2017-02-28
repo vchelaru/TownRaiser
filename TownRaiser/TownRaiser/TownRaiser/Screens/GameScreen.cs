@@ -83,7 +83,7 @@ namespace TownRaiser.Screens
 
         public const float GridWidth = 16;
 
-        List<Entities.Unit> selectedUnits = new List<Entities.Unit>();
+        PositionedObjectList<Entities.Unit> selectedUnits = new PositionedObjectList<Entities.Unit>();
         UnitData topSelectedUnit;
 
         Entities.Building selectedBuilding;
@@ -685,7 +685,7 @@ namespace TownRaiser.Screens
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Skeleton]);
             }
-            if (keyboard.KeyDown(Keys.D8))
+            if (keyboard.KeyDown(Keys.D8) )
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Slime]);
             }
@@ -1155,6 +1155,7 @@ namespace TownRaiser.Screens
             {
                 UpdateCapacityValue();
                 UpdateResourceDisplay();
+                UpdateSelectionMarker();
             };
 
             newUnit.Position = spawnPoint;
