@@ -92,6 +92,21 @@ namespace TMXGlueLib
             }
         }
 
+        public void NameUnnamedObjects()
+        {
+            int index = 0;
+            foreach (var objectLayer in this.objectgroup)
+            {
+                foreach (var objectInstance in objectLayer.@object)
+                {
+                    if (objectInstance.properties.Any() && string.IsNullOrEmpty(objectInstance.Name))
+                    {
+                        objectInstance.Name = $"object{index}_autoname";
+                        index++;
+                    }
+                }
+            }
+        }
 
         public string ToCSVString(CSVPropertyType type = CSVPropertyType.Tile, string layerName = null)
         {
