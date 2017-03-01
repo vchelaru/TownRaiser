@@ -776,9 +776,9 @@ namespace TownRaiser.Screens
         private void DebugClickActivity()
         {
             var keyboard = InputManager.Keyboard;
-            if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
+            if(keyboard.KeyDown(Keys.D1))
             {
-                //DebugAddUnit(GlobalContent.UnitData[UnitData.Snake]);
+                DebugAddUnit(GlobalContent.UnitData[UnitData.Snake]);
             }
             if (keyboard.KeyDown(Keys.D2))
             {
