@@ -511,72 +511,144 @@
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_1.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_2.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_3.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_4.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_5.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_6.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_7.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_8.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_9.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_10.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_11.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Building/Sfx/combat_building_damage_12.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
@@ -959,7 +1031,7 @@
           </Properties>
           <Name>BuildImmediately</Name>
           <Type>bool</Type>
-          <DefaultValue xsi:type="xsd:boolean">false</DefaultValue>
+          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
           <IsShared>true</IsShared>
         </CustomVariable>
         <CustomVariable>
@@ -971,7 +1043,7 @@
           </Properties>
           <Name>TrainImmediately</Name>
           <Type>bool</Type>
-          <DefaultValue xsi:type="xsd:boolean">false</DefaultValue>
+          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
           <IsShared>true</IsShared>
         </CustomVariable>
         <CustomVariable>
@@ -996,6 +1068,18 @@
           <Name>TurnMusicOff</Name>
           <Type>bool</Type>
           <DefaultValue xsi:type="xsd:boolean">false</DefaultValue>
+          <IsShared>true</IsShared>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>bool</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>MakeItRainResources</Name>
+          <Type>bool</Type>
+          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
           <IsShared>true</IsShared>
         </CustomVariable>
       </CustomVariables>
@@ -2489,216 +2573,432 @@
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_1.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_2.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_3.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_4.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_5.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_6.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_7.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_8.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_9.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_10.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_11.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_club_12.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_1.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_2.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_3.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_4.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_5.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_6.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_7.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_8.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_9.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_10.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_11.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_magic_12.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_1.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_2.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_3.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_4.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_5.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_6.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_7.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_8.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_9.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_10.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_11.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Unit/Sfx/Weapons/combat_attack_sword_12.wav</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
