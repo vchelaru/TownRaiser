@@ -66,6 +66,14 @@ namespace FlatRedBall.TileEntities
 
                             ApplyPropertiesTo(entity, properties, polygon.Position);
                             shapeCollection.Polygons.Remove(polygon);
+                            if(entity is Math.Geometry.ICollidable)
+                            {
+                                var entityCollision = (entity as Math.Geometry.ICollidable).Collision;
+                                entityCollision.Clear();
+                                entityCollision.Polygons.Add(polygon);
+                                polygons.AttachTo(entity, false);
+                                polygon.Visible = true;
+                            }
                         }
                     }
                 }
