@@ -669,8 +669,8 @@ namespace TownRaiser.Screens
                 Camera.Main.Y -= cursor.WorldYChangeAt(0);
 
                 //Clamp to map bounds.
-                ClampCameraToMapEdge();
             }
+            ClampCameraToMapEdge();
         }
 
         private void ClampCameraToMapEdge()
