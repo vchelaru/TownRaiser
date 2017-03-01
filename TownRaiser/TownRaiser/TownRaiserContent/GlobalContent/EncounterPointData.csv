@@ -1,5 +1,10 @@
 "Difficulty (int, required)",Enemies (List<string>)
-1,Bat
-,Bat
-,Bat
-,Bat
+1,Slime
+2,Bat
+3,Goblin
+4,Skeleton
+5,Snake
+6,KingSkeleton
+7,Cyclops
+8,Octopus
+9,Dragon
