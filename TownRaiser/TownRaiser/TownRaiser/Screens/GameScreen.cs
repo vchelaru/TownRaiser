@@ -608,8 +608,20 @@ namespace TownRaiser.Screens
         {
             for (int i = 0; i < UnitList.Count; i++)
             {
-                stoneResourceShapeCollection.CollideAgainstSolid(UnitList[i].CircleInstance);
-                woodResourceShapeCollection.CollideAgainstSolid(UnitList[i].CircleInstance);
+                var unit = UnitList[i];
+                var unitCircle = unit.CircleInstance;
+                if (goldResourceShapeCollection.CollideAgainstSolid(unitCircle))
+                {
+                    unit.LastResourceCollision = ResourceType.Gold;
+                }
+                if (stoneResourceShapeCollection.CollideAgainstSolid(unitCircle))
+                {
+                    unit.LastResourceCollision = ResourceType.Stone;
+                }
+                if (woodResourceShapeCollection.CollideAgainstSolid(unitCircle))
+                {
+                    unit.LastResourceCollision = ResourceType.Lumber;
+                }
             }
         }
 

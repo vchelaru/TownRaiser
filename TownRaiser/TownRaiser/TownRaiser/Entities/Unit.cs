@@ -68,6 +68,8 @@ namespace TownRaiser.Entities
         /// </summary>
         public Screens.ResourceType? ResourceTypeToReturn { get; set; }
 
+        public Screens.ResourceType? LastResourceCollision { get; set; }
+
         #endregion
 
         #region Private Fields/Properties

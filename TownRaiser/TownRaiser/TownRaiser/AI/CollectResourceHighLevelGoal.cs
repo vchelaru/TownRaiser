@@ -335,7 +335,11 @@ namespace TownRaiser.AI
 
         bool IsInRangeToCollect()
         {
-            return !Owner.HasResourceToReturn && Owner.ResourceCollectCircleInstance.CollideAgainst(SingleTargetResourceTile);
+            return !Owner.HasResourceToReturn &&
+                (
+                    Owner.ResourceCollectCircleInstance.CollideAgainst(SingleTargetResourceTile)
+                    || (Owner.LastResourceCollision == TargetResourceType && Owner?.ImmediateGoal?.Path?.Count == 1)
+                );
         }
         bool IsInRangeToReturnResource()
         {
