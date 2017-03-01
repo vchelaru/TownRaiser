@@ -79,24 +79,24 @@
     <Name>KingSkeleton</Name>
     <ColorKey>0</ColorKey>
     <Frame>
-      <TextureName>..\..\2d misc\medieval-fantasy\monsters\king skeleton.png</TextureName>
+      <TextureName>../../MainTileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>0</LeftCoordinate>
+      <LeftCoordinate>16</LeftCoordinate>
       <RightCoordinate>32</RightCoordinate>
-      <TopCoordinate>0</TopCoordinate>
-      <BottomCoordinate>25</BottomCoordinate>
+      <TopCoordinate>304</TopCoordinate>
+      <BottomCoordinate>320</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
     <Name>Octopus</Name>
     <ColorKey>0</ColorKey>
     <Frame>
-      <TextureName>..\..\2d misc\medieval-fantasy\monsters\leonard.png</TextureName>
+      <TextureName>../../MainTileset.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>0</LeftCoordinate>
-      <RightCoordinate>51</RightCoordinate>
-      <TopCoordinate>0</TopCoordinate>
-      <BottomCoordinate>27</BottomCoordinate>
+      <LeftCoordinate>48</LeftCoordinate>
+      <RightCoordinate>96</RightCoordinate>
+      <TopCoordinate>336</TopCoordinate>
+      <BottomCoordinate>368</BottomCoordinate>
     </Frame>
   </AnimationChain>
   <AnimationChain>
