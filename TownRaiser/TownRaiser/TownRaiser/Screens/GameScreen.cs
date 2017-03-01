@@ -668,7 +668,7 @@ namespace TownRaiser.Screens
                     selectedUnits.Clear();
                     selectedBuilding = null;
 
-                    selectedUnits.AddRange(UnitList);
+                    selectedUnits.AddRange(UnitList.Where(item => item.IsInCameraBounds()));
 
                     UpdateSelectionMarker();
                     HandlePostSelection();
@@ -800,7 +800,7 @@ namespace TownRaiser.Screens
             var unitOver = UnitList.FirstOrDefault(item => item.HasCursorOver(GuiManager.Cursor));
             if(unitOver != null)
             {
-                selectedUnits.AddRange(UnitList.Select(item => item).Where(item => item.UnitData == unitOver.UnitData));
+                selectedUnits.AddRange(UnitList.Select(item => item).Where(item => item.UnitData == unitOver.UnitData && item.IsInCameraBounds()));
             }
 
             UpdateSelectionMarker();
