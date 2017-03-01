@@ -532,6 +532,13 @@ namespace TownRaiser.Screens
 
         private bool HasNoNeighbor(float x, float y)
         {
+#if DEBUG
+            if(DebuggingVariables.IgnoreNeighborRestriction)
+            {
+                return false;
+            }
+#endif
+
             const float posOffset =  3 * GridWidth;
             float rightPos = x + posOffset;
             float leftPos = x - posOffset;
