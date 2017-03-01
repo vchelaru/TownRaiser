@@ -622,6 +622,7 @@ namespace TownRaiser.Screens
                 {
                     unit.LastResourceCollision = ResourceType.Lumber;
                 }
+                waterResourceShapeCollection.CollideAgainstSolid(unitCircle);
             }
         }
 
