@@ -499,6 +499,7 @@ namespace TownRaiser.Screens
 
 
                 bool isInvalid = BuildingList.Any(item => item.Collision.CollideAgainst(BuildingMarkerInstance.AxisAlignedRectangleInstance))
+                    || HasNoNeighbor(x, y)
                     || woodResourceShapeCollection.Rectangles.Any(rect => rect.CollideAgainst(BuildingMarkerInstance.AxisAlignedRectangleInstance))
                     || stoneResourceShapeCollection.Rectangles.Any(rect => rect.CollideAgainst(BuildingMarkerInstance.AxisAlignedRectangleInstance))
                     || waterResourceShapeCollection.Rectangles.Any(rect => rect.CollideAgainst(BuildingMarkerInstance.AxisAlignedRectangleInstance));
@@ -527,6 +528,33 @@ namespace TownRaiser.Screens
                 }
                 GroupSelectorInstance.IsInSelectionMode = true;
             }
+        }
+
+        private bool HasNoNeighbor(float x, float y)
+        {
+#if DEBUG
+            if(DebuggingVariables.IgnoreNeighborRestriction)
+            {
+                return false;
+            }
+#endif
+
+            const float posOffset =  3 * GridWidth;
+            float rightPos = x + posOffset;
+            float leftPos = x - posOffset;
+            float topPos = y + posOffset;
+            float bottomPos = y - posOffset;
+
+            foreach(var building in BuildingList)
+            { 
+                bool isOnX = building.Y == y && (building.X == rightPos || building.X == leftPos);
+                bool isOnY = building.X == x && (building.Y == topPos || building.Y == bottomPos);
+                if (isOnX || isOnY)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void CollisionActivity()
