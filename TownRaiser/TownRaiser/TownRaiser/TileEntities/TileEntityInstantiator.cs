@@ -71,8 +71,7 @@ namespace FlatRedBall.TileEntities
                                 var entityCollision = (entity as Math.Geometry.ICollidable).Collision;
                                 entityCollision.Clear();
                                 entityCollision.Polygons.Add(polygon);
-                                polygons.AttachTo(entity, false);
-                                polygon.Visible = true;
+                                polygon.AttachTo(entity, false);
                             }
                         }
                     }

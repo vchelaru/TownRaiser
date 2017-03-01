@@ -120,8 +120,13 @@ namespace TMXGlueLib
                 {
                     var radians = MathHelper.ToRadians(angle);
 
-                    var newx = a*Math.Cos(radians)*w+w/2;
-                    var newy = b*Math.Sin(radians)*h+h/2;
+                    // This code made the position of the poly be top left, not optimized!
+                    //var newx = a*Math.Cos(radians)*w+w/2;
+                    //var newy = b*Math.Sin(radians)*h+h/2;
+
+                    var newx = a * Math.Cos(radians) * w ;
+                    var newy = b * Math.Sin(radians) * h ;
+
                     if (first)
                     {
                         firstPoint = string.Format("{0},{1}", newx, newy);
@@ -133,7 +138,7 @@ namespace TMXGlueLib
                 pointsSb.AppendFormat(" {0}", firstPoint);
             }
 
-            return tiledMapSave.ConvertTmxObjectToFrbPolygonSave(name, x, y, rotation, pointsSb.ToString(), true);
+            return tiledMapSave.ConvertTmxObjectToFrbPolygonSave(name, x + w/2.0f, y + h/2.0f, rotation, pointsSb.ToString(), true);
         }
 
         private static PolygonSave ConvertTmxObjectToFrbPolygonSave(this TiledMapSave tiledMapSave, string name, double x, double y, double rotation, string points, bool connectBackToStart)
