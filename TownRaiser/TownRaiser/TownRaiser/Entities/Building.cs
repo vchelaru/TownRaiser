@@ -39,6 +39,7 @@ namespace TownRaiser.Entities
 
         public ICommonEntityData EntityData => BuildingData;
         private int m_CurrentHealth;
+        private int m_DamageTakenDuringContruction;
         public int CurrentHealth
         {
             get
@@ -191,6 +192,9 @@ namespace TownRaiser.Entities
                     PlayConstructionCompleteSoundEffect(BuildingData);
                     BuildingConstructionCompleted?.Invoke();
                 }
+
+
+                CurrentHealth = (int)(ratioComplete * BuildingData.Health) - m_DamageTakenDuringContruction;
             }
         }
 
@@ -199,6 +203,8 @@ namespace TownRaiser.Entities
         {
             IsConstructionComplete = false;
             constructionTimeStarted = FlatRedBall.Screens.ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+            m_DamageTakenDuringContruction = 0;
+            CurrentHealth = 0;
             // to force an immediate update of visuals
             PlayConstructionStartSoundEffect();
             ConstructionActivity();
@@ -356,6 +362,10 @@ namespace TownRaiser.Entities
         internal void TakeDamage(int attackDamage)
         {
             CurrentHealth -= attackDamage;
+            if(IsConstructionComplete == false)
+            {
+                m_DamageTakenDuringContruction += attackDamage;
+            }
             PlayDamageSoundEffect();
             if (CurrentHealth <= 0)
             {

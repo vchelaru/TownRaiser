@@ -11,6 +11,7 @@ using TownRaiser.Screens;
 using TownRaiser.Entities;
 using TownRaiser.CustomEvents;
 using TownRaiser.Interfaces;
+using FlatRedBall.Screens;
 
 namespace TownRaiser.GumRuntimes
 {
@@ -106,7 +107,6 @@ namespace TownRaiser.GumRuntimes
                     this.Width = 8;
                     this.Height = 8;
                     ReactToUpdateUiChangeEvent(null, UpdateUiEventArgs.RollOffValue);
-
                     break;
             }
 
@@ -193,6 +193,7 @@ namespace TownRaiser.GumRuntimes
                     break;
                 case VariableState.BuildMenuSelected:
                 case VariableState.SelectedEntity:
+                    ((GameScreen)ScreenManager.CurrentScreen).DeselectBuilding();
                     ActionStackContainerInstance.RemoveIconButtons();
                     this.SetVariableState(VariableState.SelectModeView);
                     break;

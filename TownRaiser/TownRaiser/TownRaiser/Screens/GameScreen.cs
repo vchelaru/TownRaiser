@@ -268,10 +268,20 @@ namespace TownRaiser.Screens
             ClampCameraToMapEdge();
         }
 
+        internal void DeselectBuilding()
+        {
+            selectedBuilding = null;
+        }
+
         private void InitializeUi()
         {
             //Set local resource varables.
-            
+#if DEBUG
+            if(DebuggingVariables.MakeItRainResources)
+            {
+                Gold = Lumber = Stone = 10000;
+            }
+#endif
 
             this.GroupSelectorInstance.VisualRepresentation = GroupSelectorGumInstance;
             this.GroupSelectorInstance.IsInSelectionMode = true;
@@ -381,9 +391,9 @@ namespace TownRaiser.Screens
             
         }
 
-        #endregion
+#endregion
 
-        #region Activity Methods
+#region Activity Methods
 
         void CustomActivity(bool firstTimeCalled)
         {
@@ -612,10 +622,31 @@ namespace TownRaiser.Screens
             ActionToolbarInstance.UpdateButtonEnabledStates(Lumber, Stone, Gold, CurrentCapacityUsed, MaxCapacity, completedBuildings, selectedBuilding);
             if(InputManager.Keyboard.AnyKeyPushed())
             {
-                ActionToolbarInstance.ReactToKeyPress();
-                if(ActionToolbarInstance.CurrentVariableState == GumRuntimes.ActionToolbarRuntime.VariableState.SelectModeView)
+                if (InputManager.Keyboard.KeyPushed(Keys.Tab))
                 {
-                    selectedBuilding?.UpdateRallyPointVisibility(false);
+                    selectedUnits.Clear();
+                    selectedBuilding = null;
+
+                    selectedUnits.AddRange(UnitList);
+
+                    UpdateSelectionMarker();
+                    HandlePostSelection();
+                }
+                else
+                {
+
+                    ActionToolbarInstance.ReactToKeyPress();
+                    if (ActionToolbarInstance.CurrentVariableState == GumRuntimes.ActionToolbarRuntime.VariableState.SelectModeView)
+                    {
+                        selectedBuilding?.UpdateRallyPointVisibility(false);
+                    }
+
+                    if (InputManager.Keyboard.KeyPushed(Keys.Escape) && (selectedUnits.Count > 0))
+                    {
+                        selectedUnits.Clear();
+                        UpdateSelectionMarker();
+                        HandlePostSelection();
+                    }
                 }
             }
 
@@ -698,6 +729,14 @@ namespace TownRaiser.Screens
                 }
             }
 
+            if(cursor.PrimaryDoubleClick && !GroupSelectorInstance.WasReleasedThisFrame)
+            {
+                if(GetIfCanClickInWorld())
+                {
+                    SelectAllOfSingleUnitType();
+                }
+            }
+
             if(cursor.SecondaryClick)
             {
                 if (GetIfCanClickInWorld())
@@ -712,6 +751,21 @@ namespace TownRaiser.Screens
             }
         }
 
+        private void SelectAllOfSingleUnitType()
+        {
+            selectedUnits.Clear();
+            selectedBuilding = null;
+
+            var unitOver = UnitList.FirstOrDefault(item => item.HasCursorOver(GuiManager.Cursor));
+            if(unitOver != null)
+            {
+                selectedUnits.AddRange(UnitList.Select(item => item).Where(item => item.UnitData == unitOver.UnitData));
+            }
+
+            UpdateSelectionMarker();
+            HandlePostSelection();
+        }
+
         private bool GetIfCanClickInWorld()
         {
             var cursor = GuiManager.Cursor;
@@ -722,7 +776,7 @@ namespace TownRaiser.Screens
         private void DebugClickActivity()
         {
             var keyboard = InputManager.Keyboard;
-            if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
+            if(keyboard.KeyDown(Keys.D1))
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Snake]);
             }
@@ -942,13 +996,13 @@ namespace TownRaiser.Screens
                     bool canSelect =
                         unit.UnitData.IsEnemy == false && unit.HasCursorOver(cursor);
 
-    #if DEBUG
+#if DEBUG
                     if (DebuggingVariables.CanSelectEnemies)
                     {
                         // a little inefficient but whatever, it's debug
                         canSelect = unit.CollideAgainst(GroupSelectorInstance);
                     }
-    #endif
+#endif
 
                     if (canSelect)
                     {
@@ -1277,7 +1331,7 @@ namespace TownRaiser.Screens
                 }
             }
         }
-        #endregion
+#endregion
 
         public void TryPlayResourceCollectSound(ResourceType resource, Vector3 soundOrigin)
         {
