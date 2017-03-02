@@ -889,15 +889,8 @@ namespace TownRaiser.Screens
 
         private void DebugAddUnit(UnitData unitData)
         {
-            var newUnit = Factories.UnitFactory.CreateNew();
-            newUnit.NodeNetwork = this.tileNodeNetwork;
-            newUnit.AllUnits = UnitList;
-            newUnit.AllBuildings = BuildingList;
-            newUnit.X = GuiManager.Cursor.WorldXAt(0);
-            newUnit.Y = GuiManager.Cursor.WorldYAt(0);
-            newUnit.Z = 1;
-            newUnit.UnitData = unitData;
-
+            SpawnNewUnit(unitData.Name, new Vector3(
+                GuiManager.Cursor.WorldXAt(0), GuiManager.Cursor.WorldYAt(0), 1.5f));
         }
 
         private void HandlePostClick()
