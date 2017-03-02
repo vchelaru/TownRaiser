@@ -102,11 +102,12 @@ namespace TMXGlueLib
                     bool hasName = string.IsNullOrEmpty(objectInstance.Name) == false;
                     bool hasNameProperty = objectInstance.properties.Any(item => item.StrippedNameLower == "name");
 
-                    if(!hasName && !hasNameProperty)
+                    if (!hasName && !hasNameProperty)
                     {
                         objectInstance.Name = $"object{index}_autoname";
                         objectInstance.properties.Add(new TMXGlueLib.property { name = "name", value = objectInstance.Name });
                         index++;
+
                     }
                 }
             }

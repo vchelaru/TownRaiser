@@ -46,13 +46,13 @@ namespace FlatRedBall.TileEntities
                 string remove = entityToRemove;
                 layeredTileMap.RemoveTiles(t => t.Any(item => item.Name == "EntityToCreate" && item.Value as string == remove), layeredTileMap.Properties);
             }
-            foreach(var shapeCollection in layeredTileMap.ShapeCollections)
+            foreach (var shapeCollection in layeredTileMap.ShapeCollections)
             {
                 var polygons = shapeCollection.Polygons;
-                for(int i = polygons.Count-1; i > -1; i--)
+                for (int i = polygons.Count - 1; i > -1; i--)
                 {
                     var polygon = polygons[i];
-                    if(!string.IsNullOrEmpty(polygon.Name) && layeredTileMap.Properties.ContainsKey(polygon.Name))
+                    if (!string.IsNullOrEmpty(polygon.Name) && layeredTileMap.Properties.ContainsKey(polygon.Name))
                     {
                         var properties = layeredTileMap.Properties[polygon.Name];
                         var entityAddingProperty = properties.FirstOrDefault(item => item.Name == "EntityToCreate");
@@ -66,18 +66,19 @@ namespace FlatRedBall.TileEntities
 
                             ApplyPropertiesTo(entity, properties, polygon.Position);
                             shapeCollection.Polygons.Remove(polygon);
-                            if(entity is Math.Geometry.ICollidable)
+
+                            if (entity is Math.Geometry.ICollidable)
                             {
                                 var entityCollision = (entity as Math.Geometry.ICollidable).Collision;
                                 entityCollision.Clear();
                                 entityCollision.Polygons.Add(polygon);
                                 polygon.AttachTo(entity, false);
                             }
+
                         }
                     }
                 }
             }
-
         }
 
         private static void CreateEntitiesFrom(List<string> entitiesToRemove, MapDrawableBatch layer, Dictionary<string, List<NamedValue>> propertiesDictionary)
@@ -140,7 +141,6 @@ namespace FlatRedBall.TileEntities
             float left;
             float bottom;
             layer.GetBottomLeftWorldCoordinateForOrderedTile(tileIndex, out left, out bottom);
-
             Microsoft.Xna.Framework.Vector3 position = new Microsoft.Xna.Framework.Vector3(left + dimensionHalf, bottom + dimensionHalf, layer.Z);
             ApplyPropertiesTo(entity, propertiesToAssign, position);
         }
@@ -190,6 +190,7 @@ namespace FlatRedBall.TileEntities
                 }
             }
         }
+
 
         private static string GetFriendlyNameForType(string type)
         {

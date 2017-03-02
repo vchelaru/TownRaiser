@@ -153,6 +153,16 @@ namespace TownRaiser.Screens
         {
             TileEntityInstantiator.CreateEntitiesFrom(WorldMap);
 
+#if DEBUG
+            if(DebuggingVariables.ShowEncounterPoints)
+            {
+                foreach(var encounterPoint in EncounterSpawnPointList)
+                {
+                    encounterPoint.Collision.Visible = true;
+                }
+            }
+#endif
+
             MakeFirstBuildingTownHall();
         }
 

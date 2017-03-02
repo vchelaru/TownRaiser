@@ -60,9 +60,6 @@ namespace TownRaiser.Entities
         /// </summary>
         private void CustomInitialize()
 		{
-#if DEBUG
-            this.CircleInstance.Visible = DebuggingVariables.ShowEncounterPoints;
-#endif
 
         }
 
