@@ -1653,6 +1653,14 @@
             cannot be sorted.
             </remarks>
         </member>
+        <member name="P:FlatRedBall.Graphics.Layer.SortType">
+            <summary>
+            The SortType used for visible objects placed on this layer.
+            Only objects on this layer will use this sort type. Each layer
+            can have its own sort type, and unlayered visible objects will use
+            the SpriteManager.OrderedSortType SortType.
+            </summary>
+        </member>
         <member name="P:FlatRedBall.Graphics.Layer.Visible">
             <summary>
             Whether the SpriteLayer is visible.
@@ -6886,6 +6894,12 @@
             Returns the tangent (in other words the vector parallel with the surface) where the last collision occurred.
             </summary>
         </member>
+        <member name="P:FlatRedBall.Math.Geometry.Circle.Color">
+            <summary>
+            The (premultiplied alpha) color used to draw this circle.
+            </summary>
+            
+        </member>
         <member name="M:FlatRedBall.Math.Geometry.Circle.DistanceTo(FlatRedBall.Math.Geometry.Line)">
             <summary>
             Returns the distance from this to the argument Line.  If this and the Line
@@ -9456,7 +9470,8 @@
         <member name="P:FlatRedBall.SpriteManager.OrderedSortType">
             <summary>
             Gets and sets the sorting type used on Sprites, Text objects, and DrawableBatches
-            in the world (not on layers).
+            in the world (not on layers). For sorting visual objects on layers, see the Layer's
+            SortType property.
             </summary>
         </member>
         <member name="M:FlatRedBall.SpriteManager.#cctor">
