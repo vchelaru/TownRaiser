@@ -31,9 +31,9 @@ namespace TownRaiser.AI
             bool isTargetAnEnemyUnit = !Owner.UnitData.IsEnemy;
 
             var foundUnit = AllUnits.FirstOrDefault(item =>
-                (item.Position - Owner.Position).LengthSquared() < aggroSquared &&
-                item.UnitData.IsEnemy == isTargetAnEnemyUnit
-
+                (item.Position - Owner.Position).LengthSquared() < aggroSquared 
+                    && item.UnitData.IsEnemy == isTargetAnEnemyUnit
+                    && item.CurrentHealth > 0
                 );
 
             if (foundUnit != null)

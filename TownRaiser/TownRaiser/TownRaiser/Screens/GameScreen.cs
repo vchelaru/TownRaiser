@@ -644,10 +644,11 @@ namespace TownRaiser.Screens
             for(int i = 0; i < UnitList.Count -1; i++)
             {
                 var first = UnitList[i];
-                for(int j = i+1; j < UnitList.Count; j++)
+                //Ignore this unit if the health is less than 0.
+                for(int j = i+1; j < UnitList.Count && first.CurrentHealth > 0; j++)
                 {
                     var second = UnitList[j];
-                    if(first.CircleInstance.CollideAgainstMove(second.CircleInstance, 1, 1))
+                    if(second.CurrentHealth > 0 && first.CircleInstance.CollideAgainstMove(second.CircleInstance, 1, 1))
                     {
                         var firstRepositionVector = new Vector3(
                             first.CircleInstance.LastMoveCollisionReposition.X,
@@ -678,7 +679,7 @@ namespace TownRaiser.Screens
                     selectedUnits.Clear();
                     selectedBuilding = null;
 
-                    selectedUnits.AddRange(UnitList.Where(item => item.IsInCameraBounds()));
+                    selectedUnits.AddRange(UnitList.Where(item => item.IsInCameraBounds() && item.UnitData.IsEnemy == false));
 
                     UpdateSelectionMarker();
                     HandlePostSelection();
@@ -713,11 +714,20 @@ namespace TownRaiser.Screens
 #endif
 
             var cursor = GuiManager.Cursor;
-            if(cursor.MiddleDown)
+            var xChange = cursor.WorldXChangeAt(0);
+            var yChange = cursor.WorldYChangeAt(0);
+            if (cursor.MiddleDown)
             {
                 //Minusequals - we want to pull the map in the direction of the cursor.
-                Camera.Main.X -= cursor.WorldXChangeAt(0);
-                Camera.Main.Y -= cursor.WorldYChangeAt(0);
+                //Check if we have change last frame. We have to add .1 when shifting the camera.
+                if (xChange != 0)
+                {
+                    Camera.Main.X -= xChange - .1f;
+                }
+                if (yChange != 0)
+                {
+                    Camera.Main.Y -= yChange - .1f;
+                }
 
                 //Clamp to map bounds.
             }
@@ -730,20 +740,20 @@ namespace TownRaiser.Screens
 
             if (camera.AbsoluteLeftXEdgeAt(0) < mapXMin)
             {
-                camera.X = mapXMin + camera.OrthogonalWidth / 2;
+                camera.X = .1f + (mapXMin + camera.OrthogonalWidth / 2);
             }
             else if (camera.AbsoluteRightXEdgeAt(0) > mapXMax)
             {
-                camera.X = mapXMax - camera.OrthogonalWidth / 2;
+                camera.X = .1f + (mapXMax - camera.OrthogonalWidth / 2);
             }
 
             if (camera.AbsoluteBottomYEdgeAt(0) < mapYMin)
             {
-                camera.Y = mapYMin + camera.OrthogonalHeight / 2;
+                camera.Y = .1f + (mapYMin + camera.OrthogonalHeight / 2);
             }
             else if (camera.AbsoluteTopYEdgeAt(0) > mapYMax)
             {
-                camera.Y = mapYMax - camera.OrthogonalHeight / 2;
+                camera.Y = .1f + (mapYMax - camera.OrthogonalHeight / 2);
             }
         }
 
@@ -807,7 +817,7 @@ namespace TownRaiser.Screens
             selectedUnits.Clear();
             selectedBuilding = null;
 
-            var unitOver = UnitList.FirstOrDefault(item => item.HasCursorOver(GuiManager.Cursor));
+            var unitOver = UnitList.FirstOrDefault(item => item.HasCursorOver(GuiManager.Cursor) & item.UnitData.IsEnemy == false);
             if(unitOver != null)
             {
                 selectedUnits.AddRange(UnitList.Select(item => item).Where(item => item.UnitData == unitOver.UnitData && item.IsInCameraBounds()));
@@ -980,7 +990,7 @@ namespace TownRaiser.Screens
 
                 // Are we right-clicking an enemy?
                 var enemyOver = UnitList.FirstOrDefault(item =>
-                    item.UnitData.IsEnemy && item.HasCursorOver(cursor));
+                    item.UnitData.IsEnemy && item.HasCursorOver(cursor) && item.CurrentHealth > 0);
 
                 foreach (var selectedUnit in selectedUnits)
                 {
@@ -1122,6 +1132,7 @@ namespace TownRaiser.Screens
             for(int i = 0; i < SelectionMarkerList.Count; i++)
             {
                 SelectionMarkerList[i].AttachTo(selectedUnits[i], false);
+                
             }
         }
         

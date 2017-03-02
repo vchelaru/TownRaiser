@@ -1526,6 +1526,17 @@
           <SourceObject>SpriteInstance</SourceObject>
           <SourceObjectProperty>Alpha</SourceObjectProperty>
         </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>DeathSpriteDuration</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">5</DefaultValue>
+        </CustomVariable>
       </CustomVariables>
       <ImplementsIClickable>true</ImplementsIClickable>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>

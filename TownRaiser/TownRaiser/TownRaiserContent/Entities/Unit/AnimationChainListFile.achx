@@ -207,4 +207,16 @@
       <BottomCoordinate>112</BottomCoordinate>
     </Frame>
   </AnimationChain>
+  <AnimationChain>
+    <Name>Death</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\maintileset.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>401</LeftCoordinate>
+      <RightCoordinate>415</RightCoordinate>
+      <TopCoordinate>66</TopCoordinate>
+      <BottomCoordinate>79</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
 </AnimationChainArraySave>

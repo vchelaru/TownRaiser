@@ -177,26 +177,29 @@ namespace TownRaiser.Entities
 
         private void HighLevelActivity()
         {
-            var currentGoal = HighLevelGoals.Count == 0 ? null : HighLevelGoals.Peek();
-
-            if(currentGoal?.GetIfDone() == true)
+            if (CurrentHealth > 0)
             {
-                HighLevelGoals.Pop();
-            }
+                var currentGoal = HighLevelGoals.Count == 0 ? null : HighLevelGoals.Peek();
 
-            currentGoal = HighLevelGoals.Count == 0 ? null : HighLevelGoals.Peek();
+                if (currentGoal?.GetIfDone() == true)
+                {
+                    HighLevelGoals.Pop();
+                }
 
-            currentGoal?.DecideWhatToDo();
+                currentGoal = HighLevelGoals.Count == 0 ? null : HighLevelGoals.Peek();
 
-            if(currentGoal == null)
-            {
-                TryStartFindingTarget();
+                currentGoal?.DecideWhatToDo();
+
+                if (currentGoal == null)
+                {
+                    TryStartFindingTarget();
+                }
             }
         }
 
         private void ImmediateAiActivity()
         {
-            if(ImmediateGoal?.Path?.Count > 0)
+            if(ImmediateGoal?.Path?.Count > 0 && CurrentHealth > 0)
             {
                 MoveAlongPath();
             }
@@ -322,7 +325,7 @@ namespace TownRaiser.Entities
 
         internal void TryStartFindingTarget()
         {
-            if(this.UnitData.InitiatesBattle)
+            if(this.UnitData.InitiatesBattle && CurrentHealth > 0)
             {
                 var goal = new FindTargetToAttackHighLevelGoal();
                 goal.Owner = this;
@@ -425,7 +428,7 @@ namespace TownRaiser.Entities
             if(CurrentHealth <= 0)
             {
                 PerformDeath();
-                Died?.Invoke();
+                
             }
         }
 
@@ -433,13 +436,21 @@ namespace TownRaiser.Entities
         {
             TryPlayDeathSound(this);
             CombatTracker.RemoveUnit(this);
+            this.SpriteInstance.CurrentChainName = "Death";
+            this.SpriteInstance.RelativeY = this.SpriteInstance.Height / 2.0f;
+
+            this.ShadowSprite.CurrentChainName = "ShadowSmall";
+            this.HealthBarRuntimeInstance.Visible = false;
+
+            this.Velocity = Vector3.Zero;
             if (UnitData.IsEnemy == false)
             {
                 var screen = ScreenManager.CurrentScreen as Screens.GameScreen;
                 screen.CurrentCapacityUsed -= UnitData.Capacity;
                 screen.UpdateResourceDisplay();
             }
-            Destroy();
+            Died?.Invoke();
+            this.Call(Destroy).After(DeathSpriteDuration);
         }
 
         public void TryAttack(Unit targetUnit)
