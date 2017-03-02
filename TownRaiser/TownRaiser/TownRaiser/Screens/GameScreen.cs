@@ -618,8 +618,21 @@ namespace TownRaiser.Screens
         {
             for (int i = 0; i < UnitList.Count; i++)
             {
-                stoneResourceShapeCollection.CollideAgainstSolid(UnitList[i].CircleInstance);
-                woodResourceShapeCollection.CollideAgainstSolid(UnitList[i].CircleInstance);
+                var unit = UnitList[i];
+                var unitCircle = unit.CircleInstance;
+                if (goldResourceShapeCollection.CollideAgainstSolid(unitCircle))
+                {
+                    unit.LastResourceCollision = ResourceType.Gold;
+                }
+                if (stoneResourceShapeCollection.CollideAgainstSolid(unitCircle))
+                {
+                    unit.LastResourceCollision = ResourceType.Stone;
+                }
+                if (woodResourceShapeCollection.CollideAgainstSolid(unitCircle))
+                {
+                    unit.LastResourceCollision = ResourceType.Lumber;
+                }
+                waterResourceShapeCollection.CollideAgainstSolid(unitCircle);
             }
         }
 
@@ -665,7 +678,7 @@ namespace TownRaiser.Screens
                     selectedUnits.Clear();
                     selectedBuilding = null;
 
-                    selectedUnits.AddRange(UnitList);
+                    selectedUnits.AddRange(UnitList.Where(item => item.IsInCameraBounds()));
 
                     UpdateSelectionMarker();
                     HandlePostSelection();
@@ -797,7 +810,7 @@ namespace TownRaiser.Screens
             var unitOver = UnitList.FirstOrDefault(item => item.HasCursorOver(GuiManager.Cursor));
             if(unitOver != null)
             {
-                selectedUnits.AddRange(UnitList.Select(item => item).Where(item => item.UnitData == unitOver.UnitData));
+                selectedUnits.AddRange(UnitList.Select(item => item).Where(item => item.UnitData == unitOver.UnitData && item.IsInCameraBounds()));
             }
 
             UpdateSelectionMarker();

@@ -49,9 +49,11 @@ namespace TownRaiser.AI
             ResourceReturnBuildingTile = GetSingleTile(ResourceReturnBuilding.Position);
         }
 
+        bool shouldWeGiveUpReturning = false;
         public override bool GetIfDone()
         {
-            return ResourceReturnBuilding == null || Owner.HasResourceToReturn == false;
+            // Resources are unlimited, only restricted by mosh pit of units trying to harvest simultaneously.
+            return shouldWeGiveUpReturning;
         }
 
         /// <summary>
@@ -134,6 +136,15 @@ namespace TownRaiser.AI
 
                 var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
 
+                // If we are trying to return a resource, but the building is a smoldering pile of ashes, stop walking.
+                bool areWeReturningResourcesToDestroyedBuilding = Owner.HasResourceToReturn && ResourceReturnBuilding.CurrentHealth <= 0;
+                if (areWeReturningResourcesToDestroyedBuilding)
+                {
+                    currentWalkGoal = null;
+                    shouldWeGiveUpReturning = true;
+                    return;
+                }
+
                 // Increment appropriate resource.
                 switch (TargetResourceType)
                 {
@@ -154,7 +165,7 @@ namespace TownRaiser.AI
                 screen.UpdateResourceDisplay();
 
                 ClearResourceState();
-                // Default to !isWalking later to set up return-to-resource trip.
+                shouldWeGiveUpReturning = true;
             }
             else
             {
@@ -164,7 +175,16 @@ namespace TownRaiser.AI
                     if (currentWalkGoal == null)
                     {
                         currentWalkGoal = GetResourceReturnWalkGoal();
-                        currentWalkGoal.DecideWhatToDo();
+                        if (currentWalkGoal == null)
+                        {
+                            // Couldn't get a walk goal back from resource collection. Time to call it quits here.
+                            shouldWeGiveUpReturning = true;
+                        }
+                        else
+                        {
+                            // Start hiking, unit!
+                            currentWalkGoal.DecideWhatToDo();
+                        }
                     }
                 }
             }
@@ -238,10 +258,11 @@ namespace TownRaiser.AI
             SingleTargetResourceTile = GetSingleTile(SingleTargetResourceTileCenter);
         }
 
+        bool shouldWeGiveUpCollecting = false;
         public override bool GetIfDone()
         {
             // Resources are unlimited, only restricted by mosh pit of units trying to harvest simultaneously.
-            return false;
+            return shouldWeGiveUpCollecting;
         }
 
         const float CollectFrequencyInSeconds = 1;
@@ -290,7 +311,7 @@ namespace TownRaiser.AI
 
         public WalkToHighLevelGoal GetResourceReturnWalkGoal()
         {
-            var walkGoal = new WalkToHighLevelGoal();
+            WalkToHighLevelGoal walkGoal = null;
             // Set up to return resource
             // Find "closest" building by position comparison.
             // FUTURE: Get building with shorted node path (in case closest is a long winding path).
@@ -301,6 +322,7 @@ namespace TownRaiser.AI
 
             if (ResourceReturnBuilding != null)
             {
+                walkGoal = new WalkToHighLevelGoal();
                 ResourceReturnBuildingTile = GetSingleTile(ResourceReturnBuilding.Position);
                 Vector3 pointSlightlySkewedTowardOwner = DeterminePositionWithinTileSlightlyCloserToOwner(ResourceReturnBuildingTile.Position, ResourceReturnBuildingTile.Width);
                 walkGoal = new WalkToHighLevelGoal();
@@ -313,7 +335,11 @@ namespace TownRaiser.AI
 
         bool IsInRangeToCollect()
         {
-            return !Owner.HasResourceToReturn && Owner.ResourceCollectCircleInstance.CollideAgainst(SingleTargetResourceTile);
+            return !Owner.HasResourceToReturn &&
+                (
+                    Owner.ResourceCollectCircleInstance.CollideAgainst(SingleTargetResourceTile)
+                    || (Owner.LastResourceCollision == TargetResourceType && Owner?.ImmediateGoal?.Path?.Count == 1)
+                );
         }
         bool IsInRangeToReturnResource()
         {
@@ -342,6 +368,15 @@ namespace TownRaiser.AI
                 // We're close enough to our target return destination: unload!
 
                 StopMoving();
+
+                // If we are trying to return a resource, but the building is a smoldering pile of ashes, stop walking.
+                bool areWeReturningResourcesToDestroyedBuilding = Owner.HasResourceToReturn && ResourceReturnBuilding.CurrentHealth <= 0;
+                if (areWeReturningResourcesToDestroyedBuilding)
+                {
+                    currentWalkGoal = null;
+                    shouldWeGiveUpCollecting = true;
+                    return;
+                }
 
                 var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen as GameScreen;
                 
@@ -404,7 +439,16 @@ namespace TownRaiser.AI
                         if (Owner.HasResourceToReturn)
                         {
                             currentWalkGoal = GetResourceReturnWalkGoal();
-                            currentWalkGoal.DecideWhatToDo();
+                            if (currentWalkGoal == null)
+                            {
+                                // Couldn't get a walk goal back from resource collection. Time to call it quits here.
+                                shouldWeGiveUpCollecting = true;
+                            }
+                            else
+                            {
+                                // Start hiking, unit!
+                                currentWalkGoal.DecideWhatToDo();
+                            }
                         }
                         else
                         {
