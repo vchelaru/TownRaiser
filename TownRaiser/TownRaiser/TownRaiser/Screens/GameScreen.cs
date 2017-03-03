@@ -29,6 +29,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using FlatRedBall.TileEntities;
 using Microsoft.Xna.Framework.Media;
+using TownRaiser.GumRuntimes;
 
 namespace TownRaiser.Screens
 {
@@ -58,7 +59,6 @@ namespace TownRaiser.Screens
 
     public partial class GameScreen
 	{
-        public event EventHandler SecondaryClick;
         #region Fields/Properties
 
         private RaidSpawner raidSpawner;
@@ -403,7 +403,7 @@ namespace TownRaiser.Screens
 
 #endregion
 
-#region Activity Methods
+        #region Activity Methods
 
         void CustomActivity(bool firstTimeCalled)
         {
@@ -809,8 +809,17 @@ namespace TownRaiser.Screens
                 }
                 else
                 {
-                    //Raise the SecondaryClick event for any unit buttons which can cancel training.
-                    SecondaryClick?.Invoke(null, null);
+                    var windowOver = GuiManager.Cursor.WindowOver;
+
+                    if(windowOver is IconButtonRuntime)
+                    {
+                        var button = windowOver as IconButtonRuntime;
+
+                        var unitData = button.HotkeyData as UnitData;
+
+                        CancelLastTrainingInstanceOfUnit(unitData.Name);
+
+                    }
                 }
             }
         }
@@ -1320,16 +1329,22 @@ namespace TownRaiser.Screens
             }
         }
 
-        
-
         private void HandleRaidSpawn(IEnumerable<UnitData> unitDatas, Vector3 spawnPoint)
         {
             List<Unit> newEnemies = new List<Entities.Unit>();
-            foreach(var unitData in unitDatas)
-            {
-                var newEnemy = SpawnNewUnit(unitData.Name, spawnPoint);
 
-                newEnemies.Add(newEnemy);
+            var target = BuildingList.FirstOrDefault(item => item.BuildingData.Name == BuildingData.TownHall);
+
+            if(target != null)
+            {
+                foreach(var unitData in unitDatas)
+                {
+                    var newEnemy = SpawnNewUnit(unitData.Name, spawnPoint);
+
+                    newEnemy.AssignMoveAttackGoal(target.X, target.Y);
+
+                    newEnemies.Add(newEnemy);
+                }
             }
 
 
@@ -1389,7 +1404,6 @@ namespace TownRaiser.Screens
                 }
             }
         }
-#endregion
 
         public void TryPlayResourceCollectSound(ResourceType resource, Vector3 soundOrigin)
         {
@@ -1414,6 +1428,7 @@ namespace TownRaiser.Screens
             }
             SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, soundEffectName, Camera.Main.Position, soundOrigin);
         }
+#endregion
 
         void CustomDestroy()
 		{

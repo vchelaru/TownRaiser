@@ -99,8 +99,6 @@ namespace TownRaiser.GumRuntimes
 
             if(selectedEntity?.ButtonDatas != null)
             {
-                var gameScreen = FlatRedBall.Screens.ScreenManager.CurrentScreen as Screens.GameScreen;
-
                 int i = 0;
                 foreach (var unit in selectedEntity.ButtonDatas)
                 {
@@ -116,14 +114,6 @@ namespace TownRaiser.GumRuntimes
                             this.TrainUnitInvokedFromButton(unitButton, new TrainUnitEventArgs() { UnitData = unitData });
                         }
                         
-                    };
-
-                    gameScreen.SecondaryClick += (not, used) =>
-                    {
-                        if (unitButton.HasCursorOver(GuiManager.Cursor))
-                        {
-                            gameScreen.CancelLastTrainingInstanceOfUnit(unitData.Name);
-                        }
                     };
 
                     i++;
