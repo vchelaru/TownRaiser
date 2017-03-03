@@ -1335,7 +1335,7 @@ namespace TownRaiser.Screens
         public Entities.Unit SpawnNewUnit(string unitDataKey, Vector3 spawnPoint)
         {
             var newUnit = Factories.UnitFactory.CreateNew();
-            newUnit.Died += () =>
+            newUnit.Died += (not, used) =>
             {
                 UpdateCapacityValue();
                 UpdateResourceDisplay();

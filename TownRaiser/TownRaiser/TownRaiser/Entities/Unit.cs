@@ -81,13 +81,15 @@ namespace TownRaiser.Entities
         // The last time damage was dealt. Damage is dealt one time every X seconds
         // as defined by the DamageFrequency value;
         private double lastDamageDealt;
+        private double deathStartTime;
+        private float deathTextureOriginalHeight;
         const float DamageFrequency = 1;
 
         #endregion
 
         #region Events
 
-        public event Action Died;
+        public event EventHandler Died;
 
         #endregion
 
@@ -120,9 +122,24 @@ namespace TownRaiser.Entities
 
             ImmediateAiActivity();
 
+            DeathActivity();
+
 #if DEBUG
             DebugActivity();
 #endif
+        }
+
+        private void DeathActivity()
+        {
+            if(CurrentHealth <= 0)
+            {
+                var deathTimeLeft = 1 - (float)(ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(deathStartTime) / DeathSpriteDuration);
+
+                var newTextureHeight = deathTextureOriginalHeight * deathTimeLeft;
+                SpriteInstance.BottomTexturePixel = SpriteInstance.TopTexturePixel + newTextureHeight;
+
+                SpriteInstance.RelativeY = SpriteInstance.Height / 2;
+            }            
         }
 
         private void DebugActivity()
@@ -439,6 +456,9 @@ namespace TownRaiser.Entities
             this.SpriteInstance.CurrentChainName = "Death";
             this.SpriteInstance.RelativeY = this.SpriteInstance.Height / 2.0f;
 
+            this.deathTextureOriginalHeight = this.SpriteInstance.Height;
+            this.deathStartTime = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+
             this.ShadowSprite.CurrentChainName = "ShadowSmall";
             this.HealthBarRuntimeInstance.Visible = false;
 
@@ -449,7 +469,7 @@ namespace TownRaiser.Entities
                 screen.CurrentCapacityUsed -= UnitData.Capacity;
                 screen.UpdateResourceDisplay();
             }
-            Died?.Invoke();
+            Died?.Invoke(this, null);
             this.Call(Destroy).After(DeathSpriteDuration);
         }
 
