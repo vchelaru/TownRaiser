@@ -679,7 +679,10 @@ namespace TownRaiser.Screens
                     selectedUnits.Clear();
                     selectedBuilding = null;
 
-                    selectedUnits.AddRange(UnitList.Where(item => item.IsInCameraBounds() && item.UnitData.IsEnemy == false));
+                    //We only want to be able to mass select combat units.
+                    //Tab+Shift will select all combat units on screen.
+                    bool isShiftDown = InputManager.Keyboard.KeyDown(Keys.LeftShift) || InputManager.Keyboard.KeyDown(Keys.RightShift);
+                    selectedUnits.AddRange(UnitList.Where(item => (item.IsInCameraBounds() || isShiftDown) && item.UnitData.IsEnemy == false && item.UnitData.ResourceHarvestAmount == 0));
 
                     UpdateSelectionMarker();
                     HandlePostSelection();
