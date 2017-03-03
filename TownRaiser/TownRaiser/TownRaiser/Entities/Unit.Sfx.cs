@@ -40,8 +40,8 @@ namespace TownRaiser.Entities
                     break;
                 case Screens.ResourceType.Stone:
                     //ToDo: Rick - Uncomment when stone is implemented.
-                    //soundEffect = GetRandomSoundEffect(UnitMineGold);
-                    //SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, UnitMineStone, Camera.Main.Position, soundOrigin);
+                    soundEffect = GetRandomSoundEffect(UnitMineStone);
+                    SoundEffectTracker.TryPlayCameraRestrictedSoundEffect(soundEffect, UnitMineStone, Camera.Main.Position, soundOrigin);
                     break;
             }
         }

@@ -49,7 +49,19 @@ namespace TownRaiser.Entities
 
         PositionedObjectList<Unit> UnitsCreatedByThis = new PositionedObjectList<Unit>();
 
-        public LogicState CurrentLogicState { get; set; }
+        private LogicState currentLogicStateButUseProperty;
+        public LogicState CurrentLogicState
+        {
+            get
+            {
+                return currentLogicStateButUseProperty;
+            }
+            set
+            {
+                currentLogicStateButUseProperty = value;
+                UpdateSpriteChainFromCurrentLogicState();
+            }
+        }
 
         #endregion
 
@@ -73,6 +85,21 @@ namespace TownRaiser.Entities
                 this.CurrentLogicState = LogicState.ActiveWaiting;
             }
 
+        }
+
+        private void UpdateSpriteChainFromCurrentLogicState()
+        {
+            switch(CurrentLogicState)
+            {
+                case LogicState.Spawned:
+                case LogicState.ActiveWaiting:
+                case LogicState.Dormant:
+                    SpriteInstance.CurrentChainName = currentLogicStateButUseProperty.ToString();
+                    break;
+                case LogicState.ReturningUnits:
+                    SpriteInstance.CurrentChainName = LogicState.ActiveWaiting.ToString();
+                    break;
+            }
         }
 
 		private void CustomDestroy()
@@ -129,8 +156,9 @@ namespace TownRaiser.Entities
             }
         }
 
-        private void HandleUnitDied()
+        private void HandleUnitDied(object sender, EventArgs notused)
         {
+            UnitsCreatedByThis.Remove((Unit)sender);
             if(this.UnitsCreatedByThis.Count == 0)
             {
                 HandleAllUnitsKilled();
