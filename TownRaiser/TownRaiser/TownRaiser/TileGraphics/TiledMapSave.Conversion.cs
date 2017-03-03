@@ -109,6 +109,10 @@ namespace TMXGlueLib
                         index++;
 
                     }
+                    else if(hasName && !hasNameProperty)
+                    {
+                        objectInstance.properties.Add(new TMXGlueLib.property { name = "name", value = objectInstance.Name });
+                    }
                 }
             }
         }
