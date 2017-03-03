@@ -10,6 +10,11 @@ namespace TownRaiser.GumRuntimes
 {
     partial class HealthBarRuntime
     {
+
+        partial void CustomInitialize()
+        {
+        }
+
         public void PositionTo(PositionedObject positionedObject, float yOffset)
         {
             int screenX = 0;

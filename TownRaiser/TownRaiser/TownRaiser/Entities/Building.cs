@@ -139,6 +139,10 @@ namespace TownRaiser.Entities
             this.HealthBarRuntimeInstance.CurrentHealthStatusState = GumRuntimes.HealthBarRuntime.HealthStatus.Full;
             this.HealthBarRuntimeInstance.Z = -1;
 
+            // not anything we want clickable:
+            FlatRedBall.Gui.GuiManager.RemoveWindow(HealthBarRuntimeInstance);
+
+
 #if DEBUG
             this.AxisAlignedRectangleInstance.Visible = DebuggingVariables.ShowBuildingOutline;
 #endif
