@@ -31,6 +31,7 @@ namespace TownRaiser.Entities
 {
 	public partial class EncounterSpawnPoint
 	{
+        const bool mAllowReactivation = false;
         #region Enums
 
         public enum LogicState
@@ -77,7 +78,8 @@ namespace TownRaiser.Entities
 
 		private void CustomActivity()
 		{
-            bool shouldReactivate = this.CurrentLogicState == LogicState.Dormant &&
+            bool shouldReactivate = mAllowReactivation &&
+                this.CurrentLogicState == LogicState.Dormant &&
                 ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(lastTimeDestroyed) > RegenerationTime;
 
             if(shouldReactivate)
