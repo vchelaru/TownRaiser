@@ -10,7 +10,6 @@ namespace TownRaiser.AI
 {
     class AttackMoveHighLevelGoal : HighLevelGoal
     {
-        AttackUnitHighLevelGoal attackGoal;
         WalkToHighLevelGoal walkGoal;
         FindTargetToAttackHighLevelGoal findTargetGoal;
 
