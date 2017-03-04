@@ -39,7 +39,7 @@ namespace TownRaiser.Entities
             ActiveWaiting,
             Spawned,
             ReturningUnits,
-            Dormant
+            Defeated
         }
 
         #endregion
@@ -79,7 +79,7 @@ namespace TownRaiser.Entities
 		private void CustomActivity()
 		{
             bool shouldReactivate = mAllowReactivation &&
-                this.CurrentLogicState == LogicState.Dormant &&
+                this.CurrentLogicState == LogicState.Defeated &&
                 ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(lastTimeDestroyed) > RegenerationTime;
 
             if(shouldReactivate)
@@ -95,7 +95,7 @@ namespace TownRaiser.Entities
             {
                 case LogicState.Spawned:
                 case LogicState.ActiveWaiting:
-                case LogicState.Dormant:
+                case LogicState.Defeated:
                     SpriteInstance.CurrentChainName = currentLogicStateButUseProperty.ToString();
                     break;
                 case LogicState.ReturningUnits:
@@ -170,7 +170,7 @@ namespace TownRaiser.Entities
         private void HandleAllUnitsKilled()
         {
             lastTimeDestroyed = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
-            this.CurrentLogicState = LogicState.Dormant;
+            this.CurrentLogicState = LogicState.Defeated;
         }
     }
 }

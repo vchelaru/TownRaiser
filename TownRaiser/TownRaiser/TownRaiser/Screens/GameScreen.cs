@@ -583,7 +583,7 @@ namespace TownRaiser.Screens
             {
                 var encounterPoint = EncounterSpawnPointList[i];
 
-                if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.Dormant)
+                if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.Defeated)
                 {
                     // don't do anything with this encounter point, it can't spawn until it 
                     // regenerates all dead units:

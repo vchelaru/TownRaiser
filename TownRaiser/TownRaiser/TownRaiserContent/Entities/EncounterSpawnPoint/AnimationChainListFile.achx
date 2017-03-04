@@ -28,7 +28,7 @@
     </Frame>
   </AnimationChain>
   <AnimationChain>
-    <Name>Dormant</Name>
+    <Name>Defeated</Name>
     <ColorKey>0</ColorKey>
     <Frame>
       <TextureName>../../MainTileset.png</TextureName>
