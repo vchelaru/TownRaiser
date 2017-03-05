@@ -460,11 +460,12 @@ namespace TownRaiser.Entities
             HighLevelGoals.Push(attackGoal);
         }
 
-        public void AssignAttackGoal(Building building, bool replace = true)
+        public AttackBuildingHighLevelGoal AssignAttackGoal(Building building, bool replace = true)
         {
             var attackGoal = new AttackBuildingHighLevelGoal();
             attackGoal.TargetBuilding = building;
             attackGoal.Owner = this;
+            attackGoal.AllUnits = this.AllUnits;
             attackGoal.NodeNetwork = this.NodeNetwork;
 
             if(replace)
@@ -472,6 +473,8 @@ namespace TownRaiser.Entities
                 HighLevelGoals.Clear();
             }
             HighLevelGoals.Push(attackGoal);
+
+            return attackGoal;
         }
 
         public void TakeDamage(int attackDamage)

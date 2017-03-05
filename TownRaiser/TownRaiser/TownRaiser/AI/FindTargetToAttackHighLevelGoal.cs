@@ -25,27 +25,12 @@ namespace TownRaiser.AI
 
         public bool TryAssignAttack(bool replace = true)
         {
-            bool didAssignAttack = false;
-            
-            float aggroSquared = AggroRadius * AggroRadius;
-            bool isTargetAnEnemyUnit = !Owner.UnitData.IsEnemy;
-
-            var foundUnit = AllUnits.FirstOrDefault(item =>
-                (item.Position - Owner.Position).LengthSquared() < aggroSquared 
-                    && item.UnitData.IsEnemy == isTargetAnEnemyUnit
-                    && item.CurrentHealth > 0
-                );
-
-            if (foundUnit != null)
-            {
-                Owner.AssignAttackGoal(foundUnit, replace);
-                didAssignAttack = true;
-            }
+            bool didAssignAttack = TryAssignAttackUnit(replace, Owner, AllUnits, AggroRadius);
 
             // we prioritize units over buildings, since units can fight back
             // At this time, only bad guys can attack buildings. May need to change
             // this if we decide to add units that are built by the bad guys:
-            if (Owner.UnitData.IsEnemy)
+            if (!didAssignAttack && Owner.UnitData.IsEnemy)
             {
 #if DEBUG
                 if (AllBuildings == null)
@@ -62,10 +47,37 @@ namespace TownRaiser.AI
 
                 if (foundBuilding != null)
                 {
-                    Owner.AssignAttackGoal(foundBuilding, replace);
+                    var attackBuildingGoal = Owner.AssignAttackGoal(foundBuilding, replace);
+
+                    // prefer attacking units:
+                    attackBuildingGoal.PreferAttackingUnits = true;
+
                     didAssignAttack = true;
                 }
             }
+            return didAssignAttack;
+        }
+
+        public static bool TryAssignAttackUnit(bool replace, Unit owner, 
+            PositionedObjectList<Unit> allUnits, float aggroRadius)
+        {
+            bool didAssignAttack = false;
+
+            float aggroSquared = aggroRadius * aggroRadius;
+            bool isTargetAnEnemyUnit = !owner.UnitData.IsEnemy;
+
+            var foundUnit = allUnits.FirstOrDefault(item =>
+                (item.Position - owner.Position).LengthSquared() < aggroSquared
+                    && item.UnitData.IsEnemy == isTargetAnEnemyUnit
+                    && item.CurrentHealth > 0
+                );
+
+            if (foundUnit != null)
+            {
+                owner.AssignAttackGoal(foundUnit, replace);
+                didAssignAttack = true;
+            }
+
             return didAssignAttack;
         }
 

@@ -1,4 +1,5 @@
 ﻿using FlatRedBall.AI.Pathfinding;
+using FlatRedBall.Math;
 using FlatRedBall.Math.Geometry;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,11 @@ namespace TownRaiser.AI
     public class AttackBuildingHighLevelGoal : HighLevelGoal
     {
         public Building TargetBuilding { get; set; }
+        public PositionedObjectList<Unit> AllUnits { get; set; }
         public Unit Owner { get; set; }
         public TileNodeNetwork NodeNetwork { get; set; }
+
+        public bool PreferAttackingUnits { get; set; } = false;
 
         public bool IsInRangeToAttack()
         {
@@ -31,13 +35,25 @@ namespace TownRaiser.AI
 
         public override void DecideWhatToDo()
         {
-            if (IsInRangeToAttack() == false)
+            bool didRetargetUnit = false;
+            if(PreferAttackingUnits)
             {
-                PathfindToTarget();
+                didRetargetUnit = FindTargetToAttackHighLevelGoal.TryAssignAttackUnit(
+                    replace:false,
+                    owner:Owner,
+                    allUnits:AllUnits,
+                    aggroRadius:80);
             }
-            else
+            if(!didRetargetUnit)
             {
-                Owner.TryAttack(TargetBuilding);
+                if (IsInRangeToAttack() == false)
+                {
+                    PathfindToTarget();
+                }
+                else
+                {
+                    Owner.TryAttack(TargetBuilding);
+                }
             }
         }
 
