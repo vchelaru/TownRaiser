@@ -146,7 +146,7 @@ namespace TownRaiser.Entities
 
         bool isAttacking => HighLevelGoals.OfType<AttackUnitHighLevelGoal>().Any();
         double? timeStartedAttacking;
-        const float attackWobbleMagnitude = 4;
+        const float attackWobbleMagnitudeBaseline = 4;
         private void AttackWobbleActivity()
         {
             if (CurrentHealth <= 0 || !isAttacking)
@@ -164,13 +164,13 @@ namespace TownRaiser.Entities
 
             var timeSinceStartedAttacking = ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(timeStartedAttacking.Value);
             var sinResult = (float)Math.Sin(timeSinceStartedAttacking * MathHelper.TwoPi * AttackWobblesPerSecond * AttackWobbleRandomizingCoefficient);
-            SpriteInstance.RelativeRotationMatrix = Matrix.CreateRotationZ(-MathHelper.ToRadians(sinResult * attackWobbleMagnitude));
+            SpriteInstance.RelativeRotationMatrix = Matrix.CreateRotationZ(-MathHelper.ToRadians(sinResult * (attackWobbleMagnitudeBaseline + UnitData.AttackWobbleAdditionalMagnitude)));
         }
 
         bool shouldBounce => isWalking || isAttacking;
         bool isWalking => Velocity != Vector3.Zero;
         double? timeStartedMoving;
-        const float walkingBounceMagnitude = 3;
+        const float walkingBounceMagnitudeBaseline = 3;
         private void WalkingBounceActivity()
         {
             if (CurrentHealth <= 0 || !shouldBounce)
@@ -188,7 +188,8 @@ namespace TownRaiser.Entities
             
             var timeSinceStartedMoving = ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(timeStartedMoving.Value);
             var sinResult = (float)Math.Sin(timeSinceStartedMoving * MathHelper.TwoPi * HopsPerSecond * BounceRandomizingCoefficient);
-            SpriteInstance.RelativeY = (Math.Abs(sinResult) * walkingBounceMagnitude) + (SpriteInstance.Height / 2);
+            var bounceMagnitude = walkingBounceMagnitudeBaseline + (isAttacking ? UnitData.AttackBounceAdditionalMagnitude : UnitData.BounceAdditionalMagnitude);
+            SpriteInstance.RelativeY = (Math.Abs(sinResult) * bounceMagnitude) + (SpriteInstance.Height / 2);
         }
 
         private void DeathActivity()
