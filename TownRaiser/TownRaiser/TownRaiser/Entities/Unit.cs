@@ -144,7 +144,6 @@ namespace TownRaiser.Entities
 #endif
         }
 
-        // TODO: Determine if attacking (poke through goals, maybe?)
         bool isAttacking => HighLevelGoals.OfType<AttackUnitHighLevelGoal>().Any();
         double? timeStartedAttacking;
         const float attackWobbleMagnitude = 4;
