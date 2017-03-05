@@ -70,24 +70,26 @@ namespace TownRaiser.Spawning
         {
             Vector3? toReturn = null;
 
-            Building building = GetTownHall();
+            Building townHall = GetTownHall();
+
+            Building buildingToSpawnBy = null;
+            if(townHall != null)
+            {
+                buildingToSpawnBy = FlatRedBallServices.Random.In(Buildings);
+            }
 
             // No building, no spawn. Sing it Bob!
-            if (building != null)
+            if (buildingToSpawnBy != null)
             {
-                // We proably do want it to be like 250, but we'll shorten it for debugging:
-                //const float offsetDistance = 250;
                 const float offsetDistance = 150;
 
                 var offsetFromBuilding = FlatRedBallServices.Random.RadialVector2(offsetDistance, offsetDistance);
 
-                var position = building.Position + new Vector3(offsetFromBuilding, 0);
-                // so they don't spawn in a horizontal line:
+                // This could result in units being spawned in the middle of a town but...oh well
+                var position = buildingToSpawnBy.Position + new Vector3(offsetFromBuilding, 0);
                 var closestNode = NodeNetwork.GetClosestNodeTo(ref position);
 
-                var nodePosition = closestNode.Position;
-                nodePosition.Y += FlatRedBallServices.Random.Between(-1, 1);
-                toReturn = nodePosition;
+                toReturn = closestNode.Position;
             }
 
             return toReturn;
