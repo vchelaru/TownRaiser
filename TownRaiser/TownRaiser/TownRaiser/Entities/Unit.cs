@@ -20,6 +20,7 @@ using FlatRedBall.Math;
 using FlatRedBall.Screens;
 using System.Linq;
 using StateInterpolationPlugin;
+using Microsoft.Xna.Framework;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -44,6 +45,8 @@ namespace TownRaiser.Entities
         public PositionedObjectList<Unit> AllUnits { get; set; }
 
         public PositionedObjectList<Building> AllBuildings { get; set; }
+
+        float BounceRandomizingCoefficient = 1;
 
         private int m_CurrentHealth;
         public int CurrentHealth
@@ -102,6 +105,8 @@ namespace TownRaiser.Entities
         /// </summary>
         private void CustomInitialize()
 		{
+            BounceRandomizingCoefficient = FlatRedBallServices.Random.Between(0.9f, 1.1f);
+
             //// This should prob be done in Glue instead, but I don't think Glue currently supports this:
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
             this.HealthBarRuntimeInstance.YOrigin = RenderingLibrary.Graphics.VerticalAlignment.Bottom;
@@ -126,11 +131,36 @@ namespace TownRaiser.Entities
 
             ImmediateAiActivity();
 
+            WalkingBounceActivity();
+
             DeathActivity();
 
 #if DEBUG
             DebugActivity();
 #endif
+        }
+
+        bool isWalking => Velocity != Vector3.Zero;
+        double? timeStartedMoving;
+        const float walkingBounceMagnitude = 3;
+        private void WalkingBounceActivity()
+        {
+            if (!isWalking)
+            {
+                // We may want to ease to 0 bounce so the unit doesn't snap to ground level when they reach a destination.
+                // The current bounce is so small, it's not very noticeable.
+                SpriteInstance.RelativeY = SpriteInstance.Height / 2;
+                timeStartedMoving = null;
+                return;
+            }
+            else if (timeStartedMoving == null)
+            {
+                timeStartedMoving = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+            }
+            
+            var timeSinceStartedMoving = ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(timeStartedMoving.Value);
+            var sinResult = (float)Math.Sin(timeSinceStartedMoving * MathHelper.TwoPi * HopsPerSecond * BounceRandomizingCoefficient);
+            SpriteInstance.RelativeY = (Math.Abs(sinResult) * walkingBounceMagnitude) + (SpriteInstance.Height / 2);
         }
 
         private void DeathActivity()
@@ -322,6 +352,7 @@ namespace TownRaiser.Entities
 
             if(ImmediateGoal.Path != null)
             {
+                bool wasPreviouslyMoving = Velocity != Vector3.Zero;
                 var direction = node.Position - Position;
                 direction.Normalize();
 
