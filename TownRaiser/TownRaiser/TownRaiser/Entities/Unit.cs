@@ -47,6 +47,7 @@ namespace TownRaiser.Entities
         public PositionedObjectList<Building> AllBuildings { get; set; }
 
         float BounceRandomizingCoefficient = 1;
+        float AttackWobbleRandomizingCoefficient = 1;
 
         private int m_CurrentHealth;
         public int CurrentHealth
@@ -106,6 +107,7 @@ namespace TownRaiser.Entities
         private void CustomInitialize()
 		{
             BounceRandomizingCoefficient = FlatRedBallServices.Random.Between(0.9f, 1.1f);
+            AttackWobbleRandomizingCoefficient = FlatRedBallServices.Random.Between(0.9f, 1.1f);
 
             //// This should prob be done in Glue instead, but I don't think Glue currently supports this:
             this.HealthBarRuntimeInstance.XOrigin = RenderingLibrary.Graphics.HorizontalAlignment.Center;
@@ -133,6 +135,8 @@ namespace TownRaiser.Entities
 
             WalkingBounceActivity();
 
+            AttackWobbleActivity();
+
             DeathActivity();
 
 #if DEBUG
@@ -140,12 +144,37 @@ namespace TownRaiser.Entities
 #endif
         }
 
+        // TODO: Determine if attacking (poke through goals, maybe?)
+        bool isAttacking => false;
+        double? timeStartedAttacking;
+        const float attackWobbleMagnitude = 4;
+        private void AttackWobbleActivity()
+        {
+            if (CurrentHealth <= 0 || !isAttacking)
+            {
+                // We may want to ease to identity rotation so the unit doesn't snap to vertical when they finish attacking.
+                // The current wobble is fairly minimal, so it's not very noticeable.
+                SpriteInstance.RelativeRotationMatrix = Matrix.Identity;
+                timeStartedAttacking = null;
+                return;
+            }
+            else if (timeStartedAttacking == null)
+            {
+                timeStartedAttacking = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
+            }
+
+            var timeSinceStartedAttacking = ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(timeStartedAttacking.Value);
+            var sinResult = (float)Math.Sin(timeSinceStartedAttacking * MathHelper.TwoPi * AttackWobblesPerSecond * AttackWobbleRandomizingCoefficient);
+            SpriteInstance.RelativeRotationMatrix = Matrix.CreateRotationZ(-MathHelper.ToRadians(sinResult * attackWobbleMagnitude));
+        }
+
+        bool shouldBounce => isWalking || isAttacking;
         bool isWalking => Velocity != Vector3.Zero;
         double? timeStartedMoving;
         const float walkingBounceMagnitude = 3;
         private void WalkingBounceActivity()
         {
-            if (!isWalking)
+            if (CurrentHealth <= 0 || !shouldBounce)
             {
                 // We may want to ease to 0 bounce so the unit doesn't snap to ground level when they reach a destination.
                 // The current bounce is so small, it's not very noticeable.
