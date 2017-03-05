@@ -246,24 +246,24 @@ namespace TownRaiser.Entities
             }
             else
             {
-            var goal = new AttackThenRetreat();
-            goal.StartX = this.X;
-            goal.StartY = this.Y;
+                var goal = new AttackThenRetreat();
+                goal.StartX = this.X;
+                goal.StartY = this.Y;
 
-            goal.TargetX = worldX;
-            goal.TargetY = worldY;
+                goal.TargetX = worldX;
+                goal.TargetY = worldY;
 
-            goal.AllUnits = AllUnits;
-            goal.BuildingsToFocusOn.AddRange( buildingsToTarget);
-            goal.Owner = this;
+                goal.AllUnits = AllUnits;
+                goal.BuildingsToFocusOn.AddRange( buildingsToTarget);
+                goal.Owner = this;
 
-            if (replace)
-            {
-                this.HighLevelGoals.Clear();
+                if (replace)
+                {
+                    this.HighLevelGoals.Clear();
+                }
+                this.HighLevelGoals.Push(goal);
+                this.ImmediateGoal = null;
             }
-            this.HighLevelGoals.Push(goal);
-            this.ImmediateGoal = null;
-        }
         }
 
         public void AssignMoveAttackGoal(float worldX, float worldY, bool replace = true)

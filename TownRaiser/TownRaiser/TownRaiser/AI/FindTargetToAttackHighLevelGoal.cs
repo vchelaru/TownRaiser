@@ -50,7 +50,7 @@ namespace TownRaiser.AI
 #if DEBUG
                 if (AllBuildings == null)
                 {
-                    throw new NullReferenceException($"Need to assing {nameof(AllBuildings)} when instantiating this unit.");
+                    throw new NullReferenceException($"Need to assign {nameof(AllBuildings)} when instantiating this unit.");
                 }
 #endif
 

@@ -39,7 +39,7 @@ namespace TownRaiser.Entities
             ActiveWaiting,
             Spawned,
             ReturningUnits,
-            Dormant
+            Defeated
         }
 
         #endregion
@@ -79,7 +79,7 @@ namespace TownRaiser.Entities
 		private void CustomActivity()
 		{
             bool shouldReactivate = mAllowReactivation &&
-                this.CurrentLogicState == LogicState.Dormant &&
+                this.CurrentLogicState == LogicState.Defeated &&
                 ScreenManager.CurrentScreen.PauseAdjustedSecondsSince(lastTimeDestroyed) > RegenerationTime;
 
             if(shouldReactivate)
@@ -87,6 +87,15 @@ namespace TownRaiser.Entities
                 this.CurrentLogicState = LogicState.ActiveWaiting;
             }
 
+            if (this.CurrentLogicState == LogicState.ReturningUnits
+                && UnitsCreatedByThis.All(unit => this.DespawnCircleInstance.CollideAgainst(unit.CircleInstance)))
+            {
+                for (int i = UnitsCreatedByThis.Count - 1; i >= 0; i--)
+                {
+                    UnitsCreatedByThis[i].Destroy();
+                }
+                this.CurrentLogicState = LogicState.ActiveWaiting;
+            }
         }
 
         private void UpdateSpriteChainFromCurrentLogicState()
@@ -95,7 +104,7 @@ namespace TownRaiser.Entities
             {
                 case LogicState.Spawned:
                 case LogicState.ActiveWaiting:
-                case LogicState.Dormant:
+                case LogicState.Defeated:
                     SpriteInstance.CurrentChainName = currentLogicStateButUseProperty.ToString();
                     break;
                 case LogicState.ReturningUnits:
@@ -118,7 +127,11 @@ namespace TownRaiser.Entities
 
         internal void ReturnSpawnedUnits()
         {
-
+            foreach (var unit in UnitsCreatedByThis)
+            {
+                unit.AssignMoveGoal(this.Position.X, this.Position.Y, replace: true);
+            }
+            this.CurrentLogicState = LogicState.ReturningUnits;
         }
 
         internal void Attack(Unit playerUnit, Func<string, Vector3, Unit> spawnAction)
@@ -170,7 +183,7 @@ namespace TownRaiser.Entities
         private void HandleAllUnitsKilled()
         {
             lastTimeDestroyed = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
-            this.CurrentLogicState = LogicState.Dormant;
+            this.CurrentLogicState = LogicState.Defeated;
         }
     }
 }
