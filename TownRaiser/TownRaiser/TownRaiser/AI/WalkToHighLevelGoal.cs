@@ -49,7 +49,7 @@ namespace TownRaiser.AI
 
         public override bool GetIfDone()
         {
-            return false;
+            return hasAlreadyGottenPath && (Owner.ImmediateGoal?.Path?.Count() > 0) == false;
         }
 
         public override void DecideWhatToDo()

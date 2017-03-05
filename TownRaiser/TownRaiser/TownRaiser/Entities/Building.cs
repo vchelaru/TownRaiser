@@ -57,6 +57,7 @@ namespace TownRaiser.Entities
         public Dictionary<string, double> ProgressPercents { get; private set; }
         public Dictionary<string, int> ButtonCountDisplays { get; private set; }
 
+
         private RallyPointMarker m_RallyPointMarker;
         private Vector3? m_RallyPoint;
         public Vector3? RallyPoint
@@ -293,7 +294,7 @@ namespace TownRaiser.Entities
             return wasSuccessful;
         }
 
-        public bool CancelLastTrainingInstance(string unitTypeToCancel, ref int trainingUnitCapacity)
+        public bool CancelLastTrainingInstance(string unitTypeToCancel)
         {
             bool wasCanceled = false;
             if(TrainingQueue.Count > 0)
@@ -307,8 +308,6 @@ namespace TownRaiser.Entities
 
                     if(lastIndex == 0)
                     {
-                        trainingUnitCapacity -= GlobalContent.UnitData[unitTypeToCancel].Capacity;
-
                         if (TrainingQueue.Count > 0)
                         {
                             TryStartTraining(CurrentTrainingUnit);
@@ -350,7 +349,8 @@ namespace TownRaiser.Entities
                 canTrain = gameScreen.CheckIfCanStartTraining(unitName);
 
                 if (canTrain)
-                { 
+                {
+                    
                     m_TraningStartTime = ScreenManager.CurrentScreen.PauseAdjustedCurrentTime;
                     ProgressPercents.Clear();
                     ProgressPercents.Add(unitName, 1);
@@ -404,6 +404,13 @@ namespace TownRaiser.Entities
 
         internal void InterpolateToState(object buildComplete, double buildTime)
         {
+            throw new NotImplementedException();
+        }
+
+
+        public int GetCapacityInQueue()
+        {
+            return this.TrainingQueue.Sum(item => GlobalContent.UnitData[item].CapacityUsed);
             throw new NotImplementedException();
         }
         #endregion

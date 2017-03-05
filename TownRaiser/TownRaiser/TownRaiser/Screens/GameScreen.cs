@@ -71,7 +71,7 @@ namespace TownRaiser.Screens
         {
             get
             {
-                return currentCapacityUsedButUseProperty + currentTrainingCapacity;
+                return currentCapacityUsedButUseProperty + this.BuildingList.Sum(item=>item.GetCapacityInQueue());
             }
             set
             {
@@ -100,7 +100,6 @@ namespace TownRaiser.Screens
         private float mapYMax;
 
         private int currentCapacityUsedButUseProperty;
-        private int currentTrainingCapacity;
 
 #if DEBUG
         //Debug fields and properties.
@@ -849,7 +848,7 @@ namespace TownRaiser.Screens
         private void DebugClickActivity()
         {
             var keyboard = InputManager.Keyboard;
-            if(keyboard.KeyDown(Keys.D1))
+            if(keyboard.KeyDown(Keys.D1) || GuiManager.Cursor.PrimaryDoubleClick)
             {
                 DebugAddUnit(GlobalContent.UnitData[UnitData.Snake]);
             }
@@ -1195,6 +1194,13 @@ namespace TownRaiser.Screens
 
             bool hasEnoughResources = this.Lumber >= buildingType.LumberCost && this.Stone >= buildingType.StoneCost;
 
+#if DEBUG
+            if(DebuggingVariables.HasInfiniteResources)
+            {
+                hasEnoughResources = true;
+            }
+#endif
+
             bool isOverOtherBuilding = false;
             if(hasEnoughResources)
             {
@@ -1212,7 +1218,7 @@ namespace TownRaiser.Screens
 
         private void PerformBuildAtCursor(BuildingData buildingType)
         {
-                var building = Factories.BuildingFactory.CreateNew();
+            var building = Factories.BuildingFactory.CreateNew();
             building.BuildingData = buildingType;
 
             building.BuildingConstructionCompleted += () =>
@@ -1230,14 +1236,14 @@ namespace TownRaiser.Screens
 
             };
 
-                float x, y;
-                GetBuildLocationFromCursor(out x, out y);
+            float x, y;
+            GetBuildLocationFromCursor(out x, out y);
 
-                building.X = x;
-                building.Y = y;
-                building.Z = 1;
+            building.X = x;
+            building.Y = y;
+            building.Z = 1;
 
-                building.StartBuilding();
+            building.StartBuilding();
 
             tileNodeNetwork.RemoveAndUnlinkNode(ref building.Position);
 
@@ -1262,9 +1268,8 @@ namespace TownRaiser.Screens
         {
 
             CurrentCapacityUsed = UnitList
-                .Select(x => x.UnitData)
-                .Where(x => x.IsEnemy == false)
-                .Sum(x => x.Capacity); //makes sure we have the correct capacity when units are trained.
+                .Where(x => x.UnitData.IsEnemy == false && x.CurrentHealth > 0)
+                .Sum(x => x.UnitData.Capacity); //makes sure we have the correct capacity when units are trained.
 
             this.MaxCapacity = BuildingList.Sum(item =>
             {
@@ -1301,10 +1306,9 @@ namespace TownRaiser.Screens
             if (potentialCapacityUsed <= MaxCapacity)
             {
                 canTrain = true;
-                currentTrainingCapacity += unitCapacity;
 
-                UpdateResourceDisplay();
             }
+
 
 #if DEBUG
             if(DebuggingVariables.HasInfiniteResources)
@@ -1312,6 +1316,10 @@ namespace TownRaiser.Screens
                 canTrain = true;
             }
 #endif
+            if (canTrain)
+            { 
+                UpdateResourceDisplay();
+            }
 
             return canTrain;
         }
@@ -1373,8 +1381,7 @@ namespace TownRaiser.Screens
             //Do not count enemy units.
             if (unitData.IsEnemy == false)
             {
-                currentTrainingCapacity -= unitData.Capacity;
-                CurrentCapacityUsed = UnitList.Select(x => x.UnitData).Where(x => x.IsEnemy == false).Sum(x => x.Capacity); //makes sure we have the correct capacity when units are trained.
+                UpdateCapacityValue();
                 UpdateResourceDisplay();
             }
 
@@ -1395,7 +1402,7 @@ namespace TownRaiser.Screens
                 //If the unit was canceled we know we need to upate the gold count.
                 //However, we may not have to update the training capacity. So we will pass it in as a ref which has smarter logic to 
                 //update it appropriately.
-                var wasCancelled = selectedBuilding.CancelLastTrainingInstance(unitToCancel, ref currentTrainingCapacity);
+                var wasCancelled = selectedBuilding.CancelLastTrainingInstance(unitToCancel);
                 if (wasCancelled)
                 {
                     var unitData = GlobalContent.UnitData[unitToCancel];
