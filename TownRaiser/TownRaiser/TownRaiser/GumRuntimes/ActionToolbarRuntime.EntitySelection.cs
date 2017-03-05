@@ -21,25 +21,25 @@ namespace TownRaiser.GumRuntimes
                 m_LastSelectedEntity.UpdateStatus -= ReactToBuilidingStatusChange;
                 ActionStackContainerInstance.RemoveIconButtons();
             }
+            m_LastSelectedEntity = selectedEntity;
 
-
-            if (selectedEntity == null)
+            if (m_LastSelectedEntity == null)
             {
                 ActionStackContainerInstance.RemoveIconButtons();
                 SetVariableState(VariableState.SelectModeView);
             }
-            else if (selectedEntity is Entities.Building)
+            else if (m_LastSelectedEntity is Entities.Building)
             {
                 this.ResourceCostContainer.CurrentMenuTypeState = ResourceCostContainerRuntime.MenuType.TrainUnits;
-                UpdateBuildingStatus(selectedEntity as Entities.Building);
+                UpdateBuildingStatus(m_LastSelectedEntity as Entities.Building);
                 SetVariableState(VariableState.SelectedEntity);
-                selectedEntity.UpdateStatus += ReactToBuilidingStatusChange;
-                ShowAvailableUnits(selectedEntity);
+                m_LastSelectedEntity.UpdateStatus += ReactToBuilidingStatusChange;
+                ShowAvailableUnits(m_LastSelectedEntity);
             }
-            m_LastSelectedEntity = selectedEntity;
+            
             if (m_LastSelectedEntity != null)
             {
-                this.ReactToUpdateUiChangeEvent(this, new UpdateUiEventArgs() { TitleDisplay = selectedEntity.EntityData.MenuTitleDisplay });
+                this.ReactToUpdateUiChangeEvent(this, new UpdateUiEventArgs() { TitleDisplay = m_LastSelectedEntity.EntityData.MenuTitleDisplay });
             }
         }
 
