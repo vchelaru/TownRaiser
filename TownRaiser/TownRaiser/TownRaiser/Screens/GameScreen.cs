@@ -362,30 +362,12 @@ namespace TownRaiser.Screens
 
             var namesToExclude = WorldMap.Properties
                 .Where(item => item.Value
-                    .Any(customProperty => customProperty.Name == "BlocksPathfinding" && (string)customProperty.Value == "true"));
+                .Any(customProperty => customProperty.Name == "BlocksPathfinding" && (string)customProperty.Value == "true"))
+                .ToArray();
 
             foreach(var layer in WorldMap.MapLayers)
             {
-                foreach(var name in namesToExclude)
-                {
-                    var indexes =  layer.NamedTileOrderedIndexes.ContainsKey(name.Key) ? layer.NamedTileOrderedIndexes[name.Key] : null;
-
-                    if(indexes != null)
-                    {
-                        foreach(var index in indexes)
-                        {
-                            float x, y;
-                            layer.GetBottomLeftWorldCoordinateForOrderedTile(index, out x, out y);
-
-                            var toRemove = tileNodeNetwork.TiledNodeAtWorld(x + GridWidth/2, y + GridWidth/2);
-
-                            if(toRemove != null)
-                            {
-                                tileNodeNetwork.Remove(toRemove);
-                            }
-                        }
-                    }
-                }
+                ExcludeNodesForLayer(namesToExclude, layer);
             }
 
 #if DEBUG
@@ -393,6 +375,31 @@ namespace TownRaiser.Screens
 #else
             tileNodeNetwork.Visible = false;
 #endif
+        }
+
+        private void ExcludeNodesForLayer(IEnumerable<KeyValuePair<string, List<TMXGlueLib.DataTypes.NamedValue>>> namesToExclude, FlatRedBall.TileGraphics.MapDrawableBatch layer)
+        {
+            foreach (var name in namesToExclude)
+            {
+                var indexes = layer.NamedTileOrderedIndexes.ContainsKey(name.Key) ? layer.NamedTileOrderedIndexes[name.Key] : null;
+
+                if (indexes != null)
+                {
+                    var count = indexes.Count;
+                    for (int i = count - 1; i > -1; i--)
+                    {
+                        float x, y;
+                        layer.GetBottomLeftWorldCoordinateForOrderedTile(indexes[i], out x, out y);
+
+                        var toRemove = tileNodeNetwork.TiledNodeAtWorld(x + GridWidth / 2, y + GridWidth / 2);
+
+                        if (toRemove != null)
+                        {
+                            tileNodeNetwork.Remove(toRemove);
+                        }
+                    }
+                }
+            }
         }
 
         private void InitializeEvents()
