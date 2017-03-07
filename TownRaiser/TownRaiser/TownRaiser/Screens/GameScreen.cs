@@ -120,6 +120,8 @@ namespace TownRaiser.Screens
 
             InitializeResourceTileShapeCollections();
 
+            RoadManagerInstance.SetBuildings(BuildingList);
+
             InitializeUi();
 
             InitializeRaidSpawner();
@@ -163,6 +165,8 @@ namespace TownRaiser.Screens
 #endif
 
             MakeFirstBuildingTownHall();
+
+            this.RoadManagerInstance.RefreshRoadsForBuilding(BuildingList[0], wasAdded: true);
         }
 
         private void MakeFirstBuildingTownHall()
@@ -766,6 +770,8 @@ namespace TownRaiser.Screens
             }
         }
 
+        int TimesHit;
+
         private void ClickActivity()
         {
             var cursor = GuiManager.Cursor;
@@ -809,6 +815,7 @@ namespace TownRaiser.Screens
 
             if(cursor.SecondaryClick)
             {
+                System.Diagnostics.Debug.WriteLine(TimesHit++);
                 if (GetIfCanClickInWorld())
                 {
                     HandleSecondaryClick();
@@ -1238,6 +1245,8 @@ namespace TownRaiser.Screens
                 UpdateCapacityValue();
                 UpdateResourceDisplay();
 
+                this.RoadManagerInstance.RefreshRoadsForBuilding(building, false);
+
                 // re-add a node here
                 tileNodeNetwork.AddAndLinkTiledNodeWorld(building.X, building.Y);
 
@@ -1252,18 +1261,20 @@ namespace TownRaiser.Screens
 
             building.StartBuilding();
 
+            this.RoadManagerInstance.RefreshRoadsForBuilding(building, true);
+
             tileNodeNetwork.RemoveAndUnlinkNode(ref building.Position);
 
 
-                bool shouldUpdateResources = true;
+            bool shouldUpdateResources = true;
 #if DEBUG
 
-                shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
+            shouldUpdateResources = Entities.DebuggingVariables.HasInfiniteResources == false;
 #endif
-                if (shouldUpdateResources)
-                {
-                    this.Lumber -= buildingType.LumberCost;
-                    this.Stone -= buildingType.StoneCost;
+            if (shouldUpdateResources)
+            {
+                this.Lumber -= buildingType.LumberCost;
+                this.Stone -= buildingType.StoneCost;
 
                 UpdateCapacityValue();
 
