@@ -773,7 +773,7 @@
   </Instance>
   <Instance>
     <Name>BuildMenuButtonInstance</Name>
-    <BaseType>BuildMenuButton</BaseType>
+    <BaseType>FramedButton</BaseType>
   </Instance>
   <Instance>
     <Name>MenuTitleDisplayInstance</Name>

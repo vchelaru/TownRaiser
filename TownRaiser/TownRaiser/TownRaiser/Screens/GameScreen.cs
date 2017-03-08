@@ -432,6 +432,13 @@ namespace TownRaiser.Screens
             RaidSpawningActivity();
 
             MusicActivity();
+
+            UiActivity();
+        }
+
+        private void UiActivity()
+        {
+            this.MinimapInstance.UpdateTo(UnitList, BuildingList);
         }
 
         private void MusicActivity()

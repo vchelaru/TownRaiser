@@ -14,6 +14,15 @@
         <string>GLUE</string>
       </Tags>
       <Source>GLUE</Source>
+      <Events>
+        <EventResponseSave>
+          <EventName>MinimapButtonInstanceClick</EventName>
+          <SourceObject>MinimapButtonInstance</SourceObject>
+          <SourceObjectEvent>Click</SourceObjectEvent>
+          <BeforeOrAfter>Before</BeforeOrAfter>
+          <DelegateType />
+        </EventResponseSave>
+      </Events>
       <CustomVariables>
         <CustomVariable>
           <Properties>
@@ -248,6 +257,24 @@
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\RoadManager</SourceClassType>
           <InstanceName>RoadManagerInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>GumProject/Screens/GameScreenGum.gusx</SourceFile>
+          <SourceName>MinimapContentsInstance (TownRaiser.GumRuntimes.MinimapContentsRuntime)</SourceName>
+          <InstanceName>MinimapInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>GumProject/Screens/GameScreenGum.gusx</SourceFile>
+          <SourceName>MinimapButtonInstance (TownRaiser.GumRuntimes.FramedButtonRuntime)</SourceName>
+          <InstanceName>MinimapButtonInstance</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>

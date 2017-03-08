@@ -28,7 +28,7 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>BuildMenuButton</Name>
+    <Name>FramedButton</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
@@ -49,6 +49,10 @@
   </ComponentReference>
   <ComponentReference>
     <Name>MenuTitleDisplay</Name>
+    <ElementType>Component</ElementType>
+  </ComponentReference>
+  <ComponentReference>
+    <Name>MinimapContents</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>

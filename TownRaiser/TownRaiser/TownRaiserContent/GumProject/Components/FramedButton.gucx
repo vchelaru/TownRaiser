@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ComponentSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Name>BuildMenuButton</Name>
+  <Name>FramedButton</Name>
   <BaseType>Container</BaseType>
   <State>
     <Name>Default</Name>
@@ -204,6 +204,7 @@
       <Type>int</Type>
       <Name>SpriteInstance.Texture Height</Name>
       <Value xsi:type="xsd:int">21</Value>
+      <ExposedAsName>SpriteInstanceTexture Height</ExposedAsName>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -216,18 +217,21 @@
       <Type>int</Type>
       <Name>SpriteInstance.Texture Left</Name>
       <Value xsi:type="xsd:int">423</Value>
+      <ExposedAsName>SpriteInstanceTexture Left</ExposedAsName>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>int</Type>
       <Name>SpriteInstance.Texture Top</Name>
       <Value xsi:type="xsd:int">6</Value>
+      <ExposedAsName>SpriteInstanceTexture Top</ExposedAsName>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
       <Type>int</Type>
       <Name>SpriteInstance.Texture Width</Name>
       <Value xsi:type="xsd:int">18</Value>
+      <ExposedAsName>SpriteInstanceTexture Width</ExposedAsName>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
