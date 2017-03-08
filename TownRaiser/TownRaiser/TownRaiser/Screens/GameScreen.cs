@@ -439,6 +439,19 @@ namespace TownRaiser.Screens
         private void UiActivity()
         {
             this.MinimapInstance.UpdateTo(UnitList, BuildingList);
+
+            bool areEnemiesAttackingBuilding = UnitList.Any(item => item.HighLevelGoals.Peek() is AI.AttackBuildingHighLevelGoal);
+
+            bool isAnimationPlaying = MinimapButtonInstance.FlashRedAnimation.IsPlaying();
+
+            if(areEnemiesAttackingBuilding && !isAnimationPlaying)
+            {
+                MinimapButtonInstance.FlashRedAnimation.Play();
+            }
+            else if(areEnemiesAttackingBuilding == false && MinimapButtonInstance.FlashRedAnimation.IsPlaying())
+            {
+                MinimapButtonInstance.FlashRedAnimation.Stop();
+            }
         }
 
         private void MusicActivity()

@@ -7,6 +7,11 @@ using TownRaiser.Entities;
 
 namespace TownRaiser
 {
+    public enum CombatOrPeace
+    {
+        Combat,
+        Peace
+    }
     //Used only to keep track of when units are in battle. When the battle is over, if the player units are the only ones left it will result in the victory music.
     public static class CombatTracker
     {
