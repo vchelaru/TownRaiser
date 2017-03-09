@@ -576,9 +576,12 @@ namespace TownRaiser.Entities
 
         public override void UpdateDependencies(double currentTime)
         {
-            base.UpdateDependencies(currentTime);
+            if(currentTime != mLastDependencyUpdate)
+            {
+                base.UpdateDependencies(currentTime);
 
-            HealthBarActivity();
+                HealthBarActivity();
+            }
 
         }
 
