@@ -1414,6 +1414,7 @@ namespace TownRaiser.Screens
             {
                 UpdateCapacityValue();
                 UpdateResourceDisplay();
+                selectedUnits.Remove(newUnit);
                 UpdateSelectionMarker();
             };
 
