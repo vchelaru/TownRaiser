@@ -417,6 +417,8 @@ namespace TownRaiser.Screens
 
         void CustomActivity(bool firstTimeCalled)
         {
+            DetectEndGameActivity();
+
             HotkeyActivity();
 
             ClickActivity();
@@ -436,11 +438,20 @@ namespace TownRaiser.Screens
             UiActivity();
         }
 
+        private void DetectEndGameActivity()
+        {
+            if (EncounterSpawnPointList.All(spawnPt => spawnPt.CurrentLogicState == EncounterSpawnPoint.LogicState.Defeated))
+            {
+                // Game over, man! Game over!
+                // TODO: Do something amazing!
+            }
+        }
+
         private void UiActivity()
         {
             this.MinimapInstance.UpdateTo(UnitList, BuildingList);
 
-            bool areEnemiesAttackingBuilding = UnitList.Any(item => item.HighLevelGoals.Peek() is AI.AttackBuildingHighLevelGoal);
+            bool areEnemiesAttackingBuilding = UnitList.Any(item => item.HighLevelGoals.Any() && item.HighLevelGoals.Peek() is AI.AttackBuildingHighLevelGoal);
 
             bool isAnimationPlaying = MinimapButtonInstance.FlashRedAnimation.IsPlaying();
 
