@@ -417,6 +417,8 @@ namespace TownRaiser.Screens
 
         void CustomActivity(bool firstTimeCalled)
         {
+            DetectEndGameActivity();
+
             HotkeyActivity();
 
             ClickActivity();
@@ -434,6 +436,15 @@ namespace TownRaiser.Screens
             MusicActivity();
 
             UiActivity();
+        }
+
+        private void DetectEndGameActivity()
+        {
+            if (EncounterSpawnPointList.All(spawnPt => spawnPt.CurrentLogicState == EncounterSpawnPoint.LogicState.Defeated))
+            {
+                // Game over, man! Game over!
+                // TODO: Do something amazing!
+            }
         }
 
         private void UiActivity()
