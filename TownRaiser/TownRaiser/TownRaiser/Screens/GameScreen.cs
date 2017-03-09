@@ -440,7 +440,7 @@ namespace TownRaiser.Screens
         {
             this.MinimapInstance.UpdateTo(UnitList, BuildingList);
 
-            bool areEnemiesAttackingBuilding = UnitList.Any(item => item.HighLevelGoals.Peek() is AI.AttackBuildingHighLevelGoal);
+            bool areEnemiesAttackingBuilding = UnitList.Any(item => item.HighLevelGoals.Any() && item.HighLevelGoals.Peek() is AI.AttackBuildingHighLevelGoal);
 
             bool isAnimationPlaying = MinimapButtonInstance.FlashRedAnimation.IsPlaying();
 
