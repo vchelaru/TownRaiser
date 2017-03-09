@@ -440,7 +440,7 @@ namespace TownRaiser.Screens
 
         private void DetectEndGameActivity()
         {
-            if (EncounterSpawnPointList.All(spawnPt => spawnPt.CurrentLogicState == EncounterSpawnPoint.LogicState.Defeated))
+            if (!EncounterSpawnPointList.Any(spawnPt => spawnPt.CurrentLogicState != EncounterSpawnPoint.LogicState.Defeated))
             {
                 // Game over, man! Game over!
                 // TODO: Do something amazing!
@@ -1414,6 +1414,7 @@ namespace TownRaiser.Screens
             {
                 UpdateCapacityValue();
                 UpdateResourceDisplay();
+                selectedUnits.Remove(newUnit);
                 UpdateSelectionMarker();
             };
 
