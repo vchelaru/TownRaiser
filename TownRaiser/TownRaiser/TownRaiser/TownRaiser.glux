@@ -4226,7 +4226,9 @@
     <LoadAsynchronously>false</LoadAsynchronously>
     <RecordLockContention>false</RecordLockContention>
   </GlobalContentSettingsSave>
-  <SyncedProjects />
+  <SyncedProjects>
+    <string>../../TownRaiserDesktopGl/TownRaiserDesktopGl/TownRaiserDesktopGl.csproj</string>
+  </SyncedProjects>
   <StartUpScreen>Screens\GameScreen</StartUpScreen>
   <ResolutionPresets />
   <PerformanceSettingsSave>

@@ -140,11 +140,5 @@ namespace FlatRedBall.Gum.Animation
             instruction.TimeToExecute = TimeManager.CurrentTime + delay;
             InstructionManager.Instructions.Add(instruction);
         }
-
-        internal void PlayLoop()
-        {
-            Play();
-
-        }
     }
 }
