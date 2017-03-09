@@ -131,7 +131,6 @@ namespace TownRaiser.Screens
             InitializeSoundTracker();
 
             InitializeMusic();
-
         }
 
         private void InitializeMusic()
@@ -405,13 +404,8 @@ namespace TownRaiser.Screens
                 }
             }
         }
-
-        private void InitializeEvents()
-        {
-            
-        }
-
-#endregion
+        
+        #endregion
 
         #region Activity Methods
 
@@ -457,10 +451,6 @@ namespace TownRaiser.Screens
             if(areEnemiesAttackingBuilding && !isAnimationPlaying)
             {
                 MinimapButtonInstance.FlashRedAnimation.Play();
-            }
-            else if(areEnemiesAttackingBuilding == false && MinimapButtonInstance.FlashRedAnimation.IsPlaying())
-            {
-                MinimapButtonInstance.FlashRedAnimation.Stop();
             }
         }
 
@@ -1537,10 +1527,10 @@ namespace TownRaiser.Screens
 
         void CustomDestroy()
 		{
-
+            
 
 		}
-
+        
         static void CustomLoadStaticContent(string contentManagerName)
         {
 
