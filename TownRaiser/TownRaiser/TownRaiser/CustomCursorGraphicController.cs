@@ -26,10 +26,10 @@ namespace TownRaiser
         public IntPtr hbmMask;
         public IntPtr hbmColor;
     }
-    
 
     public class CustomCursorGraphicController
     {
+#if !MONOGAME
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetIconInfo(IntPtr hIcon, ref IconInfo pIconInfo);
@@ -47,11 +47,12 @@ namespace TownRaiser
         private static System.Windows.Forms.Cursor m_MoveCursor;
         private static System.Windows.Forms.Cursor m_AttackCursor;
         private static System.Windows.Forms.Cursor m_TargetCursor;
-        private static CursorState m_CurrentCursorState;
 
         private static System.Windows.Forms.Form m_GameAsForm;
 
 
+#endif
+        private static CursorState m_CurrentCursorState;
         public static CursorState CurrentCursorState
         {
             get
@@ -60,9 +61,12 @@ namespace TownRaiser
             }
             set
             {
-                if(value != m_CurrentCursorState && m_GameAsForm != null)
+                bool changed = value != m_CurrentCursorState;
+                m_CurrentCursorState = value;
+
+#if !MONOGAME
+                if (changed && m_GameAsForm != null)
                 {
-                    m_CurrentCursorState = value;
                     switch(m_CurrentCursorState)
                     {
                         case CursorState.Select:
@@ -81,10 +85,14 @@ namespace TownRaiser
                             throw new Exception("Default state not supported for this game. This is mainly so we can set the game up with a custom cursor.");
                     }
                 }
+#endif
             }
         }
+
+
         public static void Initialize(Microsoft.Xna.Framework.Game game)
         {
+#if !MONOGAME
             
             m_SelectCursor = CreateCursor((Bitmap)Bitmap.FromFile($"{cursorDirectory}{selectCursorFileName}"));
             m_MoveCursor = CreateCursor((Bitmap)Bitmap.FromFile($"{cursorDirectory}{moveCursorFileName}"));
@@ -93,9 +101,11 @@ namespace TownRaiser
 
             m_GameAsForm = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(game.Window.Handle);
             CurrentCursorState = CursorState.Select;
+#endif
+
         }
 
-        
+#if !MONOGAME
         private static System.Windows.Forms.Cursor CreateCursor(System.Drawing.Bitmap bmp)
         {
             IntPtr ptr = bmp.GetHicon();
@@ -109,5 +119,6 @@ namespace TownRaiser
             ptr = CreateIconIndirect(ref tmp);
             return new System.Windows.Forms.Cursor(ptr);
         }
+#endif
     }
 }
