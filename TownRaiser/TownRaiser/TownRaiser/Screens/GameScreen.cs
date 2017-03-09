@@ -417,7 +417,7 @@ namespace TownRaiser.Screens
 
         void CustomActivity(bool firstTimeCalled)
         {
-            DetectEndGameActivity();
+            //DetectEndGameActivity();
 
             HotkeyActivity();
 
