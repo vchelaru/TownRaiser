@@ -418,7 +418,6 @@ namespace TownRaiser.Screens
         void CustomActivity(bool firstTimeCalled)
         {
             //DetectEndGameActivity();
-
             HotkeyActivity();
 
             ClickActivity();
@@ -610,6 +609,7 @@ namespace TownRaiser.Screens
 
         private void CollisionActivity()
         {
+
             PerformUnitsVsTerrainCollision();
 
             UnitList.SortXInsertionAscending();
@@ -855,7 +855,6 @@ namespace TownRaiser.Screens
         private void ClickActivity()
         {
             var cursor = GuiManager.Cursor;
-            FlatRedBall.Debugging.Debugger.Write(GuiManager.Cursor.WindowOver);
 
             if(cursor.PrimaryClick && !GroupSelectorInstance.WasReleasedThisFrame)
             {
