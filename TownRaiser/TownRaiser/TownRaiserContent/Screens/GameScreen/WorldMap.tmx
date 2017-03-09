@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" nextobjectid="48">
- <tileset firstgid="1" name="MainTileset" tilewidth="16" tileheight="16" tilecount="1024">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" nextobjectid="114">
+ <tileset firstgid="1" name="MainTileset" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="../../MainTileset.png" width="512" height="512"/>
   <terraintypes>
    <terrain name="Mountains" tile="80"/>
@@ -375,162 +375,408 @@
  </layer>
  <layer name="AboveGroundLayer" width="200" height="200">
   <data encoding="base64" compression="gzip">
-   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
+   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
   </data>
  </layer>
  <objectgroup name="EntityLayer">
-  <object id="4" gid="57" x="1808" y="1984" width="16" height="16">
-   <properties>
-    <property name="Difficulty" value="1"/>
-    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
-   </properties>
-  </object>
   <object id="5" gid="56" x="1600" y="1664" width="16" height="16">
    <properties>
     <property name="EntityToCreate" value="Building"/>
    </properties>
   </object>
-  <object id="23" gid="57" x="992" y="1744" width="16" height="16">
+  <object id="28" gid="57" x="2000" y="1600" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="1"/>
+    <property name="Difficulty" type="int" value="1"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="24" gid="57" x="1184" y="1264" width="16" height="16">
+  <object id="48" gid="57" x="1552" y="1808" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="1"/>
+    <property name="Difficulty" type="int" value="1"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="25" gid="57" x="1488" y="1168" width="16" height="16">
+  <object id="49" gid="57" x="1040" y="1696" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="1"/>
+    <property name="Difficulty" type="int" value="1"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="26" gid="57" x="1936" y="1232" width="16" height="16">
+  <object id="50" gid="57" x="1056" y="1728" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="1"/>
+    <property name="Difficulty" type="int" value="1"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="27" gid="57" x="1808" y="1120" width="16" height="16">
+  <object id="51" gid="57" x="1200" y="1280" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="2"/>
+    <property name="Difficulty" type="int" value="1"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="28" gid="57" x="2032" y="1616" width="16" height="16">
+  <object id="52" gid="57" x="1488" y="1184" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="1"/>
+    <property name="Difficulty" type="int" value="1"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="29" gid="57" x="1424" y="960" width="16" height="16">
+  <object id="53" gid="57" x="1792" y="1184" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="2"/>
+    <property name="Difficulty" type="int" value="2"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="30" gid="57" x="1328" y="784" width="16" height="16">
+  <object id="54" gid="57" x="1920" y="1248" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="3"/>
+    <property name="Difficulty" type="int" value="2"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="31" gid="57" x="1392" y="816" width="16" height="16">
+  <object id="56" gid="57" x="1056" y="1216" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="2"/>
+    <property name="Difficulty" type="int" value="2"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="32" gid="57" x="1024" y="1136" width="16" height="16">
+  <object id="57" gid="57" x="864" y="1040" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="1"/>
+    <property name="Difficulty" type="int" value="2"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="33" gid="57" x="832" y="1056" width="16" height="16">
+  <object id="58" gid="57" x="560" y="1024" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="3"/>
+    <property name="Difficulty" type="int" value="3"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="34" gid="57" x="624" y="1072" width="16" height="16">
+  <object id="59" gid="57" x="352" y="896" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="2"/>
+    <property name="Difficulty" type="int" value="3"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="35" gid="57" x="432" y="880" width="16" height="16">
+  <object id="60" gid="57" x="688" y="512" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="4"/>
+    <property name="Difficulty" type="int" value="3"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="36" gid="57" x="672" y="816" width="16" height="16">
+  <object id="61" gid="57" x="320" y="688" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="5"/>
+    <property name="Difficulty" type="int" value="3"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="37" gid="57" x="608" y="672" width="16" height="16">
+  <object id="62" gid="57" x="704" y="864" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="2"/>
+    <property name="Difficulty" type="int" value="2"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="38" gid="57" x="496" y="528" width="16" height="16">
+  <object id="63" gid="57" x="560" y="624" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="6"/>
+    <property name="Difficulty" type="int" value="2"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="39" gid="57" x="336" y="288" width="16" height="16">
+  <object id="64" gid="57" x="416" y="416" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="7"/>
+    <property name="Difficulty" type="int" value="2"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="40" gid="57" x="304" y="336" width="16" height="16">
+  <object id="65" gid="57" x="176" y="336" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="2"/>
+    <property name="Difficulty" type="int" value="3"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="41" gid="57" x="400" y="304" width="16" height="16">
+  <object id="66" gid="57" x="112" y="192" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="2"/>
+    <property name="Difficulty" type="int" value="3"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="42" gid="57" x="208" y="256" width="16" height="16">
+  <object id="67" gid="57" x="128" y="256" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="9"/>
+    <property name="Difficulty" type="int" value="5"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="43" gid="57" x="1872" y="2160" width="16" height="16">
+  <object id="68" gid="57" x="272" y="112" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="1"/>
+    <property name="Difficulty" type="int" value="5"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="44" gid="57" x="1936" y="2160" width="16" height="16">
+  <object id="69" gid="57" x="352" y="304" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="2"/>
+    <property name="Difficulty" type="int" value="3"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="45" gid="57" x="1616" y="2064" width="16" height="16">
+  <object id="70" gid="57" x="192" y="144" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="4"/>
+    <property name="Difficulty" type="int" value="5"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
-  <object id="46" gid="57" x="1504" y="2256" width="16" height="16">
+  <object id="71" gid="57" x="224" y="224" width="16" height="16">
    <properties>
-    <property name="Difficulty" value="5"/>
+    <property name="Difficulty" type="int" value="5"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="72" gid="57" x="912" y="880" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="73" gid="57" x="1072" y="944" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="74" gid="57" x="416" y="224" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="75" gid="57" x="1296" y="1024" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="76" gid="57" x="1456" y="1088" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="77" gid="57" x="1376" y="992" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="78" gid="57" x="1440" y="832" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="79" gid="57" x="1536" y="624" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="80" gid="57" x="1328" y="528" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="81" gid="57" x="1632" y="432" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="82" gid="57" x="1696" y="368" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="6"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="83" gid="57" x="1648" y="496" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="84" gid="57" x="1664" y="560" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="85" gid="57" x="1312" y="288" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="86" gid="57" x="1728" y="752" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="87" gid="57" x="1872" y="1104" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="88" gid="57" x="1712" y="1056" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="89" gid="57" x="1664" y="896" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="90" gid="57" x="2176" y="976" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="91" gid="57" x="2064" y="720" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="92" gid="57" x="1888" y="832" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="93" gid="57" x="2352" y="912" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="94" gid="57" x="2576" y="912" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="95" gid="57" x="2576" y="784" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="96" gid="57" x="2672" y="768" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="97" gid="57" x="2624" y="752" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="98" gid="57" x="2560" y="848" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="99" gid="57" x="2592" y="752" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="7"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="100" gid="57" x="2816" y="480" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="6"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="101" gid="57" x="2496" y="352" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="6"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="102" gid="57" x="2336" y="416" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="103" gid="57" x="2752" y="576" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="104" gid="57" x="2784" y="1328" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="105" gid="57" x="2832" y="1376" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="106" gid="57" x="2768" y="1408" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="107" gid="57" x="2032" y="1120" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="108" gid="57" x="2144" y="1264" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="109" gid="57" x="2352" y="1280" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="110" gid="57" x="2192" y="1376" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="111" gid="57" x="2160" y="1456" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="112" gid="57" x="2416" y="1424" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="113" gid="57" x="2592" y="1392" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="6"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
