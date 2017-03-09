@@ -417,6 +417,7 @@ namespace TownRaiser.Screens
 
         void CustomActivity(bool firstTimeCalled)
         {
+
             DetectEndGameActivity();
 
             HotkeyActivity();
@@ -612,6 +613,8 @@ namespace TownRaiser.Screens
         {
             PerformUnitsVsTerrainCollision();
 
+            UnitList.SortXInsertionAscending();
+
             PerformUnitsVsUnitsCollision();
 
             PerformUnitVsEncounterPointCollision();
@@ -619,6 +622,15 @@ namespace TownRaiser.Screens
 
         private void PerformUnitVsEncounterPointCollision()
         {
+            /////////////Early Out/////////////////
+            if(UnitList.Count == 0)
+            {
+                return;
+            }
+            /////////////End Early Out///////////
+
+            var unitRadius = UnitList[0].CircleInstance.Radius;
+
             // brute force it for now:
             for (int i = 0; i < EncounterSpawnPointList.Count; i++)
             {
@@ -633,9 +645,10 @@ namespace TownRaiser.Screens
                 else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.Spawned)
                 {
                     // if no units are touching this, then it will go back to Active mode, waiting for the next spawn:
-                    bool areAnyUnitsTouching = UnitList.Any(unit => unit.UnitData.IsEnemy == false && unit.CollideAgainst(encounterPoint));
+                    Unit collidingUnit = GetUnitCollidingWith(unitRadius, encounterPoint);
 
-                    if (!areAnyUnitsTouching)
+
+                    if (collidingUnit == null)
                     {
                         encounterPoint.ReturnSpawnedUnits();
                     }
@@ -643,16 +656,43 @@ namespace TownRaiser.Screens
                 else if (encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ReturningUnits ||
                     encounterPoint.CurrentLogicState == EncounterSpawnPoint.LogicState.ActiveWaiting)
                 {
-                    var playerUnit = UnitList.FirstOrDefault(unit => unit.UnitData.IsEnemy == false && unit.CollideAgainst(encounterPoint));
+                    Unit collidingUnit = GetUnitCollidingWith(unitRadius, encounterPoint);
 
-                    if (playerUnit != null)
+                    if (collidingUnit != null)
                     {
-                        encounterPoint.Attack(playerUnit, SpawnNewUnit);
+                        encounterPoint.Attack(collidingUnit, SpawnNewUnit);
                     }
 
                 }
 
             }
+        }
+
+        private Unit GetUnitCollidingWith(float unitRadius, EncounterSpawnPoint encounterPoint)
+        {
+            var encounterCircle = encounterPoint.CircleInstance;
+
+            float furthestLeftUnit = encounterCircle.X - encounterCircle.Radius - unitRadius;
+            float furthestRighUnit = encounterCircle.X + encounterCircle.Radius + unitRadius;
+
+            int start = 0;
+            int end = UnitList.Count;
+
+            start = UnitList.GetFirstAfter(furthestLeftUnit, Axis.X, 0, UnitList.Count);
+            end = UnitList.GetFirstAfter(furthestRighUnit, Axis.X, start, UnitList.Count);
+
+            Unit collidingUnit = null;
+            for (int j = start; j < end; j++)
+            {
+                var unit = UnitList[j];
+                if (unit.UnitData.IsEnemy == false && unit.CollideAgainst(encounterCircle))
+                {
+                    collidingUnit = unit;
+                    break;
+                }
+            }
+
+            return collidingUnit;
         }
 
         private void PerformUnitsVsTerrainCollision()
@@ -679,16 +719,26 @@ namespace TownRaiser.Screens
 
         private void PerformUnitsVsUnitsCollision()
         {
+
+
             // larger value keeps them from overlapping...
             const float separationCoefficient = 3;
 
             for(int i = 0; i < UnitList.Count -1; i++)
             {
                 var first = UnitList[i];
+                float radius = first.CircleInstance.Radius;
+
                 //Ignore this unit if the health is less than 0.
                 for(int j = i+1; j < UnitList.Count && first.CurrentHealth > 0; j++)
                 {
                     var second = UnitList[j];
+
+                    if(second.X - first.X > radius + radius)
+                    {
+                        break;
+                    }
+
                     if(second.CurrentHealth > 0 && first.CircleInstance.CollideAgainstMove(second.CircleInstance, 1, 1))
                     {
                         var firstRepositionVector = new Vector3(
