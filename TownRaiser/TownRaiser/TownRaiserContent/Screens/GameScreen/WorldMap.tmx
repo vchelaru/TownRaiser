@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" nextobjectid="69">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" nextobjectid="114">
  <tileset firstgid="1" name="MainTileset" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="../../MainTileset.png" width="512" height="512"/>
   <terraintypes>
@@ -422,13 +422,13 @@
   </object>
   <object id="53" gid="57" x="1792" y="1184" width="16" height="16">
    <properties>
-    <property name="Difficulty" type="int" value="1"/>
+    <property name="Difficulty" type="int" value="2"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
   <object id="54" gid="57" x="1920" y="1248" width="16" height="16">
    <properties>
-    <property name="Difficulty" type="int" value="1"/>
+    <property name="Difficulty" type="int" value="2"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
@@ -464,7 +464,7 @@
   </object>
   <object id="61" gid="57" x="320" y="688" width="16" height="16">
    <properties>
-    <property name="Difficulty" type="int" value="1"/>
+    <property name="Difficulty" type="int" value="3"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
@@ -507,6 +507,276 @@
   <object id="68" gid="57" x="272" y="112" width="16" height="16">
    <properties>
     <property name="Difficulty" type="int" value="5"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="69" gid="57" x="352" y="304" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="3"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="70" gid="57" x="192" y="144" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="5"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="71" gid="57" x="224" y="224" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="5"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="72" gid="57" x="912" y="880" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="73" gid="57" x="1072" y="944" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="74" gid="57" x="416" y="224" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="75" gid="57" x="1296" y="1024" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="76" gid="57" x="1456" y="1088" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="77" gid="57" x="1376" y="992" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="78" gid="57" x="1440" y="832" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="79" gid="57" x="1536" y="624" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="80" gid="57" x="1328" y="528" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="81" gid="57" x="1632" y="432" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="82" gid="57" x="1696" y="368" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="6"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="83" gid="57" x="1648" y="496" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="84" gid="57" x="1664" y="560" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="85" gid="57" x="1312" y="288" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="86" gid="57" x="1728" y="752" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="87" gid="57" x="1872" y="1104" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="88" gid="57" x="1712" y="1056" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="89" gid="57" x="1664" y="896" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="90" gid="57" x="2176" y="976" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="91" gid="57" x="2064" y="720" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="92" gid="57" x="1888" y="832" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="93" gid="57" x="2352" y="912" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="94" gid="57" x="2576" y="912" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="95" gid="57" x="2576" y="784" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="96" gid="57" x="2672" y="768" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="97" gid="57" x="2624" y="752" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="98" gid="57" x="2560" y="848" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="99" gid="57" x="2592" y="752" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="7"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="100" gid="57" x="2816" y="480" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="6"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="101" gid="57" x="2496" y="352" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="6"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="102" gid="57" x="2336" y="416" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="103" gid="57" x="2752" y="576" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="104" gid="57" x="2784" y="1328" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="105" gid="57" x="2832" y="1376" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="106" gid="57" x="2768" y="1408" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="1"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="107" gid="57" x="2032" y="1120" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="108" gid="57" x="2144" y="1264" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="109" gid="57" x="2352" y="1280" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="2"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="110" gid="57" x="2192" y="1376" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="111" gid="57" x="2160" y="1456" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="112" gid="57" x="2416" y="1424" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="4"/>
+    <property name="EntityToCreate" value="EncounterSpawnPoint"/>
+   </properties>
+  </object>
+  <object id="113" gid="57" x="2592" y="1392" width="16" height="16">
+   <properties>
+    <property name="Difficulty" type="int" value="6"/>
     <property name="EntityToCreate" value="EncounterSpawnPoint"/>
    </properties>
   </object>
