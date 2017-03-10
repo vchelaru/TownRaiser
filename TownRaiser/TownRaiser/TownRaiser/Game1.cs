@@ -59,7 +59,7 @@ namespace TownRaiser
 
 			CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
 			GlobalContent.Initialize();
-			FlatRedBall.Screens.ScreenManager.Start(typeof(TownRaiser.Screens.GameScreen));
+			FlatRedBall.Screens.ScreenManager.Start(typeof(TownRaiser.Screens.MainMenu));
 
             //Setup a custom 
             CustomCursorGraphicController.Initialize(this);

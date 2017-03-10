@@ -28,11 +28,11 @@
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>FramedButton</Name>
+    <Name>FontTest</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>
-    <Name>FontTest</Name>
+    <Name>FramedButton</Name>
     <ElementType>Component</ElementType>
   </ComponentReference>
   <ComponentReference>

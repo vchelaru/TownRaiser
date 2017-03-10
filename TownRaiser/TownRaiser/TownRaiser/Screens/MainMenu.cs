@@ -26,7 +26,7 @@ namespace TownRaiser.Screens
 {
 	public partial class MainMenu
 	{
-
+        bool hasRespondedToInput = false;
 		void CustomInitialize()
 		{
 
@@ -35,8 +35,22 @@ namespace TownRaiser.Screens
 
 		void CustomActivity(bool firstTimeCalled)
 		{
+            if(!hasRespondedToInput)
+            {
+                if(GuiManager.Cursor.PrimaryClick || InputManager.Keyboard.AnyKeyPushed())
+                {
+                    hasRespondedToInput = true;
+                    this.InstructionText.Text = "Loading...";
+                    // give it 1 so the loading text displays:
+                }
 
+            }
+            else
+            {
 
+                MoveToScreen(typeof(GameScreen));
+
+            }
 		}
 
 		void CustomDestroy()
