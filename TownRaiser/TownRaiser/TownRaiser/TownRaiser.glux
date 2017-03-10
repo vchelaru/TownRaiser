@@ -1910,7 +1910,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Radius</Member>
-            <ValueAsFloat>8</ValueAsFloat>
+            <ValueAsFloat>6</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
@@ -1931,7 +1931,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Radius</Member>
-            <ValueAsFloat>10</ValueAsFloat>
+            <ValueAsFloat>8</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
