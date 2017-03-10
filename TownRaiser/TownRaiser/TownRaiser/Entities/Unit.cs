@@ -205,6 +205,7 @@ namespace TownRaiser.Entities
             }            
         }
 
+#if DEBUG
         private void DebugActivity()
         {
             if(DebuggingVariables.ShowUnitPaths)
@@ -240,6 +241,7 @@ namespace TownRaiser.Entities
 
             }
         }
+#endif
 
         private void HealthBarActivity()
         {
@@ -595,7 +597,7 @@ namespace TownRaiser.Entities
             return left < X && right > X && bottom < Y && top > Y;
         }
 
-        #endregion
+#endregion
 
         public void UpdateHealthSprite()
         {
@@ -625,10 +627,12 @@ namespace TownRaiser.Entities
 
         private void CustomDestroy()
 		{
+#if DEBUG
             while (this.pathLines.Count > 0)
             {
                 ShapeManager.Remove(pathLines.Last());
             }
+#endif
         }
 
         private static void CustomLoadStaticContent(string contentManagerName)
