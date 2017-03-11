@@ -1232,19 +1232,21 @@ namespace TownRaiser.Screens
             
             //Only check gold first.
             bool hasEnoughGold = unitData.GoldCost <= this.Gold;
+            bool hasEnoughCapacity = unitData.CapacityUsed <= (this.MaxCapacity - this.CurrentCapacityUsed);
 
 #if DEBUG
             if (Entities.DebuggingVariables.HasInfiniteResources)
             {
                 hasEnoughGold = true;
+                hasEnoughCapacity = true;
             }
 #endif
 
             //If we have enough gold, we will add the unit to the end of the queue.
             //The training will not occur until there is enough capacity, but units can be queued as long as there is gold.
-            bool wasAddeToQueue = hasEnoughGold ? selectedBuilding.TryAddUnitToTrain(unitData.Name) : false;
+            bool wasAddedToQueue = hasEnoughGold && hasEnoughCapacity ? selectedBuilding.TryAddUnitToTrain(unitData.Name) : false;
 
-            if (wasAddeToQueue)
+            if (wasAddedToQueue)
             {
                 bool shouldUpdateResources = true;
 #if DEBUG
