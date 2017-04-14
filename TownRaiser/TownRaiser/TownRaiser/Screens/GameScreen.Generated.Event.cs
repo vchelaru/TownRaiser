@@ -12,11 +12,11 @@ namespace TownRaiser.Screens
 {
 	public partial class GameScreen
 	{
-		void OnMinimapButtonInstanceClickTunnel (FlatRedBall.Gui.IWindow callingWindow)
+		void OnMinimapButtonInstanceClickTunnel (FlatRedBall.Gui.IWindow window)
 		{
 			if (this.MinimapButtonInstanceClick != null)
 			{
-				MinimapButtonInstanceClick(callingWindow);
+				MinimapButtonInstanceClick(window);
 			}
 		}
 	}
