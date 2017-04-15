@@ -171,7 +171,9 @@
     <Variable>
       <Type>string</Type>
       <Name>TextInstance1.Text</Name>
-      <Value xsi:type="xsd:string">Rick Blaylock, Marc Carlton,\nVictor Chelaru, Chris Alan Grabar,\nJustin Johnson, Adam Patridge</Value>
+      <Value xsi:type="xsd:string">Rick Blaylock, Marc Carlton,
+Victor Chelaru, Chris Alan Grabar,
+Justin Johnson, Adam Patridge</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
