@@ -363,7 +363,7 @@ namespace TownRaiser.Screens
 
             tileNodeNetwork.FillCompletely();
 
-            var namesToExclude = WorldMap.Properties
+            var namesToExclude = WorldMap.TileProperties
                 .Where(item => item.Value
                 .Any(customProperty => customProperty.Name == "BlocksPathfinding" && (string)customProperty.Value == "true"))
                 .ToArray();
