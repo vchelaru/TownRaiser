@@ -91,12 +91,12 @@ namespace ToolsUtilities
 
         public static bool FileExists(string fileName, bool ignoreExtensions)
         {
+            fileName = Standardize(fileName, makeAbsolute: true);
             if (!ignoreExtensions)
             {
 #if ANDROID || IOS || WINDOWS_8 
 				try
                 {
-					fileName = Standardize(fileName);
 					if(fileName.StartsWith(".\\"))
 					{
 						fileName = fileName.Substring(2);
@@ -119,7 +119,6 @@ namespace ToolsUtilities
 #if WINDOWS_8 || UWP
                 throw new NotImplementedException();
 #else
-                fileName = Standardize(fileName);
                 // This takes a little bit of work
                 string fileWithoutExtension = FileManager.RemoveExtension(fileName);
 
@@ -185,6 +184,8 @@ namespace ToolsUtilities
 
         public static string GetDirectory(string fileName)
         {
+            string directoryToReturn = "";
+
             if (fileName == null)
             {
                 throw new Exception("The fileName passed to GetDirectory is null.  Non-null is required");
@@ -216,12 +217,15 @@ namespace ToolsUtilities
                 //{
                 //    return FileManager.Standardize(fileName.Substring(0, lastIndex + 1));
                 //}
-                return fileName.Substring(0, lastIndex + 1);
+                directoryToReturn = fileName.Substring(0, lastIndex + 1);
 
             }
             else
-                return ""; // there was no directory found.
+            {
+                directoryToReturn = ""; // there was no directory found.
+            }
 
+            return directoryToReturn;
         }
 
         #region XML Docs
@@ -329,6 +333,8 @@ namespace ToolsUtilities
 
         public static bool IsRelative(string fileName)
         {
+            bool relative = false;
+
             if (fileName == null)
             {
                 throw new System.ArgumentException("Cannot check if a null file name is relative.");
@@ -336,17 +342,20 @@ namespace ToolsUtilities
 
 
 #if XBOX360 || ANDROID || IOS || UWP
-            
+            // Justin Johnson 6/6/2017: this compiler flagged code might be eliminated now that 
+            // this whole method is more cross platform friendly!
 			if(fileName.Length > 1 && fileName[0] == '.' && (fileName[1] == '/' || fileName[1] == '\\'))
                 return false;
             else
                 return true;
 
 #else
-            // a non-relative directory will have a letter than a : at the beginning.
-            // for example c:/file.bmp.  If other cases arise, this may need to be changed.
-            return !(fileName.Length > 1 && (fileName[1] == ':' || fileName.StartsWith("\\\\")));
+            if (fileName.Length < 1 || !Path.IsPathRooted(fileName))
+            {
+                relative = true;
+            }
 #endif
+            return relative;
         }
 
 
@@ -414,8 +423,8 @@ namespace ToolsUtilities
                     // Otherwise, we have to use the new method to identify the common root
 
                     // Split the path strings
-                    string[] path = pathToMakeRelative.Split('\\');
-                    string[] relpath = pathToMakeRelativeTo.Split('\\');
+                    string[] path = pathToMakeRelative.Split('/');
+                    string[] relpath = pathToMakeRelativeTo.Split('/');
 
                     string relativepath = string.Empty;
 
@@ -433,7 +442,7 @@ namespace ToolsUtilities
                         for (int i = start; i < relpath.Length; i++)
                         {
                             if (relpath[i] != string.Empty)
-                                relativepath += @"..\";
+                                relativepath += @"../";
                         }
 
                         // if the current relative path is still empty, and there are more than one entries left in the path,
@@ -447,13 +456,13 @@ namespace ToolsUtilities
                         for (int i = start; i < path.Length; i++)
                         {
                             relativepath += path[i];
-                            if (i < path.Length - 1) relativepath += "\\";
+                            if (i < path.Length - 1) relativepath += "/";
                         }
 
                         pathToMakeRelative = relativepath;
                     }
                 }
-                if (pathToMakeRelative.StartsWith("\\"))
+                if (pathToMakeRelative.StartsWith("\\") || pathToMakeRelative.StartsWith("/"))
                 {
                     pathToMakeRelative = pathToMakeRelative.Substring(1);
                 }
@@ -469,7 +478,7 @@ namespace ToolsUtilities
         {
             if (fileNameToFix.Contains(".."))
             {
-                fileNameToFix = fileNameToFix.Replace("/", "\\");
+                fileNameToFix = fileNameToFix.Replace("\\", "/");
 
                 // First let's get rid of any ..'s that are in the middle
                 // for example:
@@ -480,23 +489,23 @@ namespace ToolsUtilities
                 // 
                 // "content/background/outdoorsanim/outdoorsanim.achx"
 
-                int indexOfNextDotDotSlash = fileNameToFix.IndexOf("..\\");
+                int indexOfNextDotDotSlash = fileNameToFix.IndexOf("../");
 
                 bool shouldLoop = indexOfNextDotDotSlash > 0;
 
                 while (shouldLoop)
                 {
-                    int indexOfPreviousDirectory = fileNameToFix.LastIndexOf('\\', indexOfNextDotDotSlash - 2, indexOfNextDotDotSlash - 2);
+                    int indexOfPreviousDirectory = fileNameToFix.LastIndexOf('/', indexOfNextDotDotSlash - 2, indexOfNextDotDotSlash - 2);
 
                     fileNameToFix = fileNameToFix.Remove(indexOfPreviousDirectory + 1, indexOfNextDotDotSlash - indexOfPreviousDirectory + 2);
 
-                    indexOfNextDotDotSlash = fileNameToFix.IndexOf("..\\");
+                    indexOfNextDotDotSlash = fileNameToFix.IndexOf("../");
 
                     shouldLoop = indexOfNextDotDotSlash > 0;
                 }
             }
 
-            return fileNameToFix.Replace("/", "\\");
+            return fileNameToFix.Replace("\\", "/");
         }
 
         #region XML Docs
@@ -565,25 +574,30 @@ namespace ToolsUtilities
 
         public static string Standardize(string fileName, bool preserveCase = false, bool makeAbsolute = false)
         {
-            // The standard used here is the backslash.
-            // This is the opposite of FlatRedBall, so be careful!
+            // Justin Johnson 6/6/2017:
+            // This used to normalize everything to backslashes, which is
+            // the opposite of FRB and breaks Mac and other platforms.
+            // Method revised to standardize on forward slash
+
+            var newFileName = fileName;
 
             if (makeAbsolute)
             {
-                if (IsRelative(fileName))
+                if (IsRelative(newFileName))
                 {
-                    fileName = (RelativeDirectory + fileName).Replace("/", "\\");
+                    newFileName = Path.Combine(RelativeDirectory, newFileName);
                 }
             }
 
-            if (preserveCase)
+            if (!preserveCase)
             {
-                return fileName.Replace('/', '\\');
+                newFileName = newFileName.ToLower();
             }
-            else
-            {
-                return fileName.Replace('/', '\\').ToLower();
-            }
+
+            // normalize slash direction
+            newFileName = newFileName.Replace(@"\", "/");
+
+            return newFileName;
         }
 
 
@@ -755,7 +769,7 @@ namespace ToolsUtilities
                 Directory.CreateDirectory(directory);
             }
         }
-        
+
         public static void DeleteDirectory(string dir)
         {
             System.IO.DirectoryInfo info = new System.IO.DirectoryInfo(dir);
@@ -875,7 +889,9 @@ namespace ToolsUtilities
             //    directory = mRelativeDirectory;
 
             if (directory.EndsWith(@"\") == false && directory.EndsWith("/") == false)
-                directory += @"\";
+            {
+                directory += @"/";
+            }
 
             // if they passed in a fileType which begins with a period (like ".jpg"), then
             // remove the period so only the extension remains.  That is, convert
@@ -1126,64 +1142,33 @@ namespace ToolsUtilities
 
         public static void XmlSerialize(Type type, object objectToSerialize, string fileName)
         {
-            FileStream fs = null;
-
-#if SILVERLIGHT
-            IsolatedStorageFileStream isfs = null;
-            XmlWriter writer = null;
-
-#endif
-            try
+                // Make sure that the directory for the file exists
+            string directory = FileManager.GetDirectory(fileName);
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             {
-                // Make sure that the directory for the file settings exist
-                string directory = FileManager.GetDirectory(fileName);
-                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(FileManager.GetDirectory(fileName));
-                }
-                XmlSerializer serializer = GetXmlSerializer(type);
-
-#if SILVERLIGHT
-                if (!fileName.Contains(IsolatedStoragePrefix))
-                {
-                    throw new ArgumentException("In Silverlight you must use isolated storage.  Use FileManager.GetUserFolder.");
-                }
-
-                string modifiedFileName = GetIsolatedStorageFileName(fileName);
-
-                isfs = new IsolatedStorageFileStream(
-                   modifiedFileName, FileMode.Create, mIsolatedStorageFile);                 
-
-                XmlWriterSettings xms = new XmlWriterSettings();
-                xms.Encoding = System.Text.Encoding.UTF8;
-                xms.Indent = true;
-                writer = XmlWriter.Create(isfs, xms);
-
-#else
-
-                if (FileManager.FileExists(fileName))
-                    fs = System.IO.File.Open(fileName, FileMode.OpenOrCreate | FileMode.Truncate);
-                else
-                    fs = System.IO.File.Open(fileName, FileMode.OpenOrCreate);
-
-                XmlTextWriter writer = new XmlTextWriter(fs, System.Text.Encoding.UTF8);
-                writer.Formatting = System.Xml.Formatting.Indented;
-
-
-#endif
-
-                serializer.Serialize(writer, objectToSerialize);
+                Directory.CreateDirectory(FileManager.GetDirectory(fileName));
             }
-            finally
-            {
-                if (fs != null) fs.Close();
+            XmlSerializer serializer = GetXmlSerializer(type);
 
-#if SILVERLIGHT
-                if (isfs != null)
+            // for info on why we do this:
+            // https://stackoverflow.com/questions/8515720/how-to-prevent-system-io-file-open-with-filemode-truncate-from-causing-a-file-ch
+            if (System.IO.File.Exists(fileName))
+            {
+                System.IO.File.Delete(fileName);
+            }
+
+            using (var fs = System.IO.File.Open(fileName, FileMode.OpenOrCreate))
+            {
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true;
+                using (var writer = XmlWriter.Create(fs, settings))
                 {
-                    isfs.Close();
+                    // for info on this, see
+                    // http://stackoverflow.com/questions/1127431/xmlserializer-giving-filenotfoundexception-at-constructor
+
+                    serializer.Serialize(writer, objectToSerialize);
+
                 }
-#endif
             }
         }
 

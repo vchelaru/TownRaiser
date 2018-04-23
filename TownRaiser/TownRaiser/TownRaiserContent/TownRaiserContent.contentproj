@@ -157,25 +157,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>FramedButton</Name>
     </None>
-    <None Include="GumProject\Components\Graphics\little-box.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>little-box</Name>
-    </None>
-    <None Include="GumProject\Components\Graphics\medium-box.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>medium-box</Name>
-    </None>
     <None Include="GumProject\components\graphics\minimapbackground.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>minimapbackground</Name>
-    </None>
-    <None Include="GumProject\Components\Graphics\stone.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>stone</Name>
-    </None>
-    <None Include="GumProject\Components\Graphics\wood.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>wood</Name>
     </None>
     <None Include="GumProject\Components\GroupSelector.gucx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

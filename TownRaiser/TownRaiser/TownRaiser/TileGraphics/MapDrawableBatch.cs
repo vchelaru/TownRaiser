@@ -71,6 +71,10 @@ namespace FlatRedBall.TileGraphics
             private set;
         } = new List<TMXGlueLib.DataTypes.NamedValue>();
 
+        /// <summary>
+        /// The axis on which tiles are sorted. This is used to perform tile culling for performance. 
+        /// Setting this to SortAxis.None will turn off culling.
+        /// </summary>
         public SortAxis SortAxis
         {
             get
@@ -143,7 +147,20 @@ namespace FlatRedBall.TileGraphics
             {
                 return mTexture;
             }
+            set
+            {
+                if (value == null)
+                {
+                    throw new Exception("Texture can't be null.");
+                }
 
+                if (mTexture != null && (mTexture.Width != value.Width || mTexture.Height != value.Height))
+                {
+                    throw new Exception("New texture must match previous texture dimensions.");
+                }
+
+                mTexture = value;
+            }
         }
 
         // Doing these properties this way lets me avoid a computational step of 1 - ParallaxMultiplier in the Update() function
@@ -165,6 +182,9 @@ namespace FlatRedBall.TileGraphics
             get { return -_parallaxMultiplierY + 1; }
             set { _parallaxMultiplierY = 1 - value; }
         }
+
+        public TextureFilter? TextureFilter { get; set; } = null;
+
 
         #endregion
 
@@ -455,6 +475,11 @@ namespace FlatRedBall.TileGraphics
 
 
                 var textureValues = new Vector4();
+
+                // The purpose of CoordinateAdjustment is to bring the texture values "in", to reduce the chance of adjacent
+                // tiles drawing on a given tile quad. If we don't do this, we can get slivers of adjacent colors appearing, causing
+                // lines or grid patterns.
+                // To bring the values "in" we have to consider rotated quads. 
                 textureValues.X = CoordinateAdjustment + (float)quad.LeftTexturePixel / (float)texture.Width; // Left
                 textureValues.Y = -CoordinateAdjustment + (float)(quad.LeftTexturePixel + tileDimensionWidth) / (float)texture.Width; // Right
                 textureValues.Z = CoordinateAdjustment + (float)quad.TopTexturePixel / (float)texture.Height; // Top
@@ -501,7 +526,26 @@ namespace FlatRedBall.TileGraphics
                 //    listToAdd.Add(new NamedValue { Name = "Name", Value = quad.Name });
                 //    owner.Properties.Add(quad.Name, listToAdd);
                 //}
+                if (quad.RotationDegrees != 0)
+                {
+                    // Tiled rotates clockwise :(
+                    var rotationRadians = -MathHelper.ToRadians(quad.RotationDegrees);
 
+                    Vector3 bottomLeftPos = toReturn.Vertices[tileIndex * 4].Position;
+
+                    Vector3 vertPos = toReturn.Vertices[tileIndex * 4 + 1].Position;
+                    MathFunctions.RotatePointAroundPoint(bottomLeftPos, ref vertPos, rotationRadians);
+                    toReturn.Vertices[tileIndex * 4 + 1].Position = vertPos;
+
+                    vertPos = toReturn.Vertices[tileIndex * 4 + 2].Position;
+                    MathFunctions.RotatePointAroundPoint(bottomLeftPos, ref vertPos, rotationRadians);
+                    toReturn.Vertices[tileIndex * 4 + 2].Position = vertPos;
+
+                    vertPos = toReturn.Vertices[tileIndex * 4 + 3].Position;
+                    MathFunctions.RotatePointAroundPoint(bottomLeftPos, ref vertPos, rotationRadians);
+                    toReturn.Vertices[tileIndex * 4 + 3].Position = vertPos;
+
+                }
 
                 toReturn.RegisterName(quad.Name, tileIndex);
             }
@@ -661,6 +705,13 @@ namespace FlatRedBall.TileGraphics
 
         }
 
+        /// <summary>
+        /// Sets the left and top texture coordiantes of the tile represented by orderedTileIndex. The right and bottom texture coordaintes
+        /// are set automatically according to the tileset dimensions.
+        /// </summary>
+        /// <param name="orderedTileIndex">The ordered tile index.</param>
+        /// <param name="textureXCoordinate">The left texture coordiante (in UV coordinates)</param>
+        /// <param name="textureYCoordinate">The top texture coordainte (in UV coordinates)</param>
         public void PaintTileTextureCoordinates(int orderedTileIndex, float textureXCoordinate, float textureYCoordinate)
         {
             int currentVertex = orderedTileIndex * 4; // 4 vertices per tile
@@ -672,6 +723,31 @@ namespace FlatRedBall.TileGraphics
             mVertices[currentVertex + 2].TextureCoordinate = coords[2];
             mVertices[currentVertex + 3].TextureCoordinate = coords[3];
         }
+
+        public void PaintTileTextureCoordinates(int orderedTileIndex, float leftCoordinate, float topCoordinate, float rightCoordinate, float bottomCoordinate)
+        {
+            int currentVertex = orderedTileIndex * 4; // 4 vertices per tile
+
+            // Coords are
+            // 3   2
+            //
+            // 0   1
+
+            mVertices[currentVertex + 0].TextureCoordinate.X = leftCoordinate;
+            mVertices[currentVertex + 0].TextureCoordinate.Y = bottomCoordinate;
+
+            mVertices[currentVertex + 1].TextureCoordinate.X = rightCoordinate;
+            mVertices[currentVertex + 1].TextureCoordinate.Y = bottomCoordinate;
+
+            mVertices[currentVertex + 2].TextureCoordinate.X = rightCoordinate;
+            mVertices[currentVertex + 2].TextureCoordinate.Y = topCoordinate;
+
+            mVertices[currentVertex + 3].TextureCoordinate.X = leftCoordinate;
+            mVertices[currentVertex + 3].TextureCoordinate.Y = topCoordinate;
+        }
+
+
+
 
         // Swaps the top-right for the bottom-left verts
         public void ApplyDiagonalFlip(int orderedTileIndex)
@@ -800,13 +876,10 @@ namespace FlatRedBall.TileGraphics
             return AddTile(bottomLeftPosition, tileDimensions, textureValues);
         }
 
-        #region XML Docs
         /// <summary>
-        /// Custom drawing technique - sets graphics states and
-        /// draws the custom shape
+        /// Renders the MapDrawableBatch
         /// </summary>
         /// <param name="camera">The currently drawing camera</param>
-        #endregion
         public void Draw(Camera camera)
         {
             ////////////////////Early Out///////////////////
@@ -824,7 +897,6 @@ namespace FlatRedBall.TileGraphics
 
 
 
-
             int firstVertIndex;
             int lastVertIndex;
             int indexStart;
@@ -833,6 +905,13 @@ namespace FlatRedBall.TileGraphics
 
             if (numberOfTriangles != 0)
             {
+                TextureFilter? oldTextureFilter = null;
+
+                if (this.TextureFilter != null && this.TextureFilter != FlatRedBallServices.GraphicsOptions.TextureFilter)
+                {
+                    oldTextureFilter = FlatRedBallServices.GraphicsOptions.TextureFilter;
+                    FlatRedBallServices.GraphicsOptions.TextureFilter = this.TextureFilter.Value;
+                }
                 TextureAddressMode oldTextureAddressMode;
                 Effect effectTouse = PrepareRenderingStates(camera, out oldTextureAddressMode);
 
@@ -863,8 +942,11 @@ namespace FlatRedBall.TileGraphics
                 {
                     FlatRedBallServices.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
                 }
+                if (oldTextureFilter != null)
+                {
+                    FlatRedBallServices.GraphicsOptions.TextureFilter = oldTextureFilter.Value;
+                }
             }
-
         }
 
         private Effect PrepareRenderingStates(Camera camera, out TextureAddressMode oldTextureAddressMode)

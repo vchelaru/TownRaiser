@@ -23,18 +23,52 @@ namespace RenderingLibrary.Graphics
             }
         }
 
-        public BlendState BlendState => BlendState.AlphaBlend;
+        public BlendState BlendState => Renderer.NormalBlendState;
 
         List<IRenderableIpso> children = new List<IRenderableIpso>();
         public List<IRenderableIpso> Children => children;
 
-        public bool ClipsChildren => false;
+        // If a GUE uses this, it needs to support storing the values.
+        public bool ClipsChildren { get; set; }
 
-        public float Height { get; set; }
+        float height;
+        public float Height
+        {
+            get { return height; }
+            set
+            {
+#if DEBUG
+                if(float.IsPositiveInfinity(value))
+                {
+                    throw new ArgumentException();
+                }
+#endif
+                height = value;
+            }
+        }
 
         public string Name { get; set; }
 
-        public IRenderableIpso Parent { get; set; }
+        IRenderableIpso mParent;
+        public IRenderableIpso Parent
+        {
+            get { return mParent; }
+            set
+            {
+                if (mParent != value)
+                {
+                    if (mParent != null)
+                    {
+                        mParent.Children.Remove(this);
+                    }
+                    mParent = value;
+                    if (mParent != null)
+                    {
+                        mParent.Children.Add(this);
+                    }
+                }
+            }
+        }
 
         public float Rotation { get; set; }
 
@@ -62,8 +96,10 @@ namespace RenderingLibrary.Graphics
         {
         }
 
-        public void SetParentDirect(IRenderableIpso newParent)
+
+        void IRenderableIpso.SetParentDirect(IRenderableIpso parent)
         {
+            mParent = parent;
         }
     }
 }

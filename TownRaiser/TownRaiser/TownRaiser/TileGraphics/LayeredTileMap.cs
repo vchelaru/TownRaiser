@@ -12,32 +12,27 @@ using TMXGlueLib.DataTypes;
 using TMXGlueLib;
 using FlatRedBall.Graphics;
 using FlatRedBall.Graphics.Animation;
+using FlatRedBall.Math.Geometry;
 
 namespace FlatRedBall.TileGraphics
 {
 
 
-    public class LayeredTileMap : PositionedObject, IVisible
+    public partial class LayeredTileMap : PositionedObject, IVisible
     {
         #region Fields
-
-
         FlatRedBall.Math.PositionedObjectList<MapDrawableBatch> mMapLists = new FlatRedBall.Math.PositionedObjectList<MapDrawableBatch>();
 
         float mRenderingScale = 1;
 
         float mZSplit = 1;
-
-        float? mNumberTilesWide;
-        float? mNumberTilesTall;
-
-        public float? WidthPerTile { get; private set; }
-        public float? HeightPerTile { get; private set; }
-
         #endregion
 
         #region Properties
-
+        public float? NumberTilesWide { get; private set; }
+        public float? NumberTilesTall { get; private set; }
+        public float? WidthPerTile { get; private set; }
+        public float? HeightPerTile { get; private set; }
         public Dictionary<string, List<NamedValue>> TileProperties
         {
             get;
@@ -95,6 +90,10 @@ namespace FlatRedBall.TileGraphics
             }
         }
 
+        public List<FlatRedBall.TileCollisions.TileShapeCollection> Collisions
+        { get; private set; } = new List<FlatRedBall.TileCollisions.TileShapeCollection>();
+
+
         bool visible = true;
         public bool Visible
         {
@@ -119,9 +118,9 @@ namespace FlatRedBall.TileGraphics
         {
             get
             {
-                if (mNumberTilesWide.HasValue && WidthPerTile.HasValue)
+                if (NumberTilesWide.HasValue && WidthPerTile.HasValue)
                 {
-                    return mNumberTilesWide.Value * WidthPerTile.Value;
+                    return NumberTilesWide.Value * WidthPerTile.Value;
                 }
                 else
                 {
@@ -137,9 +136,9 @@ namespace FlatRedBall.TileGraphics
         {
             get
             {
-                if (mNumberTilesTall.HasValue && HeightPerTile.HasValue)
+                if (NumberTilesTall.HasValue && HeightPerTile.HasValue)
                 {
-                    return mNumberTilesTall.Value * HeightPerTile.Value;
+                    return NumberTilesTall.Value * HeightPerTile.Value;
                 }
                 else
                 {
@@ -305,12 +304,12 @@ namespace FlatRedBall.TileGraphics
 
             if (rtmi.NumberCellsWide != 0)
             {
-                toReturn.mNumberTilesWide = rtmi.NumberCellsWide;
+                toReturn.NumberTilesWide = rtmi.NumberCellsWide;
             }
 
             if (rtmi.NumberCellsTall != 0)
             {
-                toReturn.mNumberTilesTall = rtmi.NumberCellsTall;
+                toReturn.NumberTilesTall = rtmi.NumberCellsTall;
             }
 
             toReturn.WidthPerTile = rtmi.QuadWidth;
@@ -339,6 +338,7 @@ namespace FlatRedBall.TileGraphics
             // Ultimately properties are tied to tiles by the tile name.
             // If a tile has no name but it has properties, those properties
             // will be lost in the conversion. Therefore, we have to add name properties.
+            tms.MoveTypeToProperties();
             tms.NameUnnamedTilesetTiles();
             tms.NameUnnamedObjects();
 
@@ -350,21 +350,7 @@ namespace FlatRedBall.TileGraphics
 
             var toReturn = FromReducedTileMapInfo(rtmi, contentManager, fileName);
 
-
-            foreach (var mapObjectgroup in tms.objectgroup)
-            {
-                int indexInAllLayers = tms.MapLayers.IndexOf(mapObjectgroup);
-
-                var shapeCollection = tms.ToShapeCollection(mapObjectgroup.Name);
-                if (shapeCollection != null && shapeCollection.IsEmpty == false)
-                {
-                    // This makes all shapes have the same Z as the index layer, which is useful if instantiating objects, so they're layered properly
-                    shapeCollection.Shift(new Microsoft.Xna.Framework.Vector3(0, 0, indexInAllLayers));
-
-                    shapeCollection.Name = mapObjectgroup.Name;
-                    toReturn.ShapeCollections.Add(shapeCollection);
-                }
-            }
+            AddShapeCollections(toReturn, tms);
 
             foreach (var layer in tms.MapLayers)
             {
@@ -396,11 +382,14 @@ namespace FlatRedBall.TileGraphics
             {
                 foreach (var tile in tileset.TileDictionary.Values)
                 {
+                    int propertyCountFromTileset = 0;
+
                     if (tile.properties.Count != 0)
                     {
                         // this needs a name:
                         string name = tile.properties.FirstOrDefault(item => item.StrippedName.ToLowerInvariant() == "name")?.value;
-                        AddPropertiesToMap(tms, toReturn.TileProperties, tile.properties, name);
+                        // todo - eventually need to copy default values from the Tileset to the tile here
+                        AddPropertiesToMap(tms, toReturn.TileProperties, tile.properties, null, name);
                     }
                 }
             }
@@ -411,20 +400,40 @@ namespace FlatRedBall.TileGraphics
                 {
                     foreach (var objectInstance in objectLayer.@object)
                     {
-                        if (objectInstance.properties.Count != 0)
+                        TMXGlueLib.Tileset tileset = null;
+                        int propertyCountFromTileset = 0;
+
+                        var objectProperties = objectInstance.properties;
+                        List<property> tilesetProperties = null;
+                        if (objectInstance.gid != null)
+                        {
+                            tileset = tms.GetTilesetForGid(objectInstance.gid.Value);
+                            if (tileset.TileDictionary.ContainsKey(objectInstance.gid.Value - tileset.Firstgid))
+                            {
+                                tilesetProperties = tileset.TileDictionary[objectInstance.gid.Value - tileset.Firstgid].properties;
+                                propertyCountFromTileset = tilesetProperties.Count;
+                            }
+                        }
+
+
+                        if (objectProperties.Count + propertyCountFromTileset != 0)
                         {
                             string name = objectInstance.Name;
-                            var properties = objectInstance.properties;
+                            // if name is null, check the properties:
+                            if (string.IsNullOrEmpty(name))
+                            {
+                                name = objectProperties.FirstOrDefault(item => item.StrippedNameLower == "name")?.value;
+                            }
 
                             var objectInstanceIsTile = objectInstance.gid != null;
 
                             if (objectInstanceIsTile)
                             {
-                                AddPropertiesToMap(tms, toReturn.TileProperties, properties, name);
+                                AddPropertiesToMap(tms, toReturn.TileProperties, objectProperties, tilesetProperties, name);
                             }
                             else
                             {
-                                AddPropertiesToMap(tms, toReturn.ShapeProperties, properties, name);
+                                AddPropertiesToMap(tms, toReturn.ShapeProperties, objectProperties, tilesetProperties, name);
                             }
                         }
                     }
@@ -432,6 +441,29 @@ namespace FlatRedBall.TileGraphics
             }
 
             var tmxDirectory = FileManager.GetDirectory(fileName);
+
+            // add image layers
+            foreach (var imageLayer in tms.ImageLayers)
+            {
+                var imageLayerFile = tmxDirectory + imageLayer.ImageObject.Source;
+                var texture = FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(imageLayerFile);
+
+                var newSprite = new Sprite
+                {
+                    Texture = texture,
+                    Width = imageLayer.ImageObject.Width,
+                    Height = imageLayer.ImageObject.Height,
+                    X = imageLayer.ImageObject.Width / 2 + imageLayer.OffsetX,
+                    Y = -imageLayer.ImageObject.Height / 2 + imageLayer.OffsetY
+                };
+
+                var mdb = new MapDrawableBatch(1, texture);
+                mdb.AttachTo(toReturn, false);
+                mdb.Paste(newSprite);
+                mdb.Visible = imageLayer.Visible;
+
+                toReturn.mMapLists.Add(mdb);
+            }
 
             var animationDictionary = new Dictionary<string, AnimationChain>();
 
@@ -496,6 +528,9 @@ namespace FlatRedBall.TileGraphics
 
             toReturn.Animation = new LayeredTileMapAnimation(animationDictionary);
 
+            AddTileShapeCollections(toReturn, tms);
+
+
             toReturn.MapProperties = tms.properties
                 .Select(propertySave => new NamedValue
                 { Name = propertySave.name, Value = propertySave.value, Type = propertySave.Type })
@@ -505,17 +540,238 @@ namespace FlatRedBall.TileGraphics
             return toReturn;
         }
 
-        private static void AddPropertiesToMap(TiledMapSave tms, Dictionary<string, List<NamedValue>> dictionaryToAddTo, List<property> properties, string name)
+        private static void AddTileShapeCollections(LayeredTileMap layeredTileMap, TiledMapSave tms)
+        {
+            var allTilesets = tms.Tilesets;
+
+            Dictionary<TMXGlueLib.Tileset, bool> hasShapesDictionary = new Dictionary<TMXGlueLib.Tileset, bool>();
+
+            for (int i = 0; i < tms.Layers.Count; i++)
+            {
+                var layer = tms.Layers[i];
+                // Currently we only support 1 tileset per layer, so we'll find the tileset for this layer
+                var firstNonZero = layer.data[0].tiles.FirstOrDefault(item => item != 0);
+
+                if (firstNonZero != 0)
+                {
+                    var tileset = tms.GetTilesetForGid(firstNonZero);
+
+                    if (tileset != null)
+                    {
+                        bool hasShapes;
+                        if (hasShapesDictionary.ContainsKey(tileset))
+                        {
+                            hasShapes = hasShapesDictionary[tileset];
+                        }
+                        else
+                        {
+                            // We don't know if this tileset has shapes yet, so let's figure it out:
+                            hasShapes = tileset.Tiles.Any(item => item.Objects?.@object?.Length > 0);
+
+                            hasShapesDictionary[tileset] = hasShapes;
+                        }
+
+                        if (hasShapes)
+                        {
+                            TileCollisions.TileShapeCollection tileShapeCollection = GetTileShapeCollectionForLayer(layer, tileset, tms.tilewidth, i);
+
+                            layeredTileMap.Collisions.Add(tileShapeCollection);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static TileCollisions.TileShapeCollection GetTileShapeCollectionForLayer(TMXGlueLib.MapLayer layer, TMXGlueLib.Tileset tileset, float tileDimension, float z)
+        {
+            TileCollisions.TileShapeCollection toReturn = new TileCollisions.TileShapeCollection();
+
+            toReturn.Name = layer.Name;
+
+            Math.Geometry.AxisAlignedRectangle rectangle = null;
+            Math.Geometry.Polygon polygon = null;
+            Circle circle;
+
+            var tiles = layer.data[0].tiles;
+
+
+            bool sortOnY = layer.height > layer.width;
+
+
+            foreach (var tilesetTile in tileset.Tiles.Where(item => item.Objects?.@object?.Length > 0))
+            {
+                var tilesetTileGid = tilesetTile.id + tileset.Firstgid;
+                foreach (var tilesetObject in tilesetTile.Objects.@object)
+                {
+
+                    TiledMapToShapeCollectionConverter.ConvertTiledObjectToFrbShape(tilesetObject, out polygon, out rectangle, out circle);
+                    if (rectangle != null)
+                    {
+                        rectangle.Z = z;
+                        if (sortOnY)
+                        {
+                            for (int y = 0; y < layer.height; y++)
+                            {
+                                for (int x = 0; x < layer.width; x++)
+                                {
+                                    AddRectangleCloneAtXY(layer, tileDimension, toReturn, rectangle, tiles, tilesetTileGid, x, y);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int x = 0; x < layer.width; x++)
+                            {
+                                for (int y = 0; y < layer.height; y++)
+                                {
+                                    AddRectangleCloneAtXY(layer, tileDimension, toReturn, rectangle, tiles, tilesetTileGid, x, y);
+                                }
+                            }
+                        }
+                    }
+                    else if (polygon != null)
+                    {
+                        // For tile polygons we want them to be centered on the tile.
+                        // To do this, we shift all points by its position:
+                        for (int i = 0; i < polygon.Points.Count; i++)
+                        {
+                            var point = polygon.Points[i];
+                            point.X += polygon.Position.X - tileDimension / 2.0f;
+                            point.Y += polygon.Position.Y + tileDimension / 2.0f;
+
+                            polygon.SetPoint(i, point);
+
+                        }
+
+                        polygon.Z = z;
+
+                        if (sortOnY)
+                        {
+                            for (int y = 0; y < layer.height; y++)
+                            {
+                                for (int x = 0; x < layer.width; x++)
+                                {
+                                    AddPolygonCloneAtXY(layer, tileDimension, toReturn, polygon, tiles, tilesetTileGid, x, y);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int x = 0; x < layer.width; x++)
+                            {
+                                for (int y = 0; y < layer.height; y++)
+                                {
+                                    AddPolygonCloneAtXY(layer, tileDimension, toReturn, polygon, tiles, tilesetTileGid, x, y);
+                                }
+                            }
+                        }
+
+                    }
+                    else if (circle != null)
+                    {
+                        throw new NotImplementedException("Need to handle circles...");
+                    }
+                }
+            }
+
+            // The values are inserted sorted above for speed, now we set the XAxis - this will also sort but will be fast:
+            if (sortOnY)
+            {
+                toReturn.SortAxis = Math.Axis.Y;
+            }
+            else
+            {
+                toReturn.SortAxis = Math.Axis.X;
+            }
+
+            toReturn.RefreshAllRepositionDirections();
+            
+            return toReturn;
+        }
+
+        private static void AddPolygonCloneAtXY(MapLayer layer, float tileDimension, TileCollisions.TileShapeCollection toReturn, Polygon polygon, List<uint> tiles, long tilesetTileGid, int x, int y)
+        {
+            var i = y * layer.width + x;
+
+            if (tiles[i] == tilesetTileGid)
+            {
+                int xIndex = i % layer.width;
+                // intentional int division
+                int yIndex = i / layer.width;
+
+                var cloned = polygon.Clone();
+
+                cloned.X = (xIndex + .5f) * tileDimension;
+                cloned.Y = -(yIndex + .5f) * tileDimension;
+
+                toReturn.Polygons.Add(cloned);
+            }
+        }
+
+        private static void AddRectangleCloneAtXY(MapLayer layer, float tileDimension, TileCollisions.TileShapeCollection toReturn, AxisAlignedRectangle rectangle, List<uint> tiles, long tilesetTileGid, int x, int y)
+        {
+            var i = y * layer.width + x;
+
+            if (tiles[i] == tilesetTileGid)
+            {
+                float xIndex = i % layer.width;
+                // intentional int division
+                float yIndex = i / layer.width;
+
+                var cloned = rectangle.Clone();
+
+                // Offset by .5 since polygons are positioned by their center, tiles by top left
+                cloned.X = (xIndex + .5f) * tileDimension;
+                cloned.Y = -(yIndex + .5f) * tileDimension;
+
+                toReturn.Rectangles.Add(cloned);
+
+            }
+        }
+
+        private static void AddShapeCollections(LayeredTileMap layeredTileMap, TiledMapSave tms)
+        {
+            foreach (var mapObjectgroup in tms.objectgroup)
+            {
+                int indexInAllLayers = tms.MapLayers.IndexOf(mapObjectgroup);
+
+                var shapeCollection = tms.ToShapeCollection(mapObjectgroup.Name);
+                if (shapeCollection != null && shapeCollection.IsEmpty == false)
+                {
+                    // This makes all shapes have the same Z as the index layer, which is useful if instantiating objects, so they're layered properly
+                    shapeCollection.Shift(new Microsoft.Xna.Framework.Vector3(0, 0, indexInAllLayers));
+
+                    shapeCollection.Name = mapObjectgroup.Name;
+                    layeredTileMap.ShapeCollections.Add(shapeCollection);
+                }
+            }
+        }
+
+        private static void AddPropertiesToMap(TiledMapSave tms, Dictionary<string, List<NamedValue>> dictionaryToAddTo, List<property> objectProperties, List<property> tilesetProperties, string name)
         {
             if (!string.IsNullOrEmpty(name))
             {
                 List<NamedValue> namedValues = new List<NamedValue>();
-                foreach (var prop in properties)
+                foreach (var prop in objectProperties)
                 {
                     namedValues.Add(new NamedValue()
                     { Name = prop.StrippedName, Value = prop.value, Type = prop.Type });
                 }
 
+                if (tilesetProperties != null)
+                {
+                    foreach (var tilesetProperty in tilesetProperties)
+                    {
+                        bool hasAlreadyBeenAdded = objectProperties.Any(item => item.StrippedNameLower == tilesetProperty.StrippedNameLower);
+
+                        if (!hasAlreadyBeenAdded)
+                        {
+                            namedValues.Add(new NamedValue()
+                            { Name = tilesetProperty.StrippedName, Value = tilesetProperty.value, Type = tilesetProperty.Type });
+                        }
+
+                    }
+                }
 
 #if DEBUG
                 if (dictionaryToAddTo.Any(item => item.Key == name))
@@ -628,6 +884,11 @@ namespace FlatRedBall.TileGraphics
 
             SpriteManager.RemovePositionedObject(this);
 
+            for (int i = 0; i < this.Collisions.Count; i++)
+            {
+                this.Collisions[i].RemoveFromManagersOneWay();
+            }
+
             this.mMapLists.MakeTwoWay();
         }
 
@@ -640,6 +901,11 @@ namespace FlatRedBall.TileGraphics
             for (int i = 0; i < mMapLists.Count; i++)
             {
                 SpriteManager.RemoveDrawableBatch(mMapLists[i]);
+            }
+
+            for (int i = 0; i < this.Collisions.Count; i++)
+            {
+                this.Collisions[i].RemoveFromManagers();
             }
 
             SpriteManager.RemovePositionedObject(this);

@@ -428,7 +428,7 @@ namespace RenderingLibrary.Graphics
                     float extraY = yRepetitions - y;
                     if (extraY < 1)
                     {
-                        worldUnitsChoppedOffBottom = System.Math.Max(0, (1 - extraY) * eachWidth);
+                        worldUnitsChoppedOffBottom = System.Math.Max(0, (1 - extraY) * eachHeight);
                     }
 
 
@@ -637,7 +637,7 @@ namespace RenderingLibrary.Graphics
 
                 if (textureToUse != null && textureToUse.IsDisposed)
                 {
-                    throw new ObjectDisposedException("Texture is disposed.  Texture name: " + textureToUse.Name + ", sprite scale: " + scale);
+                    throw new ObjectDisposedException($"Texture is disposed.  Texture name: {textureToUse.Name}, sprite scale: {scale}, Sprite name: {ipso.Name}");
                 }
 
                 spriteRenderer.Draw(textureToUse,

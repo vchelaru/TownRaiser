@@ -7,8 +7,15 @@ using System.Text;
 
 namespace Gum.Wireframe
 {
+
+
     public partial class GraphicalUiElement : FlatRedBall.Gui.Controls.IControl
     {
+        class HandledActions
+        {
+            public bool HandledMouseWheel;
+        }
+
 
         public event WindowEvent Click;
         public event WindowEvent ClickNoSlide;
@@ -20,6 +27,17 @@ namespace Gum.Wireframe
         public event WindowEvent RollOver;
         public event WindowEvent EnabledChange;
 
+        public event Action<IWindow, FlatRedBall.Gui.RoutedEventArgs> MouseWheelScroll;
+
+        /// <summary>
+        /// Event which is raised whenever this loses a push. A push occurs when the
+        /// cursor is over this window and the left moue button is pushed. A push is lost
+        /// if the left mouse button is released or if the user moves the cursor so that it
+        /// is no longer over this while the mouse button is pressed. 
+        /// </summary>
+        /// <remarks>
+        /// LosePush is often used to change the state of a button back to its regular state.
+        /// </remarks>
         public event WindowEvent LosePush;
 
         public bool RaiseChildrenEventsOutsideOfBounds { get; set; } = false;
@@ -243,7 +261,7 @@ namespace Gum.Wireframe
         {
             get
             {
-                throw new NotImplementedException();
+                return EffectiveParentGue as IWindow;
             }
             set
             {
@@ -310,7 +328,7 @@ namespace Gum.Wireframe
         /// 
         /// Ultimately this hierarchical logic exists because only the top-most parent is added to the GuiManager, and it is responsible for
         /// giving its children the opportunity to perform cursor-related input. </remarks>
-        private bool TryHandleCursorActivity(Cursor cursor)
+        private bool TryHandleCursorActivity(Cursor cursor, HandledActions handledActions)
         {
             bool handledByChild = false;
             bool handledByThis = false;
@@ -318,8 +336,8 @@ namespace Gum.Wireframe
             bool isOver = HasCursorOver(cursor);
 
 
-
-            if (isOver)
+            // Even though the cursor is over "this", we need to check if the cursor is over any children in case "this" exposes its children events:
+            if (isOver && this.ExposeChildrenEvents)
             {
 
                 #region Try handling by children
@@ -333,19 +351,15 @@ namespace Gum.Wireframe
                         var asGue = child as GraphicalUiElement;
                         // Children should always have the opportunity to handle activity,
                         // even if they are not components, because they may contain components as their children
-                        //if (asGue.IsComponentOrInstanceOfComponent() && asGue.HasCursorOver(cursor))
-                        if (asGue.HasCursorOver(cursor))
-                        {
-                            handledByChild = asGue.TryHandleCursorActivity(cursor);
 
+                        // If the child either has events or exposes children events, then give it a chance to handle this activity.
+
+                        if ((asGue.HasEvents || asGue.ExposeChildrenEvents) && asGue.HasCursorOver(cursor))
+                        {
+                            handledByChild = asGue.TryHandleCursorActivity(cursor, handledActions);
 
                             if (handledByChild)
                             {
-                                if (this.ExposeChildrenEvents == false || (child is GraphicalUiElement && ((GraphicalUiElement)child).HasEvents == false))
-                                {
-                                    // we'll break out, but set not handled by child, letting the parent do the logic
-                                    handledByChild = false;
-                                }
                                 break;
                             }
                         }
@@ -356,52 +370,77 @@ namespace Gum.Wireframe
             }
             if (isOver)
             {
-
-                if (!handledByChild && this.IsComponentOrInstanceOfComponent())
+                if(this.IsComponentOrInstanceOfComponent())
                 {
-                    handledByThis = true;
-
-                    if (this.HasEvents)
+                    if (!handledByChild)
                     {
-                        cursor.WindowOver = this;
+                        // Feb. 21, 2018
+                        // If not handled by
+                        // children, then this
+                        // can only handle if this
+                        // exposes events. Otherwise,
+                        // it shouldn't handle anything
+                        // and the parent should be given
+                        // the opportunity.
+                        // I'm not sure why this was outside
+                        // of the if(this.HasEvents)...seems intentional
+                        // but it causes problems when the rootmost object
+                        // exposes children events but doesn't handle its own
+                        // events...
+                        //handledByThis = true;
 
-                        if (cursor.PrimaryPush)
+                        if (this.HasEvents)
                         {
+                            // moved from above, see comments there...
+                            handledByThis = true;
+                            cursor.WindowOver = this;
 
-                            cursor.WindowPushed = this;
+                            if (cursor.PrimaryPush && Enabled)
+                            {
 
-                            if (Push != null)
-                                Push(this);
+                                cursor.WindowPushed = this;
+
+                                if (Push != null)
+                                    Push(this);
 
 
-                            cursor.GrabWindow(this);
+                                cursor.GrabWindow(this);
+
+                            }
+
+                            if (cursor.PrimaryClick && Enabled) // both pushing and clicking can occur in one frame because of buffered input
+                            {
+                                if (cursor.WindowPushed == this)
+                                {
+                                    if (Click != null)
+                                    {
+                                        Click(this);
+                                    }
+                                    if (cursor.PrimaryClickNoSlide && ClickNoSlide != null)
+                                    {
+                                        ClickNoSlide(this);
+                                    }
+
+                                    // if (cursor.PrimaryDoubleClick && DoubleClick != null)
+                                    //   DoubleClick(this);
+                                }
+                                else
+                                {
+                                    if (SlideOnClick != null)
+                                    {
+                                        SlideOnClick(this);
+                                    }
+                                }
+                            }
 
                         }
-
-                        if (cursor.PrimaryClick) // both pushing and clicking can occur in one frame because of buffered input
-                        {
-                            if (cursor.WindowPushed == this)
-                            {
-                                if (Click != null)
-                                {
-                                    Click(this);
-                                }
-                                if (cursor.PrimaryClickNoSlide && ClickNoSlide != null)
-                                {
-                                    ClickNoSlide(this);
-                                }
-
-                                // if (cursor.PrimaryDoubleClick && DoubleClick != null)
-                                //   DoubleClick(this);
-                            }
-                            else
-                            {
-                                if (SlideOnClick != null)
-                                {
-                                    SlideOnClick(this);
-                                }
-                            }
-                        }
+                    }
+                    if (HasEvents && cursor.ZVelocity != 0 && handledActions.HandledMouseWheel == false &&
+                        Enabled)
+                    {
+                        FlatRedBall.Gui.RoutedEventArgs args = new FlatRedBall.Gui.RoutedEventArgs();
+                        MouseWheelScroll?.Invoke(this, args);
+                        handledActions.HandledMouseWheel = args.Handled;
                     }
                 }
             }
@@ -412,7 +451,7 @@ namespace Gum.Wireframe
 
         public void TestCollision(Cursor cursor)
         {
-            TryHandleCursorActivity(cursor);
+            TryHandleCursorActivity(cursor, new HandledActions());
         }
 
         public void UpdateDependencies()
@@ -476,11 +515,11 @@ namespace Gum.Wireframe
             {
                 int screenX = cursor.ScreenX;
                 int screenY = cursor.ScreenY;
-
                 float worldX;
                 float worldY;
 
                 var managers = this.EffectiveManagers;
+
 
                 // If there are no managers, we an still fall back to the default:
                 if(managers == null)
@@ -490,6 +529,10 @@ namespace Gum.Wireframe
 
                 if(managers != null)
                 {
+                    // Adjust by viewport values:
+                    screenX -= managers.Renderer.GraphicsDevice.Viewport.X;
+                    screenY -= managers.Renderer.GraphicsDevice.Viewport.Y;
+
                     managers.Renderer.Camera.ScreenToWorld(
                         screenX, screenY,
                         out worldX, out worldY);
@@ -509,9 +552,18 @@ namespace Gum.Wireframe
                 }
             }
 
-            if(!toReturn && RaiseChildrenEventsOutsideOfBounds)
+            if (!toReturn && RaiseChildrenEventsOutsideOfBounds)
             {
-                toReturn = this.Children.Any(item => item is GraphicalUiElement &&  ((GraphicalUiElement)item).HasCursorOver(cursor));
+                for (int i = 0; i < Children.Count; i++)
+                {
+                    var child = Children[i] as GraphicalUiElement;
+
+                    if (child != null && child.HasCursorOver(cursor))
+                    {
+                        toReturn = true;
+                        break;
+                    }
+                }
             }
 
             return toReturn;
@@ -597,5 +649,8 @@ namespace Gum.Wireframe
         {
             this.ApplyState(stateName);
         }
+
+        public virtual Object FormsControlAsObject { get { return null; } }
+
     }
 }

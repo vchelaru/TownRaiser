@@ -28,11 +28,10 @@ namespace GumRuntime
             if (mElementToGueTypes.ContainsKey(elementSave.Name))
             {
                 var type = mElementToGueTypes[elementSave.Name];
-                var constructor = type.GetConstructor(new Type[] { typeof(bool), typeof(bool) });
+                var constructor = type.GetConstructor(new Type[] { typeof(bool), typeof(bool)});
 
 
-                bool callAssignReferences = fullInstantiation;
-                toReturn = constructor.Invoke(new object[] { fullInstantiation, callAssignReferences }) as GraphicalUiElement;
+                toReturn = constructor.Invoke(new object[] { fullInstantiation, true}) as GraphicalUiElement;
             }
             else
             {
@@ -127,29 +126,11 @@ namespace GumRuntime
         }
 
 
-        static void CreateChildrenRecursively(this GraphicalUiElement graphicalElement, ElementSave elementSave, SystemManagers systemManagers)
-        {
-            bool isScreen = elementSave is ScreenSave;
-
-            foreach (var instance in elementSave.Instances)
-            {
-                var childGue = instance.ToGraphicalUiElement(systemManagers);
-
-                if (childGue != null)
-                {
-                    if (!isScreen)
-                    {
-                        childGue.Parent = graphicalElement;
-                    }
-                    childGue.ParentGue = graphicalElement;
-                }
-            }
-        }
-
-        static void SetVariablesRecursively(this GraphicalUiElement graphicalElement, ElementSave elementSave)
-        {
-            graphicalElement.SetVariablesRecursively(elementSave, elementSave.DefaultState);
-        }
+        // Replaced with ApplyDefaultState
+        //static void SetVariablesRecursively(this GraphicalUiElement graphicalElement, ElementSave elementSave)
+        //{
+        //    graphicalElement.SetVariablesRecursively(elementSave, elementSave.DefaultState);
+        //}
         
         public static void SetVariablesTopLevel(this GraphicalUiElement graphicalElement, ElementSave elementSave, Gum.DataTypes.Variables.StateSave stateSave)
         {
@@ -166,14 +147,16 @@ namespace GumRuntime
                 var baseElementSave = Gum.Managers.ObjectFinder.Self.GetElementSave(elementSave.BaseType);
                 if (baseElementSave != null)
                 {
-                    graphicalElement.SetVariablesRecursively(baseElementSave);
+
+                    graphicalElement.SetVariablesRecursively(baseElementSave, baseElementSave.DefaultState);
                 }
             }
 
             var variablesToSet = stateSave.Variables
                 .Where(item => item.SetsValue && item.Value != null)
                 // States should be applied first, then values may override states (order by sorts false first):
-                .OrderBy(item=>!item.IsState(elementSave));
+                .OrderBy(item=>!item.IsState(elementSave))
+                .ToList();
 
             foreach (var variable in variablesToSet)
             {
@@ -192,7 +175,8 @@ namespace GumRuntime
             // That way they are drawn in the same
             // order as they are defined.
             variablesToSet = variablesToSet.Where(item => item.GetRootName() == "Parent")
-                .OrderBy(item => elementSave.Instances.FindIndex(instance => instance.Name == item.SourceObject));
+                .OrderBy(item => elementSave.Instances.FindIndex(instance => instance.Name == item.SourceObject))
+                .ToList();
 
             foreach (var variable in variablesToSet)
             {
@@ -213,7 +197,7 @@ namespace GumRuntime
 
             toReturn.Tag = elementSave;
 
-            toReturn.SetVariablesRecursively(elementSave);
+            toReturn.SetInitialState();
         }
 
 

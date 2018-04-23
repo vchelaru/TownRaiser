@@ -10,14 +10,14 @@ using TownRaiser.Entities;
 using TownRaiser.Screens;
 namespace TownRaiser.Screens
 {
-	public partial class GameScreen
-	{
-		void OnMinimapButtonInstanceClickTunnel (FlatRedBall.Gui.IWindow window)
-		{
-			if (this.MinimapButtonInstanceClick != null)
-			{
-				MinimapButtonInstanceClick(window);
-			}
-		}
-	}
+    public partial class GameScreen
+    {
+        void OnMinimapButtonInstanceClickTunnel (FlatRedBall.Gui.IWindow window) 
+        {
+            if (this.MinimapButtonInstanceClick != null)
+            {
+                MinimapButtonInstanceClick(window);
+            }
+        }
+    }
 }

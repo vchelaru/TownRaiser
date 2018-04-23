@@ -9,5 +9,8 @@ namespace TownRaiser.Performance
     {
         object CreateNew();
         object CreateNew(FlatRedBall.Graphics.Layer layer);
+
+        void Initialize(string contentManager);
+        void ClearListsToAddTo();
     }
 }

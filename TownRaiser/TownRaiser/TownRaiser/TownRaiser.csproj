@@ -206,10 +206,12 @@
     <Compile Include="Factories\EncounterSpawnPointFactory.Generated.cs" />
     <Compile Include="Factories\RallyPointMarkerFactory.Generated.cs" />
     <Compile Include="Factories\UnitFactory.Generated.cs" />
+    <Compile Include="FileAliases.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="GumCore\AnimationFrame.cs" />
     <Compile Include="GumCore\Atlas.cs" />
     <Compile Include="GumCore\AtlasedTexture.cs" />
+    <Compile Include="GumCore\BehaviorInstanceSave.cs" />
     <Compile Include="GumCore\BehaviorReference.cs" />
     <Compile Include="GumCore\BehaviorSave.cs" />
     <Compile Include="GumCore\BitmapCharacterInfo.cs" />
@@ -265,6 +267,7 @@
     <Compile Include="GumCore\NineSlice.cs" />
     <Compile Include="GumCore\ObjectFinder.cs" />
     <Compile Include="GumCore\PlatformCompatability.cs" />
+    <Compile Include="GumCore\PositionedObjectGueWrapper.cs" />
     <Compile Include="GumCore\RecursiveVariableFinder.cs" />
     <Compile Include="GumCore\ReflectionManager.cs" />
     <Compile Include="GumCore\Renderer.cs" />
@@ -381,6 +384,7 @@
     <Compile Include="StateInterpolation\Cubic.cs" />
     <Compile Include="StateInterpolation\Elastic.cs" />
     <Compile Include="StateInterpolation\Exponential.cs" />
+    <Compile Include="StateInterpolation\Instant.cs" />
     <Compile Include="StateInterpolation\Linear.cs" />
     <Compile Include="StateInterpolation\Quadratic.cs" />
     <Compile Include="StateInterpolation\Quartic.cs" />
@@ -389,6 +393,9 @@
     <Compile Include="StateInterpolation\Sinusoidal.cs" />
     <Compile Include="StateInterpolation\Tweener.cs" />
     <Compile Include="StateInterpolation\TweenerManager.cs" />
+    <Compile Include="TileCollisions\CollidableListVsTileShapeCollectionRelationship.cs" />
+    <Compile Include="TileCollisions\CollidableVsTileShapeCollectionRelationship.cs" />
+    <Compile Include="TileCollisions\CollisionManagerTileShapeCollectionExtensions.cs" />
     <Compile Include="TileCollisions\TileShapeCollection.cs" />
     <Compile Include="TileEntities\TileEntityInstantiator.cs" />
     <Compile Include="TileGraphics\AbstractMapLayer.cs" />

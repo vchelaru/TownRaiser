@@ -12,21 +12,14 @@ namespace TMXGlueLib
 {
     public static class TiledMapToShapeCollectionConverter
     {
-        public static ShapeCollection ToShapeCollection(this TiledMapSave tiledMapSave, string layerName = null)
-        {
-            var scs = tiledMapSave.ToShapeCollectionSave(layerName);
-
-            return scs.ToShapeCollection();
-        }
-
-        public static ShapeCollectionSave ToShapeCollectionSave(this TiledMapSave tiledMapSave, string layerName)
+        public static ShapeCollection ToShapeCollection(this TiledMapSave tiledMapSave, string layerName)
         {
             MapLayer mapLayer = null;
             if (!string.IsNullOrEmpty(layerName))
             {
                 mapLayer = tiledMapSave.Layers.FirstOrDefault(l => l.Name.Equals(layerName));
             }
-            var shapes = new ShapeCollectionSave();
+            var shapes = new ShapeCollection();
 
             if ((mapLayer != null && !mapLayer.IsVisible && mapLayer.VisibleBehavior == TMXGlueLib.TiledMapSave.LayerVisibleBehavior.Skip) ||
                 tiledMapSave.objectgroup == null || tiledMapSave.objectgroup.Count == 0)
@@ -40,72 +33,114 @@ namespace TMXGlueLib
                 {
                     foreach (mapObjectgroupObject @object in group.@object)
                     {
-                        ///November 8th, 2015
-                        ///Jesse Crafts-Finch
-                        ///If a polygon has a gid, and therefore an image associate with it, it will be turned into a spritesave, not a polygon. 
-                        if (@object.gid != null)
-                        {
-                            continue; 
-                        }
-
-                        if (@object.polygon != null)
-                        {
-                            foreach (mapObjectgroupObjectPolygon polygon in @object.polygon)
-                            {
-                                // TODO: Make this a rectangle object
-                                PolygonSave p = tiledMapSave.ConvertTmxObjectToFrbPolygonSave(@object.Name,
-                                    @object.x, @object.y, @object.Rotation, polygon.points, true);
-                                if (p != null)
-                                {
-                                    shapes.PolygonSaves.Add(p);                                   
-                                }
-                            }
-                        }
-
-                        if (@object.polyline != null)
-                        {
-                            foreach (mapObjectgroupObjectPolyline polyline in @object.polyline)
-                            {
-                                PolygonSave p = tiledMapSave.ConvertTmxObjectToFrbPolygonSave(@object.Name, 
-                                    @object.x, @object.y, @object.Rotation, polyline.points, false);
-                                if (p != null)
-                                {
-                                    shapes.PolygonSaves.Add(p);
-                                }
-                            }
-                        }
-
-                       
-
-                        if (@object.polygon == null && @object.polyline == null)
-                        {
-                            PolygonSave p = tiledMapSave.ConvertTmxObjectToFrbPolygonSave(@object.Name, @object.x, @object.y, @object.width, @object.height, @object.Rotation, @object.ellipse);
-                            if (p != null)
-                            {
-                                shapes.PolygonSaves.Add(p);
-                            }
-                        }
-
-                        
+                        AddShapeToShapeCollection(@object, shapes);
                     }
+
                 }
             }
             return shapes;
         }
 
+        public static void AddShapeToShapeCollection(mapObjectgroupObject @object, ShapeCollection shapes)
+        {
 
+            //////////////////////////Early out////////////////////////////////
+            ///November 8th, 2015
+            ///Jesse Crafts-Finch
+            ///If a polygon has a gid, and therefore an image associate with it, it will be turned into a spritesave, not a polygon. 
+            if (@object.gid != null)
+            {
+                return;
+            }
+            ////////////////////////End Early Out/////////////////////////////////
+            Polygon polygon;
+            AxisAlignedRectangle rectangle;
+            Circle circle;
 
-        private static PolygonSave ConvertTmxObjectToFrbPolygonSave(this TiledMapSave tiledMapSave, string name, double x, double y, double w, double h, double rotation, mapObjectgroupObjectEllipse ellipse)
+            ConvertTiledObjectToFrbShape(@object, out polygon, out rectangle, out circle);
+
+            if (polygon != null)
+            {
+                shapes.Polygons.Add(polygon);
+            }
+            if (rectangle != null)
+            {
+                shapes.AxisAlignedRectangles.Add(rectangle);
+            }
+            if (circle != null)
+            {
+                shapes.Circles.Add(circle);
+            }
+        }
+
+        public static void ConvertTiledObjectToFrbShape(mapObjectgroupObject @object, out Polygon polygon, out AxisAlignedRectangle rectangle, out Circle circle)
+        {
+            polygon = null;
+            rectangle = null;
+            circle = null;
+            if (@object.polygon != null)
+            {
+                foreach (mapObjectgroupObjectPolygon tiledPolygon in @object.polygon)
+                {
+                    // TODO: Make this a rectangle object
+                    polygon = ConvertTmxObjectToFrbPolygon(@object.Name,
+                        @object.x, @object.y, @object.Rotation, tiledPolygon.points, true);
+                }
+            }
+
+            if (@object.polyline != null)
+            {
+                foreach (mapObjectgroupObjectPolyline polyline in @object.polyline)
+                {
+                    polygon = ConvertTmxObjectToFrbPolygon(@object.Name,
+                        @object.x, @object.y, @object.Rotation, polyline.points, false);
+                }
+            }
+
+            if (@object.polygon == null && @object.polyline == null)
+            {
+                if (@object.Rotation == 0 && @object.ellipse == null)
+                {
+                    rectangle = new AxisAlignedRectangle()
+                    {
+                        Name = @object.Name,
+                        X = (float)@object.x + (@object.width / 2),
+                        Y = (float)-@object.y - (@object.height / 2),
+                        ScaleX = @object.width / 2,
+                        ScaleY = @object.height / 2,
+                    };
+
+                }
+                else if (@object.ellipse != null && @object.width == @object.height)
+                {
+                    circle = new Circle()
+                    {
+                        Name = @object.Name,
+                        X = (float)@object.x + (@object.width / 2),
+                        Y = (float)-@object.y - (@object.height / 2),
+                        Radius = @object.width / 2
+                    };
+
+                }
+                else
+                {
+                    polygon = ConvertTmxObjectToFrbPolygon(@object.Name, @object.x, @object.y, @object.width, @object.height, @object.Rotation, @object.ellipse);
+                }
+            }
+        }
+
+        private static Polygon ConvertTmxObjectToFrbPolygon(string name,
+            double x, double y, double w, double h, double rotation, mapObjectgroupObjectEllipse ellipse)
         {
             var pointsSb = new StringBuilder();
 
             if (ellipse == null)
             {
-                pointsSb.AppendFormat("{0},{1}", -w/2, -h/2);
+                pointsSb.AppendFormat("{0},{1}", -w / 2, -h / 2);
 
-                pointsSb.AppendFormat(" {0},{1}", w/2, -h/2);
-                pointsSb.AppendFormat(" {0},{1}", w/2, h/2);
-                pointsSb.AppendFormat(" {0},{1}", -w/2, h/2);
+                pointsSb.AppendFormat(" {0},{1}", w / 2, -h / 2);
+                pointsSb.AppendFormat(" {0},{1}", w / 2, h / 2);
+                pointsSb.AppendFormat(" {0},{1}", -w / 2, h / 2);
             }
             else
             {
@@ -139,17 +174,18 @@ namespace TMXGlueLib
                 pointsSb.AppendFormat(" {0}", firstPoint);
             }
 
-            return tiledMapSave.ConvertTmxObjectToFrbPolygonSave(name, x + w / 2.0f, y + h / 2.0f, rotation, pointsSb.ToString(), true);
+            return ConvertTmxObjectToFrbPolygon(name, x + w / 2.0f, y + h / 2.0f, rotation, pointsSb.ToString(), true);
         }
 
-        private static PolygonSave ConvertTmxObjectToFrbPolygonSave(this TiledMapSave tiledMapSave, string name, double x, double y, double rotation, string points, bool connectBackToStart)
+        private static Polygon ConvertTmxObjectToFrbPolygon(string name,
+            double x, double y, double rotation, string points, bool connectBackToStart)
         {
             if (string.IsNullOrEmpty(points))
             {
                 return null;
             }
 
-            var polygon = new PolygonSave();
+            var polygon = new Polygon();
             string[] pointString = points.Split(" ".ToCharArray());
 
             polygon.Name = name;
@@ -190,14 +226,19 @@ namespace TMXGlueLib
                     var xy = p.Split(",".ToCharArray());
                     return new Point
                     {
-                        X = Convert.ToDouble(xy[0]),
-                        Y = -Convert.ToDouble(xy[1])
+                        X = Convert.ToDouble(xy[0], System.Globalization.NumberFormatInfo.InvariantInfo),
+                        Y = -Convert.ToDouble(xy[1], System.Globalization.NumberFormatInfo.InvariantInfo)
                     };
                 }).ToList();
 
             if (connectBackToStart)
             {
                 pointsList.Add(new Point(pointsList[0].X, pointsList[0].Y));
+            }
+
+            if (IsClockwise(pointsList) == false)
+            {
+                pointsList.Reverse();
             }
 
             polygon.Points = pointsList.ToArray();
@@ -208,6 +249,20 @@ namespace TMXGlueLib
             return polygon;
         }
 
+        // From:
+        // https://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order
+        private static bool IsClockwise(List<Point> pointsList)
+        {
+            double sum = 0;
+            for (int i = 0; i < pointsList.Count - 1; i++)
+            {
+                var point = pointsList[i];
+                var pointAfter = pointsList[i + 1];
 
+                sum += (pointAfter.X - point.X) * (pointAfter.Y + point.Y);
+            }
+
+            return sum > 0;
+        }
     }
 }

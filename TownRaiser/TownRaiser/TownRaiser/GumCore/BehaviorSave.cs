@@ -36,6 +36,10 @@ namespace Gum.DataTypes.Behaviors
             }
         }
 
+        [XmlArray("RequiredInstances")]
+        [XmlArrayItem(ElementName = "InstanceSave")]
+        public List<BehaviorInstanceSave> RequiredInstances { get; set; } = new List<BehaviorInstanceSave>();
+
         public override string ToString()
         {
             return Name;

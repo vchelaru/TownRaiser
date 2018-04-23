@@ -10,7 +10,7 @@ using TownRaiser.Entities;
 using TownRaiser.Screens;
 namespace TownRaiser.Entities
 {
-	public partial class BuildingMarker
-	{
-	}
+    public partial class BuildingMarker
+    {
+    }
 }
